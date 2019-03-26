@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.jfoenix', name: 'jfoenix', version: '9.0.8'
+    compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile group: 'javax.validation', name: 'validation-api'
     compileOnly 'org.projectlombok:lombok'
