@@ -1,4 +1,4 @@
-package ir.comperhensive.domain.product.state;
+package ir.comperhensive.domain.productdelivery;
 
 import ir.comperhensive.domain.baseenum.BaseEnum;
 

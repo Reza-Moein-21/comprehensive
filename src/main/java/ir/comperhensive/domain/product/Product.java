@@ -1,35 +1,22 @@
 package ir.comperhensive.domain.product;
 
-import ir.comperhensive.domain.product.state.ProductState;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "PRODUCT")
-public class Product {
+public class Product implements Serializable {
 
     @Id
+    @GeneratedValue
+    @Column(name = "ID")
     Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     String name;
 
-    @Column(name = "DESCRIPTION")
-    String description;
-
-    @Column(name = "DELIVERY_DATE")
-    Date deliveryDate;
-
-    @Column(name = "DESIRED_DATE")
-    Date desiredDate;
-
-    @Column(name = "RECEIVED_DATE")
-    Date receivedDate;
-
-    @Enumerated(EnumType.STRING)
-    ProductState state;
 }
 
