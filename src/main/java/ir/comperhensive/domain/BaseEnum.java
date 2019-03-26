@@ -1,4 +1,4 @@
-package ir.comperhensive.domain.baseenum;
+package ir.comperhensive.domain;
 
 public interface BaseEnum {
 

@@ -1,4 +1,4 @@
-package ir.comperhensive.domain.product;
+package ir.comperhensive.domain;
 
 import lombok.Data;
 

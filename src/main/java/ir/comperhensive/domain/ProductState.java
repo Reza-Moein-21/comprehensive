@@ -1,6 +1,4 @@
-package ir.comperhensive.domain.productdelivery;
-
-import ir.comperhensive.domain.baseenum.BaseEnum;
+package ir.comperhensive.domain;
 
 import static ir.comperhensive.utils.MessageUtils.getMessage;
 

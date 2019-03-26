@@ -1,4 +1,4 @@
-package ir.comperhensive.domain.person;
+package ir.comperhensive.domain;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package ir.comperhensive.fx.controller;
+package ir.comperhensive.controller;
 
 import org.springframework.stereotype.Controller;
 

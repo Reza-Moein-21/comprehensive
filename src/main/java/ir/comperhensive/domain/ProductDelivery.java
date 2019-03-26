@@ -1,7 +1,5 @@
-package ir.comperhensive.domain.productdelivery;
+package ir.comperhensive.domain;
 
-import ir.comperhensive.domain.person.Person;
-import ir.comperhensive.domain.product.Product;
 import lombok.Data;
 
 import javax.persistence.*;
