@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<JFXListView xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/sidePanel.css"
+             fx:controller="ir.comperhensive.controller.SidePanelController" styleClass="jfx-list-view">
+    <Label text="%storeroom">
+        <graphic>
+            <FontAwesomeIconView glyphName="INBOX" size="2em" styleClass="icon"/>
+        </graphic>
+    </Label>
+
+    <Label text="%project">
+        <graphic>
+            <FontAwesomeIconView glyphName="USER" size="2em" styleClass="icon"/>
+        </graphic>
+    </Label>
+
+</JFXListView>

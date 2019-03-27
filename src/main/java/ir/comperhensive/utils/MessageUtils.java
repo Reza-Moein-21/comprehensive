@@ -9,10 +9,17 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class MessageUtils {
-    private static ResourceBundle bundle = ResourceBundle.getBundle("messages", new ResourceControl());
+    private static ResourceBundle messageBundle = ResourceBundle.getBundle("messages", new ResourceControl());
+
+    private MessageUtils() {
+    }
 
     public static String getMessage(String key) {
-        return bundle.getString(key);
+        return messageBundle.getString(key);
+    }
+
+    public static ResourceBundle getMessageBundle() {
+        return messageBundle;
     }
 }
 

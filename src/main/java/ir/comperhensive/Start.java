@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import static ir.comperhensive.utils.MessageUtils.getMessageBundle;
 import static ir.comperhensive.utils.MessageUtils.getMessage;
 
 @SpringBootApplication
@@ -22,6 +23,7 @@ public class Start extends Application {
         springContext = SpringApplication.run(Start.class);
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
+        fxmlLoader.setResources(getMessageBundle());
     }
 
     @Override

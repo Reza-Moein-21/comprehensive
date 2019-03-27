@@ -1,0 +1,11 @@
+* {
+    -fx-font-family: "B Yekan";
+}
+
+.fx-hamburger StackPane {
+    -fx-background-color: #FAFAFA;
+}
+
+.topBar {
+    -fx-background-color: #3F51B5
+}
