@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDrawer?>
-<?import com.jfoenix.controls.JFXHamburger?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comprehensive.controller.StartController"
-            stylesheets="@/css/start.css">
+            stylesheets="@/css/start.css" styleClass="base">
     <top>
-        <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="600.0" styleClass="topBar">
-            <JFXHamburger fx:id="appHamburger" prefHeight="47.0" prefWidth="57.0" styleClass="fx-hamburger"/>
-        </HBox>
+        <GridPane styleClass="header-bar">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="ALWAYS" prefWidth="500.0"/>
+                <ColumnConstraints hgrow="ALWAYS" prefWidth="100.0"/>
+            </columnConstraints>
+
+            <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT">
+                <JFXButton styleClass="header-button">
+                    <graphic>
+                        <Pane styleClass="shape,arrow-back-shape"/>
+                    </graphic>
+                </JFXButton>
+            </HBox>
+
+            <HBox GridPane.columnIndex="1" alignment="CENTER">
+                <Label text="%appTitle"/>
+            </HBox>
+
+            <HBox GridPane.columnIndex="2" alignment="CENTER_RIGHT">
+                <JFXButton styleClass="header-button">
+                    <graphic>
+                        <Pane styleClass="shape,home-shape"/>
+                    </graphic>
+                </JFXButton>
+                <JFXButton styleClass="header-button">
+                    <graphic>
+                        <Pane styleClass="shape,account-shape"/>
+                    </graphic>
+                </JFXButton>
+            </HBox>
+        </GridPane>
     </top>
-    <right>
-        <JFXDrawer fx:id="appDrawer" defaultDrawerSize="200.0" direction="RIGHT" overLayVisible="false"
-                   prefWidth="200.0">
-            <sidePane>
-                <fx:include source="sidePanel.fxml" prefWidth="Infinity"/>
-            </sidePane>
-        </JFXDrawer>
-    </right>
-    <center>
-        <JFXTabPane nodeOrientation="RIGHT_TO_LEFT">
-            <Tab text="%searchAndCreate">
-                <Button text="tet"/>
-            </Tab>
-            <Tab text="%inventory"/>
-        </JFXTabPane>
-    </center>
+
 </BorderPane>
