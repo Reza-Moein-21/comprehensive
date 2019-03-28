@@ -4,8 +4,11 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.Button?>
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comperhensive.controller.StartController"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comprehensive.controller.StartController"
             stylesheets="@/css/start.css">
     <top>
         <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="600.0" styleClass="topBar">
@@ -20,4 +23,12 @@
             </sidePane>
         </JFXDrawer>
     </right>
+    <center>
+        <JFXTabPane nodeOrientation="RIGHT_TO_LEFT">
+            <Tab text="%searchAndCreate">
+                <Button text="tet"/>
+            </Tab>
+            <Tab text="%inventory"/>
+        </JFXTabPane>
+    </center>
 </BorderPane>

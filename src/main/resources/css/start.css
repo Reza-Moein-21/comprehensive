@@ -9,3 +9,14 @@
 .topBar {
     -fx-background-color: #3F51B5
 }
+
+.tab {
+    /*-fx-background-color: -fx-primary;*/
+    /*-fx-background-color: #2db522;*/
+    -fx-pref-width: 400;
+    -fx-pref-height: 50;
+}
+
+.tab-header-background {
+    /*-fx-background-color: -fx-primary;*/
+}

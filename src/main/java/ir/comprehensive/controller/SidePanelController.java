@@ -1,4 +1,4 @@
-package ir.comperhensive.controller;
+package ir.comprehensive.controller;
 
 import javafx.fxml.Initializable;
 import org.springframework.stereotype.Controller;

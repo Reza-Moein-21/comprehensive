@@ -4,7 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <JFXListView xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/sidePanel.css"
-             fx:controller="ir.comperhensive.controller.SidePanelController" styleClass="jfx-list-view">
+             fx:controller="ir.comprehensive.controller.SidePanelController" styleClass="jfx-list-view">
     <Label text="%storeroom">
         <graphic>
             <FontAwesomeIconView glyphName="INBOX" size="2em" styleClass="icon"/>

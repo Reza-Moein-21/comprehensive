@@ -1,4 +1,4 @@
-package ir.comperhensive.utils;
+package ir.comprehensive.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

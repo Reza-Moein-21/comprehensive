@@ -1,7 +1,7 @@
-package ir.comperhensive.service;
+package ir.comprehensive.service;
 
-import ir.comperhensive.domain.Product;
-import ir.comperhensive.repository.ProductRepository;
+import ir.comprehensive.domain.Product;
+import ir.comprehensive.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

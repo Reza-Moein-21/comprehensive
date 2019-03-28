@@ -1,4 +1,4 @@
-package ir.comperhensive;
+package ir.comprehensive;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import static ir.comperhensive.utils.MessageUtils.getMessageBundle;
-import static ir.comperhensive.utils.MessageUtils.getMessage;
+import static ir.comprehensive.utils.MessageUtils.getMessageBundle;
+import static ir.comprehensive.utils.MessageUtils.getMessage;
 
 @SpringBootApplication
 public class Start extends Application {
@@ -32,7 +32,7 @@ public class Start extends Application {
         Parent rootNode = fxmlLoader.load();
 
         primaryStage.setTitle(getMessage("appTitle"));
-        Scene scene = new Scene(rootNode, 800, 600);
+        Scene scene = new Scene(rootNode, 1024, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

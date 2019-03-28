@@ -1,6 +1,6 @@
-package ir.comperhensive.repository;
+package ir.comprehensive.repository;
 
-import ir.comperhensive.domain.Product;
+import ir.comprehensive.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

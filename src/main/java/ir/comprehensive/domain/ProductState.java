@@ -1,6 +1,6 @@
-package ir.comperhensive.domain;
+package ir.comprehensive.domain;
 
-import static ir.comperhensive.utils.MessageUtils.getMessage;
+import static ir.comprehensive.utils.MessageUtils.getMessage;
 
 public enum ProductState implements BaseEnum {
     RECEIVED(getMessage("received")), REJECTED(getMessage("rejected"));

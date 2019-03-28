@@ -1,4 +1,4 @@
-package ir.comperhensive.controller;
+package ir.comprehensive.controller;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
