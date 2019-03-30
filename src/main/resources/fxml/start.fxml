@@ -1,44 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import ir.comprehensive.component.Card?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comprehensive.controller.StartController"
-            stylesheets="@/css/start.css" styleClass="base">
-    <top>
-        <GridPane styleClass="header-bar">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="ALWAYS" prefWidth="500.0"/>
-                <ColumnConstraints hgrow="ALWAYS" prefWidth="100.0"/>
-            </columnConstraints>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-            <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT">
-                <JFXButton styleClass="header-button">
-                    <graphic>
-                        <Pane styleClass="shape,arrow-back-shape"/>
-                    </graphic>
-                </JFXButton>
-            </HBox>
+<AnchorPane styleClass="base" stylesheets="@/css/start.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comprehensive.controller.StartController">
+    <GridPane styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="50" />
+        </rowConstraints>
 
-            <HBox GridPane.columnIndex="1" alignment="CENTER">
-                <Label text="%appTitle"/>
-            </HBox>
+        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
+            <JFXButton styleClass="header-button">
+                <graphic>
+                    <Pane styleClass="shape,arrow-back-shape" />
+                </graphic>
+            </JFXButton>
+        </HBox>
 
-            <HBox GridPane.columnIndex="2" alignment="CENTER_RIGHT">
-                <JFXButton styleClass="header-button">
-                    <graphic>
-                        <Pane styleClass="shape,home-shape"/>
-                    </graphic>
-                </JFXButton>
-                <JFXButton styleClass="header-button">
-                    <graphic>
-                        <Pane styleClass="shape,account-shape"/>
-                    </graphic>
-                </JFXButton>
-            </HBox>
-        </GridPane>
-    </top>
+        <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
+            <Label text="%appTitle" />
+        </HBox>
 
-</BorderPane>
+        <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+            <JFXButton styleClass="header-button">
+                <graphic>
+                    <Pane styleClass="shape,home-shape" />
+                </graphic>
+            </JFXButton>
+            <JFXButton styleClass="header-button">
+                <graphic>
+                    <Pane styleClass="shape,setting-shape" />
+                </graphic>
+            </JFXButton>
+        </HBox>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         <RowConstraints />
+        </rowConstraints>
+    </GridPane>
+
+    <GridPane hgap="10.0" vgap="10.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="76" GridPane.rowIndex="1">
+        <FlowPane hgap="10.0" vgap="5.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+            <children>
+                <Card prefHeight="160.0" prefWidth="350.0" styleClass="storeroom-card" title="%storeroom">
+                    <icon>
+                        <Image url="@../image/storeroom.png" />
+                    </icon>
+                </Card>
+                <Card prefHeight="160.0" prefWidth="350.0" styleClass="project-card" title="%project">
+                    <icon>
+                        <Image url="@../image/person-man.png" />
+                    </icon>
+                </Card>
+            </children>
+        </FlowPane>
+        <columnConstraints>
+            <ColumnConstraints minWidth="300.0" percentWidth="25.0" />
+            <ColumnConstraints minWidth="300.0" percentWidth="25.0" />
+            <ColumnConstraints minWidth="300.0" percentWidth="25.0" />
+            <ColumnConstraints minWidth="300.0" percentWidth="25.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="25.0" />
+            <RowConstraints percentHeight="74.0" />
+        </rowConstraints>
+
+    </GridPane>
+
+</AnchorPane>
