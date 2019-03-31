@@ -61,7 +61,10 @@
 */
 
 .storeroom-card {
-
+    -fx-pref-width: 350.0;
+    -fx-pref-height: 160.0;
+    -fx-min-width: 350.0;
+    -fx-min-height: 160.0;
 }
 
 .storeroom-card .bodyStyleClass {
@@ -73,7 +76,10 @@
 }
 
 .project-card {
-
+    -fx-pref-width: 350.0;
+    -fx-pref-height: 160.0;
+    -fx-min-width: 350.0;
+    -fx-min-height: 160.0;
 }
 
 .project-card .bodyStyleClass {
@@ -82,4 +88,8 @@
     -fx-border-radius: 5;
     -fx-border-width: 0.5;
     -fx-border-color: #33691E;
+}
+
+.home{
+
 }

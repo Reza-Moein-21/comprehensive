@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ir.comprehensive.component.Card?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml" fx:id="homePage"
+          fx:controller="ir.comprehensive.controller.HomePageController"
+          AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0">
+    <JFXMasonryPane HSpacing="10.0" VSpacing="5.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+        <children>
+            <Card prefHeight="160.0" prefWidth="350.0" styleClass="storeroom-card" title="%storeroom" onClick="#goToStoreroom">
+                <icon>
+                    <Image url="@../image/storeroom.png"/>
+                </icon>
+            </Card>
+            <Card prefHeight="160.0" prefWidth="350.0" styleClass="project-card" title="%project">
+                <icon>
+                    <Image url="@../image/person-man.png"/>
+                </icon>
+            </Card>
+        </children>
+    </JFXMasonryPane>
+    <columnConstraints>
+        <ColumnConstraints minWidth="300.0" percentWidth="25.0"/>
+        <ColumnConstraints minWidth="300.0" percentWidth="25.0"/>
+        <ColumnConstraints minWidth="300.0" percentWidth="25.0"/>
+        <ColumnConstraints minWidth="300.0" percentWidth="25.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="25.0"/>
+        <RowConstraints percentHeight="74.0"/>
+    </rowConstraints>
+
+</GridPane>
