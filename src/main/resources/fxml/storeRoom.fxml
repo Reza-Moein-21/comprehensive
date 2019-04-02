@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ir.comprehensive.controller.StoreRoomController">
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="309.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            AnchorPane.topAnchor="0.0" fx:controller="ir.comprehensive.controller.StoreRoomController">
     <children>
-        <JFXTabPane prefHeight="377.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-            <tabs>
-                <Tab text="Untitled Tab"/>
-                <Tab text="Untitled Tab">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-                    </content>
-                </Tab>
-            </tabs>
-        </JFXTabPane>
+        <StackPane fx:id="con" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+            <GridPane style="-fx-padding: 10 0; -fx-hgap: 10; -fx-vgap: 10">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
+                    <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                </rowConstraints>
+
+                <JFXTextField promptText="productName" GridPane.columnIndex="0"/>
+                <JFXTextField promptText="personName" GridPane.columnIndex="1"/>
+                <JFXTextField promptText="personName" GridPane.columnIndex="2"/>
+
+                <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
+                      style="-fx-spacing: 10;">
+                    <JFXButton text="create"
+                               styleClass="default-button,green-background"/>
+                    <JFXButton text="search" styleClass="default-button"/>
+                </HBox>
+
+                <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
+                                  GridPane.columnSpan="4"
+                                  GridPane.rowIndex="2">
+                    <columns>
+                        <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200"/>
+                        <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200"/>
+                        <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300"/>
+                    </columns>
+                </JFXTreeTableView>
+
+                <JFXDialog>
+                    <JFXDialogLayout>
+                        <heading>
+                            <Label text="%searchAndCreate"/>
+                        </heading>
+                        <body>
+                            <VBox style="-fx-spacing: 10">
+                                <JFXTextField promptText="code"/>
+                                <JFXTextField promptText="product"/>
+                                <JFXTextField promptText="person" fx:id="dpb"/>
+                            </VBox>
+                        </body>
+                        <actions>
+                            <JFXButton>SAVE</JFXButton>
+                        </actions>
+                    </JFXDialogLayout>
+                </JFXDialog>
+            </GridPane>
+        </StackPane>
     </children>
 </AnchorPane>

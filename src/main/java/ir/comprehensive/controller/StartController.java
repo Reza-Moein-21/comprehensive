@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -16,6 +17,12 @@ import static ir.comprehensive.utils.MessageUtils.getMessageBundle;
 
 @Controller
 public class StartController implements Initializable {
+
+    ConfigurableApplicationContext context;
+
+    public StartController(ConfigurableApplicationContext context) {
+        this.context = context;
+    }
 
     @FXML
     AnchorPane main;
@@ -28,7 +35,7 @@ public class StartController implements Initializable {
     public void backToPrevious(ActionEvent actionEvent) {
         Parent homePage = null;
         try {
-            homePage = FXMLLoader.load(getClass().getResource("/fxml/homePage.fxml"), getMessageBundle());
+            homePage = FXMLLoader.load(getClass().getResource("/fxml/homePage.fxml"), getMessageBundle(), null, context::getBean);
         } catch (IOException e) {
             e.printStackTrace();
         }
