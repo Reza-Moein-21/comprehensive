@@ -18,6 +18,10 @@ public class Start extends Application {
     private ConfigurableApplicationContext springContext;
     private FXMLLoader fxmlLoader;
 
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
     @Override
     public void init() {
         springContext = SpringApplication.run(Start.class);

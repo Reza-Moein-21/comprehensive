@@ -15,6 +15,12 @@ configurations {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'ir.comprehensive.Start'
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -32,3 +38,4 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
+

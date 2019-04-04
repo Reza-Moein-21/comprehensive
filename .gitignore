@@ -6,3 +6,5 @@
 out/
 
 \.database/
+
+build/
