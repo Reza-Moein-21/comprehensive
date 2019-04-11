@@ -36,9 +36,9 @@ public class Start extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/start.fxml"));
         Parent rootNode = fxmlLoader.load();
 
-
         Scene scene = new Scene(rootNode, 1024, 600);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

@@ -6,15 +6,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ProductDeliveryModel extends RecursiveTreeObject<ProductDeliveryModel> {
     private ObjectProperty<Long> id = new SimpleObjectProperty<>();
     private StringProperty personName = new SimpleStringProperty();
     private StringProperty productName = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
-    private ObjectProperty<Date> deliveryDate = new SimpleObjectProperty<>();
-    private ObjectProperty<Date> desiredDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> desiredDate = new SimpleObjectProperty<>();
 
     public final Long getId() {
         return id.get();
@@ -64,27 +64,27 @@ public class ProductDeliveryModel extends RecursiveTreeObject<ProductDeliveryMod
         this.description.set(description);
     }
 
-    public final Date getDeliveryDate() {
+    public final LocalDate getDeliveryDate() {
         return deliveryDate.get();
     }
 
-    public final ObjectProperty<Date> deliveryDateProperty() {
+    public final ObjectProperty<LocalDate> deliveryDateProperty() {
         return deliveryDate;
     }
 
-    public final void setDeliveryDate(Date deliveryDate) {
+    public final void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate.set(deliveryDate);
     }
 
-    public final Date getDesiredDate() {
+    public final LocalDate getDesiredDate() {
         return desiredDate.get();
     }
 
-    public final ObjectProperty<Date> desiredDateProperty() {
+    public final ObjectProperty<LocalDate> desiredDateProperty() {
         return desiredDate;
     }
 
-    public final void setDesiredDate(Date desiredDate) {
+    public final void setDesiredDate(LocalDate desiredDate) {
         this.desiredDate.set(desiredDate);
     }
 }

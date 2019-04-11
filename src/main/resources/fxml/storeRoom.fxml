@@ -2,67 +2,69 @@
 
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
+<?import ir.comprehensive.component.SimpleDatePicker?>
 <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="309.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
             AnchorPane.topAnchor="0.0" fx:controller="ir.comprehensive.controller.StoreRoomController">
-    <children>
-        <StackPane fx:id="con" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="0.0">
-            <GridPane style="-fx-padding: 10 0; -fx-hgap: 10; -fx-vgap: 10">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
-                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
-                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
-                    <ColumnConstraints hgrow="ALWAYS"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
-                    <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
-                    <RowConstraints vgrow="ALWAYS"/>
-                </rowConstraints>
+    <StackPane fx:id="con" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               AnchorPane.topAnchor="0.0">
+        <GridPane style="-fx-padding: 10 0; -fx-hgap: 10; -fx-vgap: 10">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
+                <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
 
-                <JFXTextField promptText="productName" GridPane.columnIndex="0"/>
-                <JFXTextField promptText="personName" GridPane.columnIndex="1"/>
-                <JFXTextField promptText="personName" GridPane.columnIndex="2"/>
+            <JFXTextField fx:id="productNameTextField" promptText="%productName"
+                          GridPane.columnIndex="0"/>
+            <JFXTextField fx:id="personNameTextField" promptText="%fullName" GridPane.columnIndex="1"/>
+            <!--<JFXDatePicker fx:id="deliveryDateDatePicker" promptText="%deliveryDate" GridPane.columnIndex="2"/>-->
+            <SimpleDatePicker  GridPane.columnIndex="2"/>
 
-                <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
-                      style="-fx-spacing: 10;">
-                    <JFXButton text="create"
-                               styleClass="default-button,green-background"/>
-                    <JFXButton text="search" styleClass="default-button"/>
-                </HBox>
 
-                <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
-                                  GridPane.columnSpan="4"
-                                  GridPane.rowIndex="2">
-                    <columns>
-                        <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200"/>
-                        <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200"/>
-                        <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300"/>
-                    </columns>
-                </JFXTreeTableView>
+            <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
+                  style="-fx-spacing: 10;">
+                <JFXButton text="create" onAction="#create"
+                           styleClass="default-button,green-background"/>
+                <JFXButton text="search" styleClass="default-button" onAction="#search"/>
+            </HBox>
 
-                <JFXDialog>
-                    <JFXDialogLayout>
-                        <heading>
-                            <Label text="%searchAndCreate"/>
-                        </heading>
-                        <body>
-                            <VBox style="-fx-spacing: 10">
-                                <JFXTextField promptText="code"/>
-                                <JFXTextField promptText="product"/>
-                                <JFXTextField promptText="person" fx:id="dpb"/>
-                            </VBox>
-                        </body>
-                        <actions>
-                            <JFXButton>SAVE</JFXButton>
-                        </actions>
-                    </JFXDialogLayout>
-                </JFXDialog>
-            </GridPane>
-        </StackPane>
-    </children>
+            <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
+                              GridPane.columnSpan="4"
+                              GridPane.rowIndex="2">
+                <columns>
+                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200"/>
+                    <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200"/>
+                    <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300"/>
+                </columns>
+            </JFXTreeTableView>
+
+            <JFXDialog fx:id="dialog">
+                <JFXDialogLayout>
+                    <heading>
+                        <Label text="%create"/>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-spacing: 10">
+                            <JFXTextField fx:id="textFieldCreateProductName" promptText="%productName"/>
+                            <JFXTextField fx:id="textFieldCreatePersonFullName" promptText="%fullName"/>
+                            <JFXDatePicker/>
+                        </VBox>
+                    </body>
+                    <actions>
+                        <JFXButton>SAVE</JFXButton>
+                    </actions>
+                </JFXDialogLayout>
+            </JFXDialog>
+        </GridPane>
+    </StackPane>
 </AnchorPane>

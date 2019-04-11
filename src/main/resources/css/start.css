@@ -1,5 +1,6 @@
 * {
     -fx-font-family: "shabnam";
+    -fx-font-size: 1.2em;
 }
 
 .base {
@@ -23,7 +24,8 @@
     -fx-background-color: #212121;
     -fx-pref-width: 24;
     -fx-pref-height: 24;
-
+    -fx-min-width: 24;
+    -fx-min-height: 24;
 }
 
 .home-shape {
@@ -55,7 +57,7 @@
 
 .default-button {
     -fx-text-fill: #F5F5F5;
-    -fx-padding: 15 50;
+    -fx-padding: 10 50;
     -fx-background-color: #3F51B5;
     -fx-border-radius: 5;
 }
