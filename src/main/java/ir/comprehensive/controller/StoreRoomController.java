@@ -2,6 +2,7 @@ package ir.comprehensive.controller;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import ir.comprehensive.component.SimpleDatePicker;
 import ir.comprehensive.model.ProductDeliveryModel;
 import ir.comprehensive.service.ProductDeliveryService;
 import javafx.beans.property.ObjectProperty;
@@ -24,7 +25,8 @@ public class StoreRoomController implements Initializable {
 
     public JFXDialog dialog;
     public StackPane con;
-    public ProductDeliveryModel mod;
+    public StackPane tt;
+    public SimpleDatePicker deliveryDateField;
     private ProductDeliveryService productDeliveryService;
     @FXML
     private ObjectProperty<ProductDeliveryModel> model = new SimpleObjectProperty<>(new ProductDeliveryModel());
@@ -52,9 +54,8 @@ public class StoreRoomController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        productNameTextField.textProperty().bindBidirectional(model.productNameProperty());
-//        personNameTextField.textProperty().bindBidirectional(model.personNameProperty());
-//        deliveryDateDatePicker.valueProperty().bindBidirectional(model.deliveryDateProperty());
 
+//        deliveryDateDatePicker.valueProperty().bindBidirectional(model.deliveryDateProperty());
 
         ObservableList<ProductDeliveryModel> allModel = productDeliveryService.getAllModel();
         final TreeItem<ProductDeliveryModel> root = new RecursiveTreeItem<>(allModel, RecursiveTreeObject::getChildren);
@@ -92,7 +93,7 @@ public class StoreRoomController implements Initializable {
 
 
     public void search(ActionEvent actionEvent) {
-
+        System.out.println(deliveryDateField.getPersianDate());
 //        ObservableList<ProductDeliveryModel> allModel = productDeliveryService.search(model);
 //        final TreeItem<ProductDeliveryModel> root = new RecursiveTreeItem<>(allModel, RecursiveTreeObject::getChildren);
 
@@ -126,6 +127,6 @@ public class StoreRoomController implements Initializable {
     }
 
     public void create(ActionEvent actionEvent) {
-        dialog.show(con);
+        dialog.show(tt);
     }
 }

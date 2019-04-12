@@ -2,9 +2,9 @@
 
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.SimpleDatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<?import ir.comprehensive.component.SimpleDatePicker?>
 <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="309.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -27,9 +27,7 @@
             <JFXTextField fx:id="productNameTextField" promptText="%productName"
                           GridPane.columnIndex="0"/>
             <JFXTextField fx:id="personNameTextField" promptText="%fullName" GridPane.columnIndex="1"/>
-            <!--<JFXDatePicker fx:id="deliveryDateDatePicker" promptText="%deliveryDate" GridPane.columnIndex="2"/>-->
-            <SimpleDatePicker  GridPane.columnIndex="2"/>
-
+            <SimpleDatePicker fx:id="deliveryDateField" GridPane.columnIndex="2"/>
 
             <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
                   style="-fx-spacing: 10;">

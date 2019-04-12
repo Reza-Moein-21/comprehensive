@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'com.github.mfathi91', name: 'persian-date-time', version: '4.0.0'
     compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.7'
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
     compile 'io.github.typhon0:AnimateFX:1.2.1'

@@ -1,58 +1,104 @@
 package ir.comprehensive.component;
 
+import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.layout.Border;
+import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import java.time.LocalDate;
+import javafx.scene.shape.Line;
 
 import static ir.comprehensive.utils.MessageUtils.getMessage;
 
 public class SimpleDatePicker extends HBox {
 
-    private DateField yearField;
-    private Separator yearFieldSeparator;
-    private DateField monthField;
-    private Separator monthFieldSeparator;
-    private DateField dayField;
-    private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
+    private DateField yearField = new DateField(DateFieldType.YEAR);
+    private DateSeparator yearSeparator = new DateSeparator();
+    private DateField monthField = new DateField(DateFieldType.MONTH);
+    private DateSeparator monthSeparator = new DateSeparator();
+    private DateField dayField = new DateField(DateFieldType.DAY);
+    private ObjectProperty<PersianDate> persianDate = new SimpleObjectProperty<>();
 
     {
-        this.yearField = new DateField(getMessage("year"));
-        this.monthField = new DateField(getMessage("month"));
-        this.dayField = new DateField(getMessage("day"));
-        this.yearFieldSeparator = new Separator();
-        this.monthFieldSeparator = new Separator();
-        yearFieldSeparator.setStyle("-fx-background-color: #212121; -fx-rotate: 60; -fx-pref-width: 20;");
-        monthFieldSeparator.setStyle("-fx-background-color: #212121; -fx-rotate: 60; -fx-pref-width: 20;");
+        setMargin(yearSeparator, new Insets(30, 10, 0, 0));
+        setMargin(monthSeparator, new Insets(30, 10, 0, 0));
 
-        this.setAlignment(Pos.CENTER);
-        this.setStyle("-fx-background-color: #E3F2FD; -fx-background-radius: 10;");
-        this.getChildren().addAll(dayField, yearFieldSeparator, monthField, monthFieldSeparator, yearField);
+        this.setStyle("-fx-border-width: 1 0;-fx-border-radius: 25; -fx-border-color: #212121; -fx-padding: 10;-fx-spacing: 5;-fx-alignment: center");
+        this.getChildren().addAll(dayField, yearSeparator, monthField, monthSeparator, yearField);
     }
 
+    public PersianDate getPersianDate() {
+        int year = Integer.valueOf(yearField.getText());
+        int month = Integer.valueOf(monthField.getText());
+        int day = Integer.valueOf(dayField.getText());
+        persianDate.set(PersianDate.of(year, month, day));
+        return persianDate.get();
+    }
 
-    private class DateField extends VBox {
-        private JFXTextField dateFieldInput;
-        private Label dateFieldLabel;
+    public ObjectProperty<PersianDate> persianDateProperty() {
+        return persianDate;
+    }
 
-        {
-            this.setSpacing(5);
-            this.dateFieldInput = new JFXTextField();
-            this.dateFieldLabel = new Label();
-            this.dateFieldLabel.setAlignment(Pos.CENTER);
-            this.setAlignment(Pos.CENTER);
-            this.getChildren().addAll(dateFieldInput, dateFieldLabel);
+    public void setPersianDate(PersianDate persianDate) {
+        yearField.setText(Integer.toString(persianDate.getYear()));
+        monthField.setText(Integer.toString(persianDate.getMonthValue()));
+        dayField.setText(Integer.toString(persianDate.getDayOfMonth()));
+        this.persianDate.set(persianDate);
+    }
+
+    private class DateField extends JFXTextField {
+        DateFieldType type;
+
+        DateField(DateFieldType type) {
+            this.setLabelFloat(true);
+
+            this.type = type;
+            switch (type) {
+                case YEAR:
+                    this.setPromptText(getMessage("year"));
+                    this.textProperty().addListener((observable, oldValue, newValue) -> checkInput(newValue, 4, 1998, 1));
+                    break;
+                case MONTH:
+                    this.setPromptText(getMessage("month"));
+                    this.textProperty().addListener((observable, oldValue, newValue) -> checkInput(newValue, 2, 12, 1));
+                    break;
+                case DAY:
+                    this.setPromptText(getMessage("day"));
+                    this.textProperty().addListener((observable, oldValue, newValue) -> checkInput(newValue, 2, 31, 1));
+                    break;
+                default:
+                    break;
+            }
         }
 
-        DateField(String title) {
-            this.dateFieldLabel.setText(title);
+        private void checkInput(String newValue, int length, Integer max, Integer min) {
+            if (!newValue.matches("\\d*")) {
+                this.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            if (this.getText().length() >= length) {
+                this.setText(this.getText().substring(0, length));
+            }
+            if (!this.getText().isEmpty() && max != null) {
+                if (Integer.valueOf(this.getText()) > max) {
+                    this.setText(max.toString());
+                }
+                if (Integer.valueOf(this.getText()) < min) {
+                    this.setText(min.toString());
+                }
+            }
         }
+    }
+
+    private class DateSeparator extends Line {
+        DateSeparator() {
+            setStartX(0.0f);
+            setStartY(0.0f);
+            setEndX(20.0f);
+            setEndY(50.0f);
+        }
+    }
+
+    private enum DateFieldType {
+        YEAR, MONTH, DAY
     }
 }
