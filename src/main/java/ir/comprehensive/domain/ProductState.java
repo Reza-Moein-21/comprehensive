@@ -16,4 +16,8 @@ public enum ProductState implements BaseEnum {
         return title;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
 }

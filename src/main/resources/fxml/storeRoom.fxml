@@ -3,6 +3,8 @@
 
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.SimpleDatePicker?>
+<?import ir.comprehensive.domain.ProductState?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="309.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8"
@@ -11,38 +13,55 @@
             AnchorPane.topAnchor="0.0" fx:controller="ir.comprehensive.controller.StoreRoomController">
     <StackPane fx:id="con" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                AnchorPane.topAnchor="0.0">
-        <GridPane style="-fx-padding: 10 0; -fx-hgap: 10; -fx-vgap: 10">
+        <GridPane style="-fx-padding: 10 0;-fx-hgap: 10;-fx-vgap: 10" gridLinesVisible="false">
             <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="300"/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
                 <ColumnConstraints hgrow="ALWAYS"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
-                <RowConstraints vgrow="ALWAYS" maxHeight="60" minHeight="50"/>
+                <RowConstraints maxHeight="100"/>
+                <RowConstraints/>
                 <RowConstraints vgrow="ALWAYS"/>
             </rowConstraints>
 
-            <JFXTextField fx:id="productNameTextField" promptText="%productName"
-                          GridPane.columnIndex="0"/>
-            <JFXTextField fx:id="personNameTextField" promptText="%fullName" GridPane.columnIndex="1"/>
-            <SimpleDatePicker fx:id="deliveryDateField" GridPane.columnIndex="2"/>
+            <JFXTextField fx:id="txfProductName" promptText="%productName"/>
+            <JFXTextField fx:id="txfPersonName" promptText="%fullName" GridPane.columnIndex="1"/>
+            <HBox GridPane.rowIndex="1" GridPane.columnSpan="2" alignment="CENTER_LEFT" spacing="50"
+                  style="-fx-border-color: gray;-fx-border-width: 0 1 1 1;-fx-padding: 10">
+                <Label text="%deliveryDate"/>
+                <HBox alignment="CENTER_LEFT" spacing="30">
+                    <Label text="از:"/>
+                    <SimpleDatePicker fx:id="sdpDeliveryDate" maxWidth="300"/>
+                    <Label text="تا:"/>
+                    <SimpleDatePicker fx:id="sdpDeliveryDateF" maxWidth="300"/>
+                </HBox>
+            </HBox>
+            <JFXComboBox fx:id="com" GridPane.columnIndex="2" promptText="ttt" labelFloat="true">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <ProductState fx:value="RECEIVED"/>
+                        <ProductState fx:value="REJECTED"/>
+                    </FXCollections>
+                </items>
+            </JFXComboBox>
 
             <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
                   style="-fx-spacing: 10;">
-                <JFXButton text="create" onAction="#create"
+                <JFXButton text="%create" onAction="#create"
                            styleClass="default-button,green-background"/>
-                <JFXButton text="search" styleClass="default-button" onAction="#search"/>
+                <JFXButton text="%search" styleClass="default-button" onAction="#search"/>
+
             </HBox>
 
             <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
                               GridPane.columnSpan="4"
                               GridPane.rowIndex="2">
                 <columns>
-                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200"/>
-                    <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200"/>
-                    <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300"/>
+                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400"/>
+                    <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200" prefWidth="400"/>
+                    <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300" prefWidth="400"/>
                 </columns>
             </JFXTreeTableView>
 

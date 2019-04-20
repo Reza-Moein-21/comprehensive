@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
@@ -39,6 +40,7 @@ public class Start extends Application {
         Scene scene = new Scene(rootNode, 1024, 600);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        primaryStage.getIcons().add(new Image("/image/red-hat.png"));
         primaryStage.show();
     }
 

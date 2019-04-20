@@ -23,7 +23,7 @@ public class SimpleDatePicker extends HBox {
         setMargin(yearSeparator, new Insets(30, 10, 0, 0));
         setMargin(monthSeparator, new Insets(30, 10, 0, 0));
 
-        this.setStyle("-fx-border-width: 1 0;-fx-border-radius: 25; -fx-border-color: #212121; -fx-padding: 10;-fx-spacing: 5;-fx-alignment: center");
+        this.setStyle("-fx-spacing: 5;-fx-alignment: center;-fx-font-size: 11px");
         this.getChildren().addAll(dayField, yearSeparator, monthField, monthSeparator, yearField);
     }
 

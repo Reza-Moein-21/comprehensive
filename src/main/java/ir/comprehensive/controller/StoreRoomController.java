@@ -27,6 +27,7 @@ public class StoreRoomController implements Initializable {
     public StackPane con;
     public StackPane tt;
     public SimpleDatePicker deliveryDateField;
+    public JFXComboBox com;
     private ProductDeliveryService productDeliveryService;
     @FXML
     private ObjectProperty<ProductDeliveryModel> model = new SimpleObjectProperty<>(new ProductDeliveryModel());
