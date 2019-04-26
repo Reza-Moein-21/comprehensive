@@ -1,6 +1,7 @@
 package ir.comprehensive.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import ir.comprehensive.domain.Person;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 
 public class ProductDeliveryModel extends RecursiveTreeObject<ProductDeliveryModel> {
     private ObjectProperty<Long> id = new SimpleObjectProperty<>();
-    private StringProperty personName = new SimpleStringProperty();
+    private ObjectProperty<Person> person = new SimpleObjectProperty<>();
     private StringProperty productName = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
@@ -28,16 +29,16 @@ public class ProductDeliveryModel extends RecursiveTreeObject<ProductDeliveryMod
         this.id.set(id);
     }
 
-    public final String getPersonName() {
-        return personName.get();
+    public final Person getPerson() {
+        return person.get();
     }
 
-    public final StringProperty personNameProperty() {
-        return personName;
+    public final ObjectProperty<Person> personProperty() {
+        return person;
     }
 
-    public final void setPersonName(String personName) {
-        this.personName.set(personName);
+    public final void setPerson(Person person) {
+        this.person.set(person);
     }
 
     public final String getProductName() {

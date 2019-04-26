@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -19,7 +19,7 @@ public class ProductDelivery implements Serializable {
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_DELIVERY_PERSON"), nullable = false)
     Person person;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_DELIVERY_PRODUCT"), nullable = false)
     Product product;
 
@@ -27,13 +27,13 @@ public class ProductDelivery implements Serializable {
     String description;
 
     @Column(name = "DELIVERY_DATE", nullable = false)
-    Date deliveryDate;
+    LocalDate deliveryDate;
 
     @Column(name = "DESIRED_DATE", nullable = false)
-    Date desiredDate;
+    LocalDate desiredDate;
 
     @Column(name = "RECEIVED_DATE")
-    Date receivedDate;
+    LocalDate receivedDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PRODUCT_STATE", length = 10)

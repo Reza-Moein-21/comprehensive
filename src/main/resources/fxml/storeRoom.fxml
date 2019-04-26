@@ -13,7 +13,7 @@
             AnchorPane.topAnchor="0.0" fx:controller="ir.comprehensive.controller.StoreRoomController">
     <StackPane fx:id="con" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                AnchorPane.topAnchor="0.0">
-        <GridPane style="-fx-padding: 10 0;-fx-hgap: 10;-fx-vgap: 10" gridLinesVisible="false">
+        <GridPane style="-fx-padding: 10 0;-fx-hgap: 10;-fx-vgap: 10">
             <columnConstraints>
                 <ColumnConstraints/>
                 <ColumnConstraints/>
@@ -47,41 +47,24 @@
                 </items>
             </JFXComboBox>
 
-            <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" nodeOrientation="LEFT_TO_RIGHT"
+            <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT"
                   style="-fx-spacing: 10;">
                 <JFXButton text="%create" onAction="#create"
                            styleClass="default-button,green-background"/>
                 <JFXButton text="%search" styleClass="default-button" onAction="#search"/>
-
             </HBox>
 
             <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
                               GridPane.columnSpan="4"
                               GridPane.rowIndex="2">
                 <columns>
-                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400"/>
-                    <JFXTreeTableColumn fx:id="personNameColumn" text="%fullName" minWidth="200" prefWidth="400"/>
+                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400">
+
+                    </JFXTreeTableColumn>
+                    <JFXTreeTableColumn fx:id="personColumn" text="%fullName" minWidth="200" prefWidth="400"/>
                     <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300" prefWidth="400"/>
                 </columns>
             </JFXTreeTableView>
-
-            <JFXDialog fx:id="dialog">
-                <JFXDialogLayout>
-                    <heading>
-                        <Label text="%create"/>
-                    </heading>
-                    <body>
-                        <VBox style="-fx-spacing: 10">
-                            <JFXTextField fx:id="textFieldCreateProductName" promptText="%productName"/>
-                            <JFXTextField fx:id="textFieldCreatePersonFullName" promptText="%fullName"/>
-                            <JFXDatePicker/>
-                        </VBox>
-                    </body>
-                    <actions>
-                        <JFXButton>SAVE</JFXButton>
-                    </actions>
-                </JFXDialogLayout>
-            </JFXDialog>
         </GridPane>
     </StackPane>
 </AnchorPane>
