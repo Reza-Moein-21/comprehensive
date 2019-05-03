@@ -35,9 +35,18 @@
 }
 
 .default-button {
+    -fx-text-fill: #212121;
+    -fx-padding: 10 50;
+    -fx-background-color: #EEEEEE;
+    -fx-border-radius: 5;
+
+}
+
+.primary-button {
+
     -fx-text-fill: #F5F5F5;
     -fx-padding: 10 50;
-    -fx-background-color: #3F51B5;
+    -fx-background-color: #2196F3;
     -fx-border-radius: 5;
 }
 
@@ -92,4 +101,19 @@
     -fx-border-radius: 5;
     -fx-border-width: 0.5;
     -fx-border-color: #33691E;
+}
+
+.human-resource-card {
+    -fx-pref-width: 350.0;
+    -fx-pref-height: 160.0;
+    -fx-min-width: 350.0;
+    -fx-min-height: 160.0;
+}
+
+.human-resource-card .bodyStyleClass {
+    -fx-background-color: #8c9eff;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-width: 0.5;
+    -fx-border-color: #1a237e;
 }

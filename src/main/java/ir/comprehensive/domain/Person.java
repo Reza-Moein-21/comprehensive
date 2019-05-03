@@ -16,4 +16,9 @@ public class Person implements Serializable {
 
     @Column(name = "FULL_NAME", nullable = false)
     String fullName;
+
+    @Override
+    public String toString() {
+        return fullName;
+    }
 }

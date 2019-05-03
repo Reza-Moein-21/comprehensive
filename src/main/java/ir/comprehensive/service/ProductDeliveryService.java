@@ -8,16 +8,17 @@ import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ir.comprehensive.utils.MessageUtils.getMessage;
+
 @Service
 @Transactional
-public class ProductDeliveryService {
+public class ProductDeliveryService extends CallbackMessage<ProductDelivery> {
     private PersonRepository personRepository;
     private ProductDeliveryRepository repository;
     private ProductDeliveryMapper mapper;
@@ -30,12 +31,13 @@ public class ProductDeliveryService {
     }
 
     public ObservableList<ProductDeliveryModel> getAllModel() {
+
         List<ProductDelivery> all = repository.findAll();
         List<ProductDeliveryModel> collect = all.stream().map(mapper::entityToDto).collect(Collectors.toList());
         return FXCollections.observableList(collect);
     }
 
-    public ProductDelivery save(ProductDeliveryModel model) {
+    public CallbackMessage save(ProductDeliveryModel model) {
         ProductDelivery productDelivery = new ProductDelivery();
         Product product = new Product();
         productDelivery.setPerson(personRepository.getOne(model.getPerson().getId()));
@@ -44,6 +46,9 @@ public class ProductDeliveryService {
         productDelivery.setDeliveryDate(model.getDeliveryDate());
         productDelivery.setDesiredDate(model.getDesiredDate());
         productDelivery.setDescription(model.getDescription());
-        return repository.save(productDelivery);
+
+        setCallbackMessage(getMessage("product") + " " + getMessage("successSave"));
+        setCallbackResult(repository.save(productDelivery));
+        return this;
     }
 }

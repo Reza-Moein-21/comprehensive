@@ -3,37 +3,43 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<AnchorPane styleClass="base" stylesheets="@/css/start.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ir.comprehensive.controller.StartController">
-    <GridPane styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0"/>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="50"/>
-        </rowConstraints>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="base" fx:id="mainStack" stylesheets="@/css/start.css"
+           xmlns="http://javafx.com/javafx/8.0.172-ea" fx:controller="ir.comprehensive.controller.StartController">
+    <children>
 
-        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
-            <JFXButton styleClass="header-button,back-button" onAction="#backToPrevious"/>
-        </HBox>
+        <AnchorPane>
+            <GridPane styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                      AnchorPane.topAnchor="0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="50"/>
+                </rowConstraints>
 
-        <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
-            <Label text="%appTitle"/>
-        </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
+                    <JFXButton styleClass="header-button,back-button" onAction="#backToPrevious"/>
+                </HBox>
 
-        <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-            <JFXButton styleClass="header-button,home-button"/>
-            <JFXButton styleClass="header-button,settings-button"/>
-        </HBox>
-    </GridPane>
+                <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
+                    <Label text="%appTitle"/>
+                </HBox>
 
-
-    <AnchorPane fx:id="main" AnchorPane.topAnchor="76" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
-                AnchorPane.leftAnchor="10">
-        <fx:include source="homePage.fxml"/>
-    </AnchorPane>
+                <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                    <JFXButton styleClass="header-button,home-button"/>
+                    <JFXButton styleClass="header-button,settings-button"/>
+                </HBox>
+            </GridPane>
 
 
-</AnchorPane>
+            <AnchorPane fx:id="main" AnchorPane.topAnchor="76" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
+                        AnchorPane.leftAnchor="10">
+                <fx:include source="homePage.fxml"/>
+            </AnchorPane>
+
+
+        </AnchorPane>
+    </children>
+</StackPane>

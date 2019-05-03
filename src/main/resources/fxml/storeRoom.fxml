@@ -5,7 +5,7 @@
 <?import ir.comprehensive.component.SimpleDatePicker?>
 <?import ir.comprehensive.domain.ProductState?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="309.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -25,15 +25,49 @@
                 <RowConstraints/>
                 <RowConstraints vgrow="ALWAYS"/>
             </rowConstraints>
+            <JFXDialog fx:id="createDialog" overlayClose="false" transitionType="TOP"
+                       style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
+                <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
+                    <heading>
+                        <HBox alignment="CENTER"
+                              style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
+                            <Label text="%createProduct"/>
+                        </HBox>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-padding: 40 20;-fx-spacing: 50;">
+                            <JFXComboBox fx:id="cbxPerson" promptText="%fullName" labelFloat="true"
+                                         prefWidth="Infinity"/>
+                            <JFXTextField fx:id="txfProductName" promptText="%productName" labelFloat="true"/>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="%deliveryDate" minWidth="300"/>
+                                <SimpleDatePicker fx:id="sdpDeliveryDate"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="%desiredDate" minWidth="300"/>
+                                <SimpleDatePicker fx:id="sdpDesiredDate"/>
+                            </HBox>
 
-            <JFXTextField fx:id="txfProductName" promptText="%productName"/>
+                            <JFXTextField fx:id="txfDescription" promptText="%description" labelFloat="true"/>
+                        </VBox>
+                    </body>
+                    <actions>
+                        <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+                            <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                                       buttonType="RAISED"/>
+                            <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
+                        </HBox>
+                    </actions>
+                </JFXDialogLayout>
+            </JFXDialog>
+            <JFXTextField fx:id="txfProductName1" promptText="%productName"/>
             <JFXTextField fx:id="txfPersonName" promptText="%fullName" GridPane.columnIndex="1"/>
             <HBox GridPane.rowIndex="1" GridPane.columnSpan="2" alignment="CENTER_LEFT" spacing="50"
                   style="-fx-border-color: gray;-fx-border-width: 0 1 1 1;-fx-padding: 10">
                 <Label text="%deliveryDate"/>
                 <HBox alignment="CENTER_LEFT" spacing="30">
                     <Label text="از:"/>
-                    <SimpleDatePicker fx:id="sdpDeliveryDate" maxWidth="300"/>
+                    <SimpleDatePicker fx:id="sdpDeliveryDate1" maxWidth="300"/>
                     <Label text="تا:"/>
                     <SimpleDatePicker fx:id="sdpDeliveryDateF" maxWidth="300"/>
                 </HBox>
@@ -47,22 +81,23 @@
                 </items>
             </JFXComboBox>
 
-            <HBox GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT"
+            <HBox fx:id="ddd" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER_LEFT"
+                  nodeOrientation="LEFT_TO_RIGHT"
                   style="-fx-spacing: 10;">
-                <JFXButton text="%create" onAction="#create"
-                           styleClass="default-button,green-background"/>
-                <JFXButton text="%search" styleClass="default-button" onAction="#search"/>
+                <JFXButton text="%create" onAction="#showCreateDialog"
+                           styleClass="primary-button,green-background"/>
+                <JFXButton text="%search" styleClass="primary-button" onAction="#search"/>
             </HBox>
 
             <JFXTreeTableView fx:id="productDeliveryTable" GridPane.columnIndex="0"
                               GridPane.columnSpan="4"
                               GridPane.rowIndex="2">
                 <columns>
-                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400">
-
-                    </JFXTreeTableColumn>
+                    <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400"/>
                     <JFXTreeTableColumn fx:id="personColumn" text="%fullName" minWidth="200" prefWidth="400"/>
                     <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300" prefWidth="400"/>
+                    <JFXTreeTableColumn fx:id="desiredDateColumn" text="%desiredDate" minWidth="300" prefWidth="400"/>
+                    <JFXTreeTableColumn fx:id="descriptionColumn" text="%description" minWidth="300" prefWidth="600"/>
                 </columns>
             </JFXTreeTableView>
         </GridPane>
