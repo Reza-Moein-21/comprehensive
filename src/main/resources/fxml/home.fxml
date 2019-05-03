@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import ir.comprehensive.component.Card?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
+      xmlns="http://javafx.com/javafx" fx:id="homePage"
+      fx:controller="ir.comprehensive.controller.HomeController"
+      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+    <Label/>
+    <Label/>
+    <JFXMasonryPane HSpacing="10.0" VSpacing="5.0">
+        <Card prefHeight="160.0" prefWidth="350.0" styleClass="storeroom-card" title="%storeroom"
+              onClick="#goToStoreroom">
+            <icon>
+                <Image url="@../image/storeroom.png"/>
+            </icon>
+        </Card>
+        <Card prefHeight="160.0" prefWidth="350.0" styleClass="project-card" title="%project">
+            <icon>
+                <Image url="@../image/project.png"/>
+            </icon>
+        </Card>
+        <Card prefHeight="160.0" prefWidth="350.0" styleClass="human-resource-card" title="%humanResource"
+              onClick="#goToHumanResource">
+            <icon>
+                <Image url="@../image/person-man.png"/>
+            </icon>
+        </Card>
+    </JFXMasonryPane>
+</VBox>

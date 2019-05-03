@@ -36,7 +36,7 @@
 
             <AnchorPane fx:id="main" AnchorPane.topAnchor="76" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
                         AnchorPane.leftAnchor="10">
-                <fx:include source="homePage.fxml"/>
+                <fx:include source="home.fxml"/>
             </AnchorPane>
 
 

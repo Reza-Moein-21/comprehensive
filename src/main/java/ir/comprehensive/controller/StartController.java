@@ -13,12 +13,13 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import static ir.comprehensive.utils.MessageUtils.getMessageBundle;
 
 @Controller
 public class StartController implements Initializable {
-
+    private Stack<ViewName> viewNames = new Stack<>();
     ConfigurableApplicationContext context;
 
     public StartController(ConfigurableApplicationContext context) {
@@ -32,17 +33,23 @@ public class StartController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        viewNames.push(ViewName.HOME);
     }
 
     public void backToPrevious(ActionEvent actionEvent) {
-        Parent homePage = null;
+        viewNames.pop();
+        navigateToView(viewNames.pop());
+    }
+
+    public void navigateToView(ViewName viewName) {
+        Parent parent = null;
         try {
-            homePage = FXMLLoader.load(getClass().getResource("/fxml/homePage.fxml"), getMessageBundle(), null, context::getBean);
+            parent = FXMLLoader.load(viewName.getViewUrl(), getMessageBundle(), null, context::getBean);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        main.getChildren().setAll(homePage);
+        main.getChildren().setAll(parent);
+        viewNames.push(viewName);
     }
 }
