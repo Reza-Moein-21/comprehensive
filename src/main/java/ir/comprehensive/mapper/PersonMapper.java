@@ -11,15 +11,11 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface PersonMapper extends BaseMapper<Person, PersonModel> {
 
-    @Mapping(target = "groupedValue", ignore = true)
-    @Mapping(target = "groupedColumn", ignore = true)
-    @Mapping(target = "children", ignore = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "fullName", source = "fullName")
+    @Mapping(target = "categories", source = "categories", ignore = true)
     @Override
-    PersonModel entityToDto(Person entity);
+    PersonModel entityToModel(Person entity);
 
     @Override
     @InheritInverseConfiguration
-    Person dtoToEntity(PersonModel dto);
+    Person modelToEntity(PersonModel dto);
 }

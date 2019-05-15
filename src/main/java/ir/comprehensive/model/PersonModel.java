@@ -1,41 +1,97 @@
 package ir.comprehensive.model;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.ObservableSet;
 
-public class PersonModel extends RecursiveTreeObject<PersonModel> {
-    private ObjectProperty<Long> id = new SimpleObjectProperty<>();
-    private StringProperty fullName = new SimpleStringProperty();
+public class PersonModel {
+    private LongProperty id = new SimpleLongProperty();
+    private StringProperty firstName = new SimpleStringProperty();
+    private StringProperty lastName = new SimpleStringProperty();
+    private StringProperty email = new SimpleStringProperty();
+    private StringProperty phoneNumber = new SimpleStringProperty();
+    private SetProperty<CategoryModel> categories = new SimpleSetProperty<>();
 
-    public final Long getId() {
+    public long getId() {
         return id.get();
     }
 
-    public final ObjectProperty<Long> idProperty() {
-        return id;
-    }
-
-    public final void setId(Long id) {
+    public void setId(long id) {
         this.id.set(id);
     }
 
-    public final String getFullName() {
-        return fullName.get();
+    public LongProperty idProperty() {
+        return id;
     }
 
-    public final StringProperty fullNameProperty() {
-        return fullName;
+    public String getFirstName() {
+        return firstName.get();
     }
 
-    public final void setFullName(String fullName) {
-        this.fullName.set(fullName);
+    public void setFirstName(String firstName) {
+        this.firstName.set(firstName);
+    }
+
+    public StringProperty firstNameProperty() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName.get();
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName.set(lastName);
+    }
+
+    public StringProperty lastNameProperty() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email.get();
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber.get();
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber.set(phoneNumber);
+    }
+
+    public StringProperty phoneNumberProperty() {
+        return phoneNumber;
+    }
+
+    public ObservableSet<CategoryModel> getCategories() {
+        return categories.get();
+    }
+
+    public void setCategories(ObservableSet<CategoryModel> categories) {
+        this.categories.set(categories);
+    }
+
+    public SetProperty<CategoryModel> categoriesProperty() {
+        return categories;
     }
 
     @Override
     public String toString() {
-        return fullName.get();
+        return "PersonModel{" +
+                "id=" + id +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", email=" + email +
+                ", phoneNumber=" + phoneNumber +
+                ", categories=" + categories +
+                '}';
     }
 }

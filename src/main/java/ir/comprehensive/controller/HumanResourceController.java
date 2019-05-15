@@ -1,7 +1,13 @@
 package ir.comprehensive.controller;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.model.CategoryModel;
+import ir.comprehensive.model.PersonModel;
+import ir.comprehensive.service.PersonService;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
@@ -10,10 +16,21 @@ import java.util.ResourceBundle;
 @Controller
 public class HumanResourceController implements Initializable {
     public JFXDialog createDialog;
-    private StartController startController;
 
-    public HumanResourceController(StartController startController) {
+    public JFXTextField txfFirstNameC;
+    public JFXTextField txfLastNameC;
+    public JFXTextField txfPhoneNumberC;
+    public JFXTextField txfEmailC;
+    public JFXComboBox<CategoryModel> cbxCategoriesC;
+    public TableView<PersonModel> tblPerson;
+
+    private StartController startController;
+    private PersonService personService;
+    private PersonModel personC = new PersonModel();
+
+    public HumanResourceController(StartController startController, PersonService personService) {
         this.startController = startController;
+        this.personService = personService;
     }
 
     public void closeCreateDialog() {
@@ -21,6 +38,7 @@ public class HumanResourceController implements Initializable {
     }
 
     public void save() {
+        personService.save(personC);
         createDialog.close();
     }
 
@@ -32,6 +50,12 @@ public class HumanResourceController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         createDialog.setDialogContainer(startController.mainStack);
-//        createDialog.setOnDialogOpened();
+        // bind person model
+        txfFirstNameC.textProperty().bindBidirectional(personC.firstNameProperty());
+        txfLastNameC.textProperty().bindBidirectional(personC.lastNameProperty());
+        txfPhoneNumberC.textProperty().bindBidirectional(personC.phoneNumberProperty());
+        txfEmailC.textProperty().bindBidirectional(personC.emailProperty());
+
+        tblPerson.setItems(personService.getAllModel());
     }
 }

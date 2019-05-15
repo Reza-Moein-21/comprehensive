@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
       xmlns="http://javafx.com/javafx" nodeOrientation="RIGHT_TO_LEFT"
@@ -18,16 +18,16 @@
                         <heading>
                             <HBox alignment="CENTER"
                                   style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
-                                <Label text="%createProduct"/>
+                                <Label text="%createPerson"/>
                             </HBox>
                         </heading>
                         <body>
                             <VBox style="-fx-padding: 40 20;-fx-spacing: 50;">
-                                <JFXComboBox fx:id="cbxPerson" promptText="%fullName" labelFloat="true"
-                                             prefWidth="Infinity"/>
-                                <JFXTextField fx:id="txfProductName" promptText="%productName" labelFloat="true"/>
-
-                                <JFXTextField fx:id="txfDescription" promptText="%description" labelFloat="true"/>
+                                <JFXTextField fx:id="txfFirstNameC" promptText="%firstName"/>
+                                <JFXTextField fx:id="txfLastNameC" promptText="%lastName"/>
+                                <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber"/>
+                                <JFXTextField fx:id="txfEmailC" promptText="%email"/>
+                                <JFXComboBox fx:id="cbxCategoriesC" prefWidth="Infinity" promptText="%categories"/>
                             </VBox>
                         </body>
                         <actions>
@@ -50,17 +50,30 @@
                     <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button" buttonType="RAISED"
                                onAction="#openCreateDialog"/>
                 </FlowPane>
-                <JFXTreeTableView fx:id="tblPerson" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tblPerson" VBox.vgrow="ALWAYS">
                     <columns>
-                        <JFXTreeTableColumn fx:id="thFirstName" text="%firstName" minWidth="200" prefWidth="400"/>
-                        <JFXTreeTableColumn fx:id="thLastName" text="%lastName" minWidth="200" prefWidth="400"/>
-                        <JFXTreeTableColumn fx:id="thPhoneNumber" text="%phoneNumber" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn fx:id="thEmail" text="%email" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn fx:id="thCategory" text="%category" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn fx:id="descriptionColumn" text="%description" minWidth="300"
-                                            prefWidth="600"/>
+                        <TableColumn text="%firstName" minWidth="200" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="firstName"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%lastName" minWidth="200" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="lastName"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%phoneNumber" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="phoneNumber"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%email" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="email"/>
+                            </cellValueFactory>
+                        </TableColumn>
                     </columns>
-                </JFXTreeTableView>
+                </TableView>
 
             </VBox>
         </Tab>

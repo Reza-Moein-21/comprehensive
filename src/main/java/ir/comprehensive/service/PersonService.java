@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ir.comprehensive.utils.MessageUtils.getMessage;
+
 
 @Service
 @Transactional
-public class PersonService {
+public class PersonService extends CallbackMessage<Person> {
 
     private PersonRepository repository;
     private PersonMapper mapper;
@@ -26,12 +28,18 @@ public class PersonService {
     }
 
     public ObservableList<PersonModel> getAllModel() {
-        List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToDto).collect(Collectors.toList());
+        List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(allModel);
     }
 
     public ObservableList<Person> getAll() {
         List<Person> allPerson = repository.findAll();
         return FXCollections.observableList(allPerson);
+    }
+
+    public CallbackMessage save(PersonModel model) {
+        setCallbackResult(repository.save(mapper.modelToEntity(model)));
+        setCallbackMessage(getMessage("person") + " " + getMessage("successSave"));
+        return this;
     }
 }

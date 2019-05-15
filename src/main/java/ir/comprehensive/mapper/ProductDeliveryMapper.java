@@ -21,9 +21,9 @@ public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, Produ
     @Mapping(target = "groupedValue", ignore = true)
     @Mapping(target = "groupedColumn", ignore = true)
     @Mapping(target = "children", ignore = true)
-    ProductDeliveryModel entityToDto(ProductDelivery entity);
+    ProductDeliveryModel entityToModel(ProductDelivery entity);
 
     @Override
     @InheritInverseConfiguration
-    ProductDelivery dtoToEntity(ProductDeliveryModel dto);
+    ProductDelivery modelToEntity(ProductDeliveryModel dto);
 }

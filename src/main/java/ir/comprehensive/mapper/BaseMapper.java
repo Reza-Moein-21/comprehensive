@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
-public interface BaseMapper<E, D> {
-    D entityToDto(E entity);
+public interface BaseMapper<E, M> {
+    M entityToModel(E entity);
 
-    E dtoToEntity(D dto);
+    E modelToEntity(M dto);
 }

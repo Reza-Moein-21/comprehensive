@@ -33,7 +33,7 @@ public class ProductDeliveryService extends CallbackMessage<ProductDelivery> {
     public ObservableList<ProductDeliveryModel> getAllModel() {
 
         List<ProductDelivery> all = repository.findAll();
-        List<ProductDeliveryModel> collect = all.stream().map(mapper::entityToDto).collect(Collectors.toList());
+        List<ProductDeliveryModel> collect = all.stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(collect);
     }
 
