@@ -18,9 +18,6 @@ public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, Produ
     @Mapping(target = "description", source = "description")
     @Mapping(target = "person", source = "person")
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "groupedValue", ignore = true)
-    @Mapping(target = "groupedColumn", ignore = true)
-    @Mapping(target = "children", ignore = true)
     ProductDeliveryModel entityToModel(ProductDelivery entity);
 
     @Override

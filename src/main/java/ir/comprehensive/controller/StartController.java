@@ -52,4 +52,8 @@ public class StartController implements Initializable {
         main.getChildren().setAll(parent);
         viewNames.push(viewName);
     }
+
+    public void backToHome(ActionEvent actionEvent) {
+        navigateToView(ViewName.HOME);
+    }
 }

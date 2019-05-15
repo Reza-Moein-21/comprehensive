@@ -1,7 +1,8 @@
 package ir.comprehensive.controller;
 
-import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.SimpleDatePicker;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.model.ProductDeliveryModel;
@@ -12,16 +13,13 @@ import ir.comprehensive.utils.FormValidationUtils;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
@@ -39,28 +37,20 @@ public class StoreRoomController implements Initializable {
     public JFXTextField txfPersonName;
     public JFXDialog createDialog;
     public HBox ddd;
+    public TableView<ProductDeliveryModel> tblProductDelivery;
 
 
     private ProductDeliveryService productDeliveryService;
     private PersonService personService;
-    @FXML
-    public JFXTreeTableColumn<ProductDeliveryModel, String> descriptionColumn;
+
 
     public StackPane con;
     private SimpleDatePicker deliveryDateField;
     public JFXComboBox com;
-    @FXML
-    public JFXTreeTableColumn<ProductDeliveryModel, LocalDate> desiredDateColumn;
+
     private StartController startController;
     private ProductDeliveryModel createModel = new ProductDeliveryModel();
-    @FXML
-    public JFXTreeTableColumn<ProductDeliveryModel, LocalDate> deliveryDateColumn;
-    @FXML
-    public JFXTreeTableColumn<ProductDeliveryModel, Person> personColumn;
-    @FXML
-    public JFXTreeTableColumn<ProductDeliveryModel, String> productNameColumn;
-    @FXML
-    public JFXTreeTableView<ProductDeliveryModel> productDeliveryTable;
+
 
 
     public StoreRoomController(ProductDeliveryService productDeliveryService, PersonService personService, StartController startController) {
@@ -76,27 +66,14 @@ public class StoreRoomController implements Initializable {
 
     private void fillDataTable() {
 
-        Task<TreeItem<ProductDeliveryModel>> task = new Task<TreeItem<ProductDeliveryModel>>() {
+        Task<ObservableList<ProductDeliveryModel>> fillTableTask = new Task<ObservableList<ProductDeliveryModel>>() {
             @Override
-            protected TreeItem<ProductDeliveryModel> call() {
-                ObservableList<ProductDeliveryModel> allModel = productDeliveryService.getAllModel();
-                return new RecursiveTreeItem<>(allModel, RecursiveTreeObject::getChildren);
+            protected ObservableList<ProductDeliveryModel> call() {
+                return productDeliveryService.getAllModel();
             }
         };
-        task.setOnSucceeded(event -> {
-            TreeItem<ProductDeliveryModel> root = task.getValue();
-            productNameColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<ProductDeliveryModel, String> param) -> param.getValue().getValue().productNameProperty());
-
-            personColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<ProductDeliveryModel, Person> param) -> param.getValue().getValue().personProperty());
-
-            deliveryDateColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<ProductDeliveryModel, LocalDate> param) -> param.getValue().getValue().deliveryDateProperty());
-            desiredDateColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<ProductDeliveryModel, LocalDate> param) -> param.getValue().getValue().desiredDateProperty());
-            descriptionColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<ProductDeliveryModel, String> param) -> param.getValue().getValue().descriptionProperty());
-            productDeliveryTable.setRoot(root);
-            productDeliveryTable.setShowRoot(false);
-            productDeliveryTable.setEditable(false);
-        });
-        Executors.newCachedThreadPool().execute(task);
+        fillTableTask.setOnSucceeded(event -> tblProductDelivery.setItems(fillTableTask.getValue()));
+        Executors.newCachedThreadPool().execute(fillTableTask);
     }
 
 

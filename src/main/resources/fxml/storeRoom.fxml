@@ -5,7 +5,8 @@
 <?import ir.comprehensive.component.SimpleDatePicker?>
 <?import ir.comprehensive.domain.ProductState?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT"
             xmlns="http://javafx.com/javafx/8" fx:controller="ir.comprehensive.controller.StoreRoomController"
@@ -81,15 +82,35 @@
             </HBox>
 
         </FlowPane>
-        <JFXTreeTableView fx:id="productDeliveryTable" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
             <columns>
-                <JFXTreeTableColumn fx:id="productNameColumn" text="%productName" minWidth="200" prefWidth="400"/>
-                <JFXTreeTableColumn fx:id="personColumn" text="%fullName" minWidth="200" prefWidth="400"/>
-                <JFXTreeTableColumn fx:id="deliveryDateColumn" text="%deliveryDate" minWidth="300" prefWidth="400"/>
-                <JFXTreeTableColumn fx:id="desiredDateColumn" text="%desiredDate" minWidth="300" prefWidth="400"/>
-                <JFXTreeTableColumn fx:id="descriptionColumn" text="%description" minWidth="300" prefWidth="600"/>
+                <TableColumn text="%productName" minWidth="200" prefWidth="400">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="productName"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="%fullName" minWidth="200" prefWidth="400">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="person"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="%deliveryDate" minWidth="300" prefWidth="400">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="deliveryDate"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="%desiredDate" minWidth="300" prefWidth="400">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="desiredDate"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="%description" minWidth="300" prefWidth="600">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="description"/>
+                    </cellValueFactory>
+                </TableColumn>
             </columns>
-        </JFXTreeTableView>
+        </TableView>
     </VBox>
 
 </AnchorPane>

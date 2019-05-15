@@ -28,7 +28,7 @@
                 </HBox>
 
                 <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-                    <JFXButton styleClass="header-button,home-button"/>
+                    <JFXButton styleClass="header-button,home-button" onAction="#backToHome"/>
                     <JFXButton styleClass="header-button,settings-button"/>
                 </HBox>
             </GridPane>

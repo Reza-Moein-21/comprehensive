@@ -16,8 +16,8 @@ public class Category implements Serializable {
     @Column(name = "ID")
     Long id;
 
-    @Column(name = "NAME", nullable = false)
-    String name;
+    @Column(name = "TITLE", nullable = false)
+    String title;
 
     @Column(name = "PHONE_NUMBER")
     String phoneNumber;

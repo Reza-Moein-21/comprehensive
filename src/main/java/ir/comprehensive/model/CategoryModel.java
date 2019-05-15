@@ -5,7 +5,7 @@ import javafx.collections.ObservableSet;
 
 public class CategoryModel {
     private LongProperty id = new SimpleLongProperty();
-    private StringProperty name = new SimpleStringProperty();
+    private StringProperty title = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
     private StringProperty fax = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
@@ -25,16 +25,16 @@ public class CategoryModel {
         return id;
     }
 
-    public String getName() {
-        return name.get();
+    public String getTitle() {
+        return title.get();
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public StringProperty nameProperty() {
-        return name;
+    public StringProperty titleProperty() {
+        return title;
     }
 
     public String getPhoneNumber() {

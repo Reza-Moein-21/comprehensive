@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
@@ -81,24 +81,47 @@
         <Tab text="%categories" style="-fx-font-weight: bold;-fx-padding: 10 50">
             <VBox>
                 <FlowPane style="-fx-hgap: 50; -fx-vgap: 50">
-                    <JFXTextField promptText="%firstName"/>
-                    <JFXTextField promptText="%lastName"/>
+                    <JFXTextField promptText="%title"/>
                     <JFXTextField promptText="%phoneNumber"/>
+                    <JFXTextField promptText="%fax"/>
                     <JFXTextField promptText="%email"/>
-                    <JFXComboBox promptText="%categories"/>
                     <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"/>
                     <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED"/>
                 </FlowPane>
-                <JFXTreeTableView VBox.vgrow="ALWAYS">
+                <TableView fx:id="tblCategory" VBox.vgrow="ALWAYS">
                     <columns>
-                        <JFXTreeTableColumn text="%firstName" minWidth="200" prefWidth="400"/>
-                        <JFXTreeTableColumn text="%lastName" minWidth="200" prefWidth="400"/>
-                        <JFXTreeTableColumn text="%phoneNumber" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn text="%email" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn text="%category" minWidth="300" prefWidth="400"/>
-                        <JFXTreeTableColumn text="%description" minWidth="300" prefWidth="600"/>
+                        <TableColumn text="%title" minWidth="200" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%phoneNumber" minWidth="200" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="lastName"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%fax" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="fax"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%email" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="email"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%address" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="address"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%description" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="description"/>
+                            </cellValueFactory>
+                        </TableColumn>
                     </columns>
-                </JFXTreeTableView>
+                </TableView>
             </VBox>
         </Tab>
 
