@@ -46,7 +46,8 @@
                     <JFXTextField fx:id="txfPhoneNumber" promptText="%phoneNumber"/>
                     <JFXTextField fx:id="txfEmail" promptText="%email"/>
                     <JFXComboBox fx:id="cbxCategories" promptText="%categories"/>
-                    <JFXButton fx:id="btnSearch" text="%search" styleClass="default-button" buttonType="RAISED"/>
+                    <JFXButton fx:id="btnSearch" text="%search" styleClass="default-button" buttonType="RAISED"
+                               onAction="#search"/>
                     <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button" buttonType="RAISED"
                                onAction="#openCreateDialog"/>
                 </FlowPane>
@@ -72,6 +73,12 @@
                                 <PropertyValueFactory property="email"/>
                             </cellValueFactory>
                         </TableColumn>
+                        <TableColumn text="%edit" minWidth="300" prefWidth="400">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="%editButton"/>
+                            </cellValueFactory>
+                        </TableColumn>
+
                     </columns>
                 </TableView>
 

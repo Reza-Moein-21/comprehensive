@@ -3,6 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.PersonModel;
+import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.repository.PersonRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +30,11 @@ public class PersonService extends CallbackMessage<Person> {
 
     public ObservableList<PersonModel> getAllModel() {
         List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
+        return FXCollections.observableList(allModel);
+    }
+
+    public ObservableList<PersonModel> getAllModel(Editable onEdit) {
+        List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).peek(model -> model.setOnEdit(onEdit)).collect(Collectors.toList());
         return FXCollections.observableList(allModel);
     }
 

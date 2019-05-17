@@ -5,7 +5,10 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
+import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.service.PersonService;
+import javafx.beans.property.LongProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Controller
-public class HumanResourceController implements Initializable {
+public class HumanResourceController implements Initializable, Editable {
     public JFXDialog createDialog;
 
     public JFXTextField txfFirstNameC;
@@ -40,6 +43,8 @@ public class HumanResourceController implements Initializable {
     public void save() {
         personService.save(personC);
         createDialog.close();
+        personC = null;
+        tblPerson.setItems(personService.getAllModel());
     }
 
     public void openCreateDialog() {
@@ -51,11 +56,19 @@ public class HumanResourceController implements Initializable {
         // bind create dialog
         createDialog.setDialogContainer(startController.mainStack);
         // bind person model
-        txfFirstNameC.textProperty().bindBidirectional(personC.firstNameProperty());
+        personC.firstNameProperty().bind(txfFirstNameC.textProperty());
         txfLastNameC.textProperty().bindBidirectional(personC.lastNameProperty());
         txfPhoneNumberC.textProperty().bindBidirectional(personC.phoneNumberProperty());
         txfEmailC.textProperty().bindBidirectional(personC.emailProperty());
 
-        tblPerson.setItems(personService.getAllModel());
+        tblPerson.setItems(personService.getAllModel(this));
+    }
+
+    public void search(ActionEvent actionEvent) {
+    }
+
+
+    @Override
+    public void edit(LongProperty id) {
     }
 }

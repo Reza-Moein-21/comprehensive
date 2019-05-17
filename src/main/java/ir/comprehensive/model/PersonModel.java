@@ -1,27 +1,18 @@
 package ir.comprehensive.model;
 
-import javafx.beans.property.*;
+import ir.comprehensive.model.basemodel.BaseModel;
+import javafx.beans.property.SetProperty;
+import javafx.beans.property.SimpleSetProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableSet;
 
-public class PersonModel {
-    private LongProperty id = new SimpleLongProperty();
+public class PersonModel extends BaseModel {
     private StringProperty firstName = new SimpleStringProperty();
     private StringProperty lastName = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
     private SetProperty<CategoryModel> categories = new SimpleSetProperty<>();
-
-    public long getId() {
-        return id.get();
-    }
-
-    public void setId(long id) {
-        this.id.set(id);
-    }
-
-    public LongProperty idProperty() {
-        return id;
-    }
 
     public String getFirstName() {
         return firstName.get();

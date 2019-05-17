@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface PersonMapper extends BaseMapper<Person, PersonModel> {
 
+    @Mapping(target = "onEdit", ignore = true)
+    @Mapping(target = "btnEdit", ignore = true)
     @Mapping(target = "categories", source = "categories", ignore = true)
     @Override
     PersonModel entityToModel(Person entity);
