@@ -1,10 +1,13 @@
 package ir.comprehensive.model;
 
-import javafx.beans.property.*;
+import ir.comprehensive.model.basemodel.BaseModel;
+import javafx.beans.property.SetProperty;
+import javafx.beans.property.SimpleSetProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableSet;
 
-public class CategoryModel {
-    private LongProperty id = new SimpleLongProperty();
+public class CategoryModel extends BaseModel {
     private StringProperty title = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
     private StringProperty fax = new SimpleStringProperty();
@@ -12,18 +15,6 @@ public class CategoryModel {
     private StringProperty address = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
     private SetProperty<PersonModel> people = new SimpleSetProperty<>();
-
-    public long getId() {
-        return id.get();
-    }
-
-    public void setId(long id) {
-        this.id.set(id);
-    }
-
-    public LongProperty idProperty() {
-        return id;
-    }
 
     public String getTitle() {
         return title.get();

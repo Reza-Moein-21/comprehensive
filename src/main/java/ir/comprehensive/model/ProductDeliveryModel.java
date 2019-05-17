@@ -1,29 +1,20 @@
 package ir.comprehensive.model;
 
 import ir.comprehensive.domain.Person;
-import javafx.beans.property.*;
+import ir.comprehensive.model.basemodel.BaseModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.time.LocalDate;
 
-public class ProductDeliveryModel {
-    private LongProperty id = new SimpleLongProperty();
+public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<Person> person = new SimpleObjectProperty<>();
     private StringProperty productName = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> desiredDate = new SimpleObjectProperty<>();
-
-    public final Long getId() {
-        return id.get();
-    }
-
-    public final LongProperty idProperty() {
-        return id;
-    }
-
-    public final void setId(Long id) {
-        this.id.set(id);
-    }
 
     public final Person getPerson() {
         return person.get();
