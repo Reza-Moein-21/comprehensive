@@ -1,30 +1,34 @@
 package ir.comprehensive.model.basemodel;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 
 import static ir.comprehensive.utils.MessageUtils.getMessage;
 
 
 public abstract class BaseModel {
-    protected LongProperty id = new SimpleLongProperty();
+    protected ObjectProperty<Long> id = new SimpleObjectProperty<>();
     private Button btnEdit = new Button(getMessage("edit"));
     private Editable onEdit;
 
     {
-        btnEdit.setOnAction(event -> onEdit.edit(id));
+        btnEdit.setOnAction(event -> {
+            if (onEdit != null) {
+                onEdit.edit(id);
+            }
+        });
     }
 
-    public long getId() {
+    public Long getId() {
         return id.get();
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
-    public LongProperty idProperty() {
+    public ObjectProperty<Long> idProperty() {
         return id;
     }
 

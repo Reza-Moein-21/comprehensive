@@ -1,8 +1,8 @@
 package ir.comprehensive.model.basemodel;
 
-import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
 
 @FunctionalInterface
 public interface Editable {
-    void edit(LongProperty id);
+    void edit(ObjectProperty<Long> id);
 }

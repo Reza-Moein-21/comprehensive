@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.model.PersonModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,10 +10,16 @@
       fx:controller="ir.comprehensive.controller.HumanResourceController"
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
+    <fx:define>
+        <PersonModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
+                     phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}"/>
+        <PersonModel fx:id="searchModel" firstName="${txfFirstNameS.text}" lastName="${txfLastNameS.text}"
+                     phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}"/>
+    </fx:define>
     <JFXTabPane VBox.vgrow="ALWAYS">
         <Tab text="%humanResource" style="-fx-font-weight: bold;-fx-padding: 10 50">
             <VBox>
-                <JFXDialog fx:id="createDialog" overlayClose="false" transitionType="TOP"
+                <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                            style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
                     <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
                         <heading>
@@ -41,14 +48,16 @@
                     </JFXDialogLayout>
                 </JFXDialog>
                 <FlowPane style="-fx-hgap: 50; -fx-vgap: 50; ">
-                    <JFXTextField fx:id="txfFirstName" promptText="%firstName"/>
-                    <JFXTextField fx:id="txfLastName" promptText="%lastName"/>
-                    <JFXTextField fx:id="txfPhoneNumber" promptText="%phoneNumber"/>
-                    <JFXTextField fx:id="txfEmail" promptText="%email"/>
+                    <JFXTextField fx:id="txfFirstNameS" promptText="%firstName"/>
+                    <JFXTextField fx:id="txfLastNameS" promptText="%lastName"/>
+                    <JFXTextField fx:id="txfPhoneNumberS" promptText="%phoneNumber"/>
+                    <JFXTextField fx:id="txfEmailS" promptText="%email"/>
                     <JFXComboBox fx:id="cbxCategories" promptText="%categories"/>
-                    <JFXButton fx:id="btnSearch" text="%search" styleClass="default-button" buttonType="RAISED"
+                    <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
                                onAction="#search"/>
-                    <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button" buttonType="RAISED"
+                    <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
+                               onAction="#showAll"/>
+                    <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED"
                                onAction="#openCreateDialog"/>
                 </FlowPane>
                 <TableView fx:id="tblPerson" VBox.vgrow="ALWAYS">
