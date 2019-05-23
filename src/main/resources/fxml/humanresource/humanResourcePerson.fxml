@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.model.PersonModel?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx" style="-fx-padding: 10 0;-fx-spacing: 10"
+      fx:controller="ir.comprehensive.controller.humanresource.HumanResourcePersonController">
+    <fx:define>
+        <PersonModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
+                     phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}"/>
+        <PersonModel fx:id="searchModel" firstName="${txfFirstNameS.text}" lastName="${txfLastNameS.text}"
+                     phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}"/>
+    </fx:define>
+
+    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
+               style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
+        <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
+            <heading>
+                <HBox alignment="CENTER"
+                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
+                    <Label text="%createPerson"/>
+                </HBox>
+            </heading>
+            <body>
+                <VBox style="-fx-padding: 40 20;-fx-spacing: 50;">
+                    <JFXTextField fx:id="txfFirstNameC" promptText="%firstName"/>
+                    <JFXTextField fx:id="txfLastNameC" promptText="%lastName"/>
+                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber"/>
+                    <JFXTextField fx:id="txfEmailC" promptText="%email"/>
+                    <JFXComboBox fx:id="cbxCategoriesC" prefWidth="Infinity" promptText="%categories"/>
+                </VBox>
+            </body>
+            <actions>
+                <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+                    <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                               buttonType="RAISED"/>
+                    <JFXButton text="%save" onAction="#save" styleClass="primary-button"
+                               buttonType="RAISED"/>
+                </HBox>
+            </actions>
+        </JFXDialogLayout>
+    </JFXDialog>
+    <GridPane prefHeight="300" vgap="10" hgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="20"/>
+            <ColumnConstraints percentWidth="20"/>
+            <ColumnConstraints percentWidth="20"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="50"/>
+            <RowConstraints percentHeight="50"/>
+        </rowConstraints>
+        <JFXTextField fx:id="txfFirstNameS" labelFloat="true" promptText="%firstName" GridPane.columnIndex="0"
+                      GridPane.rowIndex="0"/>
+        <JFXTextField fx:id="txfLastNameS" labelFloat="true" promptText="%lastName" GridPane.columnIndex="1"
+                      GridPane.rowIndex="0"/>
+        <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.columnIndex="0"
+                      GridPane.rowIndex="1"/>
+        <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.columnIndex="1"
+                      GridPane.rowIndex="1"/>
+        <VBox GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="2" spacing="3"
+              style="-fx-border-width: 1;-fx-border-color: #424242">
+            <JFXTextField promptText="%search"/>
+            <ListView fx:id="yyy"/>
+        </VBox>
+    </GridPane>
+    <BorderPane>
+        <left>
+            <HBox>
+                <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
+                           onAction="#search"/>
+                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll"/>
+            </HBox>
+
+        </left>
+        <right>
+            <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED" prefWidth="400"
+                       onAction="#openCreateDialog"/>
+        </right>
+    </BorderPane>
+    <TableView fx:id="tblPerson" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%firstName" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="firstName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%lastName" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="lastName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%phoneNumber" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="phoneNumber"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%email" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="email"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%edit" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="%editButton"/>
+                </cellValueFactory>
+            </TableColumn>
+
+        </columns>
+    </TableView>
+
+</VBox>

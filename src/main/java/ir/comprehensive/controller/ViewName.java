@@ -6,7 +6,7 @@ public enum ViewName {
     START("fxml/start.fxml"),
     HOME("fxml/home.fxml"),
     STORE_ROOM("fxml/storeRoom.fxml"),
-    HUMAN_RESOURCE("fxml/humanResource.fxml"),
+    HUMAN_RESOURCE("fxml/humanresource/humanResource.fxml"),
 
     ;
     private String viewPath;

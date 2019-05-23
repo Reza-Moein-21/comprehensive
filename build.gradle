@@ -40,6 +40,16 @@ dependencies {
     compileOnly group: 'org.mapstruct', name: 'mapstruct', version: '1.3.0.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.0.Final'
     compile group: 'com.miglayout', name: 'miglayout-javafx', version: '5.2'
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.14'
+    compile 'org.kordamp.bootstrapfx:bootstrapfx-core:0.2.4'
+    // https://mvnrepository.com/artifact/eu.hansolo/tilesfx
+    compile group: 'eu.hansolo', name: 'tilesfx', version: '1.5.2'
+    // https://mvnrepository.com/artifact/np.com.ngopal/javafx-autocomplete-field
+    compile group: 'np.com.ngopal', name: 'javafx-autocomplete-field', version: '1.0.0'
+
+
+
 
 
 }

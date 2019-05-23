@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ir.comprehensive.controller.humanresource.HumanResourceController"
+      xmlns="http://javafx.com/javafx" nodeOrientation="RIGHT_TO_LEFT"
+      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+
+    <JFXTabPane VBox.vgrow="ALWAYS">
+        <Tab text="%humanResource" style="-fx-font-weight: bold;-fx-padding: 10 50">
+            <fx:include source="humanResourcePerson.fxml"/>
+        </Tab>
+        <Tab text="%categories" style="-fx-font-weight: bold;-fx-padding: 10 50">
+            <fx:include source="humanResourceCategory.fxml"/>
+        </Tab>
+
+    </JFXTabPane>
+
+</VBox>

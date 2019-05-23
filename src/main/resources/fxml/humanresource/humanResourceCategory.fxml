@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ir.comprehensive.controller.humanresource.HumanResourceCategoryController">
+
+    <FlowPane style="-fx-hgap: 50; -fx-vgap: 50">
+        <JFXTextField promptText="%title"/>
+        <JFXTextField promptText="%phoneNumber"/>
+        <JFXTextField promptText="%fax"/>
+        <JFXTextField promptText="%email"/>
+        <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"/>
+        <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED"/>
+    </FlowPane>
+    <TableView fx:id="tblCategory" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%title" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%phoneNumber" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="lastName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%fax" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="fax"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%email" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="email"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%address" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="address"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%description" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+
+</VBox>

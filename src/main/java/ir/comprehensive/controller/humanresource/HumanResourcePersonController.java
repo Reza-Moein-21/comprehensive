@@ -1,7 +1,8 @@
-package ir.comprehensive.controller;
+package ir.comprehensive.controller.humanresource;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.controller.StartController;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.service.PersonService;
@@ -9,6 +10,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import org.springframework.stereotype.Controller;
 
@@ -16,8 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Controller
-public class HumanResourceController implements Initializable, Editable {
-
+public class HumanResourcePersonController implements Initializable, Editable {
     @FXML
     public JFXDialog dlgCreate;
 
@@ -38,21 +39,27 @@ public class HumanResourceController implements Initializable, Editable {
     @FXML
     public PersonModel searchModel;
 
+    @FXML
+    public ListView yyy;
+
 
     private StartController startController;
     private PersonService personService;
 
-    public HumanResourceController(StartController startController, PersonService personService) {
+    public HumanResourcePersonController(StartController startController, PersonService personService) {
         this.startController = startController;
         this.personService = personService;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        yyy.getItems().addAll("Test", "Test2", "Test3");
+        System.out.println("*****");
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
 
         tblPerson.setItems(personService.getAllModel(this));
+
     }
 
     @FXML
