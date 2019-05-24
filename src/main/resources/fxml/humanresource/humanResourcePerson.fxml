@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.MultiSelectBox?>
 <?import ir.comprehensive.model.PersonModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
@@ -10,9 +11,11 @@
       fx:controller="ir.comprehensive.controller.humanresource.HumanResourcePersonController">
     <fx:define>
         <PersonModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
-                     phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}"/>
+                     phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}"
+                     categories="${slbCategoriesC.selectedItems}"/>
         <PersonModel fx:id="searchModel" firstName="${txfFirstNameS.text}" lastName="${txfLastNameS.text}"
-                     phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}"/>
+                     phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}"
+                     categories="${slbCategoriesS.selectedItems}"/>
     </fx:define>
 
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
@@ -30,7 +33,8 @@
                     <JFXTextField fx:id="txfLastNameC" promptText="%lastName"/>
                     <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber"/>
                     <JFXTextField fx:id="txfEmailC" promptText="%email"/>
-                    <JFXComboBox fx:id="cbxCategoriesC" prefWidth="Infinity" promptText="%categories"/>
+                    <MultiSelectBox fx:id="slbCategoriesC" prefHeight="450" styleClass="selectBox"
+                                    promptText="%categories"/>
                 </VBox>
             </body>
             <actions>
@@ -43,29 +47,23 @@
             </actions>
         </JFXDialogLayout>
     </JFXDialog>
-    <GridPane prefHeight="300" vgap="10" hgap="10">
+    <GridPane prefHeight="500" vgap="10" hgap="10">
         <columnConstraints>
-            <ColumnConstraints percentWidth="20"/>
-            <ColumnConstraints percentWidth="20"/>
-            <ColumnConstraints percentWidth="20"/>
+            <ColumnConstraints percentWidth="25"/>
+            <ColumnConstraints percentWidth="25"/>
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints percentHeight="50"/>
-            <RowConstraints percentHeight="50"/>
+            <RowConstraints percentHeight="25"/>
+            <RowConstraints percentHeight="25"/>
+            <RowConstraints percentHeight="25"/>
+            <RowConstraints percentHeight="25"/>
         </rowConstraints>
-        <JFXTextField fx:id="txfFirstNameS" labelFloat="true" promptText="%firstName" GridPane.columnIndex="0"
-                      GridPane.rowIndex="0"/>
-        <JFXTextField fx:id="txfLastNameS" labelFloat="true" promptText="%lastName" GridPane.columnIndex="1"
-                      GridPane.rowIndex="0"/>
-        <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.columnIndex="0"
-                      GridPane.rowIndex="1"/>
-        <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.columnIndex="1"
-                      GridPane.rowIndex="1"/>
-        <VBox GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="2" spacing="3"
-              style="-fx-border-width: 1;-fx-border-color: #424242">
-            <JFXTextField promptText="%search"/>
-            <ListView fx:id="yyy"/>
-        </VBox>
+        <JFXTextField fx:id="txfFirstNameS" labelFloat="true" promptText="%firstName"/>
+        <JFXTextField fx:id="txfLastNameS" labelFloat="true" promptText="%lastName" GridPane.rowIndex="1"/>
+        <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.rowIndex="2"/>
+        <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.rowIndex="3"/>
+        <MultiSelectBox fx:id="slbCategoriesS" promptText="%categories" GridPane.columnIndex="1" GridPane.rowSpan="4"
+                        styleClass="selectBox"/>
     </GridPane>
     <BorderPane>
         <left>

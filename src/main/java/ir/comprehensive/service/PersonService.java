@@ -1,7 +1,9 @@
 package ir.comprehensive.service;
 
+import ir.comprehensive.domain.Category;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.mapper.PersonMapper;
+import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.repository.PersonRepository;
@@ -12,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +80,10 @@ public class PersonService extends CallbackMessage<Person> {
             }
             if (searchExample.getEmail() != null && !searchExample.getEmail().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("email"), StringUtils.makeAnyMatch(searchExample.getEmail())));
+            }
+            if (searchExample.getCategories() != null && !searchExample.getCategories().isEmpty()) {
+                Join<Person, Category> categories = root.join("categories");
+                predicateList.add(categories.in(searchExample.getCategories().stream().map(CategoryModel::getId).collect(Collectors.toSet())));
             }
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));

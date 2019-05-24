@@ -1,11 +1,8 @@
 package ir.comprehensive.model;
 
 import ir.comprehensive.model.basemodel.BaseModel;
-import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableSet;
 
 public class CategoryModel extends BaseModel {
     private StringProperty title = new SimpleStringProperty();
@@ -14,7 +11,6 @@ public class CategoryModel extends BaseModel {
     private StringProperty email = new SimpleStringProperty();
     private StringProperty address = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
-    private SetProperty<PersonModel> people = new SimpleSetProperty<>();
 
     public String getTitle() {
         return title.get();
@@ -88,15 +84,4 @@ public class CategoryModel extends BaseModel {
         return description;
     }
 
-    public ObservableSet<PersonModel> getPeople() {
-        return people.get();
-    }
-
-    public void setPeople(ObservableSet<PersonModel> people) {
-        this.people.set(people);
-    }
-
-    public SetProperty<PersonModel> peopleProperty() {
-        return people;
-    }
 }

@@ -1,18 +1,20 @@
 package ir.comprehensive.model;
 
 import ir.comprehensive.model.basemodel.BaseModel;
-import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleSetProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonModel extends BaseModel {
     private StringProperty firstName = new SimpleStringProperty();
     private StringProperty lastName = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
-    private SetProperty<CategoryModel> categories = new SimpleSetProperty<>();
+    private ObjectProperty<List<CategoryModel>> categories = new SimpleObjectProperty<>(new ArrayList<>());
 
     public String getFirstName() {
         return firstName.get();
@@ -62,15 +64,15 @@ public class PersonModel extends BaseModel {
         return phoneNumber;
     }
 
-    public ObservableSet<CategoryModel> getCategories() {
+    public List<CategoryModel> getCategories() {
         return categories.get();
     }
 
-    public void setCategories(ObservableSet<CategoryModel> categories) {
+    public void setCategories(List<CategoryModel> categories) {
         this.categories.set(categories);
     }
 
-    public SetProperty<CategoryModel> categoriesProperty() {
+    public ObjectProperty<List<CategoryModel>> categoriesProperty() {
         return categories;
     }
 

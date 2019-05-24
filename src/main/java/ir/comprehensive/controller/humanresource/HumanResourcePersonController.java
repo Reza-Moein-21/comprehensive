@@ -1,16 +1,19 @@
 package ir.comprehensive.controller.humanresource;
 
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.component.MultiSelectBox;
 import ir.comprehensive.controller.StartController;
+import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.basemodel.Editable;
+import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import org.springframework.stereotype.Controller;
 
@@ -33,33 +36,50 @@ public class HumanResourcePersonController implements Initializable, Editable {
     public JFXTextField txfPhoneNumberS;
     @FXML
     public JFXTextField txfEmailS;
+    @FXML
+    public MultiSelectBox<CategoryModel> slbCategoriesS;
+
+    @FXML
+    public MultiSelectBox<CategoryModel> slbCategoriesC;
 
     @FXML
     public PersonModel createModel;
     @FXML
     public PersonModel searchModel;
 
-    @FXML
-    public ListView yyy;
-
 
     private StartController startController;
     private PersonService personService;
+    private CategoryService categoryService;
 
-    public HumanResourcePersonController(StartController startController, PersonService personService) {
+    public HumanResourcePersonController(StartController startController, PersonService personService, CategoryService categoryService) {
         this.startController = startController;
         this.personService = personService;
+        this.categoryService = categoryService;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        yyy.getItems().addAll("Test", "Test2", "Test3");
-        System.out.println("*****");
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
 
         tblPerson.setItems(personService.getAllModel(this));
 
+        initSelectBox(slbCategoriesS);
+
+        initSelectBox(slbCategoriesC);
+
+    }
+
+    private void initSelectBox(MultiSelectBox<CategoryModel> slbCategoriesS) {
+        slbCategoriesS.cellFactoryProperty().setValue(param -> getListCell());
+        slbCategoriesS.setOnChange((oldValue, newValue, suggestItems, selectedItems) -> {
+            if (newValue.isEmpty()) {
+                suggestItems.getValue().clear();
+            } else {
+                suggestItems.setValue(categoryService.findByTitle(newValue));
+            }
+        });
     }
 
     @FXML
@@ -88,7 +108,6 @@ public class HumanResourcePersonController implements Initializable, Editable {
 
 
     public void save() {
-        System.out.println("SAVE:" + createModel);
         personService.save(createModel);
         dlgCreate.close();
         tblPerson.setItems(personService.getAllModel(this));
@@ -96,8 +115,21 @@ public class HumanResourcePersonController implements Initializable, Editable {
 
     @Override
     public void edit(ObjectProperty<Long> id) {
-        PersonModel loadedModel = personService.loadModel(id.get(), this);
         dlgCreate.show();
-        System.out.println("EDIT:" + createModel);
+    }
+
+    private JFXListCell<CategoryModel> getListCell() {
+        return new JFXListCell<CategoryModel>() {
+            @Override
+            protected void updateItem(CategoryModel model, boolean empty) {
+                super.updateItem(model, empty);
+
+                if (empty || model == null || model.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(model.getTitle());
+                }
+            }
+        };
     }
 }
