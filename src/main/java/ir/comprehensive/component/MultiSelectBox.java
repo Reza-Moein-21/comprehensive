@@ -2,6 +2,7 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.model.basemodel.BaseModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
 
-public class MultiSelectBox<T> extends GridPane {
+public class MultiSelectBox<T extends BaseModel> extends GridPane {
     private StringProperty promptText = new SimpleStringProperty();
     private SelectBoxEvent<T> onChange;
 
@@ -26,7 +27,7 @@ public class MultiSelectBox<T> extends GridPane {
 
     public MultiSelectBox() {
         setSelectedItems(FXCollections.observableArrayList());
-        setSuggestItems(FXCollections.observableArrayList());
+        suggestItems.setValue(FXCollections.observableArrayList());
 
         renderView();
     }
@@ -44,12 +45,30 @@ public class MultiSelectBox<T> extends GridPane {
 
     private void addListView() {
         JFXListView<T> lstSuggestList = new JFXListView<>();
-        lstSuggestList.itemsProperty().bind(suggestItemsProperty());
-        lstSuggestList.cellFactoryProperty().bind(cellFactoryProperty());
-
         JFXListView<T> lstSelectedList = new JFXListView<>();
+
+
+        lstSuggestList.itemsProperty().bind(suggestItems);
+        lstSuggestList.cellFactoryProperty().bind(cellFactoryProperty());
+        lstSuggestList.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                T selectedItem = lstSuggestList.getSelectionModel().getSelectedItem();
+                if (selectedItem != null && !selectedItemsProperty().getValue().stream().anyMatch(selectedItem)) {
+
+                    lstSelectedList.getItems().add(selectedItem);
+                }
+            }
+        });
         lstSelectedList.itemsProperty().bind(selectedItemsProperty());
         lstSelectedList.cellFactoryProperty().bind(cellFactoryProperty());
+        lstSelectedList.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                T selectedItem = lstSelectedList.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+                    lstSelectedList.getItems().remove(selectedItem);
+                }
+            }
+        });
 
         add(lstSuggestList, 0, 1);
         add(lstSelectedList, 1, 1);
@@ -64,12 +83,18 @@ public class MultiSelectBox<T> extends GridPane {
 
         txfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             if (getOnChange() != null) {
-                getOnChange().onChange(oldValue, newValue, suggestItemsProperty(), selectedItemsProperty());
+                getOnChange().onChange(oldValue, newValue, suggestItems);
             }
         });
         txfSearch.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER) && !suggestItemsProperty().getValue().isEmpty()) {
-                selectedItemsProperty().getValue().add(suggestItemsProperty().getValue().get(0));
+            if (event.getCode().equals(KeyCode.ENTER) && !suggestItems.getValue().isEmpty()) {
+                T item = suggestItems.getValue().get(0);
+
+                if (!selectedItemsProperty().getValue().stream().anyMatch(item)) {
+                    selectedItemsProperty().getValue().add(item);
+                }
+
+
             }
         });
 
@@ -114,18 +139,6 @@ public class MultiSelectBox<T> extends GridPane {
 
     public void setOnChange(SelectBoxEvent<T> onChange) {
         this.onChange = onChange;
-    }
-
-    public ObservableList getSuggestItems() {
-        return suggestItems.get();
-    }
-
-    public void setSuggestItems(ObservableList suggestItems) {
-        this.suggestItems.set(suggestItems);
-    }
-
-    public ObjectProperty<ObservableList<T>> suggestItemsProperty() {
-        return suggestItems;
     }
 
     public ObservableList getSelectedItems() {

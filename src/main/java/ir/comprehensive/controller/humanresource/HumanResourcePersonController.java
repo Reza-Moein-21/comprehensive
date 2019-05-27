@@ -73,7 +73,7 @@ public class HumanResourcePersonController implements Initializable, Editable {
 
     private void initSelectBox(MultiSelectBox<CategoryModel> slbCategoriesS) {
         slbCategoriesS.cellFactoryProperty().setValue(param -> getListCell());
-        slbCategoriesS.setOnChange((oldValue, newValue, suggestItems, selectedItems) -> {
+        slbCategoriesS.setOnChange((oldValue, newValue, suggestItems) -> {
             if (newValue.isEmpty()) {
                 suggestItems.getValue().clear();
             } else {

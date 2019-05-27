@@ -4,5 +4,5 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 
 public interface SelectBoxEvent<T> {
-    void onChange(String oldValue, String newValue, ObjectProperty<ObservableList<T>> suggestItems, ObjectProperty<ObservableList<T>> selectedItems);
+    void onChange(String oldValue, String newValue, ObjectProperty<ObservableList<T>> suggestItems);
 }
