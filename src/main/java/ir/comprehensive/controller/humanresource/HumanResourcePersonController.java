@@ -4,29 +4,27 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.MultiSelectBox;
+import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
-import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
-import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 @Controller
-public class HumanResourcePersonController implements Initializable, Editable {
+public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXDialog dlgCreate;
 
     @FXML
-    public TableView<PersonModel> tblPerson;
+    public DataTable<PersonModel> tblPerson;
 
     @FXML
     public JFXTextField txfFirstNameS;
@@ -63,8 +61,13 @@ public class HumanResourcePersonController implements Initializable, Editable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
 
-        tblPerson.setItems(personService.getAllModel(this));
-
+        tblPerson.setItems(personService.getAllModel());
+        tblPerson.setOnEdit(selectedItem -> {
+            System.out.println("Edit: " + selectedItem);
+        });
+        tblPerson.setOnDelete(selectedItem -> {
+            System.out.println("Delete: " + selectedItem);
+        });
         initSelectBox(slbCategoriesS);
 
         initSelectBox(slbCategoriesC);
@@ -88,12 +91,12 @@ public class HumanResourcePersonController implements Initializable, Editable {
         txfLastNameS.setText(null);
         txfPhoneNumberS.setText(null);
         txfEmailS.setText(null);
-        tblPerson.setItems(personService.getAllModel(this));
+        tblPerson.setItems(personService.getAllModel());
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblPerson.setItems(personService.search(searchModel, this));
+        tblPerson.setItems(personService.search(searchModel));
     }
 
     @FXML
@@ -110,12 +113,7 @@ public class HumanResourcePersonController implements Initializable, Editable {
     public void save() {
         personService.save(createModel);
         dlgCreate.close();
-        tblPerson.setItems(personService.getAllModel(this));
-    }
-
-    @Override
-    public void edit(ObjectProperty<Long> id) {
-        dlgCreate.show();
+        tblPerson.setItems(personService.getAllModel());
     }
 
     private JFXListCell<CategoryModel> getListCell() {
@@ -132,4 +130,6 @@ public class HumanResourcePersonController implements Initializable, Editable {
             }
         };
     }
+
+
 }

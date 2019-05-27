@@ -75,6 +75,30 @@
     -fx-background-image: url('/image/settings.png');
 }
 
+.table-row-button {
+    -fx-cursor: hand;
+    -jfx-disable-visual-focus: true;
+    -jfx-button-type: RAISED;
+    -fx-pref-width: 48;
+    -fx-pref-height: 48;
+    -fx-background-radius: 3;
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.table-row .jfx-rippler {
+    -jfx-rippler-fill: #757575;
+}
+
+.delete-table-row-button {
+    -fx-background-image: url('/image/delete-table-row.png');
+}
+
+.edit-table-row-button {
+    -fx-background-image: url('/image/edit-table-row.png');
+}
+
 /*
 * *************************************
 * Card

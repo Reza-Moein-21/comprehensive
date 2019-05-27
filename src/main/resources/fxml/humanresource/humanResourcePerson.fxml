@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.MultiSelectBox?>
 <?import ir.comprehensive.model.PersonModel?>
-<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
@@ -80,7 +81,7 @@
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>
-    <TableView fx:id="tblPerson" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblPerson" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn text="%firstName" minWidth="200" prefWidth="400">
                 <cellValueFactory>
@@ -102,13 +103,7 @@
                     <PropertyValueFactory property="email"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="%edit" minWidth="300" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="%editButton"/>
-                </cellValueFactory>
-            </TableColumn>
-
         </columns>
-    </TableView>
+    </DataTable>
 
 </VBox>

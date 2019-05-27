@@ -65,6 +65,7 @@ public class MessageUtils {
         public static final String SHOW_ALL = getMessage("showAll");
         public static final String SELECTED = getMessage("selected");
         public static final String SUGGESTS = getMessage("suggests");
+        public static final String DELETE = getMessage("delete");
 
         private Message() {
         }

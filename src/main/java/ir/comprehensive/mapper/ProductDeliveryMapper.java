@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, ProductDeliveryModel> {
 
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "onEdit", ignore = true)
-    @Mapping(target = "btnEdit", ignore = true)
     @Override
     ProductDeliveryModel entityToModel(ProductDelivery entity);
 

@@ -5,7 +5,6 @@ import ir.comprehensive.domain.Person;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
-import ir.comprehensive.model.basemodel.Editable;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
@@ -18,7 +17,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ir.comprehensive.utils.MessageUtils.getMessage;
@@ -36,23 +34,15 @@ public class PersonService extends CallbackMessage<Person> {
         this.mapper = mapper;
     }
 
-    public PersonModel loadModel(Long id, Editable onEdit) {
-        Optional<Person> personOptional = repository.findById(id);
-        return personOptional.map(person -> {
-            PersonModel model = mapper.entityToModel(person);
-            model.setOnEdit(onEdit);
-            return model;
-        }).orElse(null);
+    public PersonModel loadModel(Long id) {
+        return repository.findById(id).map(mapper::entityToModel).orElse(null);
     }
+
     public ObservableList<PersonModel> getAllModel() {
         List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(allModel);
     }
 
-    public ObservableList<PersonModel> getAllModel(Editable onEdit) {
-        List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).peek(model -> model.setOnEdit(onEdit)).collect(Collectors.toList());
-        return FXCollections.observableList(allModel);
-    }
 
     public ObservableList<Person> getAll() {
         List<Person> allPerson = repository.findAll();
@@ -65,7 +55,7 @@ public class PersonService extends CallbackMessage<Person> {
         return this;
     }
 
-    public ObservableList<PersonModel> search(PersonModel searchExample, Editable onEdit) {
+    public ObservableList<PersonModel> search(PersonModel searchExample) {
 
         Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
@@ -88,7 +78,7 @@ public class PersonService extends CallbackMessage<Person> {
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).peek(model -> model.setOnEdit(onEdit)).collect(Collectors.toList());
+        List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(allModel);
     }
 }

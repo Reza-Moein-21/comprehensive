@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper extends BaseMapper<Category, CategoryModel> {
 
-    @Mapping(target = "onEdit", ignore = true)
-    @Mapping(target = "btnEdit", ignore = true)
     @Override
     CategoryModel entityToModel(Category entity);
 
