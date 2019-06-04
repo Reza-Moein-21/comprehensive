@@ -18,13 +18,13 @@ public class DataTable<T> extends TableView<T> {
     public DataTable() {
 
         TableColumn<T, T> editColumn = new TableColumn<>(MessageUtils.Message.EDIT);
-        editColumn.setPrefWidth(100);
+        editColumn.setPrefWidth(120);
         editColumn.setResizable(false);
         editColumn.setCellFactory(param -> new EditableTableCell<>(getOnEdit()));
         editColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 
         TableColumn<T, T> deleteColumn = new TableColumn<>(MessageUtils.Message.DELETE);
-        deleteColumn.setPrefWidth(100);
+        deleteColumn.setPrefWidth(120);
         deleteColumn.setResizable(false);
         deleteColumn.setCellFactory(param -> new DeletableTableCell<>(getOnDelete()));
         deleteColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));

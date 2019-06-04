@@ -6,6 +6,7 @@ import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.repository.PersonRepository;
+import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +19,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static ir.comprehensive.utils.MessageUtils.getMessage;
 
 
 @Service
@@ -49,12 +48,6 @@ public class PersonService extends CallbackMessage<Person> {
         return FXCollections.observableList(allPerson);
     }
 
-    public CallbackMessage save(PersonModel model) {
-        setCallbackResult(repository.save(mapper.modelToEntity(model)));
-        setCallbackMessage(getMessage("person") + " " + getMessage("successSave"));
-        return this;
-    }
-
     public ObservableList<PersonModel> search(PersonModel searchExample) {
 
         Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
@@ -80,5 +73,46 @@ public class PersonService extends CallbackMessage<Person> {
         };
         List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(allModel);
+    }
+
+    public CallbackMessage<Person> saveOrUpdate(PersonModel model) {
+        Person person = mapper.modelToEntity(model);
+        if (person == null) {
+            setCallbackResult(null);
+            setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
+            return this;
+        }
+
+        if (null == person.getId()) {
+            setCallbackResult(repository.save(person));
+            setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE);
+            return this;
+        } else {
+            Person loadedPerson = repository.findById(person.getId()).orElse(null);
+            if (loadedPerson == null) {
+                setCallbackResult(null);
+                setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
+                return this;
+            }
+            loadedPerson.setId(person.getId());
+            loadedPerson.setFirstName(person.getFirstName());
+            loadedPerson.setLastName(person.getLastName());
+            loadedPerson.setEmail(person.getEmail());
+            loadedPerson.setPhoneNumber(person.getPhoneNumber());
+            loadedPerson.setCategories(person.getCategories());
+
+            setCallbackResult(repository.save(loadedPerson));
+            setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_UPDATE);
+            return this;
+        }
+
+    }
+
+    public CallbackMessage<Person> delete(Long id) {
+        repository.deleteById(id);
+        setCallbackResult(null);
+        setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE);
+        return this;
+
     }
 }

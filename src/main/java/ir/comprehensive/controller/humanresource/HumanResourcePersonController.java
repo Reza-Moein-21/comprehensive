@@ -4,12 +4,15 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.MultiSelectBox;
+import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +25,8 @@ import java.util.ResourceBundle;
 public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXDialog dlgCreate;
+    @FXML
+    public YesNoDialog dlgDelete;
 
     @FXML
     public DataTable<PersonModel> tblPerson;
@@ -44,6 +49,14 @@ public class HumanResourcePersonController implements Initializable {
     public PersonModel createModel;
     @FXML
     public PersonModel searchModel;
+    @FXML
+    public JFXTextField txfFirstNameC;
+    @FXML
+    public JFXTextField txfLastNameC;
+    @FXML
+    public JFXTextField txfPhoneNumberC;
+    @FXML
+    public JFXTextField txfEmailC;
 
 
     private StartController startController;
@@ -60,13 +73,27 @@ public class HumanResourcePersonController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
+        dlgDelete.setDialogContainer(startController.mainStack);
 
-        tblPerson.setItems(personService.getAllModel());
+        refreshTable(personService.getAllModel());
         tblPerson.setOnEdit(selectedItem -> {
-            System.out.println("Edit: " + selectedItem);
+            createModel.setId(selectedItem.getId());
+            txfFirstNameC.setText(selectedItem.getFirstName());
+            txfLastNameC.setText(selectedItem.getLastName());
+            txfEmailC.setText(selectedItem.getEmail());
+            txfPhoneNumberC.setText(selectedItem.getPhoneNumber());
+            slbCategoriesC.setSelectedItems((FXCollections.observableArrayList(selectedItem.getCategories())));
+            dlgCreate.show();
+
         });
+
         tblPerson.setOnDelete(selectedItem -> {
-            System.out.println("Delete: " + selectedItem);
+            dlgDelete.show();
+            dlgDelete.setOnConfirm(() -> {
+                personService.delete(selectedItem.getId());
+                dlgDelete.close();
+                refreshTable(personService.getAllModel());
+            });
         });
         initSelectBox(slbCategoriesS);
 
@@ -91,16 +118,26 @@ public class HumanResourcePersonController implements Initializable {
         txfLastNameS.setText(null);
         txfPhoneNumberS.setText(null);
         txfEmailS.setText(null);
-        tblPerson.setItems(personService.getAllModel());
+        refreshTable(personService.getAllModel());
+    }
+
+    private void refreshTable(ObservableList<PersonModel> allModel) {
+        tblPerson.setItems(allModel);
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblPerson.setItems(personService.search(searchModel));
+        refreshTable(personService.search(searchModel));
     }
 
     @FXML
     public void openCreateDialog() {
+        createModel.setId(null);
+        txfFirstNameC.setText(null);
+        txfLastNameC.setText(null);
+        txfEmailC.setText(null);
+        txfPhoneNumberC.setText(null);
+        slbCategoriesC.setSelectedItems((FXCollections.observableArrayList()));
         dlgCreate.show();
     }
 
@@ -111,9 +148,10 @@ public class HumanResourcePersonController implements Initializable {
 
 
     public void save() {
-        personService.save(createModel);
+
+        personService.saveOrUpdate(createModel);
         dlgCreate.close();
-        tblPerson.setItems(personService.getAllModel());
+        refreshTable(personService.getAllModel());
     }
 
     private JFXListCell<CategoryModel> getListCell() {

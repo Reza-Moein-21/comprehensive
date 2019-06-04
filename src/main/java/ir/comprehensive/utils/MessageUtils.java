@@ -49,6 +49,8 @@ public class MessageUtils {
         public static final String CREATE_PERSON = getMessage("createPerson");
         public static final String CANCEL = getMessage("cancel");
         public static final String SUCCESS_SAVE = getMessage("successSave");
+        public static final String SUCCESS_UPDATE = getMessage("successUpdate");
+        public static final String SUCCESS_DELETE = getMessage("successDelete");
         public static final String HUMAN_RESOURCE = getMessage("humanResource");
         public static final String CATEGORIES = getMessage("categories");
         public static final String CATEGORY = getMessage("category");
@@ -66,6 +68,10 @@ public class MessageUtils {
         public static final String SELECTED = getMessage("selected");
         public static final String SUGGESTS = getMessage("suggests");
         public static final String DELETE = getMessage("delete");
+        public static final String ERROR_IN_SAVE = getMessage("errorInSave");
+        public static final String YES = getMessage("yes");
+        public static final String NO = getMessage("no");
+        public static final String CONFIRM_DELETE = getMessage("confirmDelete");
 
         private Message() {
         }

@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.MultiSelectBox?>
+<?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.model.PersonModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
@@ -19,12 +20,11 @@
                      categories="${slbCategoriesS.selectedItems}"/>
     </fx:define>
 
-    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
-               style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
+    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
             <heading>
                 <HBox alignment="CENTER"
-                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
+                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;-fx-font-size: 18">
                     <Label text="%createPerson"/>
                 </HBox>
             </heading>
@@ -48,32 +48,39 @@
             </actions>
         </JFXDialogLayout>
     </JFXDialog>
-    <GridPane prefHeight="500" vgap="10" hgap="10">
-        <columnConstraints>
-            <ColumnConstraints percentWidth="25"/>
-            <ColumnConstraints percentWidth="25"/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints percentHeight="25"/>
-            <RowConstraints percentHeight="25"/>
-            <RowConstraints percentHeight="25"/>
-            <RowConstraints percentHeight="25"/>
-        </rowConstraints>
-        <JFXTextField fx:id="txfFirstNameS" labelFloat="true" promptText="%firstName"/>
-        <JFXTextField fx:id="txfLastNameS" labelFloat="true" promptText="%lastName" GridPane.rowIndex="1"/>
-        <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.rowIndex="2"/>
-        <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.rowIndex="3"/>
-        <MultiSelectBox fx:id="slbCategoriesS" promptText="%categories" GridPane.columnIndex="1" GridPane.rowSpan="4"
-                        styleClass="selectBox"/>
-    </GridPane>
-    <BorderPane>
-        <left>
-            <HBox>
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+    <TitledPane text="%search">
+        <GridPane prefHeight="700" vgap="10" hgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+            </rowConstraints>
+            <JFXTextField fx:id="txfFirstNameS" labelFloat="true" promptText="%firstName"/>
+            <JFXTextField fx:id="txfLastNameS" labelFloat="true" promptText="%lastName" GridPane.rowIndex="1"/>
+            <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.rowIndex="2"/>
+            <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.rowIndex="3"/>
+            <MultiSelectBox fx:id="slbCategoriesS" promptText="%categories" GridPane.columnIndex="1"
+                            GridPane.rowSpan="4"
+                            styleClass="selectBox"/>
+            <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="4">
                 <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
                            onAction="#search"/>
                 <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
                            onAction="#showAll"/>
             </HBox>
+        </GridPane>
+
+
+    </TitledPane>
+    <BorderPane>
+        <left>
 
         </left>
         <right>
