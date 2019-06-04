@@ -72,6 +72,8 @@ public class MessageUtils {
         public static final String YES = getMessage("yes");
         public static final String NO = getMessage("no");
         public static final String CONFIRM_DELETE = getMessage("confirmDelete");
+        public static final String WRONG_EMAIL_FORMAT = getMessage("wrongEmailFormat");
+        public static final String WRONG_PHONE_NUMBER_FORMAT = getMessage("wrongPhoneNumberFormat");
 
         private Message() {
         }

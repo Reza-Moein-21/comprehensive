@@ -89,10 +89,10 @@ public class StoreRoomController implements Initializable {
         createModel.descriptionProperty().bind(txfDescription.textProperty());
 
         // init input fields
-        cbxPerson.getValidators().add(FormValidationUtils.getRequiredFieldValidator(getMessage("fullName"), null));
+        cbxPerson.getValidators().add(FormValidationUtils.getRequiredFieldValidator(getMessage("fullName")));
         cbxPerson.valueProperty().addListener((observable, oldValue, newValue) -> cbxPerson.validate());
         txfProductName.textProperty().addListener((observable, oldValue, newValue) -> txfProductName.validate());
-        txfProductName.getValidators().add(FormValidationUtils.getRequiredFieldValidator(getMessage("productName"), null));
+        txfProductName.getValidators().add(FormValidationUtils.getRequiredFieldValidator(getMessage("productName")));
 
         fillDataTable();
     }

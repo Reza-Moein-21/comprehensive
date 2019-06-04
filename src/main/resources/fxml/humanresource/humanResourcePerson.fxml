@@ -29,11 +29,11 @@
                 </HBox>
             </heading>
             <body>
-                <VBox style="-fx-padding: 40 20;-fx-spacing: 50;">
-                    <JFXTextField fx:id="txfFirstNameC" promptText="%firstName"/>
-                    <JFXTextField fx:id="txfLastNameC" promptText="%lastName"/>
-                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber"/>
-                    <JFXTextField fx:id="txfEmailC" promptText="%email"/>
+                <VBox style="-fx-padding: 40 20;-fx-spacing: 100;">
+                    <JFXTextField fx:id="txfFirstNameC" promptText="%firstName" labelFloat="true"/>
+                    <JFXTextField fx:id="txfLastNameC" promptText="%lastName" labelFloat="true"/>
+                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"/>
+                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true"/>
                     <MultiSelectBox fx:id="slbCategoriesC" prefHeight="450" styleClass="selectBox"
                                     promptText="%categories"/>
                 </VBox>

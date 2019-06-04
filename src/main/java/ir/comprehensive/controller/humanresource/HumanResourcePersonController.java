@@ -11,6 +11,8 @@ import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
+import ir.comprehensive.utils.FormValidationUtils;
+import ir.comprehensive.utils.MessageUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -99,6 +101,33 @@ public class HumanResourcePersonController implements Initializable {
 
         initSelectBox(slbCategoriesC);
 
+
+        txfFirstNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                txfFirstNameC.validate();
+            }
+        });
+        txfLastNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                txfLastNameC.validate();
+            }
+        });
+        txfEmailC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                txfEmailC.validate();
+            }
+        });
+
+        txfPhoneNumberC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                txfPhoneNumberC.validate();
+            }
+        });
+
+        txfFirstNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.FIRST_NAME));
+        txfLastNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.LAST_NAME));
+        txfEmailC.getValidators().add(FormValidationUtils.getEmailFieldValidator());
+        txfPhoneNumberC.getValidators().add(FormValidationUtils.getPhoneNumberValidator());
     }
 
     private void initSelectBox(MultiSelectBox<CategoryModel> slbCategoriesS) {
@@ -146,12 +175,21 @@ public class HumanResourcePersonController implements Initializable {
         dlgCreate.close();
     }
 
+    private boolean validateBeforeSave() {
+        boolean firstNameValidate = txfFirstNameC.validate();
+        boolean lastNameValidate = txfLastNameC.validate();
+        boolean emailValidate = txfEmailC.validate();
+        boolean phoneNumberValidate = txfPhoneNumberC.validate();
 
+        return firstNameValidate && lastNameValidate && emailValidate && phoneNumberValidate;
+    }
     public void save() {
+        if (validateBeforeSave()) {
+            personService.saveOrUpdate(createModel);
+            dlgCreate.close();
+            refreshTable(personService.getAllModel());
 
-        personService.saveOrUpdate(createModel);
-        dlgCreate.close();
-        refreshTable(personService.getAllModel());
+        }
     }
 
     private JFXListCell<CategoryModel> getListCell() {
