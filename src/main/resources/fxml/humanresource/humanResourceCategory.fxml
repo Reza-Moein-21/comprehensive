@@ -1,23 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.YesNoDialog?>
+<?import ir.comprehensive.model.CategoryModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx"
+      xmlns="http://javafx.com/javafx" style="-fx-padding: 10 0;-fx-spacing: 10"
       fx:controller="ir.comprehensive.controller.humanresource.HumanResourceCategoryController">
+    <fx:define>
+        <CategoryModel fx:id="createModel" title="${txfTitleC.text}" phoneNumber="${txfPhoneNumberC.text}"
+                       fax="${txfFaxC.text}" email="${txfEmailC.text}" address="${txfAddressC.text}"
+                       description="${txfDescriptionC.text}"/>
 
-    <FlowPane style="-fx-hgap: 50; -fx-vgap: 50">
-        <JFXTextField promptText="%title"/>
-        <JFXTextField promptText="%phoneNumber"/>
-        <JFXTextField promptText="%fax"/>
-        <JFXTextField promptText="%email"/>
-        <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"/>
-        <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED"/>
-    </FlowPane>
-    <TableView fx:id="tblCategory" VBox.vgrow="ALWAYS">
+        <CategoryModel fx:id="searchModel" title="${txfTitleS.text}" phoneNumber="${txfPhoneNumberS.text}"
+                       fax="${txfFaxS.text}" email="${txfEmailS.text}" address="${txfAddressS.text}"
+                       description="${txfDescriptionS.text}"/>
+
+    </fx:define>
+    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
+        <JFXDialogLayout style="-fx-min-width: 1200;-fx-min-height: 700;-fx-padding: 10 5;">
+            <heading>
+                <HBox alignment="CENTER"
+                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;-fx-font-size: 18">
+                    <Label text="%createCategory"/>
+                </HBox>
+            </heading>
+            <body>
+                <VBox style="-fx-padding: 40 20;-fx-spacing: 100;">
+                    <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
+                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"/>
+                    <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true"/>
+                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true"/>
+                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true"/>
+                    <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
+                </VBox>
+            </body>
+            <actions>
+                <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+                    <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                               buttonType="RAISED"/>
+                    <JFXButton text="%save" onAction="#save" styleClass="primary-button"
+                               buttonType="RAISED"/>
+                </HBox>
+            </actions>
+        </JFXDialogLayout>
+    </JFXDialog>
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+    <TitledPane text="%search">
+        <GridPane prefHeight="700" vgap="10" hgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="35"/>
+                <ColumnConstraints percentWidth="35"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+            </rowConstraints>
+            <JFXTextField fx:id="txfTitleS" labelFloat="true" promptText="%title"/>
+            <JFXTextField fx:id="txfPhoneNumberS" labelFloat="true" promptText="%phoneNumber" GridPane.columnIndex="1"/>
+            <JFXTextField fx:id="txfFaxS" labelFloat="true" promptText="%fax" GridPane.rowIndex="1"/>
+            <JFXTextField fx:id="txfEmailS" labelFloat="true" promptText="%email" GridPane.columnIndex="1"
+                          GridPane.rowIndex="1"/>
+            <JFXTextField fx:id="txfAddressS" labelFloat="true" promptText="%address" GridPane.rowIndex="2"/>
+            <JFXTextField fx:id="txfDescriptionS" labelFloat="true" promptText="%description" GridPane.columnIndex="1"
+                          GridPane.rowIndex="2"/>
+
+            <HBox spacing="10" GridPane.rowIndex="3">
+                <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
+                           onAction="#search"/>
+                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll"/>
+            </HBox>
+        </GridPane>
+
+
+    </TitledPane>
+    <BorderPane>
+        <right>
+            <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED" prefWidth="400"
+                       onAction="#openCreateDialog"/>
+        </right>
+    </BorderPane>
+    <DataTable fx:id="tblCategory" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn text="%title" minWidth="200" prefWidth="400">
                 <cellValueFactory>
@@ -26,7 +95,7 @@
             </TableColumn>
             <TableColumn text="%phoneNumber" minWidth="200" prefWidth="400">
                 <cellValueFactory>
-                    <PropertyValueFactory property="lastName"/>
+                    <PropertyValueFactory property="phoneNumber"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="%fax" minWidth="300" prefWidth="400">
@@ -50,6 +119,6 @@
                 </cellValueFactory>
             </TableColumn>
         </columns>
-    </TableView>
+    </DataTable>
 
 </VBox>

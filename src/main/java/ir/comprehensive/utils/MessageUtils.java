@@ -47,6 +47,7 @@ public class MessageUtils {
         public static final String REQUIRED = getMessage("required");
         public static final String CREATE_PRODUCT = getMessage("createProduct");
         public static final String CREATE_PERSON = getMessage("createPerson");
+        public static final String CREATE_CATEGORY = getMessage("createCategory");
         public static final String CANCEL = getMessage("cancel");
         public static final String SUCCESS_SAVE = getMessage("successSave");
         public static final String SUCCESS_UPDATE = getMessage("successUpdate");
