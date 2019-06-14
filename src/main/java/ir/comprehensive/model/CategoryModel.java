@@ -84,4 +84,15 @@ public class CategoryModel extends BaseModel {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "CategoryModel{" +
+                "title=" + title +
+                ", phoneNumber=" + phoneNumber +
+                ", fax=" + fax +
+                ", email=" + email +
+                ", address=" + address +
+                ", description=" + description +
+                '}';
+    }
 }

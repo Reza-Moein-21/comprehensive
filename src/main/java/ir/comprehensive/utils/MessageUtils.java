@@ -77,6 +77,8 @@ public class MessageUtils {
         public static final String WRONG_EMAIL_FORMAT = getMessage("wrongEmailFormat");
         public static final String WRONG_PHONE_NUMBER_FORMAT = getMessage("wrongPhoneNumberFormat");
         public static final String FAIL_OPERATION = getMessage("failOperation");
+        public static final String PEOPLE = getMessage("people");
+        public static final String NOT_FOUND = getMessage("notFound");
 
         private Message() {
         }

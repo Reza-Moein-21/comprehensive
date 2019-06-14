@@ -77,6 +77,11 @@ public class PersonModel extends BaseModel {
     }
 
     @Override
+    public String getTitle() {
+        return getFirstName() + " " + getLastName();
+    }
+
+    @Override
     public String toString() {
         return "PersonModel{" +
                 "id=" + id +

@@ -2,12 +2,15 @@ package ir.comprehensive.model.basemodel;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.function.Predicate;
 
 
 public abstract class BaseModel implements Comparable<BaseModel>, Predicate<BaseModel> {
     protected ObjectProperty<Long> id = new SimpleObjectProperty<>();
+    protected StringProperty title = new SimpleStringProperty();
 
     public Long getId() {
         return id.get();
@@ -19,6 +22,18 @@ public abstract class BaseModel implements Comparable<BaseModel>, Predicate<Base
 
     public ObjectProperty<Long> idProperty() {
         return id;
+    }
+
+    public String getTitle() {
+        return title.get();
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
+    public StringProperty titleProperty() {
+        return title;
     }
 
     @Override

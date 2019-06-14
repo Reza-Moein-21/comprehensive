@@ -49,7 +49,16 @@
     -fx-text-fill: WHITE;
 }
 
+.content-style {
+    -fx-cursor: hand;
+    -fx-padding: 10 2;
 
+}
+
+.content-style:hover {
+    -fx-background-color: #bdbdbd;
+
+}
 
 .header-bar {
     -fx-border-color: #9E9E9E;
