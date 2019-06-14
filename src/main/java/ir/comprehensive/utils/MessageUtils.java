@@ -49,6 +49,7 @@ public class MessageUtils {
         public static final String CREATE_PERSON = getMessage("createPerson");
         public static final String CREATE_CATEGORY = getMessage("createCategory");
         public static final String CANCEL = getMessage("cancel");
+        public static final String SUCCESS_LOAD = getMessage("successLoad");
         public static final String SUCCESS_SAVE = getMessage("successSave");
         public static final String SUCCESS_UPDATE = getMessage("successUpdate");
         public static final String SUCCESS_DELETE = getMessage("successDelete");
@@ -75,6 +76,7 @@ public class MessageUtils {
         public static final String CONFIRM_DELETE = getMessage("confirmDelete");
         public static final String WRONG_EMAIL_FORMAT = getMessage("wrongEmailFormat");
         public static final String WRONG_PHONE_NUMBER_FORMAT = getMessage("wrongPhoneNumberFormat");
+        public static final String FAIL_OPERATION = getMessage("failOperation");
 
         private Message() {
         }

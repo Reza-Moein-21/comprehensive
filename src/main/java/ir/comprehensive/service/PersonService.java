@@ -6,6 +6,8 @@ import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.repository.PersonRepository;
+import ir.comprehensive.service.response.RequestCallback;
+import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PersonService extends CallbackMessage<Person> {
+public class PersonService {
 
     private PersonRepository repository;
     private PersonMapper mapper;
@@ -33,23 +35,23 @@ public class PersonService extends CallbackMessage<Person> {
         this.mapper = mapper;
     }
 
-    public PersonModel loadModel(Long id) {
-        return repository.findById(id).map(mapper::entityToModel).orElse(null);
+    public void loadModel(Long id, RequestCallback<PersonModel> callback) {
+        PersonModel result = repository.findById(id).map(mapper::entityToModel).orElse(null);
+        callback.accept(result, MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
-    public ObservableList<PersonModel> getAllModel() {
+    public void getAllModel(RequestCallback<ObservableList<PersonModel>> callback) {
         List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableList(allModel);
+        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
 
-    public ObservableList<Person> getAll() {
+    public void getAll(RequestCallback<ObservableList<Person>> callback) {
         List<Person> allPerson = repository.findAll();
-        return FXCollections.observableList(allPerson);
+        callback.accept(FXCollections.observableList(allPerson), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
-    public ObservableList<PersonModel> search(PersonModel searchExample) {
-
+    public void search(PersonModel searchExample, RequestCallback<ObservableList<PersonModel>> callback) {
         Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
@@ -72,28 +74,33 @@ public class PersonService extends CallbackMessage<Person> {
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
         List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableList(allModel);
+
+        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
-    public CallbackMessage<Person> saveOrUpdate(PersonModel model) {
+    public void saveOrUpdate(PersonModel model, RequestCallback<Person> callback) {
+        // convert to entity
         Person person = mapper.modelToEntity(model);
+
+        // null point check after convert
         if (person == null) {
-            setCallbackResult(null);
-            setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
-            return this;
+            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
+            return;
         }
 
+        // apply save
         if (null == person.getId()) {
-            setCallbackResult(repository.save(person));
-            setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE);
-            return this;
-        } else {
+            String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE;
+            callback.accept(repository.save(person), callbackMessage, ResponseStatus.SUCCESS);
+            return;
+        }
+
+        // apply update
+
             Person loadedPerson = repository.findById(person.getId()).orElse(null);
-            if (loadedPerson == null) {
-                setCallbackResult(null);
-                setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
-                return this;
-            }
+        if (loadedPerson == null) {
+            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
+        } else {
             loadedPerson.setId(person.getId());
             loadedPerson.setFirstName(person.getFirstName());
             loadedPerson.setLastName(person.getLastName());
@@ -101,18 +108,14 @@ public class PersonService extends CallbackMessage<Person> {
             loadedPerson.setPhoneNumber(person.getPhoneNumber());
             loadedPerson.setCategories(person.getCategories());
 
-            setCallbackResult(repository.save(loadedPerson));
-            setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_UPDATE);
-            return this;
+            String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_UPDATE;
+            callback.accept(repository.save(loadedPerson), callbackMessage, ResponseStatus.SUCCESS);
         }
-
     }
 
-    public CallbackMessage<Person> delete(Long id) {
+    public void delete(Long id, RequestCallback<Long> callback) {
         repository.deleteById(id);
-        setCallbackResult(null);
-        setCallbackMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE);
-        return this;
-
+        String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE;
+        callback.accept(id, callbackMessage, ResponseStatus.SUCCESS);
     }
 }

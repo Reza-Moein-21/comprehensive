@@ -7,6 +7,50 @@
     -fx-background-color: #E0E0E0;
 }
 
+.error-toast .jfx-snackbar-content {
+    -fx-background-color: #c62828;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.error-toast .jfx-snackbar-toast {
+    -fx-alignment: CENTER;
+    -fx-text-fill: WHITE;
+}
+
+.error-toast .jfx-snackbar-action {
+    -fx-text-fill: WHITE;
+}
+
+.success-toast .jfx-snackbar-content {
+    -fx-background-color: #2e7d32;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.success-toast .jfx-snackbar-toast {
+    -fx-alignment: CENTER;
+    -fx-text-fill: WHITE;
+}
+
+.success-toast .jfx-snackbar-action {
+    -fx-text-fill: WHITE;
+}
+
+.warning-toast .jfx-snackbar-content {
+    -fx-background-color: #ef6c00;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.warning-toast .jfx-snackbar-toast {
+    -fx-alignment: CENTER;
+    -fx-text-fill: WHITE;
+}
+
+.warning-toast .jfx-snackbar-action {
+    -fx-text-fill: WHITE;
+}
+
+
+
 .header-bar {
     -fx-border-color: #9E9E9E;
     -fx-border-width: 0 0 0.5 0;

@@ -7,10 +7,11 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.service.CategoryService;
+import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
+import ir.comprehensive.utils.Notify;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -75,7 +76,7 @@ public class HumanResourceCategoryController implements Initializable {
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
 
-        refreshTable(categoryService.getAllModel());
+        updateDataTable();
         tblCategory.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfTitleC.setText(selectedItem.getTitle());
@@ -92,9 +93,15 @@ public class HumanResourceCategoryController implements Initializable {
         tblCategory.setOnDelete(selectedItem -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
-                categoryService.delete(selectedItem.getId());
-                dlgDelete.close();
-                refreshTable(categoryService.getAllModel());
+                categoryService.delete(selectedItem.getId(), (result, message, status) -> {
+                    if (status == ResponseStatus.FAIL) {
+                        Notify.showErrorMessage(message);
+                        return;
+                    }
+                    dlgDelete.close();
+                    updateDataTable();
+                });
+
             });
         });
 
@@ -123,16 +130,20 @@ public class HumanResourceCategoryController implements Initializable {
         txfEmailS.setText(null);
         txfAddressS.setText(null);
         txfDescriptionS.setText(null);
-        refreshTable(categoryService.getAllModel());
-    }
-
-    private void refreshTable(ObservableList<CategoryModel> allModel) {
-        tblCategory.setItems(allModel);
+        updateDataTable();
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        refreshTable(categoryService.search(searchModel));
+        categoryService.search(searchModel, (result, message, status) -> {
+            if (status == ResponseStatus.FAIL) {
+                Notify.showErrorMessage(message);
+                return;
+            }
+            tblCategory.setItems(result);
+        });
+
+
     }
 
     @FXML
@@ -162,11 +173,27 @@ public class HumanResourceCategoryController implements Initializable {
 
     public void save() {
         if (validateBeforeSave()) {
-            categoryService.saveOrUpdate(createModel);
-            dlgCreate.close();
-            refreshTable(categoryService.getAllModel());
+            categoryService.saveOrUpdate(createModel, (result, message, status) -> {
+                if (status == ResponseStatus.SUCCESS) {
+                    Notify.showSuccessMessage(message);
+                    dlgCreate.close();
+                    updateDataTable();
+                } else {
+                    Notify.showErrorMessage(message);
+                }
+            });
 
         }
+    }
+
+    private void updateDataTable() {
+        categoryService.getAllModel((result, message, status) -> {
+            if (status == ResponseStatus.FAIL) {
+                Notify.showErrorMessage(message);
+                return;
+            }
+            tblCategory.setItems(result);
+        });
     }
 
 }

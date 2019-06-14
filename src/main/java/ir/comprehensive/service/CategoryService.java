@@ -4,6 +4,8 @@ import ir.comprehensive.domain.Category;
 import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.repository.CategoryRepository;
+import ir.comprehensive.service.response.RequestCallback;
+import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CategoryService extends CallbackMessage<Category> {
+public class CategoryService {
 
     private CategoryRepository repository;
     private CategoryMapper mapper;
@@ -31,20 +33,19 @@ public class CategoryService extends CallbackMessage<Category> {
         this.mapper = mapper;
     }
 
-    public ObservableList<CategoryModel> findByTitle(String title) {
+    public void findByTitle(String title, RequestCallback<ObservableList<CategoryModel>> callback) {
         Page<Category> categories = repository.findByTitle(title, PageRequest.of(0, 10));
         List<CategoryModel> categoryModels = categories.get().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableArrayList(categoryModels);
+        callback.accept(FXCollections.observableArrayList(categoryModels), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
-    public ObservableList<CategoryModel> getAllModel() {
+    public void getAllModel(RequestCallback<ObservableList<CategoryModel>> callback) {
         List<CategoryModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableList(allModel);
+        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
 
-    public ObservableList<CategoryModel> search(CategoryModel searchExample) {
-
+    public void search(CategoryModel searchExample, RequestCallback<ObservableList<CategoryModel>> callback) {
         Specification<Category> categorySpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -70,28 +71,32 @@ public class CategoryService extends CallbackMessage<Category> {
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
         List<CategoryModel> allModel = repository.findAll(categorySpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableList(allModel);
+        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
 
-    public CallbackMessage<Category> saveOrUpdate(CategoryModel model) {
+    public void saveOrUpdate(CategoryModel model, RequestCallback<Category> callback) {
+        // convert to Entity
         Category category = mapper.modelToEntity(model);
+
+        // null point check after convert
         if (category == null) {
-            setCallbackResult(null);
-            setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
-            return this;
+            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
+            return;
         }
 
+        // apply save
         if (null == category.getId()) {
-            setCallbackResult(repository.save(category));
-            setCallbackMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE);
-            return this;
+            String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE;
+            callback.accept(repository.save(category), callbackMessage, ResponseStatus.SUCCESS);
+            return;
+        }
+
+        // apply update
+        Category loadedCategory = repository.findById(category.getId()).orElse(null);
+        if (loadedCategory == null) {
+            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
+
         } else {
-            Category loadedCategory = repository.findById(category.getId()).orElse(null);
-            if (loadedCategory == null) {
-                setCallbackResult(null);
-                setCallbackMessage(MessageUtils.Message.ERROR_IN_SAVE);
-                return this;
-            }
             loadedCategory.setId(category.getId());
             loadedCategory.setTitle(category.getTitle());
             loadedCategory.setPhoneNumber(category.getPhoneNumber());
@@ -99,19 +104,14 @@ public class CategoryService extends CallbackMessage<Category> {
             loadedCategory.setEmail(category.getEmail());
             loadedCategory.setAddress(category.getAddress());
             loadedCategory.setDescription(category.getDescription());
-
-            setCallbackResult(repository.save(loadedCategory));
-            setCallbackMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_UPDATE);
-            return this;
+            String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_UPDATE;
+            callback.accept(repository.save(loadedCategory), callbackMessage, ResponseStatus.SUCCESS);
         }
-
     }
 
-    public CallbackMessage<Category> delete(Long id) {
+    public void delete(Long id, RequestCallback<Long> callback) {
         repository.deleteById(id);
-        setCallbackResult(null);
-        setCallbackMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
-        return this;
-
+        String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE;
+        callback.accept(id, callbackMessage, ResponseStatus.SUCCESS);
     }
 }

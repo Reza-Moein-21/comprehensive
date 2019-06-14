@@ -6,10 +6,11 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.SimpleDatePicker;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.model.ProductDeliveryModel;
-import ir.comprehensive.service.CallbackMessage;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
+import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.FormValidationUtils;
+import ir.comprehensive.utils.Notify;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -60,8 +61,13 @@ public class StoreRoomController implements Initializable {
     }
 
     private void fillPersonItems() {
-        ObservableList<Person> allPerson = personService.getAll();
-        cbxPerson.setItems(allPerson);
+        personService.getAll((result, message, status) -> {
+            if (status == ResponseStatus.FAIL) {
+                Notify.showErrorMessage(message);
+            } else {
+                cbxPerson.setItems(result);
+            }
+        });
     }
 
     private void fillDataTable() {
@@ -114,9 +120,15 @@ public class StoreRoomController implements Initializable {
         if (cbxPerson.validate() && txfProductName.validate()) {
             createModel.setDeliveryDate(sdpDeliveryDate.getPersianDate().toGregorian());
             createModel.setDesiredDate(sdpDesiredDate.getPersianDate().toGregorian());
-            CallbackMessage save = productDeliveryService.save(createModel);
-            createDialog.close();
-            fillDataTable();
+            productDeliveryService.save(createModel, (result, message, status) -> {
+                if (status == ResponseStatus.FAIL) {
+                    Notify.showErrorMessage(message);
+                    return;
+                }
+                createDialog.close();
+                fillDataTable();
+            });
+
         }
     }
 

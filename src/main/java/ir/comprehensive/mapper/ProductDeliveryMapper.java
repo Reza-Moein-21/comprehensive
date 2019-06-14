@@ -16,6 +16,8 @@ public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, Produ
     ProductDeliveryModel entityToModel(ProductDelivery entity);
 
     @Override
+    @Mapping(target = "receivedDate", ignore = true)
+    @Mapping(target = "state", ignore = true)
     @InheritInverseConfiguration
     ProductDelivery modelToEntity(ProductDeliveryModel dto);
 }

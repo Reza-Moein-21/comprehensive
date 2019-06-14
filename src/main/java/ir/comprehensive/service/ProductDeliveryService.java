@@ -6,6 +6,9 @@ import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.model.ProductDeliveryModel;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.repository.ProductDeliveryRepository;
+import ir.comprehensive.service.response.RequestCallback;
+import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.utils.MessageUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.stereotype.Service;
@@ -14,11 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ir.comprehensive.utils.MessageUtils.getMessage;
-
 @Service
 @Transactional
-public class ProductDeliveryService extends CallbackMessage<ProductDelivery> {
+public class ProductDeliveryService {
     private PersonRepository personRepository;
     private ProductDeliveryRepository repository;
     private ProductDeliveryMapper mapper;
@@ -37,7 +38,7 @@ public class ProductDeliveryService extends CallbackMessage<ProductDelivery> {
         return FXCollections.observableList(collect);
     }
 
-    public CallbackMessage save(ProductDeliveryModel model) {
+    public void save(ProductDeliveryModel model, RequestCallback<ProductDelivery> callback) {
         ProductDelivery productDelivery = new ProductDelivery();
         Product product = new Product();
         productDelivery.setPerson(personRepository.getOne(model.getPerson().getId()));
@@ -47,8 +48,7 @@ public class ProductDeliveryService extends CallbackMessage<ProductDelivery> {
         productDelivery.setDesiredDate(model.getDesiredDate());
         productDelivery.setDescription(model.getDescription());
 
-        setCallbackMessage(getMessage("product") + " " + getMessage("successSave"));
-        setCallbackResult(repository.save(productDelivery));
-        return this;
+        String callbackMessage = MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_SAVE;
+        callback.accept(repository.save(productDelivery), callbackMessage, ResponseStatus.SUCCESS);
     }
 }

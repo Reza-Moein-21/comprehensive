@@ -11,10 +11,11 @@ import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
+import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
+import ir.comprehensive.utils.Notify;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -77,7 +78,7 @@ public class HumanResourcePersonController implements Initializable {
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
 
-        refreshTable(personService.getAllModel());
+        updateDataTable();
         tblPerson.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfFirstNameC.setText(selectedItem.getFirstName());
@@ -92,9 +93,16 @@ public class HumanResourcePersonController implements Initializable {
         tblPerson.setOnDelete(selectedItem -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
-                personService.delete(selectedItem.getId());
-                dlgDelete.close();
-                refreshTable(personService.getAllModel());
+                personService.delete(selectedItem.getId(), (result, message, status) -> {
+                    if (status == ResponseStatus.SUCCESS) {
+                        Notify.showSuccessMessage(message);
+                        dlgDelete.close();
+                        updateDataTable();
+                    } else {
+                        Notify.showErrorMessage(message);
+
+                    }
+                });
             });
         });
         initSelectBox(slbCategoriesS);
@@ -136,7 +144,13 @@ public class HumanResourcePersonController implements Initializable {
             if (newValue.isEmpty()) {
                 suggestItems.getValue().clear();
             } else {
-                suggestItems.setValue(categoryService.findByTitle(newValue));
+                categoryService.findByTitle(newValue, (result, message, status) -> {
+                    if (status == ResponseStatus.FAIL) {
+                        Notify.showErrorMessage(message);
+                        return;
+                    }
+                    suggestItems.setValue(result);
+                });
             }
         });
     }
@@ -147,16 +161,28 @@ public class HumanResourcePersonController implements Initializable {
         txfLastNameS.setText(null);
         txfPhoneNumberS.setText(null);
         txfEmailS.setText(null);
-        refreshTable(personService.getAllModel());
+        updateDataTable();
     }
 
-    private void refreshTable(ObservableList<PersonModel> allModel) {
-        tblPerson.setItems(allModel);
+    private void updateDataTable() {
+        personService.getAllModel((result, message, status) -> {
+            if (status == ResponseStatus.FAIL) {
+                Notify.showErrorMessage(message);
+                return;
+            }
+            tblPerson.setItems(result);
+        });
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        refreshTable(personService.search(searchModel));
+        personService.search(searchModel, (result, message, status) -> {
+            if (status == ResponseStatus.FAIL) {
+                Notify.showErrorMessage(message);
+                return;
+            }
+            tblPerson.setItems(result);
+        });
     }
 
     @FXML
@@ -185,10 +211,15 @@ public class HumanResourcePersonController implements Initializable {
     }
     public void save() {
         if (validateBeforeSave()) {
-            personService.saveOrUpdate(createModel);
-            dlgCreate.close();
-            refreshTable(personService.getAllModel());
-
+            personService.saveOrUpdate(createModel, (result, message, status) -> {
+                if (status == ResponseStatus.SUCCESS) {
+                    dlgCreate.close();
+                    updateDataTable();
+                    Notify.showSuccessMessage(message);
+                } else {
+                    Notify.showErrorMessage(message);
+                }
+            });
         }
     }
 
