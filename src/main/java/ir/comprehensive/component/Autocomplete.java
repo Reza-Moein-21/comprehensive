@@ -23,11 +23,16 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
     private Function<String, List<T>> onSearch;
     private List<T> suggestedModels;
     private JFXPopup jfxPopup;
+    private boolean isValueChanged;
 
     public Autocomplete() {
 
 
         this.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (isValueChanged) {
+                isValueChanged = false;
+                return;
+            }
             if (!this.canTriggerSearch(oldValue, newValue)) {
                 return;
             }
@@ -147,6 +152,13 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
 
     public void setValue(T value) {
         this.value.set(value);
+        if (value != null && value.getTitle() != null && !value.getTitle().isEmpty()) {
+            this.isValueChanged = true;
+            this.setText(value.getTitle());
+        } else {
+            this.isValueChanged = false;
+            this.setText("");
+        }
     }
 
     public ObjectProperty<T> valueProperty() {
