@@ -2,9 +2,8 @@
 
 
 <?import com.jfoenix.controls.*?>
-<?import ir.comprehensive.component.Autocomplete?>
+<?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.DataTable?>
-<?import ir.comprehensive.component.SimpleDatePicker?>
 <?import ir.comprehensive.domain.ProductStatus?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>
@@ -36,20 +35,20 @@
             </HBox>
         </VBox>
     </JFXDialog>
-
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <VBox spacing="10">
         <HBox spacing="10">
             <Autocomplete fx:id="autPersonS" promptText="%person"/>
             <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
+            <JFXComboBox fx:id="cmbStatusS"  promptText="%productStatus" labelFloat="true">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <ProductStatus fx:value="RECEIVED"/>
+                        <ProductStatus fx:value="REJECTED"/>
+                    </FXCollections>
+                </items>
+            </JFXComboBox>
         </HBox>
-        <JFXComboBox fx:id="cmbStatusS" GridPane.columnIndex="2" promptText="ttt" labelFloat="true">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <ProductStatus fx:value="RECEIVED"/>
-                    <ProductStatus fx:value="REJECTED"/>
-                </FXCollections>
-            </items>
-        </JFXComboBox>
 
         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="10">
             <JFXButton text="%create" onAction="#showCreateDialog"

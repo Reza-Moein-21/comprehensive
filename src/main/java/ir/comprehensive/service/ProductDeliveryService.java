@@ -34,4 +34,12 @@ public class ProductDeliveryService {
     public void save(ProductDeliveryModel model) {
         repository.save(mapper.modelToEntity(model));
     }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    public ProductDeliveryModel load(Long id) {
+        return repository.findById(id).map(mapper::entityToModel).orElse(null);
+    }
 }

@@ -78,7 +78,8 @@ public class PersonService {
                 Join<Person, Category> categories = root.join("categories");
                 predicateList.add(categories.in(searchExample.getCategories().stream().map(CategoryModel::getId).collect(Collectors.toSet())));
             }
-
+            query.distinct(true);
+            query.orderBy(criteriaBuilder.asc(root.get("firstName")));
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
         List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());

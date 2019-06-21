@@ -35,6 +35,7 @@ public class MessageUtils {
         public static final String FULL_NAME = getMessage("fullName");
         public static final String PRODUCT_NAME = getMessage("productName");
         public static final String PRODUCT = getMessage("product");
+        public static final String PRODUCT_STATUS = getMessage("productStatus");
         public static final String DESCRIPTION = getMessage("description");
         public static final String DELIVERY_DATE = getMessage("deliveryDate");
         public static final String DESIRED_DATE = getMessage("desiredDate");
