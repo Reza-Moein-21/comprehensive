@@ -15,8 +15,8 @@ public class Product implements Serializable {
     @Column(name = "ID")
     Long id;
 
-    @Column(name = "NAME", nullable = false)
-    String name;
+    @Column(name = "TITLE", nullable = false)
+    String title;
 
 }
 

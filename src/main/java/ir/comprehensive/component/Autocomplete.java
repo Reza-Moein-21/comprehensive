@@ -141,7 +141,7 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
         jfxPopup = null;
     }
 
-    public BaseModel getValue() {
+    public T getValue() {
         return value.get();
     }
 

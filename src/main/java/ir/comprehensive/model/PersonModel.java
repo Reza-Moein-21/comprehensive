@@ -83,13 +83,6 @@ public class PersonModel extends BaseModel {
 
     @Override
     public String toString() {
-        return "PersonModel{" +
-                "id=" + id +
-                ", firstName=" + firstName +
-                ", lastName=" + lastName +
-                ", email=" + email +
-                ", phoneNumber=" + phoneNumber +
-                ", categories=" + categories +
-                '}';
+        return this.getTitle();
     }
 }

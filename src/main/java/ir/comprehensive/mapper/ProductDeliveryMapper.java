@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, ProductDeliveryModel> {
 
-    @Mapping(target = "productName", source = "product.name")
+    @Mapping(target = "title", ignore = true)
+    @Mapping(target = "person.title", ignore = true)
     @Override
     ProductDeliveryModel entityToModel(ProductDelivery entity);
 
     @Override
-    @Mapping(target = "receivedDate", ignore = true)
-    @Mapping(target = "state", ignore = true)
     @InheritInverseConfiguration
     ProductDelivery modelToEntity(ProductDeliveryModel dto);
 }

@@ -1,13 +1,13 @@
 package ir.comprehensive.domain;
 
-import static ir.comprehensive.utils.MessageUtils.getMessage;
+import ir.comprehensive.utils.MessageUtils;
 
-public enum ProductState implements BaseEnum {
-    RECEIVED(getMessage("received")), REJECTED(getMessage("rejected"));
+public enum ProductStatus implements BaseEnum {
+    RECEIVED(MessageUtils.Message.RECEIVED), REJECTED(MessageUtils.Message.REJECTED);
 
     private String title;
 
-    ProductState(String title) {
+    ProductStatus(String title) {
         this.title = title;
     }
 

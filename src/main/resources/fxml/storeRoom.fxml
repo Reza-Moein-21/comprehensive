@@ -3,10 +3,9 @@
 
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.Autocomplete?>
-<?import ir.comprehensive.component.MultiSelectBox?>
+<?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.SimpleDatePicker?>
-<?import ir.comprehensive.domain.ProductState?>
-<?import ir.comprehensive.model.ProductDeliveryModel?>
+<?import ir.comprehensive.domain.ProductStatus?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
@@ -16,110 +15,77 @@
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
 
-    <fx:define>
-        <ProductDeliveryModel fx:id="createModel" productName="${txfProductName.text}"/>
-    </fx:define>
-
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
-        <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
-            <heading>
-                <HBox alignment="CENTER"
-                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
-                    <Label text="%createProduct"/>
-                </HBox>
-            </heading>
-            <body>
-                <VBox style="-fx-padding: 40 20;-fx-spacing: 50;">
-                    <MultiSelectBox fx:id="slbPeopleC" prefHeight="450" styleClass="selectBox"
-                                    promptText="%people"/>
-                    <JFXTextField fx:id="txfProductName" promptText="%productName" labelFloat="true"/>
-                    <HBox alignment="CENTER_LEFT">
-                        <Label text="%deliveryDate" minWidth="300"/>
-                        <SimpleDatePicker fx:id="sdpDeliveryDate"/>
-                    </HBox>
-                    <HBox alignment="CENTER_LEFT">
-                        <Label text="%desiredDate" minWidth="300"/>
-                        <SimpleDatePicker fx:id="sdpDesiredDate"/>
-                    </HBox>
-
-                    <JFXTextField fx:id="txfDescription" promptText="%description" labelFloat="true"/>
-                </VBox>
-            </body>
-            <actions>
-                <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
-                    <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
-                               buttonType="RAISED"/>
-                    <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
-                </HBox>
-            </actions>
-        </JFXDialogLayout>
-    </JFXDialog>
-    <Autocomplete fx:id="autPerson">
-        <!--<model>-->
-        <!--<PersonModel/>-->
-        <!--</model>-->
-    </Autocomplete>
-    <FlowPane style="-fx-padding: 10 0;-fx-hgap: 10;-fx-vgap: 10">
-        <!--<Autocomplete/>-->
-            <JFXTextField fx:id="txfProductName1" promptText="%productName"/>
-            <JFXTextField fx:id="txfPersonName" promptText="%fullName" GridPane.columnIndex="1"/>
-            <!--<HBox GridPane.rowIndex="1" GridPane.columnSpan="2" alignment="CENTER_LEFT" spacing="50"-->
-            <!--style="-fx-border-color: gray;-fx-border-width: 0 1 1 1;-fx-padding: 10">-->
-            <!--<Label text="%deliveryDate"/>-->
-            <!--<HBox alignment="CENTER_LEFT" spacing="30">-->
-            <!--<Label text="از:"/>-->
-            <!--<SimpleDatePicker fx:id="sdpDeliveryDate1" maxWidth="300"/>-->
-            <!--<Label text="تا:"/>-->
-            <!--<SimpleDatePicker fx:id="sdpDeliveryDateF" maxWidth="300"/>-->
-            <!--</HBox>-->
-            <!--</HBox>-->
-            <JFXComboBox fx:id="com" GridPane.columnIndex="2" promptText="ttt" labelFloat="true">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <ProductState fx:value="RECEIVED"/>
-                        <ProductState fx:value="REJECTED"/>
-                    </FXCollections>
-                </items>
-            </JFXComboBox>
-
-            <HBox fx:id="ddd" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER_LEFT"
-                  nodeOrientation="LEFT_TO_RIGHT"
-                  style="-fx-spacing: 10;">
-                <JFXButton text="%create" onAction="#showCreateDialog"
-                           styleClass="primary-button,green-background"/>
-                <JFXButton text="%search" styleClass="primary-button" onAction="#search"/>
+        <VBox spacing="100">
+            <Autocomplete fx:id="autPersonC" promptText="%people" labelFloat="true"/>
+            <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"/>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="%deliveryDate" minWidth="300"/>
+                <SimpleDatePicker fx:id="sdpDeliveryDateC"/>
             </HBox>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="%desiredDate" minWidth="300"/>
+                <SimpleDatePicker fx:id="sdpDesiredDateC"/>
+            </HBox>
+            <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
+            <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+                <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                           buttonType="RAISED"/>
+                <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
 
-        </FlowPane>
-        <TableView fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn text="%productName" minWidth="200" prefWidth="400">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="productName"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%fullName" minWidth="200" prefWidth="400">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="person"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%deliveryDate" minWidth="300" prefWidth="400">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="deliveryDate"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%desiredDate" minWidth="300" prefWidth="400">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="desiredDate"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%description" minWidth="300" prefWidth="600">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="description"/>
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
+    <VBox spacing="10">
+        <HBox spacing="10">
+            <Autocomplete fx:id="autPersonS" promptText="%person"/>
+            <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
+        </HBox>
+        <JFXComboBox fx:id="cmbStatusS" GridPane.columnIndex="2" promptText="ttt" labelFloat="true">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <ProductStatus fx:value="RECEIVED"/>
+                    <ProductStatus fx:value="REJECTED"/>
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+
+        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="10">
+            <JFXButton text="%create" onAction="#showCreateDialog"
+                       styleClass="primary-button,green-background"/>
+            <JFXButton text="%search" styleClass="primary-button" onAction="#search"/>
+        </HBox>
+
     </VBox>
+    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%productName" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="product"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%fullName" minWidth="200" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="person"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%deliveryDate" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="deliveryDate"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%desiredDate" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="desiredDate"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%description" minWidth="300" prefWidth="600">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </DataTable>
+</VBox>
 

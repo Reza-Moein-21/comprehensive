@@ -12,6 +12,18 @@ public abstract class BaseModel implements Comparable<BaseModel>, Predicate<Base
     protected ObjectProperty<Long> id = new SimpleObjectProperty<>();
     protected StringProperty title = new SimpleStringProperty();
 
+    public BaseModel() {
+    }
+
+    public BaseModel(String title) {
+        this.title.setValue(title);
+    }
+
+    public BaseModel(Long id, String title) {
+        this.id.setValue(id);
+        this.title.setValue(title);
+    }
+
     public Long getId() {
         return id.get();
     }

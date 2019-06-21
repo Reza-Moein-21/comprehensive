@@ -12,6 +12,8 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,12 @@ public class PersonService {
     public PersonService(PersonRepository repository, PersonMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+    }
+
+    public ObservableList<PersonModel> findByName(String name) {
+        Page<Person> people = repository.findByName(name, PageRequest.of(0, 10));
+        List<PersonModel> personModels = people.get().map(mapper::entityToModel).collect(Collectors.toList());
+        return FXCollections.observableArrayList(personModels);
     }
 
     public void loadModel(Long id, RequestCallback<PersonModel> callback) {
@@ -97,7 +105,7 @@ public class PersonService {
 
         // apply update
 
-            Person loadedPerson = repository.findById(person.getId()).orElse(null);
+        Person loadedPerson = repository.findById(person.getId()).orElse(null);
         if (loadedPerson == null) {
             callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
         } else {
