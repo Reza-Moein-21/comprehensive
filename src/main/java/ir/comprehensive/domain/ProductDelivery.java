@@ -36,6 +36,6 @@ public class ProductDelivery implements Serializable {
     LocalDate receivedDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", length = 10)
+    @Column(name = "STATUS", length = 20)
     ProductStatus status;
 }
