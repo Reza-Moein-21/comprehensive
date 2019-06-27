@@ -29,7 +29,7 @@ public class ProductDelivery implements Serializable {
     @Column(name = "DELIVERY_DATE", nullable = false)
     LocalDate deliveryDate;
 
-    @Column(name = "DESIRED_DATE", nullable = false)
+    @Column(name = "DESIRED_DATE")
     LocalDate desiredDate;
 
     @Column(name = "RECEIVED_DATE")

@@ -32,7 +32,7 @@ public class ProductDeliveryService {
 
     public ObservableList<ProductDeliveryModel> getAllModel() {
         ProductDelivery example = new ProductDelivery();
-        example.setStatus(ProductStatus.NEW_PRODUCT);
+        example.setStatus(ProductStatus.UNKNOWN);
         List<ProductDelivery> all = repository.findAll(Example.of(example));
         List<ProductDeliveryModel> collect = all.stream().map(mapper::entityToModel).collect(Collectors.toList());
         return FXCollections.observableList(collect);
@@ -57,7 +57,7 @@ public class ProductDeliveryService {
         if (null == productDelivery.getId()) {
             String callbackMessage = MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_SAVE;
 
-            productDelivery.setStatus(ProductStatus.NEW_PRODUCT);
+            productDelivery.setStatus(ProductStatus.UNKNOWN);
             productDelivery.setReceivedDate(null);
 
             callback.accept(repository.save(productDelivery), callbackMessage, ResponseStatus.SUCCESS);

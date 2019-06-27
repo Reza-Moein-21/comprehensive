@@ -3,7 +3,9 @@ package ir.comprehensive.domain;
 import ir.comprehensive.utils.MessageUtils;
 
 public enum ProductStatus implements BaseEnum {
-    NEW_PRODUCT(MessageUtils.Message.NEW_PRODUCT), RECEIVED(MessageUtils.Message.RECEIVED), REJECTED(MessageUtils.Message.REJECTED);
+    UNKNOWN(MessageUtils.Message.UNKNOWN), RECEIVED(MessageUtils.Message.RECEIVED), REJECTED(MessageUtils.Message.REJECTED),
+    LOST(MessageUtils.Message.LOST)
+    ;
 
     private String title;
 

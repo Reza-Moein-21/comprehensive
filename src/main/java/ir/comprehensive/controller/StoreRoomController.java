@@ -166,7 +166,7 @@ public class StoreRoomController implements Initializable {
         txfDescriptionC.setText("");
         sdpDeliveryDateC.setValue(null);
         sdpDesiredDateC.setValue(null);
-        cmbStatusC.setValue(ProductStatus.NEW_PRODUCT);
+        cmbStatusC.setValue(ProductStatus.UNKNOWN);
         cmbStatusC.setDisable(true);
         dlgCreate.show();
     }

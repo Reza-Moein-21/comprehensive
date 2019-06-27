@@ -82,7 +82,8 @@ public class MessageUtils {
         public static final String FAIL_OPERATION = getMessage("failOperation");
         public static final String PEOPLE = getMessage("people");
         public static final String NOT_FOUND = getMessage("notFound");
-        public static final String NEW_PRODUCT = getMessage("newProduct");
+        public static final String UNKNOWN = getMessage("unknown");
+        public static final String LOST = getMessage("lost");
 
         private Message() {
         }

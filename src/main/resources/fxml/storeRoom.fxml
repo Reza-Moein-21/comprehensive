@@ -47,9 +47,10 @@
                     <JFXComboBox fx:id="cmbStatusC" promptText="%productStatus" labelFloat="true" prefWidth="500">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <ProductStatus fx:value="NEW_PRODUCT"/>
+                                <ProductStatus fx:value="UNKNOWN"/>
                                 <ProductStatus fx:value="RECEIVED"/>
                                 <ProductStatus fx:value="REJECTED"/>
+                                <ProductStatus fx:value="LOST"/>
                             </FXCollections>
                         </items>
                     </JFXComboBox>
@@ -65,20 +66,21 @@
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <VBox spacing="10" style="-fx-padding: 50 0">
         <HBox spacing="10">
-            <Autocomplete fx:id="autPersonS" promptText="%person"/>
+            <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
             <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
             <SimpleDatePicker fx:id="sdpDeliveryDateS" promptText="%deliveryDate" />
             <SimpleDatePicker fx:id="sdpDesiredDateS" promptText="%desiredDate" />
             <JFXTextField fx:id="txfDescriptionS" promptText="%description" labelFloat="true"/>
             <fx:define>
-                <ProductStatus fx:id="newProduct" fx:value="NEW_PRODUCT"/>
+                <ProductStatus fx:id="newProduct" fx:value="UNKNOWN"/>
             </fx:define>
             <JFXComboBox fx:id="cmbStatusS" value="$newProduct" promptText="%productStatus" labelFloat="true">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <ProductStatus fx:value="NEW_PRODUCT"/>
+                        <ProductStatus fx:value="UNKNOWN"/>
                         <ProductStatus fx:value="RECEIVED"/>
                         <ProductStatus fx:value="REJECTED"/>
+                        <ProductStatus fx:value="LOST"/>
                     </FXCollections>
                 </items>
             </JFXComboBox>
@@ -111,6 +113,11 @@
             <TableColumn text="%desiredDate" minWidth="300" prefWidth="400">
                 <cellValueFactory>
                     <PropertyValueFactory property="desiredDate"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%receivedDate" minWidth="300" prefWidth="400">
+                <cellValueFactory>
+                    <PropertyValueFactory property="receivedDate"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="%description" minWidth="300" prefWidth="600">
