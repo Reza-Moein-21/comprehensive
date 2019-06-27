@@ -94,10 +94,10 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
         jfxPopup = new JFXPopup(content);
 
         if (this.getNodeOrientation() == NodeOrientation.LEFT_TO_RIGHT) {
-            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, 0, this.getLayoutY() + 80);
+            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, 0, 80);
 
         } else {
-            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, this.getLayoutX() - this.getWidth(), this.getLayoutY() + 80);
+            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,  - this.getWidth(),  80);
 
         }
     }

@@ -50,6 +50,8 @@ public class MessageUtils {
         public static final String CREATE_PERSON = getMessage("createPerson");
         public static final String CREATE_CATEGORY = getMessage("createCategory");
         public static final String CANCEL = getMessage("cancel");
+        public static final String OK = getMessage("ok");
+        public static final String CLEAR = getMessage("clear");
         public static final String SUCCESS_LOAD = getMessage("successLoad");
         public static final String SUCCESS_SAVE = getMessage("successSave");
         public static final String SUCCESS_UPDATE = getMessage("successUpdate");

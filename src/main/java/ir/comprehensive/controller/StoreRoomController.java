@@ -4,9 +4,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.Autocomplete;
-import ir.comprehensive.component.SimpleDatePicker;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
+import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
@@ -82,6 +82,8 @@ public class StoreRoomController implements Initializable {
             editModel.getPerson().getTitle();
             autPersonC.setValue(editModel.getPerson());
             txfProductNameC.setText(editModel.getProduct().getTitle());
+            sdpDeliveryDateC.setValue(editModel.getDeliveryDate());
+            sdpDesiredDateC.setValue(editModel.getDesiredDate());
             txfDescriptionC.setText(editModel.getDescription());
             dlgCreate.show();
 
@@ -99,12 +101,15 @@ public class StoreRoomController implements Initializable {
         autPersonC.setOnSearch(s -> personService.findByName(s));
         autPersonS.setOnSearch(s -> personService.findByName(s));
 
+        sdpDeliveryDateC.setDialogContainer(startController.mainStack);
+        sdpDesiredDateC.setDialogContainer(startController.mainStack);
 
         fillDataTable();
     }
 
 
     public void search(ActionEvent actionEvent) {
+
 
     }
 
@@ -123,8 +128,8 @@ public class StoreRoomController implements Initializable {
         ProductDeliveryModel createModel = new ProductDeliveryModel();
         createModel.setPerson(autPersonC.getValue());
         createModel.setProduct(new ProductModel(txfProductNameC.getText()));
-        createModel.setDeliveryDate(sdpDeliveryDateC.getPersianDate().toGregorian());
-        createModel.setDesiredDate(sdpDesiredDateC.getPersianDate().toGregorian());
+        createModel.setDeliveryDate(sdpDeliveryDateC.getValue());
+        createModel.setDesiredDate(sdpDesiredDateC.getValue());
         createModel.setDescription(txfDescriptionC.getText());
         productDeliveryService.save(createModel);
 

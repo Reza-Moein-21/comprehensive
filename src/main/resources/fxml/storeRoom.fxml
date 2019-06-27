@@ -2,8 +2,10 @@
 
 
 <?import com.jfoenix.controls.*?>
-<?import ir.comprehensive.component.*?>
+<?import ir.comprehensive.component.Autocomplete?>
 <?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
+<?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.domain.ProductStatus?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>
@@ -16,19 +18,21 @@
 
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
-        <VBox spacing="100">
-            <Autocomplete fx:id="autPersonC" promptText="%people" labelFloat="true"/>
-            <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"/>
-            <HBox alignment="CENTER_LEFT">
-                <Label text="%deliveryDate" minWidth="300"/>
-                <SimpleDatePicker fx:id="sdpDeliveryDateC"/>
+        <VBox spacing="100" prefWidth="1024">
+            <HBox alignment="CENTER" style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #29b6f6;-fx-padding: 10;">
+                <Label text="%createProduct"/>
             </HBox>
-            <HBox alignment="CENTER_LEFT">
-                <Label text="%desiredDate" minWidth="300"/>
-                <SimpleDatePicker fx:id="sdpDesiredDateC"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true"/>
+                <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate"/>
+                <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate"/>
+
             </HBox>
             <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
-            <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+            <HBox style="-fx-alignment: top-right; -fx-spacing: 20;-fx-padding: 10">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                            buttonType="RAISED"/>
                 <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
@@ -40,7 +44,7 @@
         <HBox spacing="10">
             <Autocomplete fx:id="autPersonS" promptText="%person"/>
             <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
-            <JFXComboBox fx:id="cmbStatusS"  promptText="%productStatus" labelFloat="true">
+            <JFXComboBox fx:id="cmbStatusS" promptText="%productStatus" labelFloat="true">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <ProductStatus fx:value="RECEIVED"/>
