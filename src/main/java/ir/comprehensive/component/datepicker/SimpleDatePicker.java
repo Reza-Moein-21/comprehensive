@@ -8,6 +8,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +35,7 @@ public class SimpleDatePicker extends AnchorPane {
     public final ObjectProperty<LocalDate> valueProperty() {
         return value;
     }
+
     private ObjectProperty<List<ValidatorBase>> validators = new SimpleObjectProperty<>(new ArrayList<>());
 
 
@@ -48,6 +50,7 @@ public class SimpleDatePicker extends AnchorPane {
     public final void setValidators(List<ValidatorBase> validators) {
         this.validators.set(validators);
     }
+
     private StringProperty promptText = new SimpleStringProperty(this, "promptText", "") {
         @Override
         protected void invalidated() {
@@ -68,12 +71,20 @@ public class SimpleDatePicker extends AnchorPane {
     public final String getPromptText() {
         return promptText.get();
     }
+
     public final void setPromptText(String value) {
         promptText.set(value);
     }
 
     {
+        ChangeListener<Boolean> focusedChangeListener = (observable, oldValue, newValue) -> {
+            if (!newValue) {
+                this.validate();
+            }
+        };
+        this.focusedProperty().addListener(focusedChangeListener);
         JFXButton button = new JFXButton();
+        button.focusedProperty().addListener(focusedChangeListener);
         button.setRipplerFill(Paint.valueOf("#757575"));
         button.setGraphic(new ImageView(new Image(getClass().getResource("/image/date-range.png").toExternalForm())));
         AnchorPane.setRightAnchor(button, 0D);
@@ -89,6 +100,8 @@ public class SimpleDatePicker extends AnchorPane {
         textField.promptTextProperty().bind(this.promptText);
         textField.setLabelFloat(true);
 
+
+        textField.focusedProperty().addListener(focusedChangeListener);
 
         value.addListener((observable, oldValue, newValue) -> {
             textField.setText(newValue != null ? PersianDate.fromGregorian(newValue).toString() : null);

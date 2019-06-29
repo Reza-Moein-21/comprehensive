@@ -13,6 +13,10 @@ public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, Produ
 
     @Mapping(target = "title", ignore = true)
     @Mapping(target = "person.title", ignore = true)
+    @Mapping(target = "deliveryDateFrom", ignore = true)
+    @Mapping(target = "deliveryDateTo", ignore = true)
+    @Mapping(target = "receivedDateFrom", ignore = true)
+    @Mapping(target = "receivedDateTo", ignore = true)
     @Override
     ProductDeliveryModel entityToModel(ProductDelivery entity);
 

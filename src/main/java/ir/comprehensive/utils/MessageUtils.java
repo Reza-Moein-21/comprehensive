@@ -38,8 +38,12 @@ public class MessageUtils {
         public static final String PRODUCT_STATUS = getMessage("productStatus");
         public static final String DESCRIPTION = getMessage("description");
         public static final String DELIVERY_DATE = getMessage("deliveryDate");
+        public static final String DELIVERY_DATE_FROM = getMessage("deliveryDateFrom");
+        public static final String DELIVERY_DATE_TO = getMessage("deliveryDateTo");
         public static final String DESIRED_DATE = getMessage("desiredDate");
         public static final String RECEIVED_DATE = getMessage("receivedDate");
+        public static final String RECEIVED_DATE_FROM = getMessage("receivedDateFrom");
+        public static final String RECEIVED_DATE_TO = getMessage("receivedDateTo");
         public static final String YEAR = getMessage("year");
         public static final String MONTH = getMessage("month");
         public static final String DAY = getMessage("day");

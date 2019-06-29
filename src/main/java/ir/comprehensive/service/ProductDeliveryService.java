@@ -8,13 +8,16 @@ import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.response.RequestCallback;
 import ir.comprehensive.service.response.ResponseStatus;
 import ir.comprehensive.utils.MessageUtils;
+import ir.comprehensive.utils.StringUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +42,41 @@ public class ProductDeliveryService {
     }
 
     public void search(ProductDeliveryModel searchExample, RequestCallback<ObservableList<ProductDeliveryModel>> callback) {
-        ProductDelivery productDelivery = mapper.modelToEntity(searchExample);
-        List<ProductDeliveryModel> allModel = repository.findAll(Example.of(productDelivery)).stream().map(mapper::entityToModel).collect(Collectors.toList());
+        Specification<ProductDelivery> productDeliverySpecification = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
+                predicateList.add(criteriaBuilder.equal(root.get("person").get("id"), searchExample.getPerson().getId()));
+            }
+            if (searchExample.getProduct() != null && searchExample.getProduct().getTitle() != null && !searchExample.getProduct().getTitle().isEmpty()) {
+                predicateList.add(criteriaBuilder.like(root.get("product").get("title"), StringUtils.makeAnyMatch(searchExample.getProduct().getTitle())));
+            }
+            if (searchExample.getDeliveryDateFrom() != null) {
+                predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("deliveryDate"), searchExample.getDeliveryDateFrom()));
+            }
+            if (searchExample.getDeliveryDateTo() != null) {
+                predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get("deliveryDate"), searchExample.getDeliveryDateTo()));
+            }
+            if (searchExample.getStatus() != null) {
+                predicateList.add(criteriaBuilder.equal(root.get("status"), searchExample.getStatus()));
+            }
+            if (searchExample.getStatus() != null && searchExample.getStatus().equals(ProductStatus.RECEIVED)) {
+                if (searchExample.getReceivedDateFrom() != null) {
+                    predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("receivedDate"), searchExample.getReceivedDateFrom()));
+                }
+                if (searchExample.getReceivedDateTo() != null) {
+                    predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get("receivedDate"), searchExample.getReceivedDateTo()));
+                }
+            }
+
+
+            query.orderBy(criteriaBuilder.asc(root.get("deliveryDate")));
+            return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        };
+
+        List<ProductDeliveryModel> allModel = repository.findAll(productDeliverySpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
         callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
     }
+
     public void saveOrUpdate(ProductDeliveryModel model, RequestCallback<ProductDelivery> callback) {
         // Convert to entity
         ProductDelivery productDelivery = mapper.modelToEntity(model);
@@ -77,9 +111,7 @@ public class ProductDeliveryService {
             loadedProductDelivery.setDeliveryDate(productDelivery.getDeliveryDate());
             loadedProductDelivery.setDesiredDate(productDelivery.getDesiredDate());
             loadedProductDelivery.setStatus(productDelivery.getStatus());
-            if (productDelivery.getStatus() == ProductStatus.RECEIVED) {
-                loadedProductDelivery.setReceivedDate(LocalDate.now());
-            }
+            loadedProductDelivery.setReceivedDate(productDelivery.getStatus().equals(ProductStatus.RECEIVED) ? productDelivery.getReceivedDate() : null);
             String callbackMessage = MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_UPDATE;
             callback.accept(repository.save(loadedProductDelivery), callbackMessage, ResponseStatus.SUCCESS);
 

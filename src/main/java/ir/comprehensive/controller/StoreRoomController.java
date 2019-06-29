@@ -20,6 +20,7 @@ import ir.comprehensive.utils.Notify;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -41,14 +42,22 @@ public class StoreRoomController implements Initializable {
     @FXML
     public JFXComboBox<ProductStatus> cmbStatusS;
     @FXML
-    public SimpleDatePicker sdpDesiredDateS;
+    public SimpleDatePicker sdpDeliveryDateFromS;
     @FXML
-    public SimpleDatePicker sdpDeliveryDateS;
+    public SimpleDatePicker sdpDeliveryDateToS;
+    @FXML
+    public SimpleDatePicker sdpReceivedDateFromS;
+    @FXML
+    public SimpleDatePicker sdpReceivedDateToS;
     @FXML
     public JFXTextField txfProductNameS;
     @FXML
     public Autocomplete<PersonModel> autPersonS;
+    @FXML
+    public HBox receivedDateFromToHBox;
 
+    @FXML
+    public SimpleDatePicker sdpReceivedDateC;
     @FXML
     public JFXTextField txfDescriptionC;
     @FXML
@@ -96,6 +105,7 @@ public class StoreRoomController implements Initializable {
             txfDescriptionC.setText(editModel.getDescription());
             cmbStatusC.setValue(editModel.getStatus());
             cmbStatusC.setDisable(false);
+            sdpReceivedDateC.setValue(editModel.getReceivedDate());
             dlgCreate.show();
 
         });
@@ -124,33 +134,49 @@ public class StoreRoomController implements Initializable {
             }
         });
 
-        sdpDeliveryDateC.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                sdpDeliveryDateC.validate();
-            }
-        });
-        sdpDesiredDateC.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                sdpDesiredDateC.validate();
-            }
-        });
-
         autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
         txfProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
         sdpDeliveryDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE)));
-        sdpDesiredDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DESIRED_DATE)));
+        sdpReceivedDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.RECEIVED_DATE)));
 
 
         autPersonS.setOnSearch(s -> personService.findByName(s));
 
+
         sdpDeliveryDateC.setDialogContainer(startController.mainStack);
         sdpDesiredDateC.setDialogContainer(startController.mainStack);
+        sdpReceivedDateC.setDialogContainer(startController.mainStack);
+        sdpDeliveryDateFromS.setDialogContainer(startController.mainStack);
+        sdpDeliveryDateToS.setDialogContainer(startController.mainStack);
+        sdpReceivedDateFromS.setDialogContainer(startController.mainStack);
+        sdpReceivedDateToS.setDialogContainer(startController.mainStack);
 
+        cmbStatusS.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null && newValue.equals(ProductStatus.RECEIVED)) {
+                        receivedDateFromToHBox.setVisible(true);
+                    } else {
+                        sdpReceivedDateFromS.setValue(null);
+                        sdpReceivedDateToS.setValue(null);
+                        receivedDateFromToHBox.setVisible(false);
+                    }
+                }
+        );
+
+        cmbStatusC.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null && newValue.equals(ProductStatus.RECEIVED)) {
+                        sdpReceivedDateC.setVisible(true);
+                    } else {
+                        sdpReceivedDateC.setValue(null);
+                        sdpReceivedDateC.setVisible(false);
+                    }
+                }
+        );
         fillDataTable();
     }
 
 
     public void search(ActionEvent actionEvent) {
+        searchModel.setProduct(new ProductModel(txfProductNameS.getText()));
         productDeliveryService.search(searchModel, (result, message, status) -> {
             if (status == ResponseStatus.FAIL) {
                 Notify.showErrorMessage(message);
@@ -161,6 +187,7 @@ public class StoreRoomController implements Initializable {
     }
 
     public void showCreateDialog() {
+        createModel.setId(null);
         autPersonC.setValue(null);
         txfProductNameC.setText("");
         txfDescriptionC.setText("");
@@ -179,8 +206,11 @@ public class StoreRoomController implements Initializable {
         boolean personValidate = autPersonC.validate();
         boolean productNameValidate = txfProductNameC.validate();
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
-        boolean desiredDateValidate = sdpDesiredDateC.validate();
-        return personValidate && productNameValidate && deliveryDateValidate && desiredDateValidate;
+        boolean receivedDateValidate = true;
+        if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
+            receivedDateValidate  = sdpReceivedDateC.validate();
+        }
+        return personValidate && productNameValidate && deliveryDateValidate && receivedDateValidate ;
     }
 
     public void save() {

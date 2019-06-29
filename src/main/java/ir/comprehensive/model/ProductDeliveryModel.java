@@ -14,8 +14,12 @@ public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<ProductModel> product = new SimpleObjectProperty();
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> deliveryDateFrom = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> deliveryDateTo = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> desiredDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> receivedDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> receivedDateFrom = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> receivedDateTo = new SimpleObjectProperty<>();
     private ObjectProperty<ProductStatus> status = new SimpleObjectProperty<>();
 
     public final PersonModel getPerson() {
@@ -66,6 +70,30 @@ public class ProductDeliveryModel extends BaseModel {
         this.deliveryDate.set(deliveryDate);
     }
 
+    public final LocalDate getDeliveryDateFrom() {
+        return deliveryDateFrom.get();
+    }
+
+    public final ObjectProperty<LocalDate> deliveryDateFromProperty() {
+        return deliveryDateFrom;
+    }
+
+    public final void setDeliveryDateFrom(LocalDate deliveryDateFrom) {
+        this.deliveryDateFrom.set(deliveryDateFrom);
+    }
+
+    public final LocalDate getDeliveryDateTo() {
+        return deliveryDateTo.get();
+    }
+
+    public final ObjectProperty<LocalDate> deliveryDateToProperty() {
+        return deliveryDateTo;
+    }
+
+    public final void setDeliveryDateTo(LocalDate deliveryDateTo) {
+        this.deliveryDateTo.set(deliveryDateTo);
+    }
+
     public final LocalDate getDesiredDate() {
         return desiredDate.get();
     }
@@ -88,6 +116,30 @@ public class ProductDeliveryModel extends BaseModel {
 
     public final void setReceivedDate(LocalDate receivedDate) {
         this.receivedDate.set(receivedDate);
+    }
+
+    public final LocalDate getReceivedDateFrom() {
+        return receivedDateFrom.get();
+    }
+
+    public final ObjectProperty<LocalDate> receivedDateFromProperty() {
+        return receivedDateFrom;
+    }
+
+    public final void setReceivedDateFrom(LocalDate receivedDateFrom) {
+        this.receivedDateFrom.set(receivedDateFrom);
+    }
+
+    public final LocalDate getReceivedDateTo() {
+        return receivedDateTo.get();
+    }
+
+    public final ObjectProperty<LocalDate> receivedDateToProperty() {
+        return receivedDateTo;
+    }
+
+    public final void setReceivedDateTo(LocalDate receivedDateTo) {
+        this.receivedDateTo.set(receivedDateTo);
     }
 
     public final ProductStatus getStatus() {

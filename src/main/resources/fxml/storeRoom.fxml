@@ -4,7 +4,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.Autocomplete?>
 <?import ir.comprehensive.component.basetable.DataTable?>
-<?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
+<?import ir.comprehensive.component.datepicker.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.domain.*?>
 <?import ir.comprehensive.model.ProductDeliveryModel?>
@@ -19,9 +19,13 @@
     <fx:define>
         <ProductDeliveryModel fx:id="createModel" person="${autPersonC.value}" deliveryDate="${sdpDeliveryDateC.value}"
                               desiredDate="${sdpDesiredDateC.value}" description="${txfDescriptionC.text}"
+                              receivedDate="${sdpReceivedDateC.value}"
                               status="${cmbStatusC.value}"/>
-        <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}" deliveryDate="${sdpDeliveryDateS.value}"
-                              desiredDate="${sdpDesiredDateS.value}" description="${txfDescriptionS.text}"
+        <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}"
+                              deliveryDateFrom="${sdpDeliveryDateFromS.value}"
+                              deliveryDateTo="${sdpDeliveryDateToS.value}"
+                              receivedDateFrom="${sdpDeliveryDateFromS.value}"
+                              receivedDateTo="${sdpDeliveryDateToS.value}"
                               status="${cmbStatusS.value}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
@@ -54,6 +58,7 @@
                             </FXCollections>
                         </items>
                     </JFXComboBox>
+                    <SimpleDatePicker fx:id="sdpReceivedDateC" promptText="%receivedDate" prefWidth="500"/>
                 </HBox>
             </VBox>
             <HBox style="-fx-alignment: top-right; -fx-spacing: 20;-fx-padding: 10">
@@ -65,16 +70,17 @@
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <VBox spacing="10" style="-fx-padding: 50 0">
-        <HBox spacing="10">
+        <TilePane hgap="10" vgap="50">
             <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
             <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
-            <SimpleDatePicker fx:id="sdpDeliveryDateS" promptText="%deliveryDate" />
-            <SimpleDatePicker fx:id="sdpDesiredDateS" promptText="%desiredDate" />
-            <JFXTextField fx:id="txfDescriptionS" promptText="%description" labelFloat="true"/>
-            <fx:define>
-                <ProductStatus fx:id="newProduct" fx:value="UNKNOWN"/>
-            </fx:define>
-            <JFXComboBox fx:id="cmbStatusS" value="$newProduct" promptText="%productStatus" labelFloat="true">
+            <HBox spacing="10" style="-fx-border-width: 0 0 3 0;-fx-border-color: gray;">
+                <SimpleDatePicker fx:id="sdpDeliveryDateFromS" promptText="%deliveryDateFrom"/>
+                <SimpleDatePicker fx:id="sdpDeliveryDateToS" promptText="%deliveryDateTo"/>
+            </HBox>
+            <JFXComboBox fx:id="cmbStatusS" value="$unknownProduct" prefWidth="500" promptText="%productStatus" labelFloat="true">
+                <fx:define>
+                    <ProductStatus fx:id="unknownProduct" fx:value="UNKNOWN"/>
+                </fx:define>
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <ProductStatus fx:value="UNKNOWN"/>
@@ -84,7 +90,11 @@
                     </FXCollections>
                 </items>
             </JFXComboBox>
-        </HBox>
+            <HBox fx:id="receivedDateFromToHBox" visible="false" spacing="10" style="-fx-border-width: 0 0 3 0;-fx-border-color: gray;">
+                <SimpleDatePicker fx:id="sdpReceivedDateFromS" promptText="%receivedDateFrom"/>
+                <SimpleDatePicker fx:id="sdpReceivedDateToS" promptText="%receivedDateTo"/>
+            </HBox>
+        </TilePane>
 
         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="10">
             <JFXButton text="%create" onAction="#showCreateDialog"

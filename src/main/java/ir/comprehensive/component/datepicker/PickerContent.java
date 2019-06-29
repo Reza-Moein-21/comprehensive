@@ -70,6 +70,7 @@ public class PickerContent extends JFXDialog implements Picker {
         JFXButton btnClear = new JFXButton(MessageUtils.Message.CLEAR);
         btnClear.setOnAction(event -> {
             parent.setValue(null);
+            parent.validate();
             this.close();
         });
 
@@ -77,6 +78,7 @@ public class PickerContent extends JFXDialog implements Picker {
         btnOk.setOnAction(event -> {
             LocalDate localDate = PersianDate.of(cmbYear.getValue(), cmbMonth.getValue().getValue(), dayContainer.getDay()).toGregorian();
             parent.setValue(localDate);
+            parent.validate();
             this.close();
         });
         JFXButton btnCancel = new JFXButton(MessageUtils.Message.CANCEL);
