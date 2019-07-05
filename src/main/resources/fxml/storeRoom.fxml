@@ -69,18 +69,26 @@
         </VBox>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <VBox spacing="10" style="-fx-padding: 50 0">
-        <TilePane hgap="10" vgap="50">
+    <TitledPane text="%search">
+        <GridPane prefHeight="500" hgap="20" vgap="30">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="35"/>
+                <ColumnConstraints percentWidth="35"/>
+                <ColumnConstraints percentWidth="35"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="25"/>
+            </rowConstraints>
             <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
-            <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true"/>
-            <HBox spacing="10" style="-fx-border-width: 0 0 3 0;-fx-border-color: gray;">
+            <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true" GridPane.columnIndex="1"/>
+            <HBox spacing="10" GridPane.columnIndex="2">
                 <SimpleDatePicker fx:id="sdpDeliveryDateFromS" promptText="%deliveryDateFrom"/>
                 <SimpleDatePicker fx:id="sdpDeliveryDateToS" promptText="%deliveryDateTo"/>
             </HBox>
-            <JFXComboBox fx:id="cmbStatusS" value="$unknownProduct" prefWidth="500" promptText="%productStatus" labelFloat="true">
-                <fx:define>
-                    <ProductStatus fx:id="unknownProduct" fx:value="UNKNOWN"/>
-                </fx:define>
+            <JFXComboBox fx:id="cmbStatusS" prefWidth="Infinity" promptText="%productStatus" labelFloat="true"
+                         GridPane.rowIndex="1">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <ProductStatus fx:value="UNKNOWN"/>
@@ -90,19 +98,25 @@
                     </FXCollections>
                 </items>
             </JFXComboBox>
-            <HBox fx:id="receivedDateFromToHBox" visible="false" spacing="10" style="-fx-border-width: 0 0 3 0;-fx-border-color: gray;">
+            <HBox fx:id="receivedDateFromToHBox" visible="false" spacing="10" GridPane.columnIndex="1"
+                  GridPane.rowIndex="1">
                 <SimpleDatePicker fx:id="sdpReceivedDateFromS" promptText="%receivedDateFrom"/>
                 <SimpleDatePicker fx:id="sdpReceivedDateToS" promptText="%receivedDateTo"/>
             </HBox>
-        </TilePane>
 
-        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="10">
-            <JFXButton text="%create" onAction="#showCreateDialog"
-                       styleClass="primary-button,green-background"/>
-            <JFXButton text="%search" styleClass="primary-button" onAction="#search"/>
-        </HBox>
 
-    </VBox>
+            <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="2"
+                  GridPane.columnSpan="2">
+                <JFXButton text="%search" styleClass="primary-button" buttonType="RAISED" onAction="#search"/>
+                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED" onAction="#showAll"/>
+            </HBox>
+        </GridPane>
+    </TitledPane>
+    <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 15;">
+        <JFXButton text="%create" onAction="#showCreateDialog" prefWidth="300"
+                   styleClass="primary-button,green-background"/>
+    </HBox>
+
     <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn text="%productName" minWidth="200" prefWidth="400">

@@ -87,7 +87,7 @@ public class StoreRoomController implements Initializable {
     public DataTable<ProductDeliveryModel> tblProductDelivery;
 
     private void fillDataTable() {
-        tblProductDelivery.setItems(productDeliveryService.loadByStatus(ProductStatus.UNKNOWN).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblProductDelivery.setItems(productDeliveryService.loadByStatus(cmbStatusS.getValue()).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     @FXML
@@ -183,6 +183,7 @@ public class StoreRoomController implements Initializable {
                     }
                 }
         );
+        cmbStatusS.setValue(ProductStatus.UNKNOWN);
         fillDataTable();
     }
 
@@ -236,4 +237,8 @@ public class StoreRoomController implements Initializable {
 
     }
 
+    public void showAll(ActionEvent actionEvent) {
+        cmbStatusS.setValue(null);
+        tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+    }
 }

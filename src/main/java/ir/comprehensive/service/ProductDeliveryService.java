@@ -36,6 +36,10 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
         return repository.findById(id);
     }
 
+    public Optional<List<ProductDelivery>> loadAll() {
+        return Optional.of(repository.findAll());
+    }
+
     public Optional<List<ProductDelivery>> loadByStatus(ProductStatus status) {
         ProductDelivery example = new ProductDelivery();
         example.setStatus(status);
