@@ -88,6 +88,7 @@ public class MessageUtils {
         public static final String NOT_FOUND = getMessage("notFound");
         public static final String UNKNOWN = getMessage("unknown");
         public static final String LOST = getMessage("lost");
+        public static final String USE_IN = getMessage("useIn");
 
         private Message() {
         }

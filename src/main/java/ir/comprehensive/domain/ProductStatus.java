@@ -1,5 +1,6 @@
 package ir.comprehensive.domain;
 
+import ir.comprehensive.domain.extra.BaseEnum;
 import ir.comprehensive.utils.MessageUtils;
 
 public enum ProductStatus implements BaseEnum {

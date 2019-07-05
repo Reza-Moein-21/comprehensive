@@ -1,16 +1,13 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
-import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.repository.CategoryRepository;
-import ir.comprehensive.service.response.RequestCallback;
-import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.repository.PersonRepository;
+import ir.comprehensive.service.extra.GeneralException;
+import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -19,33 +16,31 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional
-public class CategoryService {
+public class CategoryService implements Swappable<Category> {
 
     private CategoryRepository repository;
-    private CategoryMapper mapper;
+    private PersonRepository personRepository;
 
-    public CategoryService(CategoryRepository repository, CategoryMapper mapper) {
+    public CategoryService(CategoryRepository repository, PersonRepository personRepository) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.personRepository = personRepository;
     }
 
-    public void findByTitle(String title, RequestCallback<ObservableList<CategoryModel>> callback) {
-        Page<Category> categories = repository.findByTitle(title, PageRequest.of(0, 10));
-        List<CategoryModel> categoryModels = categories.get().map(mapper::entityToModel).collect(Collectors.toList());
-        callback.accept(FXCollections.observableArrayList(categoryModels), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+    public Optional<List<Category>> findByTitle(String title) {
+        List<Category> categories = repository.findByTitle(title, PageRequest.of(0, 10)).getContent();
+        return Optional.of(categories);
     }
 
-    public void getAllModel(RequestCallback<ObservableList<CategoryModel>> callback) {
-        List<CategoryModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
-        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+    public Optional<List<Category>> loadAll() {
+        return Optional.of(repository.findAll());
     }
 
 
-    public void search(CategoryModel searchExample, RequestCallback<ObservableList<CategoryModel>> callback) {
+    public Optional<List<Category>> search(CategoryModel searchExample) {
         Specification<Category> categorySpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -70,48 +65,48 @@ public class CategoryService {
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        List<CategoryModel> allModel = repository.findAll(categorySpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
-        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+        return Optional.of(repository.findAll(categorySpecification));
     }
 
-    public void saveOrUpdate(CategoryModel model, RequestCallback<Category> callback) {
-        // convert to Entity
-        Category category = mapper.modelToEntity(model);
-
-        // null point check after convert
+    private void validateEntity(Category category) throws GeneralException {
         if (category == null) {
-            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
-            return;
-        }
-
-        // apply save
-        if (null == category.getId()) {
-            String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE;
-            callback.accept(repository.save(category), callbackMessage, ResponseStatus.SUCCESS);
-            return;
-        }
-
-        // apply update
-        Category loadedCategory = repository.findById(category.getId()).orElse(null);
-        if (loadedCategory == null) {
-            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
-
-        } else {
-            loadedCategory.setId(category.getId());
-            loadedCategory.setTitle(category.getTitle());
-            loadedCategory.setPhoneNumber(category.getPhoneNumber());
-            loadedCategory.setFax(category.getFax());
-            loadedCategory.setEmail(category.getEmail());
-            loadedCategory.setAddress(category.getAddress());
-            loadedCategory.setDescription(category.getDescription());
-            String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_UPDATE;
-            callback.accept(repository.save(loadedCategory), callbackMessage, ResponseStatus.SUCCESS);
+            throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public void delete(Long id, RequestCallback<Long> callback) {
+    public Optional<Category> save(Category category) throws GeneralException {
+        validateEntity(category);
+        category.setId(null);
+        return Optional.of(repository.save(category));
+    }
+
+    public Optional<Category> update(Category category) throws GeneralException {
+        validateEntity(category);
+        if (category.getId() == null) {
+            // TODO must fix message
+            throw new GeneralException("not null id");
+        }
+        // TODO must fix message
+        Category loaCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
+
+        return Optional.of(repository.save(swap(category, loaCategory)));
+
+    }
+
+    public Optional<Category> saveOrUpdate(Category category) throws GeneralException {
+        return category.getId() == null ? save(category) : update(category);
+    }
+
+    public Optional<Long> delete(Long id) throws GeneralException {
+        if (id == null) {
+            // TODO fix message
+            throw new GeneralException("not null id");
+        }
+
+        if (personRepository.isCategoryExist(id)) {
+            throw new GeneralException(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.USE_IN + " " + MessageUtils.Message.PEOPLE);
+        }
         repository.deleteById(id);
-        String callbackMessage = MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE;
-        callback.accept(id, callbackMessage, ResponseStatus.SUCCESS);
+        return Optional.of(id);
     }
 }

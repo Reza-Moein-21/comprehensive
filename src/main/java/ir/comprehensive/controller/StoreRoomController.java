@@ -8,15 +8,18 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.mapper.PersonMapper;
+import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
 import ir.comprehensive.model.ProductModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
-import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import java.net.URL;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Controller
 public class StoreRoomController implements Initializable {
@@ -37,6 +41,10 @@ public class StoreRoomController implements Initializable {
     private PersonService personService;
     @Autowired
     private StartController startController;
+    @Autowired
+    private ProductDeliveryMapper mapper;
+    @Autowired
+    private PersonMapper personMapper;
 
 
     @FXML
@@ -79,7 +87,7 @@ public class StoreRoomController implements Initializable {
     public DataTable<ProductDeliveryModel> tblProductDelivery;
 
     private void fillDataTable() {
-        tblProductDelivery.setItems(productDeliveryService.getAllModel());
+        tblProductDelivery.setItems(productDeliveryService.loadByStatus(ProductStatus.UNKNOWN).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     @FXML
@@ -95,7 +103,7 @@ public class StoreRoomController implements Initializable {
         dlgDelete.setDialogContainer(startController.mainStack);
 
         tblProductDelivery.setOnEdit(selectedItem -> {
-            ProductDeliveryModel editModel = productDeliveryService.load(selectedItem.getId());
+            ProductDeliveryModel editModel = productDeliveryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             editModel.getPerson().getTitle();
             autPersonC.setValue(editModel.getPerson());
@@ -113,14 +121,18 @@ public class StoreRoomController implements Initializable {
         tblProductDelivery.setOnDelete(selectedItem -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
-                productDeliveryService.delete(selectedItem.getId());
-                Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_DELETE);
+                try {
+                    productDeliveryService.delete(selectedItem.getId());
+                    Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_DELETE);
+                    fillDataTable();
+                } catch (GeneralException e) {
+                    Notify.showErrorMessage(e.getMessage());
+                }
                 dlgDelete.close();
-                fillDataTable();
             });
         });
 
-        autPersonC.setOnSearch(s -> personService.findByName(s));
+        autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
 
 
         autPersonC.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -140,7 +152,7 @@ public class StoreRoomController implements Initializable {
         sdpReceivedDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.RECEIVED_DATE)));
 
 
-        autPersonS.setOnSearch(s -> personService.findByName(s));
+        autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
 
 
         sdpDeliveryDateC.setDialogContainer(startController.mainStack);
@@ -177,13 +189,7 @@ public class StoreRoomController implements Initializable {
 
     public void search(ActionEvent actionEvent) {
         searchModel.setProduct(new ProductModel(txfProductNameS.getText()));
-        productDeliveryService.search(searchModel, (result, message, status) -> {
-            if (status == ResponseStatus.FAIL) {
-                Notify.showErrorMessage(message);
-                return;
-            }
-            tblProductDelivery.setItems(result);
-        });
+        tblProductDelivery.setItems(productDeliveryService.search(searchModel).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     public void showCreateDialog() {
@@ -208,9 +214,9 @@ public class StoreRoomController implements Initializable {
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
         boolean receivedDateValidate = true;
         if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
-            receivedDateValidate  = sdpReceivedDateC.validate();
+            receivedDateValidate = sdpReceivedDateC.validate();
         }
-        return personValidate && productNameValidate && deliveryDateValidate && receivedDateValidate ;
+        return personValidate && productNameValidate && deliveryDateValidate && receivedDateValidate;
     }
 
     public void save() {
@@ -218,15 +224,15 @@ public class StoreRoomController implements Initializable {
             return;
         }
         createModel.setProduct(new ProductModel(txfProductNameC.getText()));
-        productDeliveryService.saveOrUpdate(createModel, (result, message, status) -> {
-            if (status == ResponseStatus.SUCCESS) {
-                dlgCreate.close();
-                fillDataTable();
-                Notify.showSuccessMessage(message);
-            } else {
-                Notify.showErrorMessage(message);
-            }
-        });
+
+        try {
+            productDeliveryService.saveOrUpdate(mapper.modelToEntity(createModel));
+            dlgCreate.close();
+            fillDataTable();
+            Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_SAVE);
+        } catch (GeneralException e) {
+            Notify.showErrorMessage(e.getMessage());
+        }
 
     }
 

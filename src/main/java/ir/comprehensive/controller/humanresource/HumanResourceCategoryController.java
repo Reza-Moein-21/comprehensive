@@ -5,20 +5,24 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
+import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.service.CategoryService;
-import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Controller
 public class HumanResourceCategoryController implements Initializable {
@@ -61,14 +65,12 @@ public class HumanResourceCategoryController implements Initializable {
     @FXML
     public JFXTextField txfDescriptionC;
 
-
+    @Autowired
     private StartController startController;
+    @Autowired
     private CategoryService categoryService;
-
-    public HumanResourceCategoryController(StartController startController, CategoryService categoryService) {
-        this.startController = startController;
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private CategoryMapper mapper;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,15 +95,14 @@ public class HumanResourceCategoryController implements Initializable {
         tblCategory.setOnDelete(selectedItem -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
-                categoryService.delete(selectedItem.getId(), (result, message, status) -> {
-                    if (status == ResponseStatus.FAIL) {
-                        Notify.showErrorMessage(message);
-                        return;
-                    }
-                    dlgDelete.close();
+                try {
+                    categoryService.delete(selectedItem.getId());
+                    Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable();
-                });
-
+                } catch (GeneralException e) {
+                    Notify.showErrorMessage(e.getMessage());
+                }
+                dlgDelete.close();
             });
         });
 
@@ -135,13 +136,7 @@ public class HumanResourceCategoryController implements Initializable {
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        categoryService.search(searchModel, (result, message, status) -> {
-            if (status == ResponseStatus.FAIL) {
-                Notify.showErrorMessage(message);
-                return;
-            }
-            tblCategory.setItems(result);
-        });
+        tblCategory.setItems(categoryService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
 
 
     }
@@ -173,27 +168,20 @@ public class HumanResourceCategoryController implements Initializable {
 
     public void save() {
         if (validateBeforeSave()) {
-            categoryService.saveOrUpdate(createModel, (result, message, status) -> {
-                if (status == ResponseStatus.SUCCESS) {
-                    Notify.showSuccessMessage(message);
-                    dlgCreate.close();
-                    updateDataTable();
-                } else {
-                    Notify.showErrorMessage(message);
-                }
-            });
+            try {
+                categoryService.saveOrUpdate(mapper.modelToEntity(createModel));
+                Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE);
+                dlgCreate.close();
+                updateDataTable();
+            } catch (GeneralException e) {
+                Notify.showErrorMessage(e.getMessage());
+            }
 
         }
     }
 
     private void updateDataTable() {
-        categoryService.getAllModel((result, message, status) -> {
-            if (status == ResponseStatus.FAIL) {
-                Notify.showErrorMessage(message);
-                return;
-            }
-            tblCategory.setItems(result);
-        });
+        tblCategory.setItems(categoryService.loadAll().map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
 }

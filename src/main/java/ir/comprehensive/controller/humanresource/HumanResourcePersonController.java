@@ -7,11 +7,13 @@ import ir.comprehensive.component.MultiSelectBox;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
+import ir.comprehensive.mapper.CategoryMapper;
+import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
-import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
@@ -19,10 +21,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Controller
 public class HumanResourcePersonController implements Initializable {
@@ -61,16 +65,16 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXTextField txfEmailC;
 
-
+    @Autowired
     private StartController startController;
+    @Autowired
     private PersonService personService;
+    @Autowired
     private CategoryService categoryService;
-
-    public HumanResourcePersonController(StartController startController, PersonService personService, CategoryService categoryService) {
-        this.startController = startController;
-        this.personService = personService;
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private CategoryMapper categoryMapper;
+    @Autowired
+    private PersonMapper mapper;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,16 +97,14 @@ public class HumanResourcePersonController implements Initializable {
         tblPerson.setOnDelete(selectedItem -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
-                personService.delete(selectedItem.getId(), (result, message, status) -> {
-                    if (status == ResponseStatus.SUCCESS) {
-                        Notify.showSuccessMessage(message);
-                        dlgDelete.close();
-                        updateDataTable();
-                    } else {
-                        Notify.showErrorMessage(message);
-
-                    }
-                });
+                try {
+                    personService.delete(selectedItem.getId());
+                    Notify.showSuccessMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE);
+                    updateDataTable();
+                } catch (GeneralException e) {
+                    Notify.showErrorMessage(e.getMessage());
+                }
+                dlgDelete.close();
             });
         });
         initSelectBox(slbCategoriesS);
@@ -144,13 +146,8 @@ public class HumanResourcePersonController implements Initializable {
             if (newValue.isEmpty()) {
                 suggestItems.getValue().clear();
             } else {
-                categoryService.findByTitle(newValue, (result, message, status) -> {
-                    if (status == ResponseStatus.FAIL) {
-                        Notify.showErrorMessage(message);
-                        return;
-                    }
-                    suggestItems.setValue(result);
-                });
+
+                suggestItems.setValue(categoryService.findByTitle(newValue).map(categories -> categories.stream().map(categoryMapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
             }
         });
     }
@@ -165,24 +162,13 @@ public class HumanResourcePersonController implements Initializable {
     }
 
     private void updateDataTable() {
-        personService.getAllModel((result, message, status) -> {
-            if (status == ResponseStatus.FAIL) {
-                Notify.showErrorMessage(message);
-                return;
-            }
-            tblPerson.setItems(result);
-        });
+        tblPerson.setItems(personService.loadAll().map(people -> people.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        personService.search(searchModel, (result, message, status) -> {
-            if (status == ResponseStatus.FAIL) {
-                Notify.showErrorMessage(message);
-                return;
-            }
-            tblPerson.setItems(result);
-        });
+        tblPerson.setItems(personService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     @FXML
@@ -209,17 +195,17 @@ public class HumanResourcePersonController implements Initializable {
 
         return firstNameValidate && lastNameValidate && emailValidate && phoneNumberValidate;
     }
+
     public void save() {
         if (validateBeforeSave()) {
-            personService.saveOrUpdate(createModel, (result, message, status) -> {
-                if (status == ResponseStatus.SUCCESS) {
-                    dlgCreate.close();
-                    updateDataTable();
-                    Notify.showSuccessMessage(message);
-                } else {
-                    Notify.showErrorMessage(message);
-                }
-            });
+            try {
+                personService.saveOrUpdate(mapper.modelToEntity(createModel));
+                dlgCreate.close();
+                updateDataTable();
+                Notify.showSuccessMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE);
+            } catch (GeneralException e) {
+                Notify.showErrorMessage(e.getMessage());
+            }
         }
     }
 

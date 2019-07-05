@@ -28,7 +28,7 @@ public class Person implements Serializable {
     @Column(name = "PHONE_NUMBER")
     String phoneNumber;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinTable(
             name = "PERSON_CATEGORY",
             joinColumns = {@JoinColumn(name = "PERSON_ID")},

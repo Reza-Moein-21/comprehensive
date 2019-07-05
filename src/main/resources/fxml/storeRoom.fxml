@@ -24,8 +24,8 @@
         <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}"
                               deliveryDateFrom="${sdpDeliveryDateFromS.value}"
                               deliveryDateTo="${sdpDeliveryDateToS.value}"
-                              receivedDateFrom="${sdpDeliveryDateFromS.value}"
-                              receivedDateTo="${sdpDeliveryDateToS.value}"
+                              receivedDateFrom="${sdpReceivedDateFromS.value}"
+                              receivedDateTo="${sdpReceivedDateToS.value}"
                               status="${cmbStatusS.value}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"

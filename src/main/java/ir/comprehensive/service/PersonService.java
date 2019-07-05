@@ -2,16 +2,14 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
 import ir.comprehensive.domain.Person;
-import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.repository.PersonRepository;
-import ir.comprehensive.service.response.RequestCallback;
-import ir.comprehensive.service.response.ResponseStatus;
+import ir.comprehensive.repository.ProductDeliveryRepository;
+import ir.comprehensive.service.extra.GeneralException;
+import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,44 +20,41 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
-public class PersonService {
-
+public class PersonService implements Swappable<Person> {
+    private ProductDeliveryRepository productDeliveryRepository;
     private PersonRepository repository;
-    private PersonMapper mapper;
 
-    public PersonService(PersonRepository repository, PersonMapper mapper) {
+
+    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository) {
+        this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public ObservableList<PersonModel> findByName(String name) {
+    public Optional<List<Person>> findByName(String name) {
         Page<Person> people = repository.findByName(name, PageRequest.of(0, 10));
-        List<PersonModel> personModels = people.get().map(mapper::entityToModel).collect(Collectors.toList());
-        return FXCollections.observableArrayList(personModels);
+        return Optional.of(people.getContent());
     }
 
-    public void loadModel(Long id, RequestCallback<PersonModel> callback) {
-        PersonModel result = repository.findById(id).map(mapper::entityToModel).orElse(null);
-        callback.accept(result, MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+    public Optional<Person> load(Long id) throws GeneralException {
+        if (id == null) {
+            // TODO must use true message
+            throw new GeneralException("null Id");
+        }
+        return repository.findById(id);
     }
 
-    public void getAllModel(RequestCallback<ObservableList<PersonModel>> callback) {
-        List<PersonModel> allModel = repository.findAll().stream().map(mapper::entityToModel).collect(Collectors.toList());
-        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+    public Optional<List<Person>> loadAll() {
+        return Optional.of(repository.findAll());
     }
 
 
-    public void getAll(RequestCallback<ObservableList<Person>> callback) {
-        List<Person> allPerson = repository.findAll();
-        callback.accept(FXCollections.observableList(allPerson), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
-    }
-
-    public void search(PersonModel searchExample, RequestCallback<ObservableList<PersonModel>> callback) {
+    public Optional<List<Person>> search(PersonModel searchExample) {
         Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
@@ -82,49 +77,47 @@ public class PersonService {
             query.orderBy(criteriaBuilder.asc(root.get("firstName")));
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        List<PersonModel> allModel = repository.findAll(personSpecification).stream().map(mapper::entityToModel).collect(Collectors.toList());
-
-        callback.accept(FXCollections.observableList(allModel), MessageUtils.Message.SUCCESS_LOAD, ResponseStatus.SUCCESS);
+        return Optional.of(repository.findAll(personSpecification));
     }
 
-    public void saveOrUpdate(PersonModel model, RequestCallback<Person> callback) {
-        // convert to entity
-        Person person = mapper.modelToEntity(model);
-
-        // null point check after convert
+    private void validateEntity(Person person) throws GeneralException {
         if (person == null) {
-            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
-            return;
-        }
-
-        // apply save
-        if (null == person.getId()) {
-            String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE;
-            callback.accept(repository.save(person), callbackMessage, ResponseStatus.SUCCESS);
-            return;
-        }
-
-        // apply update
-
-        Person loadedPerson = repository.findById(person.getId()).orElse(null);
-        if (loadedPerson == null) {
-            callback.accept(null, MessageUtils.Message.ERROR_IN_SAVE, ResponseStatus.FAIL);
-        } else {
-            loadedPerson.setId(person.getId());
-            loadedPerson.setFirstName(person.getFirstName());
-            loadedPerson.setLastName(person.getLastName());
-            loadedPerson.setEmail(person.getEmail());
-            loadedPerson.setPhoneNumber(person.getPhoneNumber());
-            loadedPerson.setCategories(person.getCategories());
-
-            String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_UPDATE;
-            callback.accept(repository.save(loadedPerson), callbackMessage, ResponseStatus.SUCCESS);
+            throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public void delete(Long id, RequestCallback<Long> callback) {
+    public Optional<Person> save(Person person) throws GeneralException {
+        validateEntity(person);
+        person.setId(null);
+        return Optional.of(repository.save(person));
+    }
+
+    public Optional<Person> update(Person person) throws GeneralException {
+        validateEntity(person);
+        if (person.getId() == null) {
+            // TODO must fix message
+            throw new GeneralException("not null id");
+        }
+        // TODO must fix message
+        Person loadedPerson = repository.findById(person.getId()).orElseThrow(() -> new GeneralException("not found"));
+
+        return Optional.of(repository.save(swap(person, loadedPerson)));
+
+    }
+
+    public Optional<Person> saveOrUpdate(Person person) throws GeneralException {
+        return person.getId() == null ? save(person) : update(person);
+    }
+
+    public Optional<Long> delete(Long id) throws GeneralException {
+        if (id == null) {
+            // TODO fix message
+            throw new GeneralException("not null id");
+        }
+        if (productDeliveryRepository.isPersonExist(id)) {
+            throw new GeneralException(MessageUtils.Message.PERSON + " " + MessageUtils.Message.USE_IN + " " + MessageUtils.Message.STOREROOM);
+        }
         repository.deleteById(id);
-        String callbackMessage = MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE;
-        callback.accept(id, callbackMessage, ResponseStatus.SUCCESS);
+        return Optional.of(id);
     }
 }
