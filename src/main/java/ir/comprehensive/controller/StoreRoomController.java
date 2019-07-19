@@ -1,5 +1,6 @@
 package ir.comprehensive.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
@@ -19,11 +20,15 @@ import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -35,6 +40,10 @@ import java.util.stream.Collectors;
 @Controller
 public class StoreRoomController implements Initializable {
 
+    public VBox vbxCreateCenter;
+    public HBox hbxCreateFooter;
+    public GridPane grdSearchContent;
+    public JFXButton btnCreate;
     @Autowired
     private ProductDeliveryService productDeliveryService;
     @Autowired
@@ -46,6 +55,11 @@ public class StoreRoomController implements Initializable {
     @Autowired
     private PersonMapper personMapper;
 
+
+    @FXML
+    public VBox vbxCreateContent;
+    @FXML
+    public HBox hbxCreateHeader;
 
     @FXML
     public JFXComboBox<ProductStatus> cmbStatusS;
@@ -101,7 +115,41 @@ public class StoreRoomController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        sdpDeliveryDateFromS.setPrefWidth(ScreenUtils.getActualSize(500));
+        sdpDeliveryDateToS.setPrefWidth(ScreenUtils.getActualSize(500));
+        sdpReceivedDateFromS.setPrefWidth(ScreenUtils.getActualSize(500));
+        sdpReceivedDateToS.setPrefWidth(ScreenUtils.getActualSize(500));
+        //
+        vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1024));
+        //
+        hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
+        //
+        vbxCreateCenter.setPadding(new Insets(0, ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10)));
+        vbxCreateCenter.setSpacing(ScreenUtils.getActualSize(100));
+        //
+        hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
+        hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
+        //
+        autPersonC.setPrefWidth(ScreenUtils.getActualSize(500));
+        //
+        sdpDeliveryDateC.setPrefWidth(ScreenUtils.getActualSize(500));
+        sdpDesiredDateC.setPrefWidth(ScreenUtils.getActualSize(500));
+        //
+        cmbStatusC.setPrefWidth(ScreenUtils.getActualSize(500));
+        cmbStatusS.setPrefWidth(ScreenUtils.getActualSize(500));
+        //
+        cmbStatusC.setPrefWidth(ScreenUtils.getActualSize(500));
 
+        //
+        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(500));
+        grdSearchContent.setHgap(ScreenUtils.getActualSize(20));
+        grdSearchContent.setVgap(ScreenUtils.getActualSize(30));
+        grdSearchContent.setPadding(new Insets(ScreenUtils.getActualSize(50),0,0,0));
+        //
+        btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        txfProductNameC.setPrefWidth(ScreenUtils.getActualSize(500));
         tblProductDelivery.setOnEdit(selectedItem -> {
             ProductDeliveryModel editModel = productDeliveryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());

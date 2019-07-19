@@ -30,25 +30,25 @@
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
-        <VBox spacing="50" prefWidth="1024">
-            <HBox alignment="CENTER"
-                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #29b6f6;-fx-padding: 10;">
+        <VBox fx:id="vbxCreateContent">
+            <HBox alignment="CENTER" fx:id="hbxCreateHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #29b6f6;">
                 <Label text="%createProduct"/>
             </HBox>
-            <VBox style="-fx-padding: 0 10;-fx-spacing: 100">
+            <VBox fx:id="vbxCreateCenter">
                 <HBox spacing="10">
-                    <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true" prefWidth="500"/>
-                    <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true" prefWidth="500"/>
+                    <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true"/>
+                    <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"/>
                 </HBox>
                 <HBox spacing="10">
-                    <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate" prefWidth="500"/>
-                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate" prefWidth="500"/>
+                    <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate"/>
+                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate"/>
 
                 </HBox>
                 <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
 
                 <HBox spacing="50">
-                    <JFXComboBox fx:id="cmbStatusC" promptText="%productStatus" labelFloat="true" prefWidth="500">
+                    <JFXComboBox fx:id="cmbStatusC" promptText="%productStatus" labelFloat="true">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <ProductStatus fx:value="UNKNOWN"/>
@@ -61,7 +61,7 @@
                     <SimpleDatePicker fx:id="sdpReceivedDateC" promptText="%receivedDate" prefWidth="500"/>
                 </HBox>
             </VBox>
-            <HBox style="-fx-alignment: top-right; -fx-spacing: 20;-fx-padding: 10">
+            <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                            buttonType="RAISED"/>
                 <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
@@ -69,8 +69,8 @@
         </VBox>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <TitledPane text="%search">
-        <GridPane prefHeight="500" hgap="20" vgap="30">
+    <TitledPane expanded="false" text="%search" >
+        <GridPane fx:id="grdSearchContent">
             <columnConstraints>
                 <ColumnConstraints percentWidth="35"/>
                 <ColumnConstraints percentWidth="35"/>
@@ -113,7 +113,7 @@
         </GridPane>
     </TitledPane>
     <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 15;">
-        <JFXButton text="%create" onAction="#showCreateDialog" prefWidth="300"
+        <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
                    styleClass="primary-button,green-background"/>
     </HBox>
 
