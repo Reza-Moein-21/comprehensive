@@ -29,14 +29,18 @@
                 </HBox>
             </heading>
             <body>
-                <VBox style="-fx-padding: 40 20;-fx-spacing: 100;">
+                <GridPane style="-fx-padding: 40 20;-fx-hgap: 10;-fx-vgap: 100;">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
                     <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
-                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"/>
-                    <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true"/>
-                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true"/>
-                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true"/>
-                    <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
-                </VBox>
+                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true" GridPane.columnIndex="1"/>
+                    <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true" GridPane.rowIndex="1"/>
+                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true" GridPane.rowIndex="2"/>
+                    <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
             </body>
             <actions>
                 <HBox style="-fx-alignment: top-right; -fx-spacing: 20">

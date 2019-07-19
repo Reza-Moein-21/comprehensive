@@ -1,8 +1,3 @@
-* {
-    -fx-font-family: "shabnam";
-    -fx-font-size: 32;
-}
-
 .base {
     -fx-background-color: #E0E0E0;
 }
@@ -93,8 +88,6 @@
 .header-button {
     -fx-cursor: hand;
     -jfx-disable-visual-focus: true;
-    -fx-pref-width: 96;
-    -fx-pref-height: 64;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -170,10 +163,6 @@
 */
 
 .storeroom-card {
-    -fx-pref-width: 350.0;
-    -fx-pref-height: 160.0;
-    -fx-min-width: 350.0;
-    -fx-min-height: 160.0;
 }
 
 .storeroom-card .bodyStyleClass {
@@ -185,10 +174,6 @@
 }
 
 .project-card {
-    -fx-pref-width: 350.0;
-    -fx-pref-height: 160.0;
-    -fx-min-width: 350.0;
-    -fx-min-height: 160.0;
 }
 
 .project-card .bodyStyleClass {
@@ -200,10 +185,6 @@
 }
 
 .human-resource-card {
-    -fx-pref-width: 350.0;
-    -fx-pref-height: 160.0;
-    -fx-min-width: 350.0;
-    -fx-min-height: 160.0;
 }
 
 .human-resource-card .bodyStyleClass {

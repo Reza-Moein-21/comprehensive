@@ -20,7 +20,7 @@
                 </rowConstraints>
 
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
-                    <JFXButton styleClass="header-button,back-button" onAction="#backToPrevious"/>
+                    <JFXButton fx:id="btnBack" styleClass="header-button,back-button" onAction="#backToPrevious"/>
                 </HBox>
 
                 <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
@@ -28,8 +28,8 @@
                 </HBox>
 
                 <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-                    <JFXButton styleClass="header-button,home-button" onAction="#backToHome"/>
-                    <JFXButton styleClass="header-button,settings-button"/>
+                    <JFXButton fx:id="btnHome" styleClass="header-button,home-button" onAction="#backToHome"/>
+                    <JFXButton fx:id="btnSetting" styleClass="header-button,settings-button"/>
                 </HBox>
             </GridPane>
 

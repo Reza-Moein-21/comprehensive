@@ -1,6 +1,7 @@
 package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXButton;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -42,9 +43,9 @@ public class Card extends AnchorPane {
         bodyTitle.setAlignment(Pos.CENTER_RIGHT);
         bodyTitle.setTextAlignment(TextAlignment.RIGHT);
         bodyTitle.textProperty().bind(titleProperty());
-        AnchorPane.setTopAnchor(bodyTitle, 0.0);
-        AnchorPane.setRightAnchor(bodyTitle, 10.0);
-        AnchorPane.setLeftAnchor(bodyTitle, 75.0);
+        AnchorPane.setTopAnchor(bodyTitle, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setRightAnchor(bodyTitle, ScreenUtils.getActualSize(10.0));
+        AnchorPane.setLeftAnchor(bodyTitle, ScreenUtils.getActualSize(75.0));
 
         /*
          * ********************************
@@ -57,10 +58,10 @@ public class Card extends AnchorPane {
         bodyComment.setWrapText(true);
         bodyComment.setText(comment.get());
         bodyComment.textProperty().bind(commentProperty());
-        AnchorPane.setTopAnchor(bodyComment, 55.0);
-        AnchorPane.setRightAnchor(bodyComment, 5.0);
-        AnchorPane.setBottomAnchor(bodyComment, 0.0);
-        AnchorPane.setLeftAnchor(bodyComment, 5.0);
+        AnchorPane.setTopAnchor(bodyComment, ScreenUtils.getActualSize(55.0));
+        AnchorPane.setRightAnchor(bodyComment, ScreenUtils.getActualSize(5.0));
+        AnchorPane.setBottomAnchor(bodyComment, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setLeftAnchor(bodyComment, ScreenUtils.getActualSize(5.0));
 
         /*
          * ********************************
@@ -71,10 +72,10 @@ public class Card extends AnchorPane {
         bodyButton.setStyle("-fx-background-color: transparent;-jfx-disable-visual-focus: true;");
         bodyButton.setText(null);
         bodyButton.onActionProperty().bind(onClickProperty());
-        AnchorPane.setTopAnchor(bodyButton, 0.0);
-        AnchorPane.setRightAnchor(bodyButton, 0.0);
-        AnchorPane.setBottomAnchor(bodyButton, 0.0);
-        AnchorPane.setLeftAnchor(bodyButton, 0.0);
+        AnchorPane.setTopAnchor(bodyButton, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setRightAnchor(bodyButton, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setBottomAnchor(bodyButton, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setLeftAnchor(bodyButton, ScreenUtils.getActualSize(0.0));
 
         /*
          * ********************************
@@ -82,11 +83,11 @@ public class Card extends AnchorPane {
          * ********************************
          */
         iconView = new ImageView();
-        AnchorPane.setTopAnchor(iconView, 0.0);
-        AnchorPane.setRightAnchor(iconView, 40.0);
-        AnchorPane.setLeftAnchor(iconView, 10.0);
-        iconView.setFitHeight(98);
-        iconView.setFitWidth(98);
+        AnchorPane.setTopAnchor(iconView, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setRightAnchor(iconView, ScreenUtils.getActualSize(40.0));
+        AnchorPane.setLeftAnchor(iconView, ScreenUtils.getActualSize(10.0));
+        iconView.setFitHeight(ScreenUtils.getActualSize(96));
+        iconView.setFitWidth(ScreenUtils.getActualSize(96));
         iconView.imageProperty().bind(iconProperty());
 
         /*
@@ -95,10 +96,10 @@ public class Card extends AnchorPane {
          * ********************************
          */
         body = new AnchorPane();
-        AnchorPane.setTopAnchor(body, 50.0);
-        AnchorPane.setRightAnchor(body, 0.0);
-        AnchorPane.setBottomAnchor(body, 0.0);
-        AnchorPane.setLeftAnchor(body, 0.0);
+        AnchorPane.setTopAnchor(body, ScreenUtils.getActualSize(50.0));
+        AnchorPane.setRightAnchor(body, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setBottomAnchor(body, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setLeftAnchor(body, ScreenUtils.getActualSize(0.0));
         body.getStyleClass().add(BODY_STYLE_CLASS);
         body.getChildren().addAll(bodyTitle, bodyComment, bodyButton);
 
@@ -107,8 +108,8 @@ public class Card extends AnchorPane {
          *   Init base
          * ********************************
          */
-        minHeight(150.0);
-        minWidth(300.0);
+        minHeight(ScreenUtils.getActualSize(150.0));
+        minWidth(ScreenUtils.getActualSize(300.0));
         getChildren().addAll(body, iconView);
 
     }

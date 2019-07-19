@@ -21,7 +21,7 @@
     </fx:define>
 
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
-        <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 700;-fx-padding: 10 5;">
+        <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 10;-fx-padding: 10 5;">
             <heading>
                 <HBox alignment="CENTER"
                       style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;-fx-font-size: 18">
@@ -29,14 +29,22 @@
                 </HBox>
             </heading>
             <body>
-                <VBox style="-fx-padding: 40 20;-fx-spacing: 100;">
+                <GridPane style="-fx-padding: 40 20;-fx-hgap: 10;-fx-vgap: 100">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
                     <JFXTextField fx:id="txfFirstNameC" promptText="%firstName" labelFloat="true"/>
-                    <JFXTextField fx:id="txfLastNameC" promptText="%lastName" labelFloat="true"/>
-                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"/>
-                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true"/>
-                    <MultiSelectBox fx:id="slbCategoriesC" prefHeight="450" styleClass="selectBox"
+                    <JFXTextField fx:id="txfLastNameC" promptText="%lastName" labelFloat="true"
+                                  GridPane.columnIndex="1"/>
+                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"
+                                  GridPane.rowIndex="1"/>
+                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.columnIndex="1"
+                                  GridPane.rowIndex="1"/>
+                    <MultiSelectBox fx:id="slbCategoriesC" prefHeight="320" styleClass="selectBox"
+                                    GridPane.rowIndex="2" GridPane.columnSpan="2"
                                     promptText="%categories"/>
-                </VBox>
+                </GridPane>
             </body>
             <actions>
                 <HBox style="-fx-alignment: top-right; -fx-spacing: 20">

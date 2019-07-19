@@ -1,5 +1,7 @@
 package ir.comprehensive.controller;
 
+import com.jfoenix.controls.JFXButton;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,13 @@ import static ir.comprehensive.utils.MessageUtils.getMessageBundle;
 
 @Controller
 public class StartController implements Initializable {
+    @FXML
+    public JFXButton btnBack;
+    @FXML
+    public JFXButton btnHome;
+    @FXML
+    public JFXButton btnSetting;
+
     private Stack<ViewName> viewNames = new Stack<>();
     ConfigurableApplicationContext context;
 
@@ -34,6 +43,13 @@ public class StartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         viewNames.push(ViewName.HOME);
+        btnBack.setPrefWidth(ScreenUtils.getActualSize(96));
+        btnBack.setPrefHeight(ScreenUtils.getActualSize(64));
+        btnHome.setPrefWidth(ScreenUtils.getActualSize(96));
+        btnHome.setPrefHeight(ScreenUtils.getActualSize(64));
+        btnSetting.setPrefWidth(ScreenUtils.getActualSize(96));
+        btnSetting.setPrefHeight(ScreenUtils.getActualSize(64));
+
     }
 
     public void backToPrevious(ActionEvent actionEvent) {

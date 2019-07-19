@@ -1,5 +1,6 @@
 package ir.comprehensive;
 
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +27,7 @@ public class Start extends Application {
     @Override
     public void init() {
         springContext = SpringApplication.run(Start.class);
-        Font.loadFont(getClass().getResource("/fonts/shabnam.ttf").toExternalForm(), 16);
+        Font.loadFont(getClass().getResource("/fonts/shabnam.ttf").toExternalForm(), ScreenUtils.getActualSize(32));
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
         fxmlLoader.setResources(getMessageBundle());
@@ -37,7 +38,8 @@ public class Start extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/start.fxml"));
         Parent rootNode = fxmlLoader.load();
 
-        Scene scene = new Scene(rootNode, 2048, 1024);
+        Scene scene = new Scene(rootNode, ScreenUtils.getActualSize(2048), ScreenUtils.getActualSize(1024));
+        setGlobalCss(scene);
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("/image/red-hat.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
@@ -48,5 +50,18 @@ public class Start extends Application {
     @Override
     public void stop() {
         springContext.stop();
+    }
+
+    private void setGlobalCss(Scene scene) {
+        double scale = ScreenUtils.getScale();
+        if (scale == ScreenUtils.LOW) {
+            scene.getStylesheets().add(getClass().getResource("/css/lowFont.css").toExternalForm());
+        } else if (scale == ScreenUtils.MID) {
+            scene.getStylesheets().add(getClass().getResource("/css/midFont.css").toExternalForm());
+        } else if (scale == ScreenUtils.HI) {
+            scene.getStylesheets().add(getClass().getResource("/css/hiFont.css").toExternalForm());
+        } else if (scale == ScreenUtils.EXTRA) {
+            scene.getStylesheets().add(getClass().getResource("/css/extraFont.css").toExternalForm());
+        }
     }
 }
