@@ -34,7 +34,7 @@
             </GridPane>
 
 
-            <AnchorPane fx:id="main" AnchorPane.topAnchor="76" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
+            <AnchorPane fx:id="main" AnchorPane.topAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
                         AnchorPane.leftAnchor="10">
                 <fx:include source="home.fxml"/>
             </AnchorPane>

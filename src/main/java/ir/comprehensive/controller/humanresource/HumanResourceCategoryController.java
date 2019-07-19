@@ -1,6 +1,8 @@
 package ir.comprehensive.controller.humanresource;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -12,11 +14,18 @@ import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -64,6 +73,19 @@ public class HumanResourceCategoryController implements Initializable {
     public JFXTextField txfAddressC;
     @FXML
     public JFXTextField txfDescriptionC;
+    @FXML
+    public VBox vbxHRCategory;
+    public JFXDialogLayout dlgLayout;
+    public GridPane grdCreateContent;
+    public HBox hbxCreateFooter;
+    public GridPane grdSearchContent;
+    public JFXButton btnCreate;
+    public TableColumn<CategoryModel, String> colTitle;
+    public TableColumn<CategoryModel, String> colPhoneNumber;
+    public TableColumn<CategoryModel, String> colFax;
+    public TableColumn<CategoryModel, String> colEmail;
+    public TableColumn<CategoryModel, String> colAddress;
+    public TableColumn<CategoryModel, String> colDescription;
 
     @Autowired
     private StartController startController;
@@ -77,7 +99,48 @@ public class HumanResourceCategoryController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        vbxHRCategory.setSpacing(ScreenUtils.getActualSize(10));
+        vbxHRCategory.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
+        dlgLayout.setMinWidth(ScreenUtils.getActualSize(1200));
+        dlgLayout.setMinHeight(ScreenUtils.getActualSize(700));
+        dlgLayout.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5)));
 
+
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colTitle.setMinWidth(ScreenUtils.getActualSize(300));
+        colTitle.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        colPhoneNumber.setMinWidth(ScreenUtils.getActualSize(300));
+        colPhoneNumber.setPrefWidth(ScreenUtils.getActualSize(400));
+
+
+        colFax.setCellValueFactory(new PropertyValueFactory<>("fax"));
+        colFax.setMinWidth(ScreenUtils.getActualSize(300));
+        colFax.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colEmail.setMinWidth(ScreenUtils.getActualSize(300));
+        colEmail.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colAddress.setMinWidth(ScreenUtils.getActualSize(300));
+        colAddress.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colDescription.setMinWidth(ScreenUtils.getActualSize(300));
+        colDescription.setPrefWidth(ScreenUtils.getActualSize(500));
+
+
+        btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+        grdCreateContent.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdCreateContent.setHgap(ScreenUtils.getActualSize(10));
+        grdCreateContent.setVgap(ScreenUtils.getActualSize(100));
+        hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
+        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
+        grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
+        grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
+        //        dlgLayout
         updateDataTable();
         tblCategory.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
