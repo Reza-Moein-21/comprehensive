@@ -136,8 +136,6 @@
     -fx-cursor: hand;
     -jfx-disable-visual-focus: true;
     -jfx-button-type: RAISED;
-    -fx-pref-width: 52;
-    -fx-pref-height: 52;
     -fx-background-radius: 3;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;

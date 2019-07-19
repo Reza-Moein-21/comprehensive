@@ -9,7 +9,6 @@
 <?import ir.comprehensive.domain.*?>
 <?import ir.comprehensive.model.ProductDeliveryModel?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT"
@@ -69,7 +68,7 @@
         </VBox>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <TitledPane expanded="false" text="%search" >
+    <TitledPane expanded="false" text="%search">
         <GridPane fx:id="grdSearchContent">
             <columnConstraints>
                 <ColumnConstraints percentWidth="35"/>
@@ -119,36 +118,13 @@
 
     <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="%productName" minWidth="200" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="product"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%fullName" minWidth="200" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="person"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%deliveryDate" minWidth="300" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="deliveryDate"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%desiredDate" minWidth="300" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="desiredDate"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%receivedDate" minWidth="300" prefWidth="400">
-                <cellValueFactory>
-                    <PropertyValueFactory property="receivedDate"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%description" minWidth="300" prefWidth="600">
-                <cellValueFactory>
-                    <PropertyValueFactory property="description"/>
-                </cellValueFactory>
-            </TableColumn>
+            <TableColumn fx:id="colProductName" text="%productName"/>
+            <TableColumn fx:id="colFullName" text="%fullName"/>
+            <TableColumn fx:id="colStatus" text="%productStatus"/>
+            <TableColumn fx:id="colDeliveryDate" text="%deliveryDate"/>
+            <TableColumn fx:id="colDesiredDate" text="%desiredDate"/>
+            <TableColumn fx:id="colReceivedDate" text="%receivedDate"/>
+            <TableColumn fx:id="colDescription" text="%description"/>
         </columns>
     </DataTable>
 </VBox>

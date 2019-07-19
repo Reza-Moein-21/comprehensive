@@ -2,6 +2,7 @@ package ir.comprehensive.component.basetable;
 
 import com.jfoenix.controls.JFXButton;
 import ir.comprehensive.utils.MessageUtils;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
@@ -54,6 +55,8 @@ class EditableTableCell<T> extends TableCell<T, T> {
 
     public EditableTableCell(Editable<T> editable) {
         editButton.setOnAction(event -> editable.edit(getItem()));
+        editButton.setPrefWidth(ScreenUtils.getActualSize(52));
+        editButton.setPrefHeight(ScreenUtils.getActualSize(52));
         editButton.getStyleClass().addAll("table-row-button", "edit-table-row-button");
     }
 
@@ -77,6 +80,8 @@ class DeletableTableCell<T> extends TableCell<T, T> {
 
     public DeletableTableCell(Deletable<T> deletable) {
         deleteButton.setOnAction(event -> deletable.delete(getItem()));
+        deleteButton.setPrefWidth(ScreenUtils.getActualSize(52));
+        deleteButton.setPrefHeight(ScreenUtils.getActualSize(52));
         deleteButton.getStyleClass().addAll("table-row-button", "delete-table-row-button");
     }
 

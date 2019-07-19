@@ -11,8 +11,4 @@ public class ProductModel extends BaseModel {
         super(title);
     }
 
-    @Override
-    public String toString() {
-        return this.getTitle();
-    }
 }

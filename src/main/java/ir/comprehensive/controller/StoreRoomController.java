@@ -1,5 +1,6 @@
 package ir.comprehensive.controller;
 
+import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
@@ -21,11 +22,15 @@ import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,6 +49,7 @@ public class StoreRoomController implements Initializable {
     public HBox hbxCreateFooter;
     public GridPane grdSearchContent;
     public JFXButton btnCreate;
+
     @Autowired
     private ProductDeliveryService productDeliveryService;
     @Autowired
@@ -99,6 +105,20 @@ public class StoreRoomController implements Initializable {
     public JFXDialog dlgCreate;
     @FXML
     public DataTable<ProductDeliveryModel> tblProductDelivery;
+    @FXML
+    public TableColumn<ProductDeliveryModel, String> colProductName;
+    @FXML
+    public TableColumn<ProductDeliveryModel, String> colFullName;
+    @FXML
+    public TableColumn<ProductDeliveryModel, ProductStatus> colStatus;
+    @FXML
+    public TableColumn<ProductDeliveryModel, PersianDate> colDeliveryDate;
+    @FXML
+    public TableColumn<ProductDeliveryModel, PersianDate> colDesiredDate;
+    @FXML
+    public TableColumn<ProductDeliveryModel, PersianDate> colReceivedDate;
+    @FXML
+    public TableColumn<ProductDeliveryModel, String> colDescription;
 
     private void fillDataTable() {
         tblProductDelivery.setItems(productDeliveryService.loadByStatus(cmbStatusS.getValue()).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
@@ -115,6 +135,37 @@ public class StoreRoomController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        //init Table
+        colProductName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getProduct().getTitle()));
+        colProductName.setMinWidth(ScreenUtils.getActualSize(200));
+        colProductName.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
+        colFullName.setMinWidth(ScreenUtils.getActualSize(200));
+        colFullName.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colStatus.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, ProductStatus>("status"));
+        colStatus.setMinWidth(ScreenUtils.getActualSize(200));
+        colStatus.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null :PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
+        colDeliveryDate.setMinWidth(ScreenUtils.getActualSize(200));
+        colDeliveryDate.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colDesiredDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDesiredDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDesiredDate())));
+        colDesiredDate.setMinWidth(ScreenUtils.getActualSize(200));
+        colDesiredDate.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colReceivedDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getReceivedDate() == null ? null : PersianDate.fromGregorian(param.getValue().getReceivedDate())));
+        colReceivedDate.setMinWidth(ScreenUtils.getActualSize(200));
+        colReceivedDate.setPrefWidth(ScreenUtils.getActualSize(400));
+
+
+        colDescription.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, String>("description"));
+        colDescription.setMinWidth(ScreenUtils.getActualSize(200));
+        colDescription.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        //
         sdpDeliveryDateFromS.setPrefWidth(ScreenUtils.getActualSize(500));
         sdpDeliveryDateToS.setPrefWidth(ScreenUtils.getActualSize(500));
         sdpReceivedDateFromS.setPrefWidth(ScreenUtils.getActualSize(500));
@@ -145,7 +196,7 @@ public class StoreRoomController implements Initializable {
         grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(500));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(20));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(30));
-        grdSearchContent.setPadding(new Insets(ScreenUtils.getActualSize(50),0,0,0));
+        grdSearchContent.setPadding(new Insets(ScreenUtils.getActualSize(50), 0, 0, 0));
         //
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
 
