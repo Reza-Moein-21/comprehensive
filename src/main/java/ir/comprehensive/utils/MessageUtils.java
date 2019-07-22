@@ -83,12 +83,16 @@ public class MessageUtils {
         public static final String CONFIRM_DELETE = getMessage("confirmDelete");
         public static final String WRONG_EMAIL_FORMAT = getMessage("wrongEmailFormat");
         public static final String WRONG_PHONE_NUMBER_FORMAT = getMessage("wrongPhoneNumberFormat");
+        public static final String MAX_DATE_DENIED = getMessage("maxDateDenied");
+        public static final String MIN_DATE_DENIED = getMessage("minDateDenied");
+        public static final String BETWEEN_DATE_DENIED = getMessage("betweenDateDenied");
         public static final String FAIL_OPERATION = getMessage("failOperation");
         public static final String PEOPLE = getMessage("people");
         public static final String NOT_FOUND = getMessage("notFound");
         public static final String UNKNOWN = getMessage("unknown");
         public static final String LOST = getMessage("lost");
         public static final String USE_IN = getMessage("useIn");
+        public static final String TODAY_DATE = getMessage("todayDate");
 
         private Message() {
         }

@@ -38,6 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -148,7 +150,7 @@ public class StoreRoomController implements Initializable {
         colStatus.setMinWidth(ScreenUtils.getActualSize(200));
         colStatus.setPrefWidth(ScreenUtils.getActualSize(400));
 
-        colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null :PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
+        colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
         colDeliveryDate.setMinWidth(ScreenUtils.getActualSize(200));
         colDeliveryDate.setPrefWidth(ScreenUtils.getActualSize(400));
 
@@ -247,7 +249,7 @@ public class StoreRoomController implements Initializable {
 
         autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
         txfProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
-        sdpDeliveryDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE)));
+        sdpDeliveryDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
         sdpReceivedDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.RECEIVED_DATE)));
 
 
