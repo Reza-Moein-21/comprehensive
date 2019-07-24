@@ -35,18 +35,31 @@
                 <Label text="%createProduct"/>
             </HBox>
             <VBox fx:id="vbxCreateCenter">
-                <HBox spacing="10">
+                <GridPane fx:id="grdPersonProduct" prefWidth="Infinity">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
                     <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true"/>
-                    <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"/>
-                </HBox>
-                <HBox spacing="10">
+                    <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"
+                                  GridPane.columnIndex="1"/>
+                </GridPane>
+                <GridPane fx:id="grdDeliverDesiredDate" prefWidth="Infinity">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
                     <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate"/>
-                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate"/>
+                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate" GridPane.columnIndex="1"/>
 
-                </HBox>
+                </GridPane>
                 <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
 
-                <HBox spacing="50">
+                <GridPane fx:id="grdStatusReceivedDate" prefWidth="Infinity">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
                     <JFXComboBox fx:id="cmbStatusC" promptText="%productStatus" labelFloat="true">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
@@ -57,8 +70,8 @@
                             </FXCollections>
                         </items>
                     </JFXComboBox>
-                    <SimpleDatePicker fx:id="sdpReceivedDateC" promptText="%receivedDate" prefWidth="500"/>
-                </HBox>
+                    <SimpleDatePicker fx:id="sdpReceivedDateC" promptText="%receivedDate" GridPane.columnIndex="1"/>
+                </GridPane>
             </VBox>
             <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"

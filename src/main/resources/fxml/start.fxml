@@ -8,16 +8,14 @@
     <children>
 
         <AnchorPane>
-            <GridPane styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+            <GridPane fx:id="grdTop" styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                       AnchorPane.topAnchor="0">
                 <columnConstraints>
                     <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
                     <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0"/>
                     <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
                 </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="50"/>
-                </rowConstraints>
+
 
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
                     <JFXButton fx:id="btnBack" styleClass="header-button,back-button" onAction="#backToPrevious"/>

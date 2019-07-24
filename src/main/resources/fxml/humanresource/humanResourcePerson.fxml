@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx" style="-fx-padding: 10 0;-fx-spacing: 10"
+      xmlns="http://javafx.com/javafx" fx:id="parent"
       fx:controller="ir.comprehensive.controller.humanresource.HumanResourcePersonController">
     <fx:define>
         <PersonModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
@@ -21,15 +21,15 @@
     </fx:define>
 
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
-        <JFXDialogLayout style="-fx-min-width: 1024;-fx-min-height: 10;-fx-padding: 10 5;">
+        <JFXDialogLayout fx:id="dlgCreatLayout">
             <heading>
                 <HBox alignment="CENTER"
-                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;-fx-font-size: 18">
+                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E">
                     <Label text="%createPerson"/>
                 </HBox>
             </heading>
             <body>
-                <GridPane style="-fx-padding: 40 20;-fx-hgap: 10;-fx-vgap: 100">
+                <GridPane fx:id="grdCreateContent">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="50"/>
                         <ColumnConstraints percentWidth="50"/>
@@ -41,13 +41,13 @@
                                   GridPane.rowIndex="1"/>
                     <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.columnIndex="1"
                                   GridPane.rowIndex="1"/>
-                    <MultiSelectBox fx:id="slbCategoriesC" prefHeight="320" styleClass="selectBox"
+                    <MultiSelectBox fx:id="slbCategoriesC" styleClass="selectBox"
                                     GridPane.rowIndex="2" GridPane.columnSpan="2"
                                     promptText="%categories"/>
                 </GridPane>
             </body>
             <actions>
-                <HBox style="-fx-alignment: top-right; -fx-spacing: 20">
+                <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right">
                     <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                                buttonType="RAISED"/>
                     <JFXButton text="%save" onAction="#save" styleClass="primary-button"
@@ -57,8 +57,8 @@
         </JFXDialogLayout>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <TitledPane text="%search">
-        <GridPane prefHeight="700" vgap="10" hgap="10">
+    <TitledPane text="%search" expanded="false">
+        <GridPane fx:id="grdSearchContent">
             <columnConstraints>
                 <ColumnConstraints percentWidth="25"/>
                 <ColumnConstraints percentWidth="25"/>
@@ -98,22 +98,22 @@
     </BorderPane>
     <DataTable fx:id="tblPerson" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="%firstName" minWidth="200" prefWidth="400">
+            <TableColumn text="%firstName" fx:id="colFirstName">
                 <cellValueFactory>
                     <PropertyValueFactory property="firstName"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="%lastName" minWidth="200" prefWidth="400">
+            <TableColumn text="%lastName" fx:id="colLastName">
                 <cellValueFactory>
                     <PropertyValueFactory property="lastName"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="%phoneNumber" minWidth="300" prefWidth="400">
+            <TableColumn text="%phoneNumber" fx:id="colPhoneNumber">
                 <cellValueFactory>
                     <PropertyValueFactory property="phoneNumber"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="%email" minWidth="300" prefWidth="400">
+            <TableColumn text="%email" fx:id="colEmail">
                 <cellValueFactory>
                     <PropertyValueFactory property="email"/>
                 </cellValueFactory>

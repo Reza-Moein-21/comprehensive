@@ -84,6 +84,10 @@ public class PersonService implements Swappable<Person> {
         if (person == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
+
+        if (person.getId() != null ? repository.isNotUnique(person.getId(), person.getFirstName(), person.getLastName()) : repository.isNotUnique(person.getFirstName(), person.getLastName())) {
+            throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE + " " + MessageUtils.Message.PERSON_NOT_UNIQUE);
+        }
     }
 
     public Optional<Person> save(Person person) throws GeneralException {

@@ -72,6 +72,9 @@ public class CategoryService implements Swappable<Category> {
         if (category == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
+        if (category.getId() != null ? repository.isNotUnique(category.getId(), category.getTitle()) : repository.isNotUnique(category.getTitle())) {
+            throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE + " " + MessageUtils.Message.CATEGORY_NOT_UNIQUE);
+        }
     }
 
     public Optional<Category> save(Category category) throws GeneralException {

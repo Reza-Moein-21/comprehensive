@@ -1,6 +1,5 @@
 package ir.comprehensive.utils;
 
-import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
@@ -69,13 +68,13 @@ public class FormValidationUtils {
                     return;
                 }
                 if (this.minDate != null && this.maxDate != null) {
-                    hasErrors.set(PersianDate.fromGregorian(datePicker.getValue()).isBefore(this.minDate) || PersianDate.fromGregorian(datePicker.getValue()).isAfter(this.maxDate));
+                    hasErrors.set(datePicker.getValue().isBefore(this.minDate) || datePicker.getValue().isAfter(this.maxDate));
                     setMessage(MessageUtils.Message.BETWEEN_DATE_DENIED.replace("{0}", fieldTitle).replace("{1}", minDateTitle).replace("{2}", maxDateTitle));
                 } else if (this.minDate != null) {
-                    hasErrors.set(PersianDate.fromGregorian(datePicker.getValue()).isBefore(this.minDate));
+                    hasErrors.set(datePicker.getValue().isBefore(this.minDate));
                     setMessage(MessageUtils.Message.MIN_DATE_DENIED.replace("{0}", fieldTitle).replace("{1}", minDateTitle));
                 } else if (this.maxDate != null) {
-                    hasErrors.set(PersianDate.fromGregorian(datePicker.getValue()).isAfter(this.maxDate));
+                    hasErrors.set(datePicker.getValue().isAfter(this.maxDate));
                     setMessage(MessageUtils.Message.MAX_DATE_DENIED.replace("{0}", fieldTitle).replace("{1}", maxDateTitle));
                 }
 

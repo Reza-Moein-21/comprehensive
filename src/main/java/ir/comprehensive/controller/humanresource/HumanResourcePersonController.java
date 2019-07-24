@@ -1,6 +1,7 @@
 package ir.comprehensive.controller.humanresource;
 
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.MultiSelectBox;
@@ -17,10 +18,16 @@ import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.TableColumn;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -64,6 +71,24 @@ public class HumanResourcePersonController implements Initializable {
     public JFXTextField txfPhoneNumberC;
     @FXML
     public JFXTextField txfEmailC;
+    @FXML
+    public VBox parent;
+    @FXML
+    public JFXDialogLayout dlgCreatLayout;
+    @FXML
+    public GridPane grdCreateContent;
+    @FXML
+    public HBox hbxCreateFooter;
+    @FXML
+    public GridPane grdSearchContent;
+    @FXML
+    public TableColumn<PersonModel, String> colFirstName;
+    @FXML
+    public TableColumn<PersonModel, String> colLastName;
+    @FXML
+    public TableColumn<PersonModel, String> colPhoneNumber;
+    @FXML
+    public TableColumn<PersonModel, String> colEmail;
 
     @Autowired
     private StartController startController;
@@ -81,6 +106,37 @@ public class HumanResourcePersonController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+
+        parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
+        parent.setSpacing(ScreenUtils.getActualSize(10));
+
+        dlgCreatLayout.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5)));
+        dlgCreatLayout.setMinWidth(ScreenUtils.getActualSize(1024));
+        dlgCreatLayout.setMinHeight(ScreenUtils.getActualSize(10));
+
+        grdCreateContent.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdCreateContent.setHgap(ScreenUtils.getActualSize(10));
+        grdCreateContent.setVgap(ScreenUtils.getActualSize(100));
+
+        hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
+
+        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
+        grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
+        grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
+
+        colFirstName.setMinWidth(ScreenUtils.getActualSize(200));
+        colFirstName.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colLastName.setMinWidth(ScreenUtils.getActualSize(200));
+        colLastName.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colPhoneNumber.setMinWidth(ScreenUtils.getActualSize(200));
+        colPhoneNumber.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        colEmail.setMinWidth(ScreenUtils.getActualSize(200));
+        colEmail.setPrefWidth(ScreenUtils.getActualSize(400));
+
+        slbCategoriesC.setPrefHeight(ScreenUtils.getActualSize(320));
 
         updateDataTable();
         tblPerson.setOnEdit(selectedItem -> {
@@ -158,6 +214,7 @@ public class HumanResourcePersonController implements Initializable {
         txfLastNameS.setText(null);
         txfPhoneNumberS.setText(null);
         txfEmailS.setText(null);
+        slbCategoriesS.clean();
         updateDataTable();
     }
 

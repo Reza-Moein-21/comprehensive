@@ -78,6 +78,8 @@ public class MessageUtils {
         public static final String SUGGESTS = getMessage("suggests");
         public static final String DELETE = getMessage("delete");
         public static final String ERROR_IN_SAVE = getMessage("errorInSave");
+        public static final String PERSON_NOT_UNIQUE = getMessage("personNotUnique");
+        public static final String CATEGORY_NOT_UNIQUE = getMessage("categoryNotUnique");
         public static final String YES = getMessage("yes");
         public static final String NO = getMessage("no");
         public static final String CONFIRM_DELETE = getMessage("confirmDelete");

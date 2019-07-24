@@ -43,6 +43,12 @@ public class MultiSelectBox<T extends BaseModel> extends GridPane {
         addListView();
     }
 
+
+    public void clean() {
+        this.getSelectedItems().clear();
+        this.suggestItems.getValue().clear();
+    }
+
     private void addListView() {
         JFXListView<T> lstSuggestList = new JFXListView<>();
         JFXListView<T> lstSelectedList = new JFXListView<>();

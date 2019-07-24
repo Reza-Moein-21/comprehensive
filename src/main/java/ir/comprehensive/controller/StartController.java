@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,8 @@ public class StartController implements Initializable {
     public JFXButton btnHome;
     @FXML
     public JFXButton btnSetting;
+    @FXML
+    public GridPane grdTop;
 
     private Stack<ViewName> viewNames = new Stack<>();
     ConfigurableApplicationContext context;
@@ -49,7 +53,13 @@ public class StartController implements Initializable {
         btnHome.setPrefHeight(ScreenUtils.getActualSize(64));
         btnSetting.setPrefWidth(ScreenUtils.getActualSize(96));
         btnSetting.setPrefHeight(ScreenUtils.getActualSize(64));
+        configTopGrid();
+    }
 
+    private void configTopGrid() {
+        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints.setMinHeight(ScreenUtils.getActualSize(50));
+        grdTop.getRowConstraints().add(rowConstraints);
     }
 
     public void backToPrevious(ActionEvent actionEvent) {

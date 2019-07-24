@@ -54,13 +54,13 @@ public class Start extends Application {
 
     private void setGlobalCss(Scene scene) {
         double scale = ScreenUtils.getScale();
-        if (scale == ScreenUtils.LOW) {
+        if (scale <= ScreenUtils.LOW) {
             scene.getStylesheets().add(getClass().getResource("/css/lowFont.css").toExternalForm());
-        } else if (scale == ScreenUtils.MID) {
+        } else if (ScreenUtils.LOW < scale && scale <= ScreenUtils.MID) {
             scene.getStylesheets().add(getClass().getResource("/css/midFont.css").toExternalForm());
-        } else if (scale == ScreenUtils.HI) {
+        } else if (ScreenUtils.MID < scale && scale <= ScreenUtils.HI) {
             scene.getStylesheets().add(getClass().getResource("/css/hiFont.css").toExternalForm());
-        } else if (scale == ScreenUtils.EXTRA) {
+        } else if (scale >= ScreenUtils.EXTRA) {
             scene.getStylesheets().add(getClass().getResource("/css/extraFont.css").toExternalForm());
         }
     }

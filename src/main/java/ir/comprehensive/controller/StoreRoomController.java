@@ -40,17 +40,12 @@ import org.springframework.stereotype.Controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Controller
 public class StoreRoomController implements Initializable {
 
-    public VBox vbxCreateCenter;
-    public HBox hbxCreateFooter;
-    public GridPane grdSearchContent;
-    public JFXButton btnCreate;
 
     @Autowired
     private ProductDeliveryService productDeliveryService;
@@ -65,9 +60,23 @@ public class StoreRoomController implements Initializable {
 
 
     @FXML
+    public GridPane grdPersonProduct;
+    @FXML
+    public GridPane grdDeliverDesiredDate;
+    @FXML
+    public GridPane grdStatusReceivedDate;
+    @FXML
     public VBox vbxCreateContent;
     @FXML
     public HBox hbxCreateHeader;
+    @FXML
+    public VBox vbxCreateCenter;
+    @FXML
+    public HBox hbxCreateFooter;
+    @FXML
+    public GridPane grdSearchContent;
+    @FXML
+    public JFXButton btnCreate;
 
     @FXML
     public JFXComboBox<ProductStatus> cmbStatusS;
@@ -162,6 +171,9 @@ public class StoreRoomController implements Initializable {
         colReceivedDate.setMinWidth(ScreenUtils.getActualSize(200));
         colReceivedDate.setPrefWidth(ScreenUtils.getActualSize(400));
 
+        grdPersonProduct.setHgap(ScreenUtils.getActualSize(15));
+        grdDeliverDesiredDate.setHgap(ScreenUtils.getActualSize(15));
+        grdStatusReceivedDate.setHgap(ScreenUtils.getActualSize(15));
 
         colDescription.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, String>("description"));
         colDescription.setMinWidth(ScreenUtils.getActualSize(200));
@@ -174,7 +186,7 @@ public class StoreRoomController implements Initializable {
         sdpReceivedDateToS.setPrefWidth(ScreenUtils.getActualSize(500));
         //
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
-        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1024));
+        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1600));
         //
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
         //
@@ -250,7 +262,7 @@ public class StoreRoomController implements Initializable {
         autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
         txfProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
         sdpDeliveryDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
-        sdpReceivedDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.RECEIVED_DATE)));
+        sdpReceivedDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
 
 
         autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
@@ -339,6 +351,12 @@ public class StoreRoomController implements Initializable {
     }
 
     public void showAll(ActionEvent actionEvent) {
+        autPersonS.setValue(null);
+        txfProductNameS.setText(null);
+        sdpReceivedDateToS.setValue(null);
+        sdpReceivedDateFromS.setValue(null);
+        sdpDeliveryDateToS.setValue(null);
+        sdpDeliveryDateFromS.setValue(null);
         cmbStatusS.setValue(null);
         tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
