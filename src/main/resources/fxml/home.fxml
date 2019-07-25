@@ -27,5 +27,11 @@
                 <Image url="@../image/person-man.png"/>
             </icon>
         </Card>
+        <Card fx:id="crdMyNote" styleClass="my-note-card" title="%myNote"
+              onClick="#goToMyNote">
+            <icon>
+                <Image url="@../image/my-note.png"/>
+            </icon>
+        </Card>
     </JFXMasonryPane>
 </VBox>
