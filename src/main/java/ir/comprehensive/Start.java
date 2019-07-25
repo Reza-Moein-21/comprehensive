@@ -38,7 +38,7 @@ public class Start extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/start.fxml"));
         Parent rootNode = fxmlLoader.load();
 
-        Scene scene = new Scene(rootNode, ScreenUtils.getActualSize(2048), ScreenUtils.getActualSize(1024));
+        Scene scene = new Scene(rootNode, ScreenUtils.getActualSize(3200), ScreenUtils.getActualSize(1800));
         setGlobalCss(scene);
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("/image/red-hat.png"));

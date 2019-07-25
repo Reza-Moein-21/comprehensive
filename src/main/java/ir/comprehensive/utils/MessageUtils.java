@@ -95,6 +95,14 @@ public class MessageUtils {
         public static final String LOST = getMessage("lost");
         public static final String USE_IN = getMessage("useIn");
         public static final String TODAY_DATE = getMessage("todayDate");
+        public static final String CREATION_DATE = getMessage("creationDate");
+        public static final String IS_ACTIVE = getMessage("isActive");
+        public static final String SHOW = getMessage("show");
+        public static final String CREATION_DATE_FROM = getMessage("creationDateFrom");
+        public static final String CREATION_DATE_TO = getMessage("creationDateTo");
+        public static final String MY_NOTE = getMessage("myNote");
+        public static final String PRIORITY = getMessage("priority");
+        public static final String VISIT = getMessage("visit");
 
         private Message() {
         }

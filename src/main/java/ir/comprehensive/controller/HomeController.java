@@ -52,8 +52,8 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         crdStoreRoom.setPrefWidth(ScreenUtils.getActualSize(350.0));
         crdStoreRoom.setPrefHeight(ScreenUtils.getActualSize(160));
-        crdProject.setPrefWidth(ScreenUtils.getActualSize(350));
-        crdProject.setPrefHeight(ScreenUtils.getActualSize(160));
+//        crdProject.setPrefWidth(ScreenUtils.getActualSize(350));
+//        crdProject.setPrefHeight(ScreenUtils.getActualSize(160));
         crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
         crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(160));
         crdMyNote.setPrefWidth(ScreenUtils.getActualSize(350));

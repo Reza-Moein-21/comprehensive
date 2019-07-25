@@ -16,11 +16,11 @@
                 <Image url="@../image/storeroom.png"/>
             </icon>
         </Card>
-        <Card fx:id="crdProject" styleClass="project-card" title="%project">
-            <icon>
-                <Image url="@../image/project.png"/>
-            </icon>
-        </Card>
+        <!--<Card fx:id="crdProject" styleClass="project-card" title="%project">-->
+        <!--<icon>-->
+        <!--<Image url="@../image/project.png"/>-->
+        <!--</icon>-->
+        <!--</Card>-->
         <Card fx:id="crdHumanResource" styleClass="human-resource-card" title="%humanResource"
               onClick="#goToHumanResource">
             <icon>
