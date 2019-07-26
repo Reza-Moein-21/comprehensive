@@ -73,12 +73,10 @@
 
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <TitledPane expanded="false" text="%search">
-        <GridPane fx:id="grdSearch" prefWidth="Infinity">
+        <GridPane fx:id="grdSearch">
             <columnConstraints>
-                <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="5"/>
-                <ColumnConstraints percentWidth="15"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
             <GridPane fx:id="grdSearchFromTo" GridPane.columnIndex="1" prefWidth="Infinity">
@@ -89,22 +87,30 @@
                 <SimpleDatePicker fx:id="sdpCreationDateFromS" promptText="%creationDateFrom"/>
                 <SimpleDatePicker fx:id="sdpCreationDateToS" GridPane.columnIndex="1" promptText="%creationDateTo"/>
             </GridPane>
-            <CheckBox fx:id="chbIsActiveS" selected="true" text="%isActive" GridPane.columnIndex="2"/>
-            <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority" GridPane.columnIndex="3"/>
-            <HBox fx:id="hbxSearchButtonPanel" alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT"
-                  GridPane.rowIndex="1"
-                  GridPane.columnSpan="4">
+            <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                <CheckBox fx:id="chbIsActiveS" selected="true" text="%isActive"
+                          GridPane.rowIndex="1"/>
+                <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
+
+            </HBox>
+            <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="4">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="40"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
                 <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
                            onAction="#search"/>
                 <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
-                           onAction="#showAll"/>
-            </HBox>
+                           onAction="#showAll" GridPane.columnIndex="1"/>
+            </GridPane>
         </GridPane>
     </TitledPane>
-    <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 15;">
-        <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
-                   styleClass="primary-button,green-background"/>
-    </HBox>
+    <BorderPane>
+        <right>
+            <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
+                       styleClass="primary-button,green-background"/>
+        </right>
+    </BorderPane>
 
     <DataTable fx:id="tblMyNote" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
@@ -115,6 +121,7 @@
             </TableColumn>
             <TableColumn text="%creationDate" fx:id="colCreateDate"/>
             <TableColumn text="%priority" fx:id="colPriority"/>
+            <TableColumn text="%description" fx:id="colDescription"/>
         </columns>
     </DataTable>
 </VBox>

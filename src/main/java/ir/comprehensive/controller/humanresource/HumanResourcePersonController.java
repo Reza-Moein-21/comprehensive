@@ -1,9 +1,6 @@
 package ir.comprehensive.controller.humanresource;
 
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXListCell;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import ir.comprehensive.component.MultiSelectBox;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -89,6 +86,14 @@ public class HumanResourcePersonController implements Initializable {
     public TableColumn<PersonModel, String> colPhoneNumber;
     @FXML
     public TableColumn<PersonModel, String> colEmail;
+    @FXML
+    public GridPane grdSearchFooter;
+    @FXML
+    public JFXButton btnCreate;
+    @FXML
+    public JFXButton btnSearch;
+    @FXML
+    public JFXButton btnShowAll;
 
     @Autowired
     private StartController startController;
@@ -110,6 +115,9 @@ public class HumanResourcePersonController implements Initializable {
         parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
+        btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+
         dlgCreatLayout.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5)));
         dlgCreatLayout.setMinWidth(ScreenUtils.getActualSize(1024));
         dlgCreatLayout.setMinHeight(ScreenUtils.getActualSize(10));
@@ -123,7 +131,7 @@ public class HumanResourcePersonController implements Initializable {
         grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
-
+        grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
         colFirstName.setMinWidth(ScreenUtils.getActualSize(200));
         colFirstName.setPrefWidth(ScreenUtils.getActualSize(400));
 
@@ -167,6 +175,8 @@ public class HumanResourcePersonController implements Initializable {
 
         initSelectBox(slbCategoriesC);
 
+        btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
         txfFirstNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {

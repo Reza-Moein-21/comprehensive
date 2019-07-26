@@ -99,7 +99,6 @@
 
 .default-button {
     -fx-text-fill: #212121;
-    -fx-padding: 10 50;
     -fx-background-color: #EEEEEE;
     -fx-background-radius: 10;
     -fx-border-radius: 5;
@@ -110,7 +109,6 @@
 
     -fx-background-radius: 10;
     -fx-text-fill: #F5F5F5;
-    -fx-padding: 10 50;
     -fx-background-color: #2196F3;
     -fx-border-radius: 5;
 }

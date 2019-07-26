@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.model.basemodel.BaseModel;
 import ir.comprehensive.utils.MessageUtils;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.NodeOrientation;
@@ -94,10 +95,10 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
         jfxPopup = new JFXPopup(content);
 
         if (this.getNodeOrientation() == NodeOrientation.LEFT_TO_RIGHT) {
-            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, 0, 80);
+            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, 0, ScreenUtils.getActualSize(80));
 
         } else {
-            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,  - this.getWidth(),  80);
+            jfxPopup.show(this, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, -this.getWidth(), ScreenUtils.getActualSize(80));
 
         }
     }

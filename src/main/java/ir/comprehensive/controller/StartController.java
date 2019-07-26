@@ -47,6 +47,11 @@ public class StartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         viewNames.push(ViewName.HOME);
+        AnchorPane.setTopAnchor(main, ScreenUtils.getActualSize(120));
+        AnchorPane.setRightAnchor(main, ScreenUtils.getActualSize(10));
+        AnchorPane.setBottomAnchor(main, ScreenUtils.getActualSize(10));
+        AnchorPane.setLeftAnchor(main, ScreenUtils.getActualSize(10));
+
         btnBack.setPrefWidth(ScreenUtils.getActualSize(96));
         btnBack.setPrefHeight(ScreenUtils.getActualSize(64));
         btnHome.setPrefWidth(ScreenUtils.getActualSize(96));

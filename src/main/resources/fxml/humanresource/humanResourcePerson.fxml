@@ -60,7 +60,7 @@
     <TitledPane text="%search" expanded="false">
         <GridPane fx:id="grdSearchContent">
             <columnConstraints>
-                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="35"/>
                 <ColumnConstraints percentWidth="25"/>
             </columnConstraints>
             <rowConstraints>
@@ -77,12 +77,16 @@
             <MultiSelectBox fx:id="slbCategoriesS" promptText="%categories" GridPane.columnIndex="1"
                             GridPane.rowSpan="4"
                             styleClass="selectBox"/>
-            <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
-                           onAction="#search"/>
-                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
-                           onAction="#showAll"/>
-            </HBox>
+            <GridPane fx:id="grdSearchFooter" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="40"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+                <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
+                           onAction="#search" prefWidth="Infinity"/>
+                <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll" prefWidth="Infinity" GridPane.columnIndex="1"/>
+            </GridPane>
         </GridPane>
 
 
@@ -92,7 +96,7 @@
 
         </left>
         <right>
-            <JFXButton text="%create" styleClass="primary-button" buttonType="RAISED" prefWidth="400"
+            <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button,green-background" buttonType="RAISED"
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>

@@ -4,14 +4,15 @@ import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
+import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 
@@ -19,7 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDatePicker extends AnchorPane {
+public class SimpleDatePicker extends StackPane {
 
     private StackPane dialogContainer;
     JFXTextField textField;
@@ -86,8 +87,12 @@ public class SimpleDatePicker extends AnchorPane {
         JFXButton button = new JFXButton();
         button.focusedProperty().addListener(focusedChangeListener);
         button.setRipplerFill(Paint.valueOf("#757575"));
-        button.setGraphic(new ImageView(new Image(getClass().getResource("/image/date-range.png").toExternalForm())));
-        AnchorPane.setRightAnchor(button, 0D);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/image/date-range.png").toExternalForm()));
+        imageView.setFitWidth(ScreenUtils.getActualSize(52));
+        imageView.setFitHeight(ScreenUtils.getActualSize(52));
+
+        button.setGraphic(imageView);
+        StackPane.setAlignment(button, Pos.CENTER_RIGHT);
         button.setOnAction(event -> {
             PickerContent pickerContent = new PickerContent(getPromptText(), this);
             pickerContent.setDateToPicker(value.getValue());
@@ -113,8 +118,6 @@ public class SimpleDatePicker extends AnchorPane {
             }
             textField.getValidators().setAll(newValue);
         });
-        AnchorPane.setLeftAnchor(textField, 0D);
-        AnchorPane.setRightAnchor(textField, 0D);
         this.getChildren().addAll(textField, button);
     }
 

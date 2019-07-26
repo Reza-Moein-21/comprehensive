@@ -89,11 +89,15 @@ public class MyNoteController implements Initializable {
     @FXML
     public VBox vbxShowDescriptionCenter;
     @FXML
+    public HBox hbxCreateCheckButton;
+    @FXML
     public HBox hbxCreateHeader;
     @FXML
     public HBox hbxShowDescriptionHeader;
     @FXML
     public HBox hbxSearchButtonPanel;
+    @FXML
+    public GridPane grdSearchFooter;
     @FXML
     public JFXButton btnCreate;
     @FXML
@@ -117,11 +121,11 @@ public class MyNoteController implements Initializable {
     @FXML
     public TableColumn<MyNoteModel, String> colTitle;
     @FXML
+    public TableColumn<MyNoteModel, String> colDescription;
+    @FXML
     public TableColumn<MyNoteModel, PersianDate> colCreateDate;
     @FXML
     public TableColumn<MyNoteModel, RatingExtra> colPriority;
-    @FXML
-    public TableColumn<MyNoteModel, HBox> colShow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -176,11 +180,15 @@ public class MyNoteController implements Initializable {
 
         colTitle.setMinWidth(ScreenUtils.getActualSize(650));
         colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
+        colTitle.setSortable(false);
 
+        colDescription.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(getRightDescription(param)));
+        colDescription.setPrefWidth(ScreenUtils.getActualSize(700));
+        colDescription.setSortable(false);
 
         colPriority.setCellValueFactory(param -> new ReadOnlyObjectWrapper<RatingExtra>(new RatingExtra(null, param.getValue().getPriority(), null, true)));
-        colPriority.setMinWidth(ScreenUtils.getActualSize(200));
-        colPriority.setPrefWidth(ScreenUtils.getActualSize(200));
+        colPriority.setMinWidth(ScreenUtils.getActualSize(210));
+        colPriority.setPrefWidth(ScreenUtils.getActualSize(210));
         colPriority.setSortable(false);
         colPriority.setResizable(false);
 
@@ -204,11 +212,10 @@ public class MyNoteController implements Initializable {
         vbxShowDescriptionCenter.setSpacing(ScreenUtils.getActualSize(50));
 
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
+        hbxCreateCheckButton.setSpacing(ScreenUtils.getActualSize(20));
         txaDescriptionC.setMaxHeight(ScreenUtils.getActualSize(400));
 
         hbxShowDescriptionHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
-
-        hbxSearchButtonPanel.setSpacing(ScreenUtils.getActualSize(10));
 
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
@@ -221,6 +228,8 @@ public class MyNoteController implements Initializable {
         grdSearch.setVgap(ScreenUtils.getActualSize(50));
         grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25)));
 
+        grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
+
         grdCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(25)));
 
         grdSearchFromTo.setHgap(ScreenUtils.getActualSize(10));
@@ -231,11 +240,26 @@ public class MyNoteController implements Initializable {
         grdCreateCenter.setPadding(new Insets(ScreenUtils.getActualSize(50)));
 
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+
 
         btnSearch.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
         btnShowAll.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
+    }
+
+    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteModel, String> param) {
+        String description = param.getValue().getDescription();
+        if (description == null) {
+            return "";
+        }
+
+        description = description.replace(System.getProperty("line.separator"), " ");
+        description = description.substring(0, Math.min(description.length(), 30));
+        return description;
     }
 
     private void updateDataTable(boolean allActive) {

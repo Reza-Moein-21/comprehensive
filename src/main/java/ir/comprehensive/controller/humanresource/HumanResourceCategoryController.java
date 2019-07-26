@@ -75,17 +75,34 @@ public class HumanResourceCategoryController implements Initializable {
     public JFXTextField txfDescriptionC;
     @FXML
     public VBox vbxHRCategory;
+    @FXML
     public JFXDialogLayout dlgLayout;
+    @FXML
     public GridPane grdCreateContent;
+    @FXML
     public HBox hbxCreateFooter;
+    @FXML
+    public GridPane grdSearchFooter;
+    @FXML
     public GridPane grdSearchContent;
+    @FXML
     public JFXButton btnCreate;
+    @FXML
     public TableColumn<CategoryModel, String> colTitle;
+    @FXML
     public TableColumn<CategoryModel, String> colPhoneNumber;
+    @FXML
     public TableColumn<CategoryModel, String> colFax;
+    @FXML
     public TableColumn<CategoryModel, String> colEmail;
+    @FXML
     public TableColumn<CategoryModel, String> colAddress;
+    @FXML
     public TableColumn<CategoryModel, String> colDescription;
+    @FXML
+    public JFXButton btnSearch;
+    @FXML
+    public JFXButton btnShowAll;
 
     @Autowired
     private StartController startController;
@@ -105,6 +122,8 @@ public class HumanResourceCategoryController implements Initializable {
         dlgLayout.setMinHeight(ScreenUtils.getActualSize(700));
         dlgLayout.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5)));
 
+        btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colTitle.setMinWidth(ScreenUtils.getActualSize(300));
@@ -133,9 +152,12 @@ public class HumanResourceCategoryController implements Initializable {
 
 
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+
         grdCreateContent.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
         grdCreateContent.setHgap(ScreenUtils.getActualSize(10));
         grdCreateContent.setVgap(ScreenUtils.getActualSize(100));
+        grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
         grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));

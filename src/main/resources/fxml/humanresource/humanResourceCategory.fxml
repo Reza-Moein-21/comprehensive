@@ -76,19 +76,23 @@
             <JFXTextField fx:id="txfDescriptionS" labelFloat="true" promptText="%description" GridPane.columnIndex="1"
                           GridPane.rowIndex="2"/>
 
-            <HBox spacing="10" GridPane.rowIndex="3">
-                <JFXButton text="%search" styleClass="default-button" buttonType="RAISED"
-                           onAction="#search"/>
-                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED"
-                           onAction="#showAll"/>
-            </HBox>
+            <GridPane fx:id="grdSearchFooter" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="35"/>
+                </columnConstraints>
+                <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
+                           onAction="#search" prefWidth="Infinity"/>
+                <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll" prefWidth="Infinity" GridPane.columnIndex="1"/>
+            </GridPane>
         </GridPane>
 
 
     </TitledPane>
     <BorderPane>
         <right>
-            <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button" buttonType="RAISED"
+            <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button,green-background" buttonType="RAISED"
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>

@@ -11,7 +11,7 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT"
+<VBox xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT" fx:id="parent"
       xmlns="http://javafx.com/javafx/8" fx:controller="ir.comprehensive.controller.StoreRoomController"
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
@@ -110,7 +110,7 @@
                     </FXCollections>
                 </items>
             </JFXComboBox>
-            <HBox fx:id="receivedDateFromToHBox" visible="false" spacing="10" GridPane.columnIndex="1"
+            <HBox fx:id="receivedDateFromToHBox" visible="false" GridPane.columnIndex="1"
                   GridPane.rowIndex="1">
                 <SimpleDatePicker fx:id="sdpReceivedDateFromS" promptText="%receivedDateFrom"/>
                 <SimpleDatePicker fx:id="sdpReceivedDateToS" promptText="%receivedDateTo"/>
@@ -119,15 +119,19 @@
 
             <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="2"
                   GridPane.columnSpan="2">
-                <JFXButton text="%search" styleClass="primary-button" buttonType="RAISED" onAction="#search"/>
-                <JFXButton text="%showAll" styleClass="default-button" buttonType="RAISED" onAction="#showAll"/>
+                <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
+                           onAction="#search"/>
+                <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll"/>
             </HBox>
         </GridPane>
     </TitledPane>
-    <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 15;">
-        <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
-                   styleClass="primary-button,green-background"/>
-    </HBox>
+    <BorderPane>
+        <right>
+            <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
+                       styleClass="primary-button,green-background"/>
+        </right>
+    </BorderPane>
 
     <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
         <columns>

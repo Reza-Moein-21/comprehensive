@@ -79,6 +79,12 @@ public class StoreRoomController implements Initializable {
     public JFXButton btnCreate;
 
     @FXML
+    public JFXButton btnSearch;
+    @FXML
+    public JFXButton btnShowAll;
+    @FXML
+    public VBox parent;
+    @FXML
     public JFXComboBox<ProductStatus> cmbStatusS;
     @FXML
     public SimpleDatePicker sdpDeliveryDateFromS;
@@ -146,6 +152,9 @@ public class StoreRoomController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+
+        parent.setSpacing(ScreenUtils.getActualSize(10));
+
         //init Table
         colProductName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getProduct().getTitle()));
         colProductName.setMinWidth(ScreenUtils.getActualSize(200));
@@ -210,9 +219,14 @@ public class StoreRoomController implements Initializable {
         grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(500));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(20));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(30));
-        grdSearchContent.setPadding(new Insets(ScreenUtils.getActualSize(50), 0, 0, 0));
+        grdSearchContent.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25)));
+
+        receivedDateFromToHBox.setSpacing(ScreenUtils.getActualSize(10));
         //
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
         txfProductNameC.setPrefWidth(ScreenUtils.getActualSize(500));
         tblProductDelivery.setOnEdit(selectedItem -> {
@@ -266,7 +280,6 @@ public class StoreRoomController implements Initializable {
 
 
         autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
-
 
         sdpDeliveryDateC.setDialogContainer(startController.mainStack);
         sdpDesiredDateC.setDialogContainer(startController.mainStack);

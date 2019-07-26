@@ -56,7 +56,7 @@ public class HomeController implements Initializable {
 //        crdProject.setPrefHeight(ScreenUtils.getActualSize(160));
         crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
         crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(160));
-        crdMyNote.setPrefWidth(ScreenUtils.getActualSize(350));
+        crdMyNote.setPrefWidth(ScreenUtils.getActualSize(450));
         crdMyNote.setPrefHeight(ScreenUtils.getActualSize(160));
         masonry.setHSpacing(ScreenUtils.getActualSize(10));
         masonry.setVSpacing(ScreenUtils.getActualSize(5));
