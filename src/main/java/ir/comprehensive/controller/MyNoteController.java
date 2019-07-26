@@ -35,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -189,13 +190,12 @@ public class MyNoteController implements Initializable {
         colPriority.setCellValueFactory(param -> new ReadOnlyObjectWrapper<RatingExtra>(new RatingExtra(null, param.getValue().getPriority(), null, true)));
         colPriority.setMinWidth(ScreenUtils.getActualSize(210));
         colPriority.setPrefWidth(ScreenUtils.getActualSize(210));
-        colPriority.setSortable(false);
         colPriority.setResizable(false);
+        colPriority.setComparator(Comparator.comparing(RatingExtra::getRating));
 
         colCreateDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getCreationDate() == null ? null : PersianDate.fromGregorian(param.getValue().getCreationDate())));
         colCreateDate.setMinWidth(ScreenUtils.getActualSize(210));
         colCreateDate.setPrefWidth(ScreenUtils.getActualSize(210));
-        colCreateDate.setSortable(false);
         colCreateDate.setResizable(false);
 
 
@@ -252,14 +252,16 @@ public class MyNoteController implements Initializable {
     }
 
     private String getRightDescription(TableColumn.CellDataFeatures<MyNoteModel, String> param) {
+        final int MAX_LENGTH = 30;
         String description = param.getValue().getDescription();
         if (description == null) {
             return "";
         }
+        int originalLength = description.length();
 
         description = description.replace(System.getProperty("line.separator"), " ");
-        description = description.substring(0, Math.min(description.length(), 30));
-        return description;
+        description = description.substring(0, Math.min(description.length(), MAX_LENGTH));
+        return originalLength > MAX_LENGTH ? description + "..." : description;
     }
 
     private void updateDataTable(boolean allActive) {

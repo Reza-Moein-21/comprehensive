@@ -18,7 +18,7 @@ public class MyNote {
     @Column(name = "TITLE", nullable = false)
     String title;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", length = Integer.MAX_VALUE)
     String description;
 
     @Column(name = "CREATION_DATE", nullable = false)
