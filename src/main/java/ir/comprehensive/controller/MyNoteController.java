@@ -61,6 +61,8 @@ public class MyNoteController implements Initializable {
     @FXML
     public RatingExtra rtnPriorityS;
     @FXML
+    public RatingExtra rtnPriorityC;
+    @FXML
     public Label lblTitleShow;
     @FXML
     public JFXTextArea txaDescriptionShow;
@@ -152,6 +154,7 @@ public class MyNoteController implements Initializable {
             txaDescriptionC.setText(editModel.getDescription());
             chbIsActiveC.setVisible(true);
             chbIsActiveC.setSelected(editModel.isIsActive());
+            rtnPriorityC.setRating(editModel.getPriority());
             dlgCreate.show();
 
         });
@@ -286,6 +289,8 @@ public class MyNoteController implements Initializable {
         txfTitleC.setText("");
         txaDescriptionC.setText("");
         sdpCreationDateC.setValue(LocalDate.now());
+        chbIsActiveC.setVisible(false);
+        rtnPriorityC.setRating(0);
         dlgCreate.show();
     }
 

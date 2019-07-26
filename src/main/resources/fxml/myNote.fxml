@@ -88,9 +88,9 @@
                 <SimpleDatePicker fx:id="sdpCreationDateToS" GridPane.columnIndex="1" promptText="%creationDateTo"/>
             </GridPane>
             <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
                 <CheckBox fx:id="chbIsActiveS" selected="true" text="%isActive"
                           GridPane.rowIndex="1"/>
-                <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
 
             </HBox>
             <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="4">
