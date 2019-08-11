@@ -3,7 +3,6 @@ package ir.comprehensive.controller;
 import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.RatingExtra;
 import ir.comprehensive.component.YesNoDialog;
@@ -26,6 +25,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -57,7 +57,7 @@ public class MyNoteController implements Initializable {
     @FXML
     public SimpleDatePicker sdpCreationDateC;
     @FXML
-    public JFXTextArea txaDescriptionC;
+    public TextArea txaDescriptionC;
     @FXML
     public RatingExtra rtnPriorityS;
     @FXML
@@ -65,7 +65,7 @@ public class MyNoteController implements Initializable {
     @FXML
     public Label lblTitleShow;
     @FXML
-    public JFXTextArea txaDescriptionShow;
+    public TextArea txaDescriptionShow;
     @FXML
     public SimpleDatePicker sdpCreationDateFromS;
     @FXML
@@ -255,14 +255,14 @@ public class MyNoteController implements Initializable {
     }
 
     private String getRightDescription(TableColumn.CellDataFeatures<MyNoteModel, String> param) {
-        final int MAX_LENGTH = 30;
+        final int MAX_LENGTH = 50;
         String description = param.getValue().getDescription();
         if (description == null) {
             return "";
         }
         int originalLength = description.length();
 
-        description = description.replace(System.getProperty("line.separator"), " ");
+        description = description.replace("\n", " ");
         description = description.substring(0, Math.min(description.length(), MAX_LENGTH));
         return originalLength > MAX_LENGTH ? description + "..." : description;
     }

@@ -3,9 +3,10 @@ package ir.comprehensive;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
@@ -36,15 +37,20 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         fxmlLoader.setLocation(getClass().getResource("/fxml/start.fxml"));
-        Parent rootNode = fxmlLoader.load();
-
+        Pane rootNode = fxmlLoader.load();
+        applyFontStyle(rootNode);
         Scene scene = new Scene(rootNode, ScreenUtils.getActualSize(3200), ScreenUtils.getActualSize(1800));
-        setGlobalCss(scene);
         primaryStage.setScene(scene);
-        primaryStage.getIcons().add(new Image("/image/red-hat.png"));
+        primaryStage.getIcons().add(new Image("/image/icon2.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.show();
 
+    }
+
+    private void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
     }
 
     @Override
@@ -52,16 +58,4 @@ public class Start extends Application {
         springContext.stop();
     }
 
-    private void setGlobalCss(Scene scene) {
-        double scale = ScreenUtils.getScale();
-        if (scale <= ScreenUtils.LOW) {
-            scene.getStylesheets().add(getClass().getResource("/css/lowFont.css").toExternalForm());
-        } else if (ScreenUtils.LOW < scale && scale <= ScreenUtils.MID) {
-            scene.getStylesheets().add(getClass().getResource("/css/midFont.css").toExternalForm());
-        } else if (ScreenUtils.MID < scale && scale <= ScreenUtils.HI) {
-            scene.getStylesheets().add(getClass().getResource("/css/hiFont.css").toExternalForm());
-        } else if (scale >= ScreenUtils.EXTRA) {
-            scene.getStylesheets().add(getClass().getResource("/css/extraFont.css").toExternalForm());
-        }
-    }
 }

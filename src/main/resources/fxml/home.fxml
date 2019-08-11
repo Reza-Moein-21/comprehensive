@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXMasonryPane?>
 <?import ir.comprehensive.component.Card?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.*?>
@@ -9,18 +8,13 @@
       fx:controller="ir.comprehensive.controller.HomeController"
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
-    <JFXMasonryPane fx:id="masonry">
+    <FlowPane fx:id="masonry">
         <Card fx:id="crdStoreRoom" styleClass="storeroom-card" title="%storeroom"
               onClick="#goToStoreroom">
             <icon>
                 <Image url="@../image/storeroom.png"/>
             </icon>
         </Card>
-        <!--<Card fx:id="crdProject" styleClass="project-card" title="%project">-->
-        <!--<icon>-->
-        <!--<Image url="@../image/project.png"/>-->
-        <!--</icon>-->
-        <!--</Card>-->
         <Card fx:id="crdHumanResource" styleClass="human-resource-card" title="%humanResource"
               onClick="#goToHumanResource">
             <icon>
@@ -33,5 +27,5 @@
                 <Image url="@../image/my-note.png"/>
             </icon>
         </Card>
-    </JFXMasonryPane>
+    </FlowPane>
 </VBox>

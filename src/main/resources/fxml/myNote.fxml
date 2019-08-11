@@ -37,8 +37,10 @@
                 <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
                 <SimpleDatePicker fx:id="sdpCreationDateC" promptText="%creationDate" GridPane.columnIndex="1"/>
                 <RatingExtra fx:id="rtnPriorityC" title="%priority" GridPane.columnIndex="2"/>
-                <JFXTextArea fx:id="txaDescriptionC" promptText="%description" labelFloat="true" GridPane.rowIndex="1"
-                             GridPane.columnSpan="3"/>
+                <VBox GridPane.rowIndex="1" GridPane.columnSpan="3">
+                    <Label text="%description"/>
+                    <TextArea fx:id="txaDescriptionC"/>
+                </VBox>
             </GridPane>
             <GridPane fx:id="grdCreateFooter">
                 <columnConstraints>
@@ -61,7 +63,10 @@
                 <Label fx:id="lblTitleShow"/>
             </HBox>
             <VBox fx:id="vbxShowDescriptionCenter" prefWidth="Infinity">
-                <JFXTextArea fx:id="txaDescriptionShow" promptText="%description" labelFloat="true"/>
+                <VBox>
+                    <Label text="%description"/>
+                    <TextArea fx:id="txaDescriptionShow"/>
+                </VBox>
                 <HBox fx:id="hbxShowDescriptionFooter" style="-fx-alignment: top-right">
 
                     <JFXButton text="%cancel" onAction="#closeShowDescriptionDialog" styleClass="default-button"

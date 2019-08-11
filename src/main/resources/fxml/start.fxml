@@ -2,41 +2,44 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="base" fx:id="mainStack" stylesheets="@/css/start.css"
            xmlns="http://javafx.com/javafx/8.0.172-ea" fx:controller="ir.comprehensive.controller.StartController">
     <children>
+        <ScrollPane fitToHeight="true" fitToWidth="true">
 
-        <AnchorPane>
-            <GridPane fx:id="grdTop" styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-                      AnchorPane.topAnchor="0">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
-                    <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0"/>
-                    <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
-                </columnConstraints>
-
-
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
-                    <JFXButton fx:id="btnBack" styleClass="header-button,back-button" onAction="#backToPrevious"/>
-                </HBox>
-
-                <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
-                    <Label text="%appTitle"/>
-                </HBox>
-
-                <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-                    <JFXButton fx:id="btnHome" styleClass="header-button,home-button" onAction="#backToHome"/>
-                    <JFXButton fx:id="btnSetting" styleClass="header-button,settings-button"/>
-                </HBox>
-            </GridPane>
+            <AnchorPane>
+                <GridPane fx:id="grdTop" styleClass="header-bar" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                          AnchorPane.topAnchor="0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0"/>
+                    </columnConstraints>
 
 
-            <AnchorPane fx:id="main">
-                <fx:include source="home.fxml"/>
+                    <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0">
+                        <JFXButton fx:id="btnBack" styleClass="header-button,back-button" onAction="#backToPrevious"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" fillHeight="false" GridPane.columnIndex="1">
+                        <Label text="%appTitle"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                        <JFXButton fx:id="btnHome" styleClass="header-button,home-button" onAction="#backToHome"/>
+                        <JFXButton fx:id="btnSetting" styleClass="header-button,settings-button"/>
+                    </HBox>
+                </GridPane>
+
+
+                <AnchorPane fx:id="main">
+                    <fx:include source="home.fxml"/>
+                </AnchorPane>
+
+
             </AnchorPane>
-
-
-        </AnchorPane>
+        </ScrollPane>
     </children>
 </StackPane>
