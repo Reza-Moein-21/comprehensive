@@ -66,7 +66,7 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
             if (!newValue) {
                 if (isNullOrEmpty(suggestedModels)) {
                     this.setText(this.getValue() == null ? "" : this.getValue().getTitle());
-                } else {
+                } else if (this.getValue() == null) {
                     setFirstResultToValue();
                 }
                 this.closePopup();
