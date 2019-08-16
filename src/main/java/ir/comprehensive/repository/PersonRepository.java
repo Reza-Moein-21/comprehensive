@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecificationExecutor<Person> {
-    @Query("select p from Person p where lower(p.firstName) like concat('%',lower(trim(?1)),'%') or lower(p.lastName) like concat('%',lower(trim(?1)),'%')  order by p.firstName")
+    @Query("select p from Person p where concat(lower(p.firstName),' ',lower(p.lastName) ) like concat('%',lower(trim(?1)),'%') order by p.firstName")
     Page<Person> findByName(String name, Pageable pageable);
 
     @Query("select case when count(p) > 0 then true else false end from Person p inner join p.categories c where c.id = ?1")
