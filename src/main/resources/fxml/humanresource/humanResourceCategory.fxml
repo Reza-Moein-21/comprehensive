@@ -20,14 +20,11 @@
 
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
-        <JFXDialogLayout fx:id="dlgLayout">
-            <heading>
-                <HBox alignment="CENTER"
-                      style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;-fx-font-size: 18">
+        <VBox fx:id="vbxCreateContent">
+            <HBox alignment="CENTER" fx:id="hbxCreateHeader"
+                  style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;">
                     <Label text="%createCategory"/>
                 </HBox>
-            </heading>
-            <body>
                 <GridPane fx:id="grdCreateContent">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="50"/>
@@ -39,20 +36,19 @@
                     <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true" GridPane.rowIndex="1"/>
                     <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.rowIndex="1"
                                   GridPane.columnIndex="1"/>
-                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true" GridPane.rowIndex="2"/>
+                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true" GridPane.rowIndex="2"
+                                  GridPane.columnSpan="2"/>
                     <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"
-                                  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                  GridPane.rowIndex="3" GridPane.columnSpan="2"/>
                 </GridPane>
-            </body>
-            <actions>
                 <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right;">
                     <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                                buttonType="RAISED"/>
                     <JFXButton text="%save" onAction="#save" styleClass="primary-button"
                                buttonType="RAISED"/>
                 </HBox>
-            </actions>
-        </JFXDialogLayout>
+
+        </VBox>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <TitledPane text="%search" expanded="false">

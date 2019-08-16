@@ -1,6 +1,9 @@
 package ir.comprehensive.controller.humanresource;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXListCell;
+import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.MultiSelectBox;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -21,9 +24,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,9 +76,9 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public VBox parent;
     @FXML
-    public JFXDialogLayout dlgCreatLayout;
-    @FXML
     public GridPane grdCreateContent;
+    @FXML
+    public HBox hbxCreateHeader;
     @FXML
     public HBox hbxCreateFooter;
     @FXML
@@ -94,6 +99,8 @@ public class HumanResourcePersonController implements Initializable {
     public JFXButton btnSearch;
     @FXML
     public JFXButton btnShowAll;
+    @FXML
+    public VBox vbxCreateContent;
 
     @Autowired
     private StartController startController;
@@ -106,11 +113,24 @@ public class HumanResourcePersonController implements Initializable {
     @Autowired
     private PersonMapper mapper;
 
+    private void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        applyFontStyle(dlgCreate);
+        applyFontStyle(dlgDelete);
+
+        //
+        vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1350));
+//
+        hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
         parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
         parent.setSpacing(ScreenUtils.getActualSize(10));
@@ -118,15 +138,12 @@ public class HumanResourcePersonController implements Initializable {
         btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
-        dlgCreatLayout.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(5)));
-        dlgCreatLayout.setMinWidth(ScreenUtils.getActualSize(1024));
-        dlgCreatLayout.setMinHeight(ScreenUtils.getActualSize(10));
-
         grdCreateContent.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
         grdCreateContent.setHgap(ScreenUtils.getActualSize(10));
         grdCreateContent.setVgap(ScreenUtils.getActualSize(100));
 
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
+        hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
         grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));

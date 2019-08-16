@@ -2,6 +2,8 @@ package ir.comprehensive.utils;
 
 import com.jfoenix.controls.JFXSnackbar;
 import ir.comprehensive.controller.StartController;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ public class Notify {
     private static JFXSnackbar getSnackbar() {
         StackPane mainStack = instance.startController.mainStack;
         JFXSnackbar snackbar = new JFXSnackbar(mainStack);
+        applyFontStyle(snackbar.getPopupContainer());
         snackbar.setPrefWidth(mainStack.getWidth() / 2);
         return snackbar;
     }
@@ -47,4 +50,11 @@ public class Notify {
     public void registerInstance() {
         instance = this;
     }
+
+    private static void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
+    }
+
 }

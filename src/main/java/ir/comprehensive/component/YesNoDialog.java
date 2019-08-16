@@ -27,7 +27,7 @@ public class YesNoDialog extends JFXDialog {
         HBox hBox = new HBox(ScreenUtils.getActualSize(20), btnNo, btnYes);
 
         Label label = new Label(MessageUtils.Message.CONFIRM_DELETE);
-        label.setStyle("-fx-font-weight: bold;-fx-font-size: 16");
+        label.setStyle("-fx-font-weight: bold;");
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(label, hBox);

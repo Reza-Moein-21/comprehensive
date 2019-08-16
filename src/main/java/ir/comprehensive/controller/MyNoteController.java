@@ -22,12 +22,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -130,12 +132,20 @@ public class MyNoteController implements Initializable {
     @FXML
     public TableColumn<MyNoteModel, RatingExtra> colPriority;
 
+    private void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
         dlgShowDescription.setDialogContainer(startController.mainStack);
+        applyFontStyle(dlgCreate);
+        applyFontStyle(dlgDelete);
+        applyFontStyle(dlgShowDescription);
 
         //
         sdpCreationDateC.setDialogContainer(startController.mainStack);

@@ -8,8 +8,10 @@ import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.NodeOrientation;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -26,6 +28,11 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
     private JFXPopup jfxPopup;
     private boolean isValueChanged;
 
+    private void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
+    }
     public Autocomplete() {
 
 
@@ -45,7 +52,9 @@ public class Autocomplete<T extends BaseModel> extends JFXTextField {
 
             if (this.onSearch != null) {
                 suggestedModels = this.onSearch.apply(newValue);
-                openPopup(getPopupContent(suggestedModels));
+                VBox popupContent = getPopupContent(suggestedModels);
+                applyFontStyle(popupContent);
+                openPopup(popupContent);
             } else {
                 closePopup();
                 this.setText(null);

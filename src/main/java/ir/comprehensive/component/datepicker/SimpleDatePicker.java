@@ -11,8 +11,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 
@@ -95,6 +97,7 @@ public class SimpleDatePicker extends StackPane {
         StackPane.setAlignment(button, Pos.CENTER_RIGHT);
         button.setOnAction(event -> {
             PickerContent pickerContent = new PickerContent(getPromptText(), this);
+            applyFontStyle(pickerContent);
             pickerContent.setDateToPicker(value.getValue());
             pickerContent.setDialogContainer(getDialogContainer());
             pickerContent.show();
@@ -135,5 +138,11 @@ public class SimpleDatePicker extends StackPane {
 
     public boolean validate() {
         return textField.validate();
+    }
+
+    private void applyFontStyle(Pane rootNode) {
+        for (Node n : rootNode.getChildren()) {
+            n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
+        }
     }
 }
