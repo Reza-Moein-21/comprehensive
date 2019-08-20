@@ -22,7 +22,6 @@ public class MessageUtils {
         return messageBundle;
     }
 
-
     public static final class Message {
         public static final String APP_TITLE = getMessage("appTitle");
         public static final String RECEIVED = getMessage("received");
@@ -104,7 +103,24 @@ public class MessageUtils {
         public static final String PRIORITY = getMessage("priority");
         public static final String VISIT = getMessage("visit");
 
+
         private Message() {
+        }
+    }
+
+    public static final class Calender {
+
+        public static final String TODAY = getMessage("today");
+
+        public static final String SATURDAY = getMessage("saturday");
+        public static final String SUNDAY = getMessage("sunday");
+        public static final String MONDAY = getMessage("monday");
+        public static final String TUESDAY = getMessage("tuesday");
+        public static final String WEDNESDAY = getMessage("wednesday");
+        public static final String THURSDAY = getMessage("thursday");
+        public static final String FRIDAY = getMessage("friday");
+
+        private Calender() {
         }
     }
 }
