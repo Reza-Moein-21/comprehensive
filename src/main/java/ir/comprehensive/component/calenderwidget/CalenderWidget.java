@@ -18,17 +18,22 @@ public class CalenderWidget extends StackPane {
 
 
     public CalenderWidget() {
+        refresh();
+    }
+
+    private void refresh() {
         this.getChildren().setAll(render());
     }
 
     private Node render() {
         VBox base = new VBox();
-        CalenderHeader calenderHeader = new CalenderHeader();
-        CalenderMain calenderMainWidget = new CalenderMain(calenderHeader, eventList);
+        CalenderHeader calenderHeader = new CalenderHeader(this.time);
+
+        CalenderMain calenderMainWidget = new CalenderMain(time, eventList);
 
         base.getChildren().setAll(calenderHeader, calenderMainWidget);
 
-        this.setStyle(String.format(" -fx-background-color: #e8eaf6;-fx-background-radius: %s ;-fx-font-size: %s ;-fx-effect: dropshadow(three-pass-box, #bdbdbd, %s , 0, 0, 0);", ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(26), ScreenUtils.getActualSize(5)));
+        this.setStyle(String.format("-fx-alignment: center; -fx-background-color: #fff9c4;-fx-background-radius: %s ;-fx-font-size: %s ;-fx-effect: dropshadow(three-pass-box, #bdbdbd, %s , 0, 0, 0);", ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(26), ScreenUtils.getActualSize(5)));
         this.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         return base;
     }

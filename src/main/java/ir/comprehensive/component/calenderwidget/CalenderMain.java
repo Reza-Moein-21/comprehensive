@@ -1,10 +1,12 @@
 package ir.comprehensive.component.calenderwidget;
 
+import animatefx.animation.FadeIn;
 import com.github.mfathi91.time.PersianDate;
 import com.github.mfathi91.time.PersianMonth;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -13,24 +15,45 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
+import java.util.StringJoiner;
+
 class CalenderMain extends StackPane {
-    PersianMonth persianMonth;
-    Integer year;
+    ObjectProperty<LocalDate> time;
+
     ListProperty<CalenderEvent> events = new SimpleListProperty<>(this, "events");
 
-    public CalenderMain(CalenderHeader calenderHeader, ListProperty<CalenderEvent> eventList) {
-        persianMonth = calenderHeader.getPersianMonth();
-        year = calenderHeader.getYear();
+    public CalenderMain(ObjectProperty<LocalDate> time, ListProperty<CalenderEvent> eventList) {
+        this.time = time;
+
         events.bind(eventList);
         events.addListener((observable, oldValue, newValue) -> refresh());
-
+        this.time.addListener((observable, oldValue, newValue) -> refresh());
         refresh();
     }
 
-    private boolean refresh() {
-        return this.getChildren().setAll(render());
+    private void refresh() {
+        this.getChildren().setAll(render());
+        FadeIn fadeIn = new FadeIn(this);
+        fadeIn.setSpeed(2);
+        fadeIn.play();
     }
 
+    private HBox getDayLabel(Label dayLabel) {
+
+        HBox hbxSat = new HBox(dayLabel);
+        hbxSat.setStyle(new StringJoiner(" ; ")
+                .add("-fx-background-color: #eeeeee")
+                .add("-fx-alignment: center")
+                .add("-fx-padding: " + ScreenUtils.getActualSize(5))
+                .add("-fx-pref-width:  " + ScreenUtils.getActualSize(170))
+                .add("-fx-pref-height: " + ScreenUtils.getActualSize(50))
+                .add("-fx-border-radius: " + ScreenUtils.getActualSize(5))
+                .add("-fx-background-radius: " + ScreenUtils.getActualSize(5))
+                .add("-fx-border-color: #9e9e9e")
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(3)).toString());
+        return hbxSat;
+    }
     private Node render() {
         GridPane grdCenter = new GridPane();
         grdCenter.setHgap(ScreenUtils.getActualSize(10));
@@ -44,41 +67,40 @@ class CalenderMain extends StackPane {
         Label lblThu = new Label(MessageUtils.Calender.THURSDAY);
         Label lblFri = new Label(MessageUtils.Calender.FRIDAY);
 
-        String hbxStyle = "-fx-alignment: center";
-
-
-        HBox hbxSat = new HBox(lblSat);
-        hbxSat.setStyle(hbxStyle);
-        HBox hbxSun = new HBox(lblSun);
-        hbxSun.setStyle(hbxStyle);
-        HBox hbxMon = new HBox(lblMon);
-        hbxMon.setStyle(hbxStyle);
-        HBox hbxTue = new HBox(lblTue);
-        hbxTue.setStyle(hbxStyle);
-        HBox hbxWed = new HBox(lblWed);
-        hbxWed.setStyle(hbxStyle);
-        HBox hbxThu = new HBox(lblThu);
-        hbxThu.setStyle(hbxStyle);
-        HBox hbxFri = new HBox(lblFri);
-        hbxFri.setStyle(hbxStyle);
-
-
-        grdCenter.add(hbxSat, DayName.SATURDAY.getIndex(), 0);
-        grdCenter.add(hbxSun, DayName.SUNDAY.getIndex(), 0);
-        grdCenter.add(hbxMon, DayName.MONDAY.getIndex(), 0);
-        grdCenter.add(hbxTue, DayName.TUESDAY.getIndex(), 0);
-        grdCenter.add(hbxWed, DayName.WEDNESDAY.getIndex(), 0);
-        grdCenter.add(hbxThu, DayName.THURSDAY.getIndex(), 0);
-        grdCenter.add(hbxFri, DayName.FRIDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblSat), DayName.SATURDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblSun), DayName.SUNDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblMon), DayName.MONDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblTue), DayName.TUESDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblWed), DayName.WEDNESDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblThu), DayName.THURSDAY.getIndex(), 0);
+        grdCenter.add(getDayLabel(lblFri), DayName.FRIDAY.getIndex(), 0);
 
 
         int currentRow = 1;
+        PersianMonth persianMonth = PersianDate.fromGregorian(time.get()).getMonth();
+        Integer year = PersianDate.fromGregorian(time.get()).getYear();
+        Integer day = PersianDate.fromGregorian(time.get()).getDayOfMonth();
 
         for (int i = 1; i <= getMaxMonthLength(persianMonth.getValue()); i++) {
             PersianDate currentDate = PersianDate.of(year, persianMonth, i);
             DayName week = DayName.valueOf(currentDate.getDayOfWeek().name());
 
             CalenderDay calenderDay = new CalenderDay();
+            calenderDay.isSelected = (i == day);
+
+            // check is current day
+            PersianDate selectedTime = PersianDate.fromGregorian(time.getValue());
+            PersianMonth selectedMonth = selectedTime.getMonth();
+            int selectedYear = selectedTime.getYear();
+            PersianDate now = PersianDate.now();
+            PersianMonth currentMonth = now.getMonth();
+            int currentYear = now.getYear();
+
+            if (selectedYear == currentYear && selectedMonth == currentMonth) {
+                calenderDay.isCurrentDay = (i == PersianDate.now().getDayOfMonth());
+            }
+
+
             VBox vBox = new VBox();
             if (events != null && !events.isEmpty()) {
                 String lblStyle = "-fx-font-size: " + ScreenUtils.getActualSize(22);
@@ -105,14 +127,17 @@ class CalenderMain extends StackPane {
             calenderDay.setContent(vBox);
 
             calenderDay.setOnMouseClicked(event -> {
-                System.out.println("**(*(");
+                PersianDate d = PersianDate.fromGregorian(time.get());
+
+                Integer selectedDay = calenderDay.dayNumber.getValue();
+
+                time.set(PersianDate.of(d.getYear(), d.getMonth(), selectedDay).toGregorian());
+
             });
-            calenderDay.setStyle(String.format("-fx-background-color: #ffff;-fx-padding: %s;-fx-pref-width: %s ;-fx-pref-height: %s ;-fx-border-radius: %s;-fx-border-color: #9e9e9e;-fx-border-width: %s",
-                    ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(150), ScreenUtils.getActualSize(130), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(3)
-            ));
+
             calenderDay.setDayNumber(i);
 
-            grdCenter.setStyle("-fx-padding: " + ScreenUtils.getActualSize(10) + ";");
+            grdCenter.setStyle("-fx-padding: " + ScreenUtils.getActualSize(10) + ";-fx-alignment: center");
             grdCenter.add(calenderDay, week.getIndex(), week.getIndex() == DayName.FRIDAY.getIndex() ? currentRow++ : currentRow);
         }
 

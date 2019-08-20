@@ -16,25 +16,44 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 
+import java.time.LocalDate;
+
 class CalenderHeader extends StackPane {
-    public CalenderHeader() {
+    public CalenderHeader(ObjectProperty<LocalDate> time) {
+        this.time = time;
         this.getChildren().setAll(render());
+    }
+
+    private int getMaxDay(PersianDate persianDate, PersianMonth persianMonth) {
+        if (persianMonth.getValue() == 12) {
+            return persianDate.getDayOfMonth() == 30 || persianDate.getDayOfMonth() == 31 ? 29 : persianDate.getDayOfMonth();
+        }
+        if (persianMonth.getValue() > 6) {
+            return persianDate.getDayOfMonth() == 31 ? 30 : persianDate.getDayOfMonth();
+        }
+        return persianDate.getDayOfMonth();
     }
 
     private Node render() {
         HBox base = new HBox(ScreenUtils.getActualSize(10));
         Button btnToday = new Button(MessageUtils.Calender.TODAY);
         ArrowChoiceBoxWidget<Integer> acbYear = new ArrowChoiceBoxWidget<>();
-        acbYear.valueProperty().bindBidirectional(this.yearProperty());
         acbYear.setPrefWidth(ScreenUtils.getActualSize(360));
         acbYear.setItems(getYearItems());
-
+        acbYear.valueProperty().addListener((observable, oldValue, newValue) -> {
+            PersianDate d = PersianDate.fromGregorian(time.getValue());
+            Integer year = acbYear.getValue();
+            time.set(PersianDate.of(year, d.getMonth(), getMaxDay(d, d.getMonth())).toGregorian());
+        });
         ArrowChoiceBoxWidget<PersianMonth> acbMonth = new ArrowChoiceBoxWidget<>();
-        acbMonth.valueProperty().bindBidirectional(this.persianMonthProperty());
+        acbMonth.valueProperty().addListener((observable, oldValue, newValue) -> {
+            PersianDate d = PersianDate.fromGregorian(time.getValue());
+            time.set(PersianDate.of(d.getYear(), newValue, getMaxDay(d, newValue)).toGregorian());
+        });
         acbMonth.setConverter(new StringConverter<PersianMonth>() {
             @Override
             public String toString(PersianMonth object) {
-                return object.getPersianName();
+                return String.format("%s (%d)", object.getPersianName(), object.getValue());
             }
 
             @Override
@@ -45,9 +64,15 @@ class CalenderHeader extends StackPane {
         acbMonth.setPrefWidth(ScreenUtils.getActualSize(420));
         acbMonth.setItems(FXCollections.observableArrayList(PersianMonth.values()));
 
-        btnToday.setOnAction(event -> {
-            acbMonth.setValue(PersianDate.now().getMonth());
-            acbYear.setValue(PersianDate.now().getYear());
+        btnToday.setOnAction(event -> this.time.setValue(LocalDate.now()));
+
+        PersianDate persianDate1 = PersianDate.fromGregorian(time.getValue());
+        acbMonth.setValue(persianDate1.getMonth());
+        acbYear.setValue(persianDate1.getYear());
+        time.addListener((observable, oldValue, newValue) -> {
+            PersianDate persianDate = PersianDate.fromGregorian(newValue);
+            acbMonth.setValue(persianDate.getMonth());
+            acbYear.setValue(persianDate.getYear());
         });
 
         base.setAlignment(Pos.CENTER);
@@ -67,38 +92,55 @@ class CalenderHeader extends StackPane {
         return items;
     }
 
-
     /**
-     * persianMonth property
+     * calender time
      */
-    ObjectProperty<PersianMonth> persianMonth = new SimpleObjectProperty<>(this, "persianMonth", PersianDate.now().getMonth());
+    ObjectProperty<LocalDate> time = new SimpleObjectProperty<>(this, "time", LocalDate.now());
 
-    public PersianMonth getPersianMonth() {
-        return persianMonth.get();
+    public LocalDate getTime() {
+        return time.get();
     }
 
-    public ObjectProperty<PersianMonth> persianMonthProperty() {
-        return persianMonth;
+    public ObjectProperty<LocalDate> timeProperty() {
+        return time;
     }
 
-    public void setPersianMonth(PersianMonth persianMonth) {
-        this.persianMonth.set(persianMonth);
+    public void setTime(LocalDate time) {
+        this.time.set(time);
     }
 
-    /**
-     * year property
-     */
-    ObjectProperty<Integer> year = new SimpleObjectProperty<>(this, "year", PersianDate.now().getYear());
-
-    public Integer getYear() {
-        return year.get();
-    }
-
-    public ObjectProperty<Integer> yearProperty() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year.set(year);
-    }
+//
+//    /**
+//     * persianMonth property
+//     */
+//    ObjectProperty<PersianMonth> persianMonth = new SimpleObjectProperty<>(this, "persianMonth", PersianDate.now().getMonth());
+//
+//    public PersianMonth getPersianMonth() {
+//        return persianMonth.get();
+//    }
+//
+//    public ObjectProperty<PersianMonth> persianMonthProperty() {
+//        return persianMonth;
+//    }
+//
+//    public void setPersianMonth(PersianMonth persianMonth) {
+//        this.persianMonth.set(persianMonth);
+//    }
+//
+//    /**
+//     * year property
+//     */
+//    ObjectProperty<Integer> year = new SimpleObjectProperty<>(this, "year", PersianDate.now().getYear());
+//
+//    public Integer getYear() {
+//        return year.get();
+//    }
+//
+//    public ObjectProperty<Integer> yearProperty() {
+//        return year;
+//    }
+//
+//    public void setYear(Integer year) {
+//        this.year.set(year);
+//    }
 }
