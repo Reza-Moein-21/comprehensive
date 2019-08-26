@@ -51,7 +51,7 @@ class CalenderMain extends StackPane {
                 .add("-fx-border-radius: " + ScreenUtils.getActualSize(5))
                 .add("-fx-background-radius: " + ScreenUtils.getActualSize(5))
                 .add("-fx-border-color: #9e9e9e")
-                .add("-fx-border-width: " + ScreenUtils.getActualSize(3)).toString());
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(2)).toString());
         return hbxSat;
     }
     private Node render() {
@@ -100,10 +100,10 @@ class CalenderMain extends StackPane {
                 calenderDay.isCurrentDay = (i == PersianDate.now().getDayOfMonth());
             }
 
-
+            // TODO must move this code to CalenderDay component
             VBox vBox = new VBox();
             if (events != null && !events.isEmpty()) {
-                String lblStyle = "-fx-font-size: " + ScreenUtils.getActualSize(22);
+                String lblStyle = "-fx-font-size: " + ScreenUtils.getActualSize(20);
 
                 CalenderEvent calenderEvent1 = events.get(events.size() - 1);
                 if (calenderEvent1.getTime().equals(currentDate.toGregorian())) {

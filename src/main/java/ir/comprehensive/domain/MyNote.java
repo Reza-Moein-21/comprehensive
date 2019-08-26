@@ -27,6 +27,6 @@ public class MyNote {
     @Column(name = "PRIORITY", nullable = false)
     Double priority;
 
-    @Column(name = "IS_ACTIVE")
+    @Column(name = "IS_ACTIVE", nullable = false)
     Boolean isActive;
 }

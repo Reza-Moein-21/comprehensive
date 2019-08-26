@@ -23,12 +23,17 @@ class CalenderDay extends StackPane {
 
         Label lblDayNumber = new Label();
         lblDayNumber.textProperty().bindBidirectional(dayNumber, new NumberStringConverter());
-
+        StringJoiner styleForLilDayNumber = new StringJoiner(" ; ");
+        styleForLilDayNumber.add("-fx-background-radius: " + ScreenUtils.getActualSize(3))
+                .add("-fx-padding:0 " + ScreenUtils.getActualSize(8))
+                .add("-fx-font-size: " + ScreenUtils.getActualSize(23));
         if (isCurrentDay) {
-            lblDayNumber.setStyle("-fx-background-radius: " + ScreenUtils.getActualSize(3) + "; -fx-background-color: #82b1ff;-fx-padding:0 " + ScreenUtils.getActualSize(8));
+            styleForLilDayNumber.add("-fx-background-color: #82b1ff");
         }
+
+        lblDayNumber.setStyle(styleForLilDayNumber.toString());
         HBox hbxDayNumber = new HBox(lblDayNumber);
-        hbxDayNumber.setStyle("-fx-border-width: 0 0 " + ScreenUtils.getActualSize(3) + " 0;-fx-border-color: #bdbdbd;-fx-padding: " + ScreenUtils.getActualSize(5) + " 0;");
+        hbxDayNumber.setStyle("-fx-border-width: 0 0 " + ScreenUtils.getActualSize(2) + " 0;-fx-border-color: #bdbdbd;-fx-padding: " + ScreenUtils.getActualSize(2) + " 0;");
 
         content.addListener(o -> this.refresh());
         base.getChildren().setAll(hbxDayNumber);
@@ -41,13 +46,14 @@ class CalenderDay extends StackPane {
         StringJoiner styleForThis = new StringJoiner(" ; ");
         styleForThis
                 .add("-fx-alignment: center")
-                .add("-fx-padding: " + ScreenUtils.getActualSize(5))
-                .add("-fx-pref-width:  " + ScreenUtils.getActualSize(170))
-                .add("-fx-pref-height: " + ScreenUtils.getActualSize(150))
+                .add("-fx-padding: " + ScreenUtils.getActualSize(3))
+                .add("-fx-pref-width:  " + ScreenUtils.getActualSize(155))
+                .add("-fx-pref-height: " + ScreenUtils.getActualSize(130))
+                .add("-fx-min-height: " + ScreenUtils.getActualSize(130))
                 .add("-fx-border-radius: " + ScreenUtils.getActualSize(5))
                 .add("-fx-background-radius: " + ScreenUtils.getActualSize(5))
                 .add("-fx-border-color: #9e9e9e")
-                .add("-fx-border-width: " + ScreenUtils.getActualSize(3));
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(2));
         if (isSelected) {
             styleForThis.add("-fx-background-color: #ccff90");
             this.setStyle(styleForThis.toString());

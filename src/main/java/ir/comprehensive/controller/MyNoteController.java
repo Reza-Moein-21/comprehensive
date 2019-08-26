@@ -7,6 +7,8 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.RatingExtra;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
+import ir.comprehensive.component.calenderwidget.CalenderEvent;
+import ir.comprehensive.component.calenderwidget.CalenderWidget;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.mapper.MyNoteMapper;
 import ir.comprehensive.model.MyNoteModel;
@@ -56,6 +58,8 @@ public class MyNoteController implements Initializable {
     MyNoteModel searchModel;
     @FXML
     public JFXTextField txfTitleC;
+    @FXML
+    public CalenderWidget calNoteSearch;
     @FXML
     public SimpleDatePicker sdpCreationDateC;
     @FXML
@@ -137,6 +141,19 @@ public class MyNoteController implements Initializable {
             n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
         }
     }
+
+    int getMaxDay(PersianDate persianDate) {
+        int monthNumber = persianDate.getMonth().getValue();
+
+        if (monthNumber == 12) {
+            return 29;
+        }
+        if (monthNumber <= 6) {
+            return 31;
+        }
+        return 30;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
@@ -146,6 +163,28 @@ public class MyNoteController implements Initializable {
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
         applyFontStyle(dlgShowDescription);
+
+        calNoteSearch.timeProperty().addListener((observable, oldValue, newValue) -> {
+            PersianDate persianNewDate = PersianDate.fromGregorian(newValue);
+
+            LocalDate minDate = PersianDate.of(persianNewDate.getYear(), persianNewDate.getMonth(), 1).toGregorian();
+            LocalDate maxDate = PersianDate.of(persianNewDate.getYear(), persianNewDate.getMonth(), getMaxDay(persianNewDate)).toGregorian();
+
+            calNoteSearch.getEventList().clear();
+            myNoteService.getCalenderNoteStatuses(minDate, maxDate).forEach(calenderNoteStatus -> {
+                if (calenderNoteStatus.getInActiveCount() != 0) {
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.INACTIVE));
+                }
+
+                if (calenderNoteStatus.getActiveCount() != 0) {
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getActiveCount() + " : " + MessageUtils.Message.ACTIVE));
+                }
+
+
+            });
+        });
+
+        refreshCalender();
 
         //
         sdpCreationDateC.setDialogContainer(startController.mainStack);
@@ -236,7 +275,7 @@ public class MyNoteController implements Initializable {
         hbxShowDescriptionFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxShowDescriptionFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
-        grdSearch.setPrefHeight(ScreenUtils.getActualSize(300));
+        grdSearch.setPrefHeight(ScreenUtils.getActualSize(1300));
         grdSearch.setHgap(ScreenUtils.getActualSize(20));
         grdSearch.setVgap(ScreenUtils.getActualSize(50));
         grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25)));
@@ -318,11 +357,21 @@ public class MyNoteController implements Initializable {
                 myNoteService.saveOrUpdate(mapper.modelToEntity(createModel));
                 dlgCreate.close();
                 updateDataTable(true);
+
+                refreshCalender();
+
+
                 Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE + " " + MessageUtils.Message.SUCCESS_SAVE);
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private void refreshCalender() {
+        LocalDate temp = calNoteSearch.getTime();
+        calNoteSearch.setTime(PersianDate.MIN.toGregorian());
+        calNoteSearch.setTime(temp);
     }
 
     @FXML

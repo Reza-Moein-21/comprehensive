@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,10 @@ public class MyNoteService implements Swappable<MyNote> {
         MyNote myNote = new MyNote();
         myNote.setIsActive(true);
         return Optional.of(repository.findAll(Example.of(myNote), Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
+    }
+
+    public List<CalenderNoteStatus> getCalenderNoteStatuses(LocalDate startDate, LocalDate endDate) {
+        return repository.findNumberOfByDate(startDate, endDate);
     }
 
 

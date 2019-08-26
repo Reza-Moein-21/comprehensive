@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.RatingExtra?>
 <?import ir.comprehensive.component.YesNoDialog?>
@@ -80,25 +81,34 @@
     <TitledPane expanded="false" text="%search">
         <GridPane fx:id="grdSearch">
             <columnConstraints>
-                <ColumnConstraints percentWidth="25"/>
-                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="45"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
-            <GridPane fx:id="grdSearchFromTo" GridPane.columnIndex="1" prefWidth="Infinity">
-                <columnConstraints>
-                    <ColumnConstraints percentWidth="50"/>
-                    <ColumnConstraints percentWidth="50"/>
-                </columnConstraints>
-                <SimpleDatePicker fx:id="sdpCreationDateFromS" promptText="%creationDateFrom"/>
-                <SimpleDatePicker fx:id="sdpCreationDateToS" GridPane.columnIndex="1" promptText="%creationDateTo"/>
-            </GridPane>
-            <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnSpan="2">
+            <TabPane GridPane.columnIndex="1" GridPane.rowSpan="6">
+                <Tab text="%search" closable="false">
+                    <CalenderWidget fx:id="calNoteSearch"/>
+                </Tab>
+                <Tab text="%advanceSearch" closable="false">
+                    <GridPane fx:id="grdSearchFromTo" prefWidth="Infinity">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <SimpleDatePicker fx:id="sdpCreationDateFromS" promptText="%creationDateFrom"/>
+                        <SimpleDatePicker fx:id="sdpCreationDateToS" GridPane.columnIndex="1"
+                                          promptText="%creationDateTo"/>
+                    </GridPane>
+
+                </Tab>
+            </TabPane>
+            <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnSpan="2">
                 <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
                 <CheckBox fx:id="chbIsActiveS" selected="true" text="%isActive"
                           GridPane.rowIndex="1"/>
 
             </HBox>
-            <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="4">
+            <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
                 <columnConstraints>
                     <ColumnConstraints percentWidth="40"/>
                     <ColumnConstraints percentWidth="40"/>
@@ -109,6 +119,7 @@
                            onAction="#showAll" GridPane.columnIndex="1"/>
             </GridPane>
         </GridPane>
+
     </TitledPane>
     <BorderPane>
         <right>
