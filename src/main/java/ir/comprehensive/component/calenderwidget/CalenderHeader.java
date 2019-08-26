@@ -2,6 +2,7 @@ package ir.comprehensive.component.calenderwidget;
 
 import com.github.mfathi91.time.PersianDate;
 import com.github.mfathi91.time.PersianMonth;
+import ir.comprehensive.component.JavaFxComponent;
 import ir.comprehensive.component.arrowchoiceboxwidget.ArrowChoiceBoxWidget;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
@@ -13,12 +14,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 
-class CalenderHeader extends StackPane {
+class CalenderHeader extends JavaFxComponent {
     public CalenderHeader(ObjectProperty<LocalDate> time) {
         this.time = time;
         this.getChildren().setAll(render());
@@ -34,7 +34,8 @@ class CalenderHeader extends StackPane {
         return persianDate.getDayOfMonth();
     }
 
-    private Node render() {
+    @Override
+    protected Node render() {
         HBox base = new HBox(ScreenUtils.getActualSize(10));
         Button btnToday = new Button(MessageUtils.Calender.TODAY);
         ArrowChoiceBoxWidget<Integer> acbYear = new ArrowChoiceBoxWidget<>();
@@ -109,38 +110,4 @@ class CalenderHeader extends StackPane {
         this.time.set(time);
     }
 
-//
-//    /**
-//     * persianMonth property
-//     */
-//    ObjectProperty<PersianMonth> persianMonth = new SimpleObjectProperty<>(this, "persianMonth", PersianDate.now().getMonth());
-//
-//    public PersianMonth getPersianMonth() {
-//        return persianMonth.get();
-//    }
-//
-//    public ObjectProperty<PersianMonth> persianMonthProperty() {
-//        return persianMonth;
-//    }
-//
-//    public void setPersianMonth(PersianMonth persianMonth) {
-//        this.persianMonth.set(persianMonth);
-//    }
-//
-//    /**
-//     * year property
-//     */
-//    ObjectProperty<Integer> year = new SimpleObjectProperty<>(this, "year", PersianDate.now().getYear());
-//
-//    public Integer getYear() {
-//        return year.get();
-//    }
-//
-//    public ObjectProperty<Integer> yearProperty() {
-//        return year;
-//    }
-//
-//    public void setYear(Integer year) {
-//        this.year.set(year);
-//    }
 }

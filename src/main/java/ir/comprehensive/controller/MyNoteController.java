@@ -10,6 +10,8 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.calenderwidget.CalenderEvent;
 import ir.comprehensive.component.calenderwidget.CalenderWidget;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
+import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo;
+import ir.comprehensive.component.jfxactivecombo.JFXActiveValue;
 import ir.comprehensive.mapper.MyNoteMapper;
 import ir.comprehensive.model.MyNoteModel;
 import ir.comprehensive.service.MyNoteService;
@@ -25,10 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -41,6 +40,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ResourceBundle;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Controller
@@ -53,6 +53,8 @@ public class MyNoteController implements Initializable {
     MyNoteMapper mapper;
 
     @FXML
+    public JFXActiveCombo cmbIsActiveS;
+    @FXML
     MyNoteModel createModel;
     @FXML
     MyNoteModel searchModel;
@@ -60,6 +62,8 @@ public class MyNoteController implements Initializable {
     public JFXTextField txfTitleC;
     @FXML
     public CalenderWidget calNoteSearch;
+    @FXML
+    public TabPane tbpDateSearch;
     @FXML
     public SimpleDatePicker sdpCreationDateC;
     @FXML
@@ -78,8 +82,6 @@ public class MyNoteController implements Initializable {
     public SimpleDatePicker sdpCreationDateToS;
     @FXML
     public JFXTextField txfTitleS;
-    @FXML
-    public CheckBox chbIsActiveS;
     @FXML
     public CheckBox chbIsActiveC;
 
@@ -104,8 +106,6 @@ public class MyNoteController implements Initializable {
     @FXML
     public HBox hbxShowDescriptionHeader;
     @FXML
-    public HBox hbxSearchButtonPanel;
-    @FXML
     public GridPane grdSearchFooter;
     @FXML
     public JFXButton btnCreate;
@@ -118,7 +118,7 @@ public class MyNoteController implements Initializable {
     @FXML
     public GridPane grdCreateFooter;
     @FXML
-    public GridPane grdSearchFromTo;
+    public HBox hbxSearchFromTo;
     @FXML
     public GridPane grdCreateCenter;
     @FXML
@@ -202,7 +202,7 @@ public class MyNoteController implements Initializable {
             sdpCreationDateC.setValue(editModel.getCreationDate());
             txaDescriptionC.setText(editModel.getDescription());
             chbIsActiveC.setVisible(true);
-            chbIsActiveC.setSelected(editModel.isIsActive());
+            chbIsActiveC.setSelected(editModel.getIsActive());
             rtnPriorityC.setRating(editModel.getPriority());
             dlgCreate.show();
 
@@ -231,6 +231,7 @@ public class MyNoteController implements Initializable {
         });
         updateDataTable(true);
 
+        cmbIsActiveS.setValue(JFXActiveValue.NONE);
         colTitle.setMinWidth(ScreenUtils.getActualSize(650));
         colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
         colTitle.setSortable(false);
@@ -250,6 +251,13 @@ public class MyNoteController implements Initializable {
         colCreateDate.setPrefWidth(ScreenUtils.getActualSize(210));
         colCreateDate.setResizable(false);
 
+
+        tbpDateSearch.setStyle(new StringJoiner(" ; ")
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(3))
+                .add("-fx-border-color: #757575")
+                .add("-fx-border-radius: " + ScreenUtils.getActualSize(5))
+                .add("-fx-background-radius: " + ScreenUtils.getActualSize(5))
+                .toString());
 
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
         sdpCreationDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.CREATION_DATE)));
@@ -275,16 +283,16 @@ public class MyNoteController implements Initializable {
         hbxShowDescriptionFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxShowDescriptionFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
-        grdSearch.setPrefHeight(ScreenUtils.getActualSize(1300));
+        grdSearch.setPrefHeight(ScreenUtils.getActualSize(1180));
         grdSearch.setHgap(ScreenUtils.getActualSize(20));
         grdSearch.setVgap(ScreenUtils.getActualSize(50));
-        grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(25)));
+        grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(25)));
 
         grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
 
         grdCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(25)));
 
-        grdSearchFromTo.setHgap(ScreenUtils.getActualSize(10));
+        hbxSearchFromTo.setSpacing(ScreenUtils.getActualSize(50));
 
 
         grdCreateCenter.setHgap(ScreenUtils.getActualSize(20));
@@ -376,6 +384,13 @@ public class MyNoteController implements Initializable {
 
     @FXML
     public void search(ActionEvent actionEvent) {
+        if (tbpDateSearch.getSelectionModel().getSelectedIndex() == 0) {
+            searchModel.setCreationDate(calNoteSearch.getTime());
+            sdpCreationDateFromS.setValue(null);
+            sdpCreationDateToS.setValue(null);
+        } else {
+            searchModel.setCreationDate(null);
+        }
         tblMyNote.setItems(myNoteService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
 
     }
@@ -385,7 +400,7 @@ public class MyNoteController implements Initializable {
         txfTitleS.setText(null);
         sdpCreationDateFromS.setValue(null);
         sdpCreationDateToS.setValue(null);
-        chbIsActiveS.setSelected(true);
+        cmbIsActiveS.setValue(JFXActiveValue.NONE);
         rtnPriorityS.setRating(0.0);
         updateDataTable(false);
     }

@@ -1,5 +1,6 @@
 package ir.comprehensive.component.calenderwidget;
 
+import ir.comprehensive.component.JavaFxComponent;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -7,18 +8,22 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.util.converter.NumberStringConverter;
 
 import java.util.StringJoiner;
 
-class CalenderDay extends StackPane {
+class CalenderDay extends JavaFxComponent {
 
     public CalenderDay() {
         refresh();
     }
 
-    private Node render() {
+    @Override
+    protected Node render() {
         VBox base = new VBox();
 
         Label lblDayNumber = new Label();

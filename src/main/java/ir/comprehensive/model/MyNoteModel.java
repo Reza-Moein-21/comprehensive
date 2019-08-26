@@ -11,7 +11,7 @@ public class MyNoteModel extends BaseModel {
     private ObjectProperty<LocalDate> creationDateFrom = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> creationDateTo = new SimpleObjectProperty<>();
     private DoubleProperty priority = new SimpleDoubleProperty();
-    private BooleanProperty isActive = new SimpleBooleanProperty();
+    private ObjectProperty<Boolean> isActive = new SimpleObjectProperty<>();
 
     public final String getDescription() {
         return description.get();
@@ -73,15 +73,15 @@ public class MyNoteModel extends BaseModel {
         this.priority.set(priority);
     }
 
-    public final boolean isIsActive() {
+    public final Boolean getIsActive() {
         return isActive.get();
     }
 
-    public final BooleanProperty isActiveProperty() {
+    public final ObjectProperty<Boolean> isActiveProperty() {
         return isActive;
     }
 
-    public final void setIsActive(boolean isActive) {
+    public final void setIsActive(Boolean isActive) {
         this.isActive.set(isActive);
     }
 }

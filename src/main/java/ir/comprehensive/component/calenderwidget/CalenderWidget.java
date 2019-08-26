@@ -1,5 +1,6 @@
 package ir.comprehensive.component.calenderwidget;
 
+import ir.comprehensive.component.JavaFxComponent;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -9,23 +10,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
-public class CalenderWidget extends StackPane {
+public class CalenderWidget extends JavaFxComponent {
 
 
     public CalenderWidget() {
         refresh();
     }
 
-    private void refresh() {
+    public void refresh() {
         this.getChildren().setAll(render());
     }
 
-    private Node render() {
+    @Override
+    protected Node render() {
         VBox base = new VBox();
         CalenderHeader calenderHeader = new CalenderHeader(this.time);
 

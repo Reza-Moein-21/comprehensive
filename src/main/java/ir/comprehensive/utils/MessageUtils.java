@@ -47,6 +47,8 @@ public class MessageUtils {
         public static final String MONTH = getMessage("month");
         public static final String DAY = getMessage("day");
         public static final String SEARCH = getMessage("search");
+        public static final String SELECT_CREATION_TIME_BY_CALENDER = getMessage("selectCreationTimeByCalender");
+        public static final String SELECT_CREATION_TIME_BY_DATE_RANGE = getMessage("selectCreationTimeByDateRange");
         public static final String ADVANCE_SEARCH = getMessage("advanceSearch");
         public static final String SAVE = getMessage("save");
         public static final String REQUIRED = getMessage("required");
@@ -105,6 +107,7 @@ public class MessageUtils {
         public static final String ACTIVE = getMessage("active");
         public static final String INACTIVE = getMessage("inActive");
         public static final String VISIT = getMessage("visit");
+        public static final String NONE = getMessage("none");
 
 
         private Message() {

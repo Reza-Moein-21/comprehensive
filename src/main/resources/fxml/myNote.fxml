@@ -4,6 +4,7 @@
 <?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
+<?import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo?>
 <?import ir.comprehensive.component.RatingExtra?>
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.model.MyNoteModel?>
@@ -21,7 +22,7 @@
                      isActive="${chbIsActiveC.selected}"/>
         <MyNoteModel fx:id="searchModel" title="${txfTitleS.text}" creationDateFrom="${sdpCreationDateFromS.value}"
                      creationDateTo="${sdpCreationDateToS.value}"
-                     isActive="${chbIsActiveS.selected}" priority="${rtnPriorityS.rating}"/>
+                     isActive="${cmbIsActiveS.isActive}" priority="${rtnPriorityS.rating}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <VBox fx:id="vbxCreateContent">
@@ -82,30 +83,31 @@
         <GridPane fx:id="grdSearch">
             <columnConstraints>
                 <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="45"/>
+                <ColumnConstraints percentWidth="36"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
-            <TabPane GridPane.columnIndex="1" GridPane.rowSpan="6">
-                <Tab text="%search" closable="false">
-                    <CalenderWidget fx:id="calNoteSearch"/>
+            <TabPane fx:id="tbpDateSearch" GridPane.columnIndex="1" GridPane.rowSpan="6">
+                <Tab text="%selectCreationTimeByCalender" closable="false">
+                    <HBox alignment="CENTER">
+                        <ScrollPane>
+                            <CalenderWidget fx:id="calNoteSearch"/>
+                        </ScrollPane>
+
+                    </HBox>
                 </Tab>
-                <Tab text="%advanceSearch" closable="false">
-                    <GridPane fx:id="grdSearchFromTo" prefWidth="Infinity">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="50"/>
-                            <ColumnConstraints percentWidth="50"/>
-                        </columnConstraints>
+                <Tab text="%selectCreationTimeByDateRange" closable="false">
+                    <HBox fx:id="hbxSearchFromTo" alignment="CENTER" spacing="50">
                         <SimpleDatePicker fx:id="sdpCreationDateFromS" promptText="%creationDateFrom"/>
                         <SimpleDatePicker fx:id="sdpCreationDateToS" GridPane.columnIndex="1"
+
                                           promptText="%creationDateTo"/>
-                    </GridPane>
+                    </HBox>
 
                 </Tab>
             </TabPane>
             <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnSpan="2">
                 <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
-                <CheckBox fx:id="chbIsActiveS" selected="true" text="%isActive"
-                          GridPane.rowIndex="1"/>
+                <JFXActiveCombo fx:id="cmbIsActiveS" promptText="%isActive" labelFloat="true" GridPane.rowIndex="1"/>
 
             </HBox>
             <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">

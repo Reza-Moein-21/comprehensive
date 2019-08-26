@@ -3,6 +3,7 @@ package ir.comprehensive.component.calenderwidget;
 import animatefx.animation.FadeIn;
 import com.github.mfathi91.time.PersianDate;
 import com.github.mfathi91.time.PersianMonth;
+import ir.comprehensive.component.JavaFxComponent;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ListProperty;
@@ -12,13 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 import java.util.StringJoiner;
 
-class CalenderMain extends StackPane {
+class CalenderMain extends JavaFxComponent {
     ObjectProperty<LocalDate> time;
 
     ListProperty<CalenderEvent> events = new SimpleListProperty<>(this, "events");
@@ -32,7 +32,7 @@ class CalenderMain extends StackPane {
         refresh();
     }
 
-    private void refresh() {
+    public void refresh() {
         this.getChildren().setAll(render());
         FadeIn fadeIn = new FadeIn(this);
         fadeIn.setSpeed(2);
@@ -54,7 +54,9 @@ class CalenderMain extends StackPane {
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(2)).toString());
         return hbxSat;
     }
-    private Node render() {
+
+    @Override
+    protected Node render() {
         GridPane grdCenter = new GridPane();
         grdCenter.setHgap(ScreenUtils.getActualSize(10));
         grdCenter.setVgap(ScreenUtils.getActualSize(10));
