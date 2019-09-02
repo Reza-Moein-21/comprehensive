@@ -24,6 +24,11 @@ public class DataTable<T> extends TableView<T> {
 
 
     public DataTable() {
+        TableColumn<T, String> rowNumberColumn = new TableColumn<>(MessageUtils.Message.NUMBER_SIGN);
+        rowNumberColumn.setPrefWidth(ScreenUtils.getActualSize(120));
+        rowNumberColumn.setResizable(false);
+        rowNumberColumn.setSortable(false);
+        rowNumberColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(this.getItems().indexOf(param.getValue()) + 1 + ""));
 
         TableColumn<T, T> editColumn = new TableColumn<>(MessageUtils.Message.EDIT);
         editColumn.setPrefWidth(ScreenUtils.getActualSize(120));
@@ -49,7 +54,7 @@ public class DataTable<T> extends TableView<T> {
         visitColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         visitColumn.visibleProperty().bind(showVisit);
 
-        getColumns().addAll(editColumn, deleteColumn, visitColumn);
+        getColumns().addAll(rowNumberColumn, editColumn, deleteColumn, visitColumn);
     }
 
     public Editable<T> getOnEdit() {
