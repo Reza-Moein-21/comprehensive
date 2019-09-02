@@ -102,12 +102,14 @@ public class MessageUtils {
         public static final String SHOW = getMessage("show");
         public static final String CREATION_DATE_FROM = getMessage("creationDateFrom");
         public static final String CREATION_DATE_TO = getMessage("creationDateTo");
+        public static final String IN_ACTIVATION_DATE = getMessage("inActivationDate");
         public static final String MY_NOTE = getMessage("myNote");
         public static final String PRIORITY = getMessage("priority");
         public static final String ACTIVE = getMessage("active");
         public static final String INACTIVE = getMessage("inActive");
         public static final String VISIT = getMessage("visit");
         public static final String NONE = getMessage("none");
+        public static final String NUMBER_SIGN = getMessage("numberSign");
 
 
         private Message() {

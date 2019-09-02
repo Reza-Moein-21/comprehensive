@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class MyNoteModel extends BaseModel {
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> creationDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> inActivationDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> creationDateFrom = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> creationDateTo = new SimpleObjectProperty<>();
     private DoubleProperty priority = new SimpleDoubleProperty();
@@ -35,6 +36,18 @@ public class MyNoteModel extends BaseModel {
 
     public final void setCreationDate(LocalDate creationDate) {
         this.creationDate.set(creationDate);
+    }
+
+    public final LocalDate getInActivationDate() {
+        return inActivationDate.get();
+    }
+
+    public final ObjectProperty<LocalDate> inActivationDateProperty() {
+        return inActivationDate;
+    }
+
+    public final void setInActivationDate(LocalDate inActivationDate) {
+        this.inActivationDate.set(inActivationDate);
     }
 
     public final LocalDate getCreationDateFrom() {

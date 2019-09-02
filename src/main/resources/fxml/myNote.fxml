@@ -133,6 +133,8 @@
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="%creationDate" fx:id="colCreateDate"/>
+            <TableColumn text="%inActivationDate" fx:id="colInActivationDate"/>
+            <TableColumn text="%isActive" fx:id="colIsActive"/>
             <TableColumn text="%priority" fx:id="colPriority"/>
             <TableColumn text="%description" fx:id="colDescription"/>
         </columns>

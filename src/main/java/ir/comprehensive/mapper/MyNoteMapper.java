@@ -15,6 +15,7 @@ public interface MyNoteMapper extends BaseMapper<MyNote, MyNoteModel> {
     @Mapping(target = "creationDateTo", ignore = true)
     @Mapping(target = "priority", source = "priority")
     @Mapping(target = "isActive", source = "isActive")
+    @Mapping(target = "inActivationDate", source = "inActivationDate")
     @Override
     MyNoteModel entityToModel(MyNote entity);
 

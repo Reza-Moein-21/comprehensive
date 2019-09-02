@@ -24,6 +24,9 @@ public class MyNote {
     @Column(name = "CREATION_DATE", nullable = false)
     LocalDate creationDate;
 
+    @Column(name = "IN_ACTIVATION_DATE")
+    LocalDate inActivationDate;
+
     @Column(name = "PRIORITY", nullable = false)
     Double priority;
 

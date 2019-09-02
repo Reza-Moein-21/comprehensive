@@ -134,7 +134,11 @@ public class MyNoteController implements Initializable {
     @FXML
     public TableColumn<MyNoteModel, PersianDate> colCreateDate;
     @FXML
+    public TableColumn<MyNoteModel, PersianDate> colInActivationDate;
+    @FXML
     public TableColumn<MyNoteModel, RatingExtra> colPriority;
+    @FXML
+    public TableColumn<MyNoteModel, String> colIsActive;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -233,6 +237,7 @@ public class MyNoteController implements Initializable {
         updateDataTable(true);
 
         cmbIsActiveS.setValue(JFXActiveValue.NONE);
+        cmbIsActiveS.setMinWidth(ScreenUtils.getActualSize(300));
         colTitle.setMinWidth(ScreenUtils.getActualSize(650));
         colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
         colTitle.setSortable(false);
@@ -240,6 +245,7 @@ public class MyNoteController implements Initializable {
         colDescription.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(getRightDescription(param)));
         colDescription.setPrefWidth(ScreenUtils.getActualSize(700));
         colDescription.setSortable(false);
+
 
         colPriority.setCellValueFactory(param -> new ReadOnlyObjectWrapper<RatingExtra>(new RatingExtra(null, param.getValue().getPriority(), null, true)));
         colPriority.setMinWidth(ScreenUtils.getActualSize(210));
@@ -251,6 +257,15 @@ public class MyNoteController implements Initializable {
         colCreateDate.setMinWidth(ScreenUtils.getActualSize(210));
         colCreateDate.setPrefWidth(ScreenUtils.getActualSize(210));
         colCreateDate.setResizable(false);
+
+        colInActivationDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getInActivationDate() == null ? null : PersianDate.fromGregorian(param.getValue().getInActivationDate())));
+        colInActivationDate.setMinWidth(ScreenUtils.getActualSize(310));
+        colInActivationDate.setPrefWidth(ScreenUtils.getActualSize(310));
+        colInActivationDate.setResizable(false);
+
+        colIsActive.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getIsActive() ? MessageUtils.Message.ACTIVE : MessageUtils.Message.INACTIVE));
+        colIsActive.setPrefWidth(ScreenUtils.getActualSize(210));
+        colIsActive.setResizable(false);
 
 
         tbpDateSearch.setStyle(new StringJoiner(" ; ")
