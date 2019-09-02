@@ -107,23 +107,16 @@ class CalenderMain extends JavaFxComponent {
             if (events != null && !events.isEmpty()) {
                 String lblStyle = "-fx-font-size: " + ScreenUtils.getActualSize(20);
 
-                CalenderEvent calenderEvent1 = events.get(events.size() - 1);
-                if (calenderEvent1.getTime().equals(currentDate.toGregorian())) {
+                // TODO most complete latter
+                events.forEach(calenderEvent -> {
+                    if (calenderEvent.getTime().equals(currentDate.toGregorian())) {
                     Label lblEventTitle1 = new Label();
                     lblEventTitle1.setStyle(lblStyle);
-                    lblEventTitle1.setText(calenderEvent1.getTitle());
+                        lblEventTitle1.setText(calenderEvent.getTitle());
                     vBox.getChildren().add(lblEventTitle1);
                 }
 
-                if (events.size() > 1) {
-                    Label lblEventTitle2 = new Label();
-                    CalenderEvent calenderEvent2 = events.get(events.size() - 2);
-                    if (calenderEvent2.getTime().equals(currentDate.toGregorian())) {
-                        lblEventTitle2.setStyle(lblStyle);
-                        lblEventTitle2.setText(calenderEvent2.getTitle());
-                        vBox.getChildren().add(lblEventTitle2);
-                    }
-                }
+                });
 
             }
             calenderDay.setContent(vBox);

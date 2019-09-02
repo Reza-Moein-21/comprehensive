@@ -88,12 +88,7 @@
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
             <TabPane fx:id="tbpDateSearch" GridPane.columnIndex="1" GridPane.rowSpan="6">
                 <Tab text="%selectCreationTimeByCalender" closable="false">
-                    <HBox alignment="CENTER">
-                        <ScrollPane>
-                            <CalenderWidget fx:id="calNoteSearch"/>
-                        </ScrollPane>
-
-                    </HBox>
+                    <CalenderWidget fx:id="calNoteSearch"/>
                 </Tab>
                 <Tab text="%selectCreationTimeByDateRange" closable="false">
                     <HBox fx:id="hbxSearchFromTo" alignment="CENTER" spacing="50">

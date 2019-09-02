@@ -215,6 +215,7 @@ public class MyNoteController implements Initializable {
                     myNoteService.delete(selectedItem.getId());
                     Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable(true);
+                    refreshCalender();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -283,7 +284,8 @@ public class MyNoteController implements Initializable {
         hbxShowDescriptionFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxShowDescriptionFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
-        grdSearch.setPrefHeight(ScreenUtils.getActualSize(1180));
+        grdSearch.setPrefHeight(ScreenUtils.getActualSize(1200));
+        grdSearch.setMinHeight(ScreenUtils.getActualSize(1200));
         grdSearch.setHgap(ScreenUtils.getActualSize(20));
         grdSearch.setVgap(ScreenUtils.getActualSize(50));
         grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(25)));
