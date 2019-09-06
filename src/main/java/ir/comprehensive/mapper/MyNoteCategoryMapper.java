@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 public interface MyNoteCategoryMapper extends BaseMapper<MyNoteCategory, MyNoteCategoryModel> {
 
     @Mapping(target = "title", source = "title")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "countOfActive", source = "countOfActive")
+    @Mapping(target = "countOfInActive", source = "countOfInActive")
     @Mapping(target = "id", source = "id")
     @Override
     MyNoteCategoryModel entityToModel(MyNoteCategory entity);

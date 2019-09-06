@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 public class MyNoteCategoryController implements Initializable {
     public static Long myNoteCategoryId;
 
+
     @Autowired
     StartController startController;
     @Autowired
@@ -53,6 +54,10 @@ public class MyNoteCategoryController implements Initializable {
     public JFXTextField txfTitleC;
     @FXML
     public JFXTextField txfTitleS;
+    @FXML
+    public JFXTextField txfDescriptionC;
+    @FXML
+    public JFXTextField txfDescriptionS;
 
     @FXML
     public JFXDialog dlgCreate;
@@ -82,6 +87,12 @@ public class MyNoteCategoryController implements Initializable {
     public TableColumn<MyNoteCategoryModel, String> colTitle;
     @FXML
     public TableColumn<MyNoteCategoryModel, Void> colGoToMyNote;
+    @FXML
+    public TableColumn<MyNoteCategoryModel, String> colDescription;
+    @FXML
+    public TableColumn<MyNoteCategoryModel, Long> colCountOfActive;
+    @FXML
+    public TableColumn<MyNoteCategoryModel, Long> colCountOfInActive;
     @FXML
     public DataTable<MyNoteCategoryModel> tblMyNoteCategory;
 
@@ -133,6 +144,14 @@ public class MyNoteCategoryController implements Initializable {
         colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
         colTitle.setSortable(false);
 
+        colDescription.setMinWidth(ScreenUtils.getActualSize(950));
+        colDescription.setPrefWidth(ScreenUtils.getActualSize(900));
+
+        colCountOfActive.setMinWidth(ScreenUtils.getActualSize(250));
+        colCountOfActive.setPrefWidth(ScreenUtils.getActualSize(200));
+        colCountOfInActive.setMinWidth(ScreenUtils.getActualSize(250));
+        colCountOfInActive.setPrefWidth(ScreenUtils.getActualSize(200));
+
         colGoToMyNote.setMinWidth(ScreenUtils.getActualSize(250));
         colGoToMyNote.setPrefWidth(ScreenUtils.getActualSize(300));
         colGoToMyNote.setSortable(false);
@@ -144,6 +163,7 @@ public class MyNoteCategoryController implements Initializable {
         vbxCreateContent.setPrefHeight(ScreenUtils.getActualSize(400));
 
         vbxCreateCenter.setPadding(new Insets(ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15)));
+        vbxCreateCenter.setSpacing(ScreenUtils.getActualSize(50));
 
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
@@ -185,6 +205,7 @@ public class MyNoteCategoryController implements Initializable {
     public void showCreateDialog(ActionEvent actionEvent) {
         createModel.setId(null);
         txfTitleC.setText("");
+
         dlgCreate.show();
     }
 

@@ -1,8 +1,17 @@
 package ir.comprehensive.model;
 
 import ir.comprehensive.model.basemodel.BaseModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class MyNoteCategoryModel extends BaseModel {
+
+    private StringProperty description = new SimpleStringProperty();
+    private ObjectProperty<Long> countOfActive = new SimpleObjectProperty<>();
+    private ObjectProperty<Long> countOfInActive = new SimpleObjectProperty<>();
+
 
     public MyNoteCategoryModel() {
     }
@@ -16,5 +25,39 @@ public class MyNoteCategoryModel extends BaseModel {
         setId(id);
     }
 
+    public final String getDescription() {
+        return description.get();
+    }
 
+    public final StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public final void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public final Long getCountOfActive() {
+        return countOfActive.get();
+    }
+
+    public final ObjectProperty<Long> countOfActiveProperty() {
+        return countOfActive;
+    }
+
+    public final void setCountOfActive(Long countOfActive) {
+        this.countOfActive.set(countOfActive);
+    }
+
+    public final Long getCountOfInActive() {
+        return countOfInActive.get();
+    }
+
+    public final ObjectProperty<Long> countOfInActiveProperty() {
+        return countOfInActive;
+    }
+
+    public final void setCountOfInActive(Long countOfInActive) {
+        this.countOfInActive.set(countOfInActive);
+    }
 }

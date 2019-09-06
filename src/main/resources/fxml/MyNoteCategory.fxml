@@ -5,9 +5,7 @@
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.model.MyNoteCategoryModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml" fx:id="parent" nodeOrientation="RIGHT_TO_LEFT"
@@ -15,8 +13,8 @@
       fx:controller="ir.comprehensive.controller.MyNoteCategoryController">
 
     <fx:define>
-        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}"/>
-        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}"/>
+        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"/>
+        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <VBox fx:id="vbxCreateContent">
@@ -26,7 +24,7 @@
             </HBox>
             <VBox fx:id="vbxCreateCenter">
                 <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
-
+                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
             </VBox>
             <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right" GridPane.columnIndex="1">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
@@ -44,6 +42,7 @@
                 <ColumnConstraints percentWidth="36"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
+            <JFXTextField fx:id="txfDescriptionS" GridPane.columnIndex="1" promptText="%description" labelFloat="true"/>
             <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
                 <columnConstraints>
                     <ColumnConstraints percentWidth="40"/>
@@ -69,6 +68,21 @@
             <TableColumn text="%title" fx:id="colTitle">
                 <cellValueFactory>
                     <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%description" fx:id="colDescription">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%countOfActive" fx:id="colCountOfActive">
+                <cellValueFactory>
+                    <PropertyValueFactory property="countOfActive"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="%countOfInActive" fx:id="colCountOfInActive">
+                <cellValueFactory>
+                    <PropertyValueFactory property="countOfInActive"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn fx:id="colGoToMyNote"/>
