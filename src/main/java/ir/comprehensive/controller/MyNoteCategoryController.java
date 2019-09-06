@@ -19,11 +19,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -123,11 +126,7 @@ public class MyNoteCategoryController implements Initializable {
                 dlgDelete.close();
             });
         });
-        tblMyNoteCategory.setOnVisit(selectedItem -> {
-            MyNoteCategoryController.myNoteCategoryId = selectedItem.getId();
-            startController.navigateToView(ViewName.MY_NOTEBOOK);
-        });
-
+        addButtonToTable();
         updateDataTable();
 
         colTitle.setMinWidth(ScreenUtils.getActualSize(650));
@@ -218,6 +217,39 @@ public class MyNoteCategoryController implements Initializable {
     public void showAll(ActionEvent actionEvent) {
         txfTitleS.setText(null);
         updateDataTable();
+    }
+
+    private void addButtonToTable() {
+
+        Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>> cellFactory = new Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>>() {
+            @Override
+            public TableCell<MyNoteCategoryModel, Void> call(final TableColumn<MyNoteCategoryModel, Void> param) {
+                return new TableCell<MyNoteCategoryModel, Void>() {
+
+                    private final Button btn = new Button(MessageUtils.Message.ENTER);
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            MyNoteCategoryModel data = getTableView().getItems().get(getIndex());
+                            MyNoteCategoryController.myNoteCategoryId = data.getId();
+                            startController.navigateToView(ViewName.MY_NOTEBOOK, MessageUtils.Message.MY_NOTE + ": (" + data.getTitle() + ")");
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+            }
+        };
+
+        colGoToMyNote.setCellFactory(cellFactory);
     }
 
 

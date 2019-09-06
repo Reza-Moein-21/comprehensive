@@ -52,7 +52,7 @@ public class HomeController implements Initializable {
         crdStoreRoom.setPrefHeight(ScreenUtils.getActualSize(210));
         crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
         crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(210));
-        crdMyNoteCategory.setPrefWidth(ScreenUtils.getActualSize(450));
+        crdMyNoteCategory.setPrefWidth(ScreenUtils.getActualSize(350.0));
         crdMyNoteCategory.setPrefHeight(ScreenUtils.getActualSize(210));
         masonry.setHgap(ScreenUtils.getActualSize(15));
         masonry.setVgap(ScreenUtils.getActualSize(15));

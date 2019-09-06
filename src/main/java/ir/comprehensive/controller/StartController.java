@@ -80,6 +80,22 @@ public class StartController implements Initializable {
         navigateToView(viewNames.pop());
     }
 
+    public void navigateToView(ViewName viewName, String viewTitle) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(viewName.getViewUrl(), getMessageBundle(), null, context::getBean);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        main.getChildren().setAll(parent);
+        viewNames.push(viewName);
+        // change page title
+        lblPageTitle.setText(viewTitle);
+        // hide back button on home view
+        btnBack.setVisible(!viewNames.peek().equals(ViewName.HOME));
+    }
+
     public void navigateToView(ViewName viewName) {
         Parent parent = null;
         try {

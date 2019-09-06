@@ -64,7 +64,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn text="%title" fx:id="colTitle">
                 <cellValueFactory>

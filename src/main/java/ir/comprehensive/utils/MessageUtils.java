@@ -114,6 +114,7 @@ public class MessageUtils {
         public static final String NUMBER_SIGN = getMessage("numberSign");
         public static final String START_PAGE = getMessage("startPage");
         public static final String HOME = getMessage("home");
+        public static final String ENTER = getMessage("enter");
 
 
         private Message() {
