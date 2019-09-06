@@ -90,9 +90,6 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
             throw new GeneralException("not null id");
         }
 
-        if (myNoteRepository.isMyNoteCategoryExist(id)) {
-            throw new GeneralException(MessageUtils.Message.MY_NOTE_CATEGORY + " " + MessageUtils.Message.USE_IN + " " + MessageUtils.Message.MY_NOTE);
-        }
         repository.deleteById(id);
         return Optional.of(id);
     }

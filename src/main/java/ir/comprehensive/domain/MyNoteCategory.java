@@ -1,12 +1,16 @@
 package ir.comprehensive.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "MY_NOTE_CATEGORY")
 public class MyNoteCategory implements Serializable {
@@ -27,6 +31,9 @@ public class MyNoteCategory implements Serializable {
 
     @Formula("select count(*) from MY_NOTE note where note.MY_NOTE_CATEGORY_ID = ID and  note.IS_ACTIVE = 0")
     Long countOfInActive;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "myNoteCategory", orphanRemoval = true)
+    Set<MyNote> myNotes = new HashSet<>();
 
     public MyNoteCategory() {
     }

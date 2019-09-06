@@ -6,11 +6,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyNoteCategoryModel extends BaseModel {
 
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<Long> countOfActive = new SimpleObjectProperty<>();
     private ObjectProperty<Long> countOfInActive = new SimpleObjectProperty<>();
+    private ObjectProperty<List<MyNoteModel>> myNotes = new SimpleObjectProperty<>(new ArrayList<>());
 
 
     public MyNoteCategoryModel() {
@@ -59,5 +63,17 @@ public class MyNoteCategoryModel extends BaseModel {
 
     public final void setCountOfInActive(Long countOfInActive) {
         this.countOfInActive.set(countOfInActive);
+    }
+
+    public final List<MyNoteModel> getMyNotes() {
+        return myNotes.get();
+    }
+
+    public final ObjectProperty<List<MyNoteModel>> myNotesProperty() {
+        return myNotes;
+    }
+
+    public final void setMyNotes(List<MyNoteModel> myNotes) {
+        this.myNotes.set(myNotes);
     }
 }

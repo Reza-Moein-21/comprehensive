@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface MyNoteCategoryMapper extends BaseMapper<MyNoteCategory, MyNoteCategoryModel> {
 
+    @Mapping(target = "myNotes", ignore = true)
     @Mapping(target = "title", source = "title")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "countOfActive", source = "countOfActive")
