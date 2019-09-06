@@ -55,6 +55,7 @@ public class DataTable<T> extends TableView<T> {
         visitColumn.visibleProperty().bind(showVisit);
 
         getColumns().addAll(rowNumberColumn, editColumn, deleteColumn, visitColumn);
+        this.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
     }
 
     public Editable<T> getOnEdit() {

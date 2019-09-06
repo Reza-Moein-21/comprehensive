@@ -153,6 +153,7 @@ public class StoreRoomController implements Initializable {
             n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
@@ -174,19 +175,23 @@ public class StoreRoomController implements Initializable {
 
         colStatus.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, ProductStatus>("status"));
         colStatus.setMinWidth(ScreenUtils.getActualSize(200));
-        colStatus.setPrefWidth(ScreenUtils.getActualSize(400));
+        colStatus.setPrefWidth(ScreenUtils.getActualSize(200));
+        colStatus.setResizable(false);
 
         colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
-        colDeliveryDate.setMinWidth(ScreenUtils.getActualSize(200));
-        colDeliveryDate.setPrefWidth(ScreenUtils.getActualSize(400));
+        colDeliveryDate.setMinWidth(ScreenUtils.getActualSize(250));
+        colDeliveryDate.setPrefWidth(ScreenUtils.getActualSize(250));
+        colDeliveryDate.setResizable(false);
 
         colDesiredDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDesiredDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDesiredDate())));
-        colDesiredDate.setMinWidth(ScreenUtils.getActualSize(200));
-        colDesiredDate.setPrefWidth(ScreenUtils.getActualSize(400));
+        colDesiredDate.setMinWidth(ScreenUtils.getActualSize(230));
+        colDesiredDate.setPrefWidth(ScreenUtils.getActualSize(230));
+        colDesiredDate.setResizable(false);
 
         colReceivedDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getReceivedDate() == null ? null : PersianDate.fromGregorian(param.getValue().getReceivedDate())));
-        colReceivedDate.setMinWidth(ScreenUtils.getActualSize(200));
-        colReceivedDate.setPrefWidth(ScreenUtils.getActualSize(400));
+        colReceivedDate.setMinWidth(ScreenUtils.getActualSize(250));
+        colReceivedDate.setPrefWidth(ScreenUtils.getActualSize(250));
+        colReceivedDate.setResizable(false);
 
         grdPersonProduct.setHgap(ScreenUtils.getActualSize(15));
         grdDeliverDesiredDate.setHgap(ScreenUtils.getActualSize(15));

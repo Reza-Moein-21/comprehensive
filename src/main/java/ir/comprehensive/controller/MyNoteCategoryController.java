@@ -145,16 +145,20 @@ public class MyNoteCategoryController implements Initializable {
         colTitle.setSortable(false);
 
         colDescription.setMinWidth(ScreenUtils.getActualSize(950));
-        colDescription.setPrefWidth(ScreenUtils.getActualSize(900));
+        colDescription.setPrefWidth(ScreenUtils.getActualSize(2300));
 
-        colCountOfActive.setMinWidth(ScreenUtils.getActualSize(250));
+        colCountOfActive.setMinWidth(ScreenUtils.getActualSize(200));
         colCountOfActive.setPrefWidth(ScreenUtils.getActualSize(200));
-        colCountOfInActive.setMinWidth(ScreenUtils.getActualSize(250));
-        colCountOfInActive.setPrefWidth(ScreenUtils.getActualSize(200));
+        colCountOfActive.setResizable(false);
 
-        colGoToMyNote.setMinWidth(ScreenUtils.getActualSize(250));
-        colGoToMyNote.setPrefWidth(ScreenUtils.getActualSize(300));
+        colCountOfInActive.setMinWidth(ScreenUtils.getActualSize(200));
+        colCountOfInActive.setPrefWidth(ScreenUtils.getActualSize(200));
+        colCountOfInActive.setResizable(false);
+
+        colGoToMyNote.setMinWidth(ScreenUtils.getActualSize(140));
+        colGoToMyNote.setPrefWidth(ScreenUtils.getActualSize(140));
         colGoToMyNote.setSortable(false);
+        colGoToMyNote.setResizable(false);
 
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
 

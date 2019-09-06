@@ -298,7 +298,7 @@ public class MyNoteController implements Initializable {
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
         colFullName.setMinWidth(ScreenUtils.getActualSize(200));
-        colFullName.setPrefWidth(ScreenUtils.getActualSize(400));
+        colFullName.setPrefWidth(ScreenUtils.getActualSize(200));
 
         tbpDateSearch.setStyle(new StringJoiner(" ; ")
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(3))
