@@ -4,6 +4,7 @@ import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.RatingExtra;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -13,15 +14,19 @@ import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveValue;
 import ir.comprehensive.mapper.MyNoteMapper;
+import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.model.MyNoteModel;
+import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.MyNoteService;
+import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,8 +56,17 @@ public class MyNoteController implements Initializable {
     @Autowired
     MyNoteService myNoteService;
     @Autowired
+    private PersonService personService;
+    @Autowired
+    PersonMapper personMapper;
+    @Autowired
     MyNoteMapper mapper;
 
+
+    @FXML
+    public Autocomplete<PersonModel> autPersonS;
+    @FXML
+    public Autocomplete<PersonModel> autPersonC;
     @FXML
     public JFXActiveCombo cmbIsActiveS;
     @FXML
@@ -139,6 +153,8 @@ public class MyNoteController implements Initializable {
     @FXML
     public TableColumn<MyNoteModel, RatingExtra> colPriority;
     @FXML
+    public TableColumn<MyNoteModel, String> colFullName;
+    @FXML
     public TableColumn<MyNoteModel, String> colIsActive;
 
     private void applyFontStyle(Pane rootNode) {
@@ -199,11 +215,23 @@ public class MyNoteController implements Initializable {
         parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
+        autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
+        autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
+
+
+        autPersonC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                autPersonC.validate();
+            }
+        });
+
+        autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
 
         tblMyNote.setOnEdit(selectedItem -> {
             MyNoteModel editModel = myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
+            autPersonC.setValue(editModel.getPerson());
             sdpCreationDateC.setValue(editModel.getCreationDate());
             txaDescriptionC.setText(editModel.getDescription());
             chbIsActiveC.setVisible(true);
@@ -268,6 +296,9 @@ public class MyNoteController implements Initializable {
         colIsActive.setPrefWidth(ScreenUtils.getActualSize(210));
         colIsActive.setResizable(false);
 
+        colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
+        colFullName.setMinWidth(ScreenUtils.getActualSize(200));
+        colFullName.setPrefWidth(ScreenUtils.getActualSize(400));
 
         tbpDateSearch.setStyle(new StringJoiner(" ; ")
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(3))
@@ -361,6 +392,7 @@ public class MyNoteController implements Initializable {
     @FXML
     public void showCreateDialog(ActionEvent actionEvent) {
         createModel.setId(null);
+        autPersonC.setValue(null);
         txfTitleC.setText("");
         txaDescriptionC.setText("");
         sdpCreationDateC.setValue(LocalDate.now());

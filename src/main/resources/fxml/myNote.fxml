@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo?>
-<?import ir.comprehensive.component.RatingExtra?>
-<?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.model.MyNoteModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
@@ -19,9 +18,10 @@
     <fx:define>
         <MyNoteModel fx:id="createModel" title="${txfTitleC.text}" creationDate="${sdpCreationDateC.value}"
                      description="${txaDescriptionC.text}" priority="${rtnPriorityC.rating}"
+                     person="${autPersonC.value}"
                      isActive="${chbIsActiveC.selected}"/>
         <MyNoteModel fx:id="searchModel" title="${txfTitleS.text}" creationDateFrom="${sdpCreationDateFromS.value}"
-                     creationDateTo="${sdpCreationDateToS.value}"
+                     creationDateTo="${sdpCreationDateToS.value}" person="${autPersonS.value}"
                      isActive="${cmbIsActiveS.isActive}" priority="${rtnPriorityS.rating}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
@@ -36,10 +36,12 @@
                     <ColumnConstraints percentWidth="38"/>
                     <ColumnConstraints percentWidth="24"/>
                 </columnConstraints>
+
                 <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
                 <SimpleDatePicker fx:id="sdpCreationDateC" promptText="%creationDate" GridPane.columnIndex="1"/>
                 <RatingExtra fx:id="rtnPriorityC" title="%priority" GridPane.columnIndex="2"/>
-                <VBox GridPane.rowIndex="1" GridPane.columnSpan="3">
+                <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true" GridPane.rowIndex="1"/>
+                <VBox GridPane.rowIndex="2" GridPane.columnSpan="3">
                     <Label text="%description"/>
                     <TextArea fx:id="txaDescriptionC"/>
                 </VBox>
@@ -103,7 +105,7 @@
             <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnSpan="2">
                 <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
                 <JFXActiveCombo fx:id="cmbIsActiveS" promptText="%isActive" labelFloat="true" GridPane.rowIndex="1"/>
-
+                <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
             </HBox>
             <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
                 <columnConstraints>
@@ -136,6 +138,7 @@
             <TableColumn text="%inActivationDate" fx:id="colInActivationDate"/>
             <TableColumn text="%isActive" fx:id="colIsActive"/>
             <TableColumn text="%priority" fx:id="colPriority"/>
+            <TableColumn text="%fullName" fx:id="colFullName"/>
             <TableColumn text="%description" fx:id="colDescription"/>
         </columns>
     </DataTable>

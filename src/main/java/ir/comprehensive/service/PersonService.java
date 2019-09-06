@@ -4,6 +4,7 @@ import ir.comprehensive.domain.Category;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
+import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.extra.GeneralException;
@@ -29,11 +30,13 @@ import java.util.stream.Collectors;
 public class PersonService implements Swappable<Person> {
     private ProductDeliveryRepository productDeliveryRepository;
     private PersonRepository repository;
+    private MyNoteRepository myNoteRepository;
 
 
-    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository) {
+    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository) {
         this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
+        this.myNoteRepository = myNoteRepository;
     }
 
     public Optional<List<Person>> findByName(String name) {
@@ -120,6 +123,9 @@ public class PersonService implements Swappable<Person> {
         }
         if (productDeliveryRepository.isPersonExist(id)) {
             throw new GeneralException(MessageUtils.Message.PERSON + " " + MessageUtils.Message.USE_IN + " " + MessageUtils.Message.STOREROOM);
+        }
+        if (myNoteRepository.isPersonExist(id)) {
+            throw new GeneralException(MessageUtils.Message.PERSON + " " + MessageUtils.Message.USE_IN + " " + MessageUtils.Message.MY_NOTE);
         }
         repository.deleteById(id);
         return Optional.of(id);

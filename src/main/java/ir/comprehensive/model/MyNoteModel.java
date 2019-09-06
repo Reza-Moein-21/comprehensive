@@ -14,6 +14,7 @@ public class MyNoteModel extends BaseModel {
     private DoubleProperty priority = new SimpleDoubleProperty();
     private ObjectProperty<Boolean> isActive = new SimpleObjectProperty<>();
     private ObjectProperty<MyNoteCategoryModel> myNoteCategory = new SimpleObjectProperty<>();
+    private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
 
     public final String getDescription() {
         return description.get();
@@ -109,5 +110,17 @@ public class MyNoteModel extends BaseModel {
 
     public final void setMyNoteCategory(MyNoteCategoryModel myNoteCategory) {
         this.myNoteCategory.set(myNoteCategory);
+    }
+
+    public final PersonModel getPerson() {
+        return person.get();
+    }
+
+    public final ObjectProperty<PersonModel> personProperty() {
+        return person;
+    }
+
+    public final void setPerson(PersonModel person) {
+        this.person.set(person);
     }
 }

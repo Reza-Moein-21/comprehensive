@@ -37,7 +37,7 @@
     </JFXDialog>
 
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <TitledPane expanded="false" text="%search">
+    <TitledPane text="%search">
         <GridPane fx:id="grdSearch">
             <columnConstraints>
                 <ColumnConstraints percentWidth="40"/>
@@ -64,7 +64,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
             <TableColumn text="%title" fx:id="colTitle">
                 <cellValueFactory>

@@ -36,4 +36,9 @@ public class MyNote {
     @ManyToOne
     @JoinColumn(name = "MY_NOTE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_MY_NOTE_CATEGORY"), nullable = false)
     MyNoteCategory myNoteCategory;
+
+
+    @ManyToOne
+    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_PERSON"), nullable = false)
+    Person person;
 }
