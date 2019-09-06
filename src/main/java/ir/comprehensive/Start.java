@@ -1,5 +1,6 @@
 package ir.comprehensive;
 
+import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +44,7 @@ public class Start extends Application {
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("/image/icon2.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
+        primaryStage.setTitle(MessageUtils.Message.APP_TITLE);
         primaryStage.show();
 
     }

@@ -110,6 +110,8 @@ public class MessageUtils {
         public static final String VISIT = getMessage("visit");
         public static final String NONE = getMessage("none");
         public static final String NUMBER_SIGN = getMessage("numberSign");
+        public static final String START_PAGE = getMessage("startPage");
+        public static final String HOME = getMessage("home");
 
 
         private Message() {

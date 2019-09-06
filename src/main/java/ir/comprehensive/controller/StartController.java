@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -32,6 +33,9 @@ public class StartController implements Initializable {
     @FXML
     public GridPane grdTop;
 
+    @FXML
+    public Label lblPageTitle;
+
     private Stack<ViewName> viewNames = new Stack<>();
     ConfigurableApplicationContext context;
 
@@ -46,7 +50,11 @@ public class StartController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // config start page and back button
         viewNames.push(ViewName.HOME);
+        lblPageTitle.setText(ViewName.HOME.getTitle());
+        btnBack.setVisible(false);
+
         AnchorPane.setTopAnchor(main, ScreenUtils.getActualSize(120));
         AnchorPane.setRightAnchor(main, ScreenUtils.getActualSize(10));
         AnchorPane.setBottomAnchor(main, ScreenUtils.getActualSize(10));
@@ -82,6 +90,10 @@ public class StartController implements Initializable {
 
         main.getChildren().setAll(parent);
         viewNames.push(viewName);
+        // change page title
+        lblPageTitle.setText(viewName.getTitle());
+        // hide back button on home view
+        btnBack.setVisible(!viewNames.peek().equals(ViewName.HOME));
     }
 
     public void backToHome(ActionEvent actionEvent) {
