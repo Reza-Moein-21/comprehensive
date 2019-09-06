@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.YesNoDialog?>
+<?import ir.comprehensive.model.MyNoteCategoryModel?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:id="parent" nodeOrientation="RIGHT_TO_LEFT"
+      AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+      fx:controller="ir.comprehensive.controller.MyNoteCategoryController">
+
+    <fx:define>
+        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}"/>
+        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}"/>
+    </fx:define>
+    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxCreateContent">
+            <HBox alignment="CENTER" fx:id="hbxCreateHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #29b6f6;">
+                <Label text="%createMyNote"/>
+            </HBox>
+            <VBox fx:id="vbxCreateCenter">
+                <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
+
+            </VBox>
+            <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right" GridPane.columnIndex="1">
+                <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                           buttonType="RAISED"/>
+                <JFXButton text="%save" onAction="#save" styleClass="primary-button" buttonType="RAISED"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
+
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+    <TitledPane expanded="false" text="%search">
+        <GridPane fx:id="grdSearch">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="36"/>
+            </columnConstraints>
+            <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
+            <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="40"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+                <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
+                           onAction="#search"/>
+                <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll" GridPane.columnIndex="1"/>
+            </GridPane>
+        </GridPane>
+
+    </TitledPane>
+    <BorderPane>
+        <right>
+            <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
+                       styleClass="primary-button,green-background"/>
+        </right>
+    </BorderPane>
+
+    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="%title" fx:id="colTitle">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="colGoToMyNote"/>
+        </columns>
+    </DataTable>
+</VBox>

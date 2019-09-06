@@ -32,4 +32,8 @@ public class MyNote {
 
     @Column(name = "IS_ACTIVE", nullable = false)
     Boolean isActive;
+
+    @ManyToOne
+    @JoinColumn(name = "MY_NOTE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_MY_NOTE_CATEGORY"), nullable = false)
+    MyNoteCategory myNoteCategory;
 }

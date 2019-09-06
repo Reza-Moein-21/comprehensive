@@ -10,6 +10,7 @@ public enum ViewName {
     STORE_ROOM("fxml/storeRoom.fxml", MessageUtils.Message.STOREROOM),
     HUMAN_RESOURCE("fxml/humanresource/humanResource.fxml", MessageUtils.Message.HUMAN_RESOURCE),
     MY_NOTEBOOK("fxml/myNote.fxml", MessageUtils.Message.MY_NOTE),
+    MY_NOTE_CATEGORY("fxml/MyNoteCategory.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
 
     ;
     private String viewPath;

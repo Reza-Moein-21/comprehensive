@@ -13,6 +13,7 @@ public class MyNoteModel extends BaseModel {
     private ObjectProperty<LocalDate> creationDateTo = new SimpleObjectProperty<>();
     private DoubleProperty priority = new SimpleDoubleProperty();
     private ObjectProperty<Boolean> isActive = new SimpleObjectProperty<>();
+    private ObjectProperty<MyNoteCategoryModel> myNoteCategory = new SimpleObjectProperty<>();
 
     public final String getDescription() {
         return description.get();
@@ -96,5 +97,17 @@ public class MyNoteModel extends BaseModel {
 
     public final void setIsActive(Boolean isActive) {
         this.isActive.set(isActive);
+    }
+
+    public final MyNoteCategoryModel getMyNoteCategory() {
+        return myNoteCategory.get();
+    }
+
+    public final ObjectProperty<MyNoteCategoryModel> myNoteCategoryProperty() {
+        return myNoteCategory;
+    }
+
+    public final void setMyNoteCategory(MyNoteCategoryModel myNoteCategory) {
+        this.myNoteCategory.set(myNoteCategory);
     }
 }

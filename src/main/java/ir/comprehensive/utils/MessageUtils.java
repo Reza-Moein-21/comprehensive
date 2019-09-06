@@ -65,6 +65,7 @@ public class MessageUtils {
         public static final String HUMAN_RESOURCE = getMessage("humanResource");
         public static final String CATEGORIES = getMessage("categories");
         public static final String CATEGORY = getMessage("category");
+        public static final String MY_NOTE_CATEGORY = getMessage("myNoteCategory");
         public static final String EMAIL = getMessage("email");
         public static final String PHONE_NUMBER = getMessage("phoneNumber");
         public static final String LAST_NAME = getMessage("lastName");
@@ -82,6 +83,7 @@ public class MessageUtils {
         public static final String ERROR_IN_SAVE = getMessage("errorInSave");
         public static final String PERSON_NOT_UNIQUE = getMessage("personNotUnique");
         public static final String CATEGORY_NOT_UNIQUE = getMessage("categoryNotUnique");
+        public static final String MY_NOTE_CATEGORY_NOT_UNIQUE = getMessage("myNoteCategoryNotUnique");
         public static final String YES = getMessage("yes");
         public static final String NO = getMessage("no");
         public static final String CONFIRM_DELETE = getMessage("confirmDelete");

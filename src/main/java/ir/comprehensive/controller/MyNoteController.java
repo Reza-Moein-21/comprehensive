@@ -13,6 +13,7 @@ import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveValue;
 import ir.comprehensive.mapper.MyNoteMapper;
+import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.model.MyNoteModel;
 import ir.comprehensive.service.MyNoteService;
 import ir.comprehensive.service.extra.GeneralException;
@@ -175,7 +176,7 @@ public class MyNoteController implements Initializable {
             LocalDate maxDate = PersianDate.of(persianNewDate.getYear(), persianNewDate.getMonth(), getMaxDay(persianNewDate)).toGregorian();
 
             calNoteSearch.getEventList().clear();
-            myNoteService.getCalenderNoteStatuses(minDate, maxDate).forEach(calenderNoteStatus -> {
+            myNoteService.getCalenderNoteStatuses(minDate, maxDate, MyNoteCategoryController.myNoteCategoryId).forEach(calenderNoteStatus -> {
                 if (calenderNoteStatus.getInActiveCount() != 0) {
                     calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.INACTIVE));
                 }
@@ -200,7 +201,7 @@ public class MyNoteController implements Initializable {
 
 
         tblMyNote.setOnEdit(selectedItem -> {
-            MyNoteModel editModel = myNoteService.load(selectedItem.getId()).map(mapper::entityToModel).get();
+            MyNoteModel editModel = myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
             sdpCreationDateC.setValue(editModel.getCreationDate());
@@ -227,7 +228,7 @@ public class MyNoteController implements Initializable {
             });
         });
         tblMyNote.setOnVisit(selectedItem -> {
-            myNoteService.load(selectedItem.getId()).map(mapper::entityToModel).ifPresent(loadedModel -> {
+            myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).ifPresent(loadedModel -> {
                 lblTitleShow.setText(loadedModel.getTitle());
                 txaDescriptionShow.setEditable(false);
                 txaDescriptionShow.setText(loadedModel.getDescription());
@@ -343,11 +344,11 @@ public class MyNoteController implements Initializable {
 
     private void updateDataTable(boolean allActive) {
         if (allActive)
-            tblMyNote.setItems(myNoteService.loadAllActive()
+            tblMyNote.setItems(myNoteService.loadAllActive(MyNoteCategoryController.myNoteCategoryId)
                     .map(myNotes -> myNotes.stream().map(mapper::entityToModel).collect(Collectors.toList()))
                     .map(FXCollections::observableArrayList).get());
         else
-            tblMyNote.setItems(myNoteService.loadAll()
+            tblMyNote.setItems(myNoteService.loadAll(MyNoteCategoryController.myNoteCategoryId)
                     .map(myNotes -> myNotes.stream().map(mapper::entityToModel).collect(Collectors.toList()))
                     .map(FXCollections::observableArrayList).get());
     }
@@ -379,6 +380,7 @@ public class MyNoteController implements Initializable {
     public void save(ActionEvent actionEvent) {
         if (validateBeforeSave()) {
             try {
+                createModel.setMyNoteCategory(new MyNoteCategoryModel(MyNoteCategoryController.myNoteCategoryId));
                 myNoteService.saveOrUpdate(mapper.modelToEntity(createModel));
                 dlgCreate.close();
                 updateDataTable(true);
@@ -408,7 +410,7 @@ public class MyNoteController implements Initializable {
         } else {
             searchModel.setCreationDate(null);
         }
-        tblMyNote.setItems(myNoteService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblMyNote.setItems(myNoteService.search(searchModel, MyNoteCategoryController.myNoteCategoryId).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
 
     }
 

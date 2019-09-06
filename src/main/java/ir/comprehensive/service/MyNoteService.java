@@ -1,6 +1,7 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.MyNote;
+import ir.comprehensive.domain.MyNoteCategory;
 import ir.comprehensive.model.MyNoteModel;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
@@ -28,32 +29,41 @@ public class MyNoteService implements Swappable<MyNote> {
         this.repository = repository;
     }
 
-    public Optional<MyNote> load(Long id) throws GeneralException {
+    public Optional<MyNote> load(Long id, Long myNoteCategoryId) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
         }
-        return repository.findById(id);
+        MyNote searchExample = new MyNote();
+        searchExample.setId(id);
+        searchExample.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
+        return Optional.ofNullable(repository.findAll(Example.of(searchExample)).get(0));
     }
 
-    public Optional<List<MyNote>> loadAll() {
-        return Optional.of(repository.findAll(Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
+    public Optional<List<MyNote>> loadAll(Long myNoteCategoryId) {
+        MyNote searchExample = new MyNote();
+        searchExample.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
+        return Optional.of(repository.findAll(Example.of(searchExample), Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
-    public Optional<List<MyNote>> loadAllActive() {
+    public Optional<List<MyNote>> loadAllActive(Long myNoteCategoryId) {
         MyNote myNote = new MyNote();
         myNote.setIsActive(true);
+        myNote.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
         return Optional.of(repository.findAll(Example.of(myNote), Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
-    public List<CalenderNoteStatus> getCalenderNoteStatuses(LocalDate startDate, LocalDate endDate) {
-        return repository.findNumberOfByDate(startDate, endDate);
+    public List<CalenderNoteStatus> getCalenderNoteStatuses(LocalDate startDate, LocalDate endDate, Long myNoteCategoryId) {
+        return repository.findNumberOfByDate(startDate, endDate, myNoteCategoryId);
     }
 
 
-    public Optional<List<MyNote>> search(MyNoteModel searchExample) {
+    public Optional<List<MyNote>> search(MyNoteModel searchExample, Long myNoteCategoryId) {
         Specification<MyNote> myNoteSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
+
+            predicateList.add(criteriaBuilder.equal(root.get("myNoteCategory").get("id"), myNoteCategoryId));
+
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
@@ -86,6 +96,9 @@ public class MyNoteService implements Swappable<MyNote> {
 
     private void validateEntity(MyNote myNote) throws GeneralException {
         if (myNote == null) {
+            throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
+        }
+        if (myNote.getMyNoteCategory() == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }

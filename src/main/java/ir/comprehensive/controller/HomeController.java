@@ -43,7 +43,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void goToMyNote() {
-        startController.navigateToView(ViewName.MY_NOTEBOOK);
+        startController.navigateToView(ViewName.MY_NOTE_CATEGORY);
     }
 
     @Override
