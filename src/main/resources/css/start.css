@@ -195,10 +195,10 @@
     -fx-border-color: #1a237e;
 }
 
-.my-note-card {
+.my-note-category-card {
 }
 
-.my-note-card .bodyStyleClass {
+.my-note-category-card .bodyStyleClass {
     -fx-background-color: #80cbc4;
     -fx-background-radius: 5;
     -fx-border-radius: 5;

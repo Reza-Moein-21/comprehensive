@@ -19,7 +19,7 @@ public class HomeController implements Initializable {
     @FXML
     public Card crdHumanResource;
     @FXML
-    public Card crdMyNote;
+    public Card crdMyNoteCategory;
     @FXML
     public FlowPane masonry;
 
@@ -42,7 +42,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void goToMyNote() {
+    public void goToMyNoteCategory() {
         startController.navigateToView(ViewName.MY_NOTE_CATEGORY);
     }
 
@@ -52,8 +52,8 @@ public class HomeController implements Initializable {
         crdStoreRoom.setPrefHeight(ScreenUtils.getActualSize(210));
         crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
         crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(210));
-        crdMyNote.setPrefWidth(ScreenUtils.getActualSize(450));
-        crdMyNote.setPrefHeight(ScreenUtils.getActualSize(210));
+        crdMyNoteCategory.setPrefWidth(ScreenUtils.getActualSize(450));
+        crdMyNoteCategory.setPrefHeight(ScreenUtils.getActualSize(210));
         masonry.setHgap(ScreenUtils.getActualSize(15));
         masonry.setVgap(ScreenUtils.getActualSize(15));
         masonry.setPadding(new Insets(ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10)));

@@ -21,8 +21,8 @@
                 <Image url="@../image/person-man.png"/>
             </icon>
         </Card>
-        <Card fx:id="crdMyNote" styleClass="my-note-card" title="%myNote"
-              onClick="#goToMyNote">
+        <Card fx:id="crdMyNoteCategory" styleClass="my-note-category-card" title="%myNoteCategory"
+              onClick="#goToMyNoteCategory">
             <icon>
                 <Image url="@../image/my-note.png"/>
             </icon>
