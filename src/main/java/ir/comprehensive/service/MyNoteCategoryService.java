@@ -47,6 +47,9 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
+            if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
+                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+            }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
         return Optional.of(repository.findAll(categorySpecification));

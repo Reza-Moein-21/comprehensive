@@ -209,6 +209,7 @@ public class MyNoteCategoryController implements Initializable {
     public void showCreateDialog(ActionEvent actionEvent) {
         createModel.setId(null);
         txfTitleC.setText("");
+        txfDescriptionC.setText("");
 
         dlgCreate.show();
     }
@@ -241,6 +242,7 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public void showAll(ActionEvent actionEvent) {
         txfTitleS.setText(null);
+        txfDescriptionS.setText(null);
         updateDataTable();
     }
 
