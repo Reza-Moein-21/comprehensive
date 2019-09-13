@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.RatingExtra;
 import ir.comprehensive.component.YesNoDialog;
+import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.calenderwidget.CalenderEvent;
 import ir.comprehensive.component.calenderwidget.CalenderWidget;
@@ -143,19 +144,17 @@ public class MyNoteController implements Initializable {
     @FXML
     public DataTable<MyNoteModel> tblMyNote;
     @FXML
-    public TableColumn<MyNoteModel, String> colTitle;
+    public CustomTableColumn<MyNoteModel, String> colDescription;
     @FXML
-    public TableColumn<MyNoteModel, String> colDescription;
+    public CustomTableColumn<MyNoteModel, PersianDate> colCreateDate;
     @FXML
-    public TableColumn<MyNoteModel, PersianDate> colCreateDate;
+    public CustomTableColumn<MyNoteModel, PersianDate> colInActivationDate;
     @FXML
-    public TableColumn<MyNoteModel, PersianDate> colInActivationDate;
+    public CustomTableColumn<MyNoteModel, RatingExtra> colPriority;
     @FXML
-    public TableColumn<MyNoteModel, RatingExtra> colPriority;
+    public CustomTableColumn<MyNoteModel, String> colFullName;
     @FXML
-    public TableColumn<MyNoteModel, String> colFullName;
-    @FXML
-    public TableColumn<MyNoteModel, String> colIsActive;
+    public CustomTableColumn<MyNoteModel, String> colIsActive;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -194,11 +193,11 @@ public class MyNoteController implements Initializable {
             calNoteSearch.getEventList().clear();
             myNoteService.getCalenderNoteStatuses(minDate, maxDate, MyNoteCategoryController.myNoteCategoryId).forEach(calenderNoteStatus -> {
                 if (calenderNoteStatus.getInActiveCount() != 0) {
-                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.INACTIVE));
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.DONE));
                 }
 
                 if (calenderNoteStatus.getActiveCount() != 0) {
-                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getActiveCount() + " : " + MessageUtils.Message.ACTIVE));
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getActiveCount() + " : " + MessageUtils.Message.IN_PROGRESS));
                 }
 
 
@@ -265,40 +264,24 @@ public class MyNoteController implements Initializable {
         });
         updateDataTable(true);
 
+        chbIsActiveC.setMinWidth(ScreenUtils.getActualSize(300));
+
         cmbIsActiveS.setValue(JFXActiveValue.NONE);
         cmbIsActiveS.setMinWidth(ScreenUtils.getActualSize(300));
-        colTitle.setMinWidth(ScreenUtils.getActualSize(650));
-        colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
-        colTitle.setSortable(false);
 
         colDescription.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(getRightDescription(param)));
-        colDescription.setPrefWidth(ScreenUtils.getActualSize(700));
-        colDescription.setSortable(false);
 
 
         colPriority.setCellValueFactory(param -> new ReadOnlyObjectWrapper<RatingExtra>(new RatingExtra(null, param.getValue().getPriority(), null, true)));
-        colPriority.setMinWidth(ScreenUtils.getActualSize(210));
-        colPriority.setPrefWidth(ScreenUtils.getActualSize(210));
-        colPriority.setResizable(false);
         colPriority.setComparator(Comparator.comparing(RatingExtra::getRating));
 
         colCreateDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getCreationDate() == null ? null : PersianDate.fromGregorian(param.getValue().getCreationDate())));
-        colCreateDate.setMinWidth(ScreenUtils.getActualSize(210));
-        colCreateDate.setPrefWidth(ScreenUtils.getActualSize(210));
-        colCreateDate.setResizable(false);
 
         colInActivationDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getInActivationDate() == null ? null : PersianDate.fromGregorian(param.getValue().getInActivationDate())));
-        colInActivationDate.setMinWidth(ScreenUtils.getActualSize(310));
-        colInActivationDate.setPrefWidth(ScreenUtils.getActualSize(310));
-        colInActivationDate.setResizable(false);
 
-        colIsActive.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getIsActive() ? MessageUtils.Message.ACTIVE : MessageUtils.Message.INACTIVE));
-        colIsActive.setPrefWidth(ScreenUtils.getActualSize(210));
-        colIsActive.setResizable(false);
+        colIsActive.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getIsActive() ? MessageUtils.Message.IN_PROGRESS : MessageUtils.Message.DONE));
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
-        colFullName.setMinWidth(ScreenUtils.getActualSize(200));
-        colFullName.setPrefWidth(ScreenUtils.getActualSize(200));
 
         tbpDateSearch.setStyle(new StringJoiner(" ; ")
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(3))

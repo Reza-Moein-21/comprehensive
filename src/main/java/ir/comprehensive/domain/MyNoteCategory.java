@@ -35,6 +35,10 @@ public class MyNoteCategory implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "myNoteCategory", orphanRemoval = true)
     Set<MyNote> myNotes = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS", length = 20)
+    MyNoteCategoryStatus status;
+
     public MyNoteCategory() {
     }
 

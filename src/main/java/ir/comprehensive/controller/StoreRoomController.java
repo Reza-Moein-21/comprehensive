@@ -31,7 +31,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -129,8 +128,6 @@ public class StoreRoomController implements Initializable {
     @FXML
     public TableColumn<ProductDeliveryModel, String> colFullName;
     @FXML
-    public TableColumn<ProductDeliveryModel, ProductStatus> colStatus;
-    @FXML
     public TableColumn<ProductDeliveryModel, PersianDate> colDeliveryDate;
     @FXML
     public TableColumn<ProductDeliveryModel, PersianDate> colDesiredDate;
@@ -166,40 +163,19 @@ public class StoreRoomController implements Initializable {
 
         //init Table
         colProductName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getProduct().getTitle()));
-        colProductName.setMinWidth(ScreenUtils.getActualSize(200));
-        colProductName.setPrefWidth(ScreenUtils.getActualSize(400));
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
-        colFullName.setMinWidth(ScreenUtils.getActualSize(200));
-        colFullName.setPrefWidth(ScreenUtils.getActualSize(400));
 
-        colStatus.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, ProductStatus>("status"));
-        colStatus.setMinWidth(ScreenUtils.getActualSize(200));
-        colStatus.setPrefWidth(ScreenUtils.getActualSize(200));
-        colStatus.setResizable(false);
 
         colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
-        colDeliveryDate.setMinWidth(ScreenUtils.getActualSize(250));
-        colDeliveryDate.setPrefWidth(ScreenUtils.getActualSize(250));
-        colDeliveryDate.setResizable(false);
 
         colDesiredDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDesiredDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDesiredDate())));
-        colDesiredDate.setMinWidth(ScreenUtils.getActualSize(230));
-        colDesiredDate.setPrefWidth(ScreenUtils.getActualSize(230));
-        colDesiredDate.setResizable(false);
 
         colReceivedDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getReceivedDate() == null ? null : PersianDate.fromGregorian(param.getValue().getReceivedDate())));
-        colReceivedDate.setMinWidth(ScreenUtils.getActualSize(250));
-        colReceivedDate.setPrefWidth(ScreenUtils.getActualSize(250));
-        colReceivedDate.setResizable(false);
 
         grdPersonProduct.setHgap(ScreenUtils.getActualSize(15));
         grdDeliverDesiredDate.setHgap(ScreenUtils.getActualSize(15));
         grdStatusReceivedDate.setHgap(ScreenUtils.getActualSize(15));
-
-        colDescription.setCellValueFactory(new PropertyValueFactory<ProductDeliveryModel, String>("description"));
-        colDescription.setMinWidth(ScreenUtils.getActualSize(200));
-        colDescription.setPrefWidth(ScreenUtils.getActualSize(400));
 
         //
         sdpDeliveryDateFromS.setPrefWidth(ScreenUtils.getActualSize(500));

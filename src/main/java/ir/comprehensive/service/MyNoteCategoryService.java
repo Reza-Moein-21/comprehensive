@@ -50,6 +50,9 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
             if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
             }
+            if (searchExample.getStatus() != null) {
+                predicateList.add(criteriaBuilder.equal(root.get("status"), searchExample.getStatus()));
+            }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
         return Optional.of(repository.findAll(categorySpecification));
@@ -78,8 +81,11 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
         }
         // TODO must fix message
         MyNoteCategory loaMyNoteCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
-
-        return Optional.of(repository.save(swap(category, loaMyNoteCategory)));
+        loaMyNoteCategory.setId(category.getId());
+        loaMyNoteCategory.setTitle(category.getTitle());
+        loaMyNoteCategory.setDescription(category.getDescription());
+        loaMyNoteCategory.setStatus(category.getStatus());
+        return Optional.of(repository.save(loaMyNoteCategory));
 
     }
 

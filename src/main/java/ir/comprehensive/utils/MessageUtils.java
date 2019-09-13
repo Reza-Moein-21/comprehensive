@@ -35,6 +35,7 @@ public class MessageUtils {
         public static final String PRODUCT_NAME = getMessage("productName");
         public static final String PRODUCT = getMessage("product");
         public static final String PRODUCT_STATUS = getMessage("productStatus");
+        public static final String PROJECT_DETAIL_STATUS = getMessage("projectDetailStatus");
         public static final String DESCRIPTION = getMessage("description");
         public static final String DELIVERY_DATE = getMessage("deliveryDate");
         public static final String DELIVERY_DATE_FROM = getMessage("deliveryDateFrom");
@@ -104,17 +105,18 @@ public class MessageUtils {
         public static final String SHOW = getMessage("show");
         public static final String CREATION_DATE_FROM = getMessage("creationDateFrom");
         public static final String CREATION_DATE_TO = getMessage("creationDateTo");
-        public static final String IN_ACTIVATION_DATE = getMessage("inActivationDate");
+        public static final String WORK_DONE_DATE = getMessage("WorkDoneDate");
         public static final String MY_NOTE = getMessage("myNote");
         public static final String PRIORITY = getMessage("priority");
-        public static final String ACTIVE = getMessage("active");
-        public static final String INACTIVE = getMessage("inActive");
+        public static final String IN_PROGRESS = getMessage("inProgress");
+        public static final String DONE = getMessage("done");
         public static final String VISIT = getMessage("visit");
         public static final String NONE = getMessage("none");
         public static final String NUMBER_SIGN = getMessage("numberSign");
         public static final String START_PAGE = getMessage("startPage");
         public static final String HOME = getMessage("home");
         public static final String ENTER = getMessage("enter");
+        public static final String STOPPED = getMessage("stopped");
 
 
         private Message() {

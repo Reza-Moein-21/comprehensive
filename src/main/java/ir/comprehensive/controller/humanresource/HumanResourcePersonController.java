@@ -25,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -56,6 +55,8 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXTextField txfEmailS;
     @FXML
+    public JFXTextField txfDescriptionS;
+    @FXML
     public MultiSelectBox<CategoryModel> slbCategoriesS;
 
     @FXML
@@ -74,6 +75,8 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXTextField txfEmailC;
     @FXML
+    public JFXTextField txfDescriptionC;
+    @FXML
     public VBox parent;
     @FXML
     public GridPane grdCreateContent;
@@ -84,14 +87,6 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public GridPane grdSearchContent;
     @FXML
-    public TableColumn<PersonModel, String> colFirstName;
-    @FXML
-    public TableColumn<PersonModel, String> colLastName;
-    @FXML
-    public TableColumn<PersonModel, String> colPhoneNumber;
-    @FXML
-    public TableColumn<PersonModel, String> colEmail;
-    @FXML
     public GridPane grdSearchFooter;
     @FXML
     public JFXButton btnCreate;
@@ -101,6 +96,16 @@ public class HumanResourcePersonController implements Initializable {
     public JFXButton btnShowAll;
     @FXML
     public VBox vbxCreateContent;
+    public JFXDialog dlgDisplay;
+    public VBox vbxDisplayContent;
+    public HBox hbxDisplayHeader;
+    public GridPane grdDisplayMain;
+    public JFXTextField txfFirstNameD;
+    public JFXTextField txfLastNameD;
+    public JFXTextField txfPhoneNumberD;
+    public JFXTextField txfEmailD;
+    public JFXTextField txfDescriptionD;
+    public HBox hbxDisplayFooter;
 
     @Autowired
     private StartController startController;
@@ -118,18 +123,28 @@ public class HumanResourcePersonController implements Initializable {
             n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        dlgDisplay.setDialogContainer(startController.mainStack);
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
+        applyFontStyle(dlgDisplay);
 
         //
+        hbxDisplayHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
+
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
         vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1350));
 //
+        vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
+
+        hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
+
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
         parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
@@ -145,21 +160,14 @@ public class HumanResourcePersonController implements Initializable {
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
-        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
+        grdDisplayMain.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdDisplayMain.setHgap(ScreenUtils.getActualSize(10));
+        grdDisplayMain.setVgap(ScreenUtils.getActualSize(100));
+
+        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(900));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
         grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
-        colFirstName.setMinWidth(ScreenUtils.getActualSize(200));
-        colFirstName.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colLastName.setMinWidth(ScreenUtils.getActualSize(200));
-        colLastName.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colPhoneNumber.setMinWidth(ScreenUtils.getActualSize(200));
-        colPhoneNumber.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colEmail.setMinWidth(ScreenUtils.getActualSize(200));
-        colEmail.setPrefWidth(ScreenUtils.getActualSize(400));
 
         slbCategoriesC.setPrefHeight(ScreenUtils.getActualSize(320));
 
@@ -169,6 +177,7 @@ public class HumanResourcePersonController implements Initializable {
             txfFirstNameC.setText(selectedItem.getFirstName());
             txfLastNameC.setText(selectedItem.getLastName());
             txfEmailC.setText(selectedItem.getEmail());
+            txfDescriptionC.setText(selectedItem.getDescription());
             txfPhoneNumberC.setText(selectedItem.getPhoneNumber());
             slbCategoriesC.setSelectedItems((FXCollections.observableArrayList(selectedItem.getCategories())));
             dlgCreate.show();
@@ -187,6 +196,14 @@ public class HumanResourcePersonController implements Initializable {
                 }
                 dlgDelete.close();
             });
+        });
+        tblPerson.setOnVisit(selectedItem -> {
+            txfFirstNameD.setText(selectedItem.getFirstName());
+            txfLastNameD.setText(selectedItem.getLastName());
+            txfEmailD.setText(selectedItem.getEmail());
+            txfDescriptionD.setText(selectedItem.getDescription());
+            txfPhoneNumberD.setText(selectedItem.getPhoneNumber());
+            dlgDisplay.show();
         });
         initSelectBox(slbCategoriesS);
 
@@ -241,6 +258,7 @@ public class HumanResourcePersonController implements Initializable {
         txfLastNameS.setText(null);
         txfPhoneNumberS.setText(null);
         txfEmailS.setText(null);
+        txfDescriptionS.setText(null);
         slbCategoriesS.clean();
         updateDataTable();
     }
@@ -262,6 +280,7 @@ public class HumanResourcePersonController implements Initializable {
         txfLastNameC.setText(null);
         txfEmailC.setText(null);
         txfPhoneNumberC.setText(null);
+        txfDescriptionC.setText(null);
         slbCategoriesC.setSelectedItems((FXCollections.observableArrayList()));
         dlgCreate.show();
     }
@@ -309,4 +328,7 @@ public class HumanResourcePersonController implements Initializable {
     }
 
 
+    public void closeDisplayDialog(ActionEvent actionEvent) {
+        dlgDisplay.close();
+    }
 }

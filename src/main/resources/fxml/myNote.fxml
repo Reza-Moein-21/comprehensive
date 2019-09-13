@@ -2,7 +2,7 @@
 
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.*?>
-<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo?>
@@ -51,7 +51,7 @@
                     <ColumnConstraints percentWidth="10"/>
                     <ColumnConstraints percentWidth="90"/>
                 </columnConstraints>
-                <CheckBox fx:id="chbIsActiveC" visible="false" text="%isActive"/>
+                <CheckBox fx:id="chbIsActiveC" visible="false" text="%inProgress"/>
                 <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right" GridPane.columnIndex="1">
                     <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                                buttonType="RAISED"/>
@@ -104,7 +104,7 @@
             </TabPane>
             <HBox fx:id="hbxCreateCheckButton" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnSpan="2">
                 <RatingExtra fx:id="rtnPriorityS" rating="0" title="%priority"/>
-                <JFXActiveCombo fx:id="cmbIsActiveS" promptText="%isActive" labelFloat="true" GridPane.rowIndex="1"/>
+                <JFXActiveCombo fx:id="cmbIsActiveS" promptText="%projectDetailStatus" labelFloat="true" GridPane.rowIndex="1"/>
                 <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
             </HBox>
             <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
@@ -129,17 +129,17 @@
 
     <DataTable fx:id="tblMyNote" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
-            <TableColumn text="%title" fx:id="colTitle">
+            <CustomTableColumn text="%title" sortable="false" percentageWidth="15" percentageMinWidth="15">
                 <cellValueFactory>
                     <PropertyValueFactory property="title"/>
                 </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%creationDate" fx:id="colCreateDate"/>
-            <TableColumn text="%inActivationDate" fx:id="colInActivationDate"/>
-            <TableColumn text="%isActive" fx:id="colIsActive"/>
-            <TableColumn text="%priority" fx:id="colPriority"/>
-            <TableColumn text="%fullName" fx:id="colFullName"/>
-            <TableColumn text="%description" fx:id="colDescription"/>
+            </CustomTableColumn>
+            <CustomTableColumn text="%creationDate" fx:id="colCreateDate" resizable="false" percentageWidth="6"/>
+            <CustomTableColumn text="%WorkDoneDate" fx:id="colInActivationDate" resizable="false" percentageWidth="7"/>
+            <CustomTableColumn text="%projectDetailStatus" fx:id="colIsActive" resizable="false" style="-fx-alignment: center" percentageWidth="6"/>
+            <CustomTableColumn text="%priority" fx:id="colPriority" resizable="false" percentageWidth="6"/>
+            <CustomTableColumn text="%fullName" fx:id="colFullName" percentageWidth="14" percentageMinWidth="10"/>
+            <CustomTableColumn text="%description" fx:id="colDescription" sortable="false" percentageWidth="29.8" percentageMinWidth="20"/>
         </columns>
     </DataTable>
 </VBox>

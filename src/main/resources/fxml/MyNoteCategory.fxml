@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
+<?import ir.comprehensive.domain.*?>
 <?import ir.comprehensive.model.MyNoteCategoryModel?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml" fx:id="parent" nodeOrientation="RIGHT_TO_LEFT"
@@ -13,8 +16,10 @@
       fx:controller="ir.comprehensive.controller.MyNoteCategoryController">
 
     <fx:define>
-        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"/>
-        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"/>
+        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"
+                             status="${cmbStatusC.value}"/>
+        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"
+                             status="${cmbStatusS.value}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <VBox fx:id="vbxCreateContent">
@@ -22,10 +27,23 @@
                   style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #29b6f6;">
                 <Label text="%createMyNote"/>
             </HBox>
-            <VBox fx:id="vbxCreateCenter">
+            <GridPane fx:id="grdCreateCenter">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
                 <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
-                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
-            </VBox>
+                <JFXComboBox fx:id="cmbStatusC" GridPane.columnIndex="1" prefWidth="Infinity" promptText="%productStatus" labelFloat="true">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <MyNoteCategoryStatus fx:value="DONE"/>
+                            <MyNoteCategoryStatus fx:value="IN_PROGRESS"/>
+                            <MyNoteCategoryStatus fx:value="STOPPED"/>
+                        </FXCollections>
+                    </items>
+                </JFXComboBox>
+                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true" GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+            </GridPane>
             <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right" GridPane.columnIndex="1">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
                            buttonType="RAISED"/>
@@ -33,26 +51,63 @@
             </HBox>
         </VBox>
     </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%showMyNoteCategory"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfTitleD" editable="false" promptText="%title" labelFloat="true"/>
+                <JFXTextField fx:id="txfStatusD" editable="false" promptText="%myNoteCategoryStatus" labelFloat="true"
+                              GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txfCountOfActiveD" editable="false" promptText="%countOfActive" labelFloat="true"
+                              GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txfCountOfInActiveD" editable="false" promptText="%countOfInActive"
+                              labelFloat="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txfDescriptionD" editable="false" promptText="%description" labelFloat="true"
+                              GridPane.rowIndex="2" GridPane.columnSpan="2"/>
 
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
-    <TitledPane text="%search">
+    <TitledPane text="%search" expanded="false">
         <GridPane fx:id="grdSearch">
             <columnConstraints>
-                <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="36"/>
+                <ColumnConstraints percentWidth="45"/>
+                <ColumnConstraints percentWidth="45"/>
+                <ColumnConstraints percentWidth="10"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
             <JFXTextField fx:id="txfDescriptionS" GridPane.columnIndex="1" promptText="%description" labelFloat="true"/>
-            <GridPane fx:id="grdSearchFooter" GridPane.rowIndex="5">
-                <columnConstraints>
-                    <ColumnConstraints percentWidth="40"/>
-                    <ColumnConstraints percentWidth="40"/>
-                </columnConstraints>
+            <JFXComboBox fx:id="cmbStatusS" prefWidth="Infinity" promptText="%productStatus" labelFloat="true"
+                         GridPane.columnIndex="2">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <MyNoteCategoryStatus fx:value="DONE"/>
+                        <MyNoteCategoryStatus fx:value="IN_PROGRESS"/>
+                        <MyNoteCategoryStatus fx:value="STOPPED"/>
+                    </FXCollections>
+                </items>
+            </JFXComboBox>
+            <HBox fx:id="hbxSearchFooter" GridPane.rowIndex="5">
                 <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
                            onAction="#search"/>
                 <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
                            onAction="#showAll" GridPane.columnIndex="1"/>
-            </GridPane>
+            </HBox>
         </GridPane>
 
     </TitledPane>
@@ -63,29 +118,37 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblMyNoteCategory" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
-            <TableColumn text="%title" fx:id="colTitle">
+            <CustomTableColumn text="%title" sortable="false" percentageWidth="20" percentageMinWidth="15">
                 <cellValueFactory>
                     <PropertyValueFactory property="title"/>
                 </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%description" fx:id="colDescription">
+            </CustomTableColumn>
+            <CustomTableColumn text="%description" percentageWidth="31.8" percentageMinWidth="28">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%countOfActive" fx:id="colCountOfActive">
+            </CustomTableColumn>
+            <CustomTableColumn resizable="false" text="%myNoteCategoryStatus" percentageWidth="7"
+                               style="-fx-alignment: center">
+                <cellValueFactory>
+                    <PropertyValueFactory property="status"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn text="%countOfActive" resizable="false" style="-fx-alignment: center"
+                               percentageWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="countOfActive"/>
                 </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="%countOfInActive" fx:id="colCountOfInActive">
+            </CustomTableColumn>
+            <CustomTableColumn text="%countOfInActive" resizable="false" style="-fx-alignment: center"
+                               percentageWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="countOfInActive"/>
                 </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="colGoToMyNote"/>
+            </CustomTableColumn>
+            <CustomTableColumn fx:id="colGoToMyNote" resizable="false" sortable="false" percentageWidth="5"/>
         </columns>
     </DataTable>
 </VBox>

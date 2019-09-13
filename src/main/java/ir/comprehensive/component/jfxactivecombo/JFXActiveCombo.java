@@ -10,7 +10,7 @@ public class JFXActiveCombo extends JFXComboBox<JFXActiveValue> {
 
     public JFXActiveCombo() {
 
-        this.getItems().setAll(JFXActiveValue.NONE, JFXActiveValue.ACTIVE, JFXActiveValue.INACTIVE);
+        this.getItems().setAll(JFXActiveValue.NONE, JFXActiveValue.IN_PROGRESS, JFXActiveValue.DONE);
         this.setConverter(new StringConverter<JFXActiveValue>() {
             @Override
             public String toString(JFXActiveValue jfxActiveValue) {
@@ -31,10 +31,10 @@ public class JFXActiveCombo extends JFXComboBox<JFXActiveValue> {
                 case NONE:
                     this.setIsActive(null);
                     return;
-                case ACTIVE:
+                case IN_PROGRESS:
                     this.setIsActive(true);
                     return;
-                case INACTIVE:
+                case DONE:
                     this.setIsActive(false);
                     return;
                 default:

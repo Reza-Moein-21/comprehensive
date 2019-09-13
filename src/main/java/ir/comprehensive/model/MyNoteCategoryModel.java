@@ -1,5 +1,6 @@
 package ir.comprehensive.model;
 
+import ir.comprehensive.domain.MyNoteCategoryStatus;
 import ir.comprehensive.model.basemodel.BaseModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,6 +15,7 @@ public class MyNoteCategoryModel extends BaseModel {
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<Long> countOfActive = new SimpleObjectProperty<>();
     private ObjectProperty<Long> countOfInActive = new SimpleObjectProperty<>();
+    private ObjectProperty<MyNoteCategoryStatus> status = new SimpleObjectProperty<>();
     private ObjectProperty<List<MyNoteModel>> myNotes = new SimpleObjectProperty<>(new ArrayList<>());
 
 
@@ -65,8 +67,21 @@ public class MyNoteCategoryModel extends BaseModel {
         this.countOfInActive.set(countOfInActive);
     }
 
+    public final MyNoteCategoryStatus getStatus() {
+        return status.get();
+    }
+
+    public final ObjectProperty<MyNoteCategoryStatus> statusProperty() {
+        return status;
+    }
+
+    public final void setStatus(MyNoteCategoryStatus status) {
+        this.status.set(status);
+    }
+
     public final List<MyNoteModel> getMyNotes() {
         return myNotes.get();
+
     }
 
     public final ObjectProperty<List<MyNoteModel>> myNotesProperty() {

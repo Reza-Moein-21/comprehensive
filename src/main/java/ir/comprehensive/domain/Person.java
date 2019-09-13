@@ -28,6 +28,9 @@ public class Person implements Serializable {
     @Column(name = "PHONE_NUMBER")
     String phoneNumber;
 
+    @Column(name = "DESCRIPTION", length = Integer.MAX_VALUE)
+    String description;
+
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinTable(
             name = "PERSON_CATEGORY",

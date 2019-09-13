@@ -1,10 +1,13 @@
 package ir.comprehensive.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
+import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
+import ir.comprehensive.domain.MyNoteCategoryStatus;
 import ir.comprehensive.mapper.MyNoteCategoryMapper;
 import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.service.MyNoteCategoryService;
@@ -18,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -57,10 +61,36 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public JFXTextField txfDescriptionC;
     @FXML
+    public JFXComboBox<MyNoteCategoryStatus> cmbStatusC;
+    @FXML
+    public JFXComboBox<MyNoteCategoryStatus> cmbStatusS;
+    @FXML
     public JFXTextField txfDescriptionS;
 
     @FXML
+    public JFXTextField txfTitleD;
+    @FXML
+    public JFXTextField txfStatusD;
+    @FXML
+    public JFXTextField txfCountOfActiveD;
+    @FXML
+    public JFXTextField txfCountOfInActiveD;
+    @FXML
+    public JFXTextField txfDescriptionD;
+
+    @FXML
+    public HBox hbxDisplayFooter;
+    @FXML
+    public GridPane grdDisplayMain;
+
+    @FXML
+    public HBox hbxDisplayHeader;
+    @FXML
+    public VBox vbxDisplayContent;
+    @FXML
     public JFXDialog dlgCreate;
+    @FXML
+    public JFXDialog dlgDisplay;
     @FXML
     public VBox parent;
     @FXML
@@ -70,7 +100,7 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public HBox hbxCreateHeader;
     @FXML
-    public GridPane grdSearchFooter;
+    public HBox hbxSearchFooter;
     @FXML
     public JFXButton btnCreate;
     @FXML
@@ -82,17 +112,9 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public HBox hbxCreateFooter;
     @FXML
-    public VBox vbxCreateCenter;
+    public GridPane grdCreateCenter;
     @FXML
-    public TableColumn<MyNoteCategoryModel, String> colTitle;
-    @FXML
-    public TableColumn<MyNoteCategoryModel, Void> colGoToMyNote;
-    @FXML
-    public TableColumn<MyNoteCategoryModel, String> colDescription;
-    @FXML
-    public TableColumn<MyNoteCategoryModel, Long> colCountOfActive;
-    @FXML
-    public TableColumn<MyNoteCategoryModel, Long> colCountOfInActive;
+    public CustomTableColumn<MyNoteCategoryModel, Void> colGoToMyNote;
     @FXML
     public DataTable<MyNoteCategoryModel> tblMyNoteCategory;
 
@@ -108,10 +130,19 @@ public class MyNoteCategoryController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        dlgDisplay.setDialogContainer(startController.mainStack);
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
+        applyFontStyle(dlgDisplay);
 
+        grdDisplayMain.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdDisplayMain.setHgap(ScreenUtils.getActualSize(10));
+        grdDisplayMain.setVgap(ScreenUtils.getActualSize(100));
+        hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
 
+        vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
+        hbxDisplayHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
         parent.setPadding(new Insets(ScreenUtils.getActualSize(10), 0, ScreenUtils.getActualSize(10), 0));
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
@@ -120,6 +151,8 @@ public class MyNoteCategoryController implements Initializable {
             MyNoteCategoryModel editModel = myNoteCategoryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
+            txfDescriptionC.setText(editModel.getDescription());
+            cmbStatusC.setValue(editModel.getStatus());
             dlgCreate.show();
 
         });
@@ -137,37 +170,26 @@ public class MyNoteCategoryController implements Initializable {
                 dlgDelete.close();
             });
         });
+        tblMyNoteCategory.setOnVisit(selectedItem -> {
+            txfTitleD.setText(selectedItem.getTitle());
+            txfStatusD.setText(selectedItem.getStatus().getTitle());
+            txfCountOfActiveD.setText(selectedItem.getCountOfActive().toString());
+            txfCountOfInActiveD.setText(selectedItem.getCountOfInActive().toString());
+            txfDescriptionD.setText(selectedItem.getDescription());
+            dlgDisplay.show();
+        });
         addButtonToTable();
         updateDataTable();
 
-        colTitle.setMinWidth(ScreenUtils.getActualSize(650));
-        colTitle.setPrefWidth(ScreenUtils.getActualSize(700));
-        colTitle.setSortable(false);
-
-        colDescription.setMinWidth(ScreenUtils.getActualSize(950));
-        colDescription.setPrefWidth(ScreenUtils.getActualSize(2300));
-
-        colCountOfActive.setMinWidth(ScreenUtils.getActualSize(200));
-        colCountOfActive.setPrefWidth(ScreenUtils.getActualSize(200));
-        colCountOfActive.setResizable(false);
-
-        colCountOfInActive.setMinWidth(ScreenUtils.getActualSize(200));
-        colCountOfInActive.setPrefWidth(ScreenUtils.getActualSize(200));
-        colCountOfInActive.setResizable(false);
-
-        colGoToMyNote.setMinWidth(ScreenUtils.getActualSize(140));
-        colGoToMyNote.setPrefWidth(ScreenUtils.getActualSize(140));
-        colGoToMyNote.setSortable(false);
-        colGoToMyNote.setResizable(false);
-
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
 
-        vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
-        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(800));
+        vbxCreateContent.setSpacing(ScreenUtils.getActualSize(70));
+        vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1300));
         vbxCreateContent.setPrefHeight(ScreenUtils.getActualSize(400));
 
-        vbxCreateCenter.setPadding(new Insets(ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15)));
-        vbxCreateCenter.setSpacing(ScreenUtils.getActualSize(50));
+        grdCreateCenter.setPadding(new Insets(ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(15)));
+        grdCreateCenter.setHgap(ScreenUtils.getActualSize(30));
+        grdCreateCenter.setVgap(ScreenUtils.getActualSize(80));
 
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
@@ -180,7 +202,7 @@ public class MyNoteCategoryController implements Initializable {
         grdSearch.setVgap(ScreenUtils.getActualSize(10));
         grdSearch.setPadding(new Insets(ScreenUtils.getActualSize(42), ScreenUtils.getActualSize(25), ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(25)));
 
-        grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
+        hbxSearchFooter.setSpacing(ScreenUtils.getActualSize(20));
 
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
         btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
@@ -210,7 +232,7 @@ public class MyNoteCategoryController implements Initializable {
         createModel.setId(null);
         txfTitleC.setText("");
         txfDescriptionC.setText("");
-
+        cmbStatusC.setValue(MyNoteCategoryStatus.IN_PROGRESS);
         dlgCreate.show();
     }
 
@@ -243,6 +265,7 @@ public class MyNoteCategoryController implements Initializable {
     public void showAll(ActionEvent actionEvent) {
         txfTitleS.setText(null);
         txfDescriptionS.setText(null);
+        cmbStatusS.setValue(null);
         updateDataTable();
     }
 
@@ -251,7 +274,7 @@ public class MyNoteCategoryController implements Initializable {
         Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>> cellFactory = new Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>>() {
             @Override
             public TableCell<MyNoteCategoryModel, Void> call(final TableColumn<MyNoteCategoryModel, Void> param) {
-                return new TableCell<MyNoteCategoryModel, Void>() {
+                TableCell<MyNoteCategoryModel, Void> tableCell = new TableCell<MyNoteCategoryModel, Void>() {
 
                     private final Button btn = new Button(MessageUtils.Message.ENTER);
 
@@ -269,10 +292,14 @@ public class MyNoteCategoryController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            setGraphic(btn);
+                            HBox hBox = new HBox(btn);
+                            hBox.setAlignment(Pos.BASELINE_CENTER);
+                            setGraphic(hBox);
                         }
                     }
                 };
+                tableCell.setStyle("-fx-alignment: CENTER");
+                return tableCell;
             }
         };
 
@@ -280,4 +307,7 @@ public class MyNoteCategoryController implements Initializable {
     }
 
 
+    public void closeDisplayDialog(ActionEvent actionEvent) {
+        dlgDisplay.close();
+    }
 }

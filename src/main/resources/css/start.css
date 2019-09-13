@@ -79,6 +79,19 @@
     -fx-background-radius: 10;
     -fx-background-color: #f9fbe7;
 }
+
+#txaDescriptionShow > .scroll-pane{
+
+    -fx-vbar-policy:always; /* Control the vertical ScrollBar (always,needed,never) */
+    -fx-hbar-policy:always; /* Control the horizontal ScrollBar (always,needed,never) */
+
+}
+#txaDescriptionC > .scroll-pane{
+
+    -fx-vbar-policy:always; /* Control the vertical ScrollBar (always,needed,never) */
+    -fx-hbar-policy:always; /* Control the horizontal ScrollBar (always,needed,never) */
+
+}
 /*
 * *************************************
 * Button

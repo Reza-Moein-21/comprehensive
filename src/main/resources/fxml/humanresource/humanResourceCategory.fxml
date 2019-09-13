@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.model.CategoryModel?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="vbxHRCategory"
       xmlns="http://javafx.com/javafx"
@@ -23,31 +25,64 @@
         <VBox fx:id="vbxCreateContent">
             <HBox alignment="CENTER" fx:id="hbxCreateHeader"
                   style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;">
-                    <Label text="%createCategory"/>
-                </HBox>
-                <GridPane fx:id="grdCreateContent">
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="50"/>
-                        <ColumnConstraints percentWidth="50"/>
-                    </columnConstraints>
-                    <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
-                    <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"
-                                  GridPane.columnIndex="1"/>
-                    <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true" GridPane.rowIndex="1"/>
-                    <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.rowIndex="1"
-                                  GridPane.columnIndex="1"/>
-                    <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true" GridPane.rowIndex="2"
-                                  GridPane.columnSpan="2"/>
-                    <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"
-                                  GridPane.rowIndex="3" GridPane.columnSpan="2"/>
-                </GridPane>
-                <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right;">
-                    <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
-                               buttonType="RAISED"/>
-                    <JFXButton text="%save" onAction="#save" styleClass="primary-button"
-                               buttonType="RAISED"/>
-                </HBox>
+                <Label text="%createCategory"/>
+            </HBox>
+            <GridPane fx:id="grdCreateContent">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
+                <JFXTextField fx:id="txfPhoneNumberC" promptText="%phoneNumber" labelFloat="true"
+                              GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txfFaxC" promptText="%fax" labelFloat="true" GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txfEmailC" promptText="%email" labelFloat="true" GridPane.rowIndex="1"
+                              GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txfAddressC" promptText="%address" labelFloat="true" GridPane.rowIndex="2"
+                              GridPane.columnSpan="2"/>
+                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"
+                              GridPane.rowIndex="3" GridPane.columnSpan="2"/>
+            </GridPane>
+            <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right;">
+                <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                           buttonType="RAISED"/>
+                <JFXButton text="%save" onAction="#save" styleClass="primary-button"
+                           buttonType="RAISED"/>
+            </HBox>
 
+        </VBox>
+    </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%showCategory"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfTitleD" editable="false" labelFloat="true" promptText="%title"/>
+                <JFXTextField fx:id="txfPhoneNumberD" GridPane.columnIndex="1" editable="false" labelFloat="true"
+                              promptText="%phoneNumber"/>
+                <JFXTextField fx:id="txfEmailD" GridPane.rowIndex="1" editable="false" labelFloat="true"
+                              promptText="%email"/>
+                <JFXTextField fx:id="txfFaxD" GridPane.rowIndex="1" GridPane.columnIndex="1" editable="false"
+                              labelFloat="true" promptText="%fax"/>
+                <JFXTextField fx:id="txfAddressD" GridPane.rowIndex="2" GridPane.columnSpan="2" editable="false"
+                              labelFloat="true" promptText="%address"/>
+                <JFXTextField fx:id="txfDescriptionD" GridPane.rowIndex="3" GridPane.columnSpan="2" editable="false"
+                              labelFloat="true" promptText="%description"/>
+
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
         </VBox>
     </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
@@ -92,14 +127,41 @@
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>
-    <DataTable fx:id="tblCategory" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblCategory" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
-            <TableColumn fx:id="colTitle" text="%title"/>
-            <TableColumn fx:id="colPhoneNumber" text="%phoneNumber"/>
-            <TableColumn fx:id="colFax" text="%fax"/>
-            <TableColumn fx:id="colEmail" text="%email"/>
-            <TableColumn fx:id="colAddress" text="%address"/>
-            <TableColumn fx:id="colDescription" text="%description"/>
+            <CustomTableColumn text="%title" percentageWidth="13" percentageMinWidth="8">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%phoneNumber" percentageWidth="8" percentageMinWidth="8"
+                               style="-fx-alignment: center">
+                <cellValueFactory>
+                    <PropertyValueFactory property="phoneNumber"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%fax" style="-fx-alignment: center" percentageWidth="8" percentageMinWidth="8">
+                <cellValueFactory>
+                    <PropertyValueFactory property="fax"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn text="%email" style="-fx-alignment: center" percentageWidth="11" percentageMinWidth="8">
+                <cellValueFactory>
+                    <PropertyValueFactory property="email"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn text="%address" percentageWidth="22" percentageMinWidth="10">
+                <cellValueFactory>
+                    <PropertyValueFactory property="address"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn text="%description" percentageWidth="21.8" percentageMinWidth="10">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </CustomTableColumn>
         </columns>
     </DataTable>
 

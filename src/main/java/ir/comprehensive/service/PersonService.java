@@ -69,6 +69,9 @@ public class PersonService implements Swappable<Person> {
             if (searchExample.getPhoneNumber() != null && !searchExample.getPhoneNumber().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("phoneNumber"), StringUtils.makeAnyMatch(searchExample.getPhoneNumber())));
             }
+            if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
+                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+            }
             if (searchExample.getEmail() != null && !searchExample.getEmail().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(root.get("email"), StringUtils.makeAnyMatch(searchExample.getEmail())));
             }

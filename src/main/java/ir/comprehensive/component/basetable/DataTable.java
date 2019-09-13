@@ -8,7 +8,6 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 
@@ -24,30 +23,31 @@ public class DataTable<T> extends TableView<T> {
 
 
     public DataTable() {
-        TableColumn<T, String> rowNumberColumn = new TableColumn<>(MessageUtils.Message.NUMBER_SIGN);
-        rowNumberColumn.setPrefWidth(ScreenUtils.getActualSize(120));
+        CustomTableColumn<T, String> rowNumberColumn = new CustomTableColumn<>(MessageUtils.Message.NUMBER_SIGN);
+        rowNumberColumn.setPercentageWidth(4);
         rowNumberColumn.setResizable(false);
         rowNumberColumn.setSortable(false);
+        rowNumberColumn.setStyle("-fx-alignment: CENTER");
         rowNumberColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(this.getItems().indexOf(param.getValue()) + 1 + ""));
 
-        TableColumn<T, T> editColumn = new TableColumn<>(MessageUtils.Message.EDIT);
-        editColumn.setPrefWidth(ScreenUtils.getActualSize(120));
+        CustomTableColumn<T, T> editColumn = new CustomTableColumn<>(MessageUtils.Message.EDIT);
+        editColumn.setPercentageWidth(4);
         editColumn.setResizable(false);
         editColumn.setSortable(false);
         editColumn.setCellFactory(param -> new EditableTableCell<>(getOnEdit()));
         editColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         editColumn.visibleProperty().bind(showEdit);
 
-        TableColumn<T, T> deleteColumn = new TableColumn<>(MessageUtils.Message.DELETE);
-        deleteColumn.setPrefWidth(ScreenUtils.getActualSize(120));
+        CustomTableColumn<T, T> deleteColumn = new CustomTableColumn<>(MessageUtils.Message.DELETE);
+        deleteColumn.setPercentageWidth(4);
         deleteColumn.setResizable(false);
         deleteColumn.setSortable(false);
         deleteColumn.setCellFactory(param -> new DeletableTableCell<>(getOnDelete()));
         deleteColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         deleteColumn.visibleProperty().bind(showDelete);
 
-        TableColumn<T, T> visitColumn = new TableColumn<>(MessageUtils.Message.VISIT);
-        visitColumn.setPrefWidth(ScreenUtils.getActualSize(140));
+        CustomTableColumn<T, T> visitColumn = new CustomTableColumn<>(MessageUtils.Message.VISIT);
+        visitColumn.setPercentageWidth(4);
         visitColumn.setResizable(false);
         visitColumn.setSortable(false);
         visitColumn.setCellFactory(param -> new VisitableTableCell<>(getOnVisit()));
@@ -55,7 +55,7 @@ public class DataTable<T> extends TableView<T> {
         visitColumn.visibleProperty().bind(showVisit);
 
         getColumns().addAll(rowNumberColumn, editColumn, deleteColumn, visitColumn);
-        this.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
+        //this.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
     }
 
     public Editable<T> getOnEdit() {

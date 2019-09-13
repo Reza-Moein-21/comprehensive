@@ -14,6 +14,7 @@ public class PersonModel extends BaseModel {
     private StringProperty lastName = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
+    private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<List<CategoryModel>> categories = new SimpleObjectProperty<>(new ArrayList<>());
 
     public String getFirstName() {
@@ -60,8 +61,20 @@ public class PersonModel extends BaseModel {
         this.phoneNumber.set(phoneNumber);
     }
 
-    public StringProperty phoneNumberProperty() {
+    public final StringProperty phoneNumberProperty() {
         return phoneNumber;
+    }
+
+    public final String getDescription() {
+        return description.get();
+    }
+
+    public final StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
     public List<CategoryModel> getCategories() {

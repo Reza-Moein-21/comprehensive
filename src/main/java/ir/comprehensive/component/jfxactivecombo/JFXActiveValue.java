@@ -3,7 +3,7 @@ package ir.comprehensive.component.jfxactivecombo;
 import ir.comprehensive.utils.MessageUtils;
 
 public enum JFXActiveValue {
-    ACTIVE(MessageUtils.Message.ACTIVE), INACTIVE(MessageUtils.Message.INACTIVE), NONE(MessageUtils.Message.NONE);
+    IN_PROGRESS(MessageUtils.Message.IN_PROGRESS), DONE(MessageUtils.Message.DONE), NONE(MessageUtils.Message.NONE);
 
     private String title;
 

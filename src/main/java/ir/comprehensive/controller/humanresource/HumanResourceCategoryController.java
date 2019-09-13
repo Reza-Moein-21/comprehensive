@@ -21,8 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -39,6 +37,8 @@ public class HumanResourceCategoryController implements Initializable {
 
     @FXML
     public JFXDialog dlgCreate;
+    @FXML
+    public JFXDialog dlgDisplay;
     @FXML
     public YesNoDialog dlgDelete;
 
@@ -87,18 +87,6 @@ public class HumanResourceCategoryController implements Initializable {
     @FXML
     public JFXButton btnCreate;
     @FXML
-    public TableColumn<CategoryModel, String> colTitle;
-    @FXML
-    public TableColumn<CategoryModel, String> colPhoneNumber;
-    @FXML
-    public TableColumn<CategoryModel, String> colFax;
-    @FXML
-    public TableColumn<CategoryModel, String> colEmail;
-    @FXML
-    public TableColumn<CategoryModel, String> colAddress;
-    @FXML
-    public TableColumn<CategoryModel, String> colDescription;
-    @FXML
     public JFXButton btnSearch;
     @FXML
     public JFXButton btnShowAll;
@@ -106,6 +94,27 @@ public class HumanResourceCategoryController implements Initializable {
     public VBox vbxCreateContent;
     @FXML
     public HBox hbxCreateHeader;
+    @FXML
+    public JFXTextField txfTitleD;
+    @FXML
+    public JFXTextField txfPhoneNumberD;
+    @FXML
+    public JFXTextField txfFaxD;
+    @FXML
+    public JFXTextField txfEmailD;
+    @FXML
+    public JFXTextField txfAddressD;
+    @FXML
+    public JFXTextField txfDescriptionD;
+    @FXML
+    public GridPane grdDisplayMain;
+    @FXML
+    public VBox vbxDisplayContent;
+    @FXML
+    public HBox hbxDisplayFooter;
+    @FXML
+    public HBox hbxDisplayHeader;
+
 
     @Autowired
     private StartController startController;
@@ -119,16 +128,20 @@ public class HumanResourceCategoryController implements Initializable {
             n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        dlgDisplay.setDialogContainer(startController.mainStack);
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
+        applyFontStyle(dlgDisplay);
 
         hbxCreateHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
-
+        hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
+        hbxDisplayHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
         vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1350));
 
@@ -138,38 +151,20 @@ public class HumanResourceCategoryController implements Initializable {
         btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
-        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        colTitle.setMinWidth(ScreenUtils.getActualSize(300));
-        colTitle.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        colPhoneNumber.setMinWidth(ScreenUtils.getActualSize(300));
-        colPhoneNumber.setPrefWidth(ScreenUtils.getActualSize(400));
-
-
-        colFax.setCellValueFactory(new PropertyValueFactory<>("fax"));
-        colFax.setMinWidth(ScreenUtils.getActualSize(300));
-        colFax.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colEmail.setMinWidth(ScreenUtils.getActualSize(300));
-        colEmail.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colAddress.setMinWidth(ScreenUtils.getActualSize(300));
-        colAddress.setPrefWidth(ScreenUtils.getActualSize(400));
-
-        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colDescription.setMinWidth(ScreenUtils.getActualSize(300));
-        colDescription.setPrefWidth(ScreenUtils.getActualSize(500));
-
-
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
         btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+
+        vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
 
         grdCreateContent.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
         grdCreateContent.setHgap(ScreenUtils.getActualSize(10));
         grdCreateContent.setVgap(ScreenUtils.getActualSize(100));
+
+        grdDisplayMain.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdDisplayMain.setHgap(ScreenUtils.getActualSize(10));
+        grdDisplayMain.setVgap(ScreenUtils.getActualSize(100));
+
         grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
@@ -203,6 +198,17 @@ public class HumanResourceCategoryController implements Initializable {
                 }
                 dlgDelete.close();
             });
+        });
+
+        tblCategory.setOnVisit(selectedItem -> {
+            txfTitleD.setText(selectedItem.getTitle());
+            txfPhoneNumberD.setText(selectedItem.getPhoneNumber());
+            txfFaxD.setText(selectedItem.getFax());
+            txfEmailD.setText(selectedItem.getEmail());
+            txfAddressD.setText(selectedItem.getAddress());
+            txfDescriptionD.setText(selectedItem.getDescription());
+
+            dlgDisplay.show();
         });
 
         txfTitleC.focusedProperty().addListener(getChangeListener(txfTitleC));
@@ -283,4 +289,7 @@ public class HumanResourceCategoryController implements Initializable {
         tblCategory.setItems(categoryService.loadAll().map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
+    public void closeDisplayDialog(ActionEvent actionEvent) {
+        dlgDisplay.close();
+    }
 }

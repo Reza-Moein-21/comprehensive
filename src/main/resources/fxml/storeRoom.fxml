@@ -3,13 +3,15 @@
 
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.Autocomplete?>
-<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.datepicker.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.domain.*?>
 <?import ir.comprehensive.model.ProductDeliveryModel?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT" fx:id="parent"
       xmlns="http://javafx.com/javafx/8" fx:controller="ir.comprehensive.controller.StoreRoomController"
@@ -135,13 +137,21 @@
 
     <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colProductName" text="%productName"/>
-            <TableColumn fx:id="colFullName" text="%fullName"/>
-            <TableColumn fx:id="colStatus" text="%productStatus"/>
-            <TableColumn fx:id="colDeliveryDate" text="%deliveryDate"/>
-            <TableColumn fx:id="colDesiredDate" text="%desiredDate"/>
-            <TableColumn fx:id="colReceivedDate" text="%receivedDate"/>
-            <TableColumn fx:id="colDescription" text="%description"/>
+            <CustomTableColumn fx:id="colProductName" text="%productName" percentageWidth="13" percentageMinWidth="9"/>
+            <CustomTableColumn fx:id="colFullName" text="%fullName" percentageWidth="13" percentageMinWidth="9"/>
+            <CustomTableColumn resizable="false" text="%productStatus" percentageWidth="7" style="-fx-alignment: center">
+                <cellValueFactory>
+                    <PropertyValueFactory property="status"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn fx:id="colDeliveryDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%deliveryDate"/>
+            <CustomTableColumn fx:id="colDesiredDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%desiredDate"/>
+            <CustomTableColumn fx:id="colReceivedDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%receivedDate"/>
+            <CustomTableColumn fx:id="colDescription" sortable="false" text="%description" percentageWidth="30.8" percentageMinWidth="18">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </CustomTableColumn>
         </columns>
     </DataTable>
 </VBox>
