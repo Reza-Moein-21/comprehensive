@@ -21,7 +21,7 @@
                      person="${autPersonC.value}"
                      isActive="${chbIsActiveC.selected}"/>
         <MyNoteModel fx:id="searchModel" title="${txfTitleS.text}" creationDateFrom="${sdpCreationDateFromS.value}"
-                     creationDateTo="${sdpCreationDateToS.value}" person="${autPersonS.value}"
+                     creationDateTo="${sdpCreationDateToS.value}" person="${autPersonS.value}" description="${txfDescriptionS.text}"
                      isActive="${cmbIsActiveS.isActive}" priority="${rtnPriorityS.rating}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
@@ -88,6 +88,7 @@
                 <ColumnConstraints percentWidth="36"/>
             </columnConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%title" labelFloat="true"/>
+            <JFXTextField fx:id="txfDescriptionS" GridPane.rowIndex="1" promptText="%description" labelFloat="true"/>
             <TabPane fx:id="tbpDateSearch" GridPane.columnIndex="1" GridPane.rowSpan="6">
                 <Tab text="%selectCreationTimeByCalender" closable="false">
                     <CalenderWidget fx:id="calNoteSearch"/>

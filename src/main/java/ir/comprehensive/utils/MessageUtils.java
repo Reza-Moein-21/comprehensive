@@ -117,6 +117,8 @@ public class MessageUtils {
         public static final String HOME = getMessage("home");
         public static final String ENTER = getMessage("enter");
         public static final String STOPPED = getMessage("stopped");
+        public static final String ACTIVE = getMessage("active");
+        public static final String INACTIVE = getMessage("inActive");
 
 
         private Message() {

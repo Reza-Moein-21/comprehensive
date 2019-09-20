@@ -68,6 +68,14 @@ public class MyNoteService implements Swappable<MyNote> {
                 predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
 
+            if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
+                predicateList.add(criteriaBuilder.equal(root.get("person").get("id"), searchExample.getPerson().getId()));
+            }
+
+            if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
+                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+            }
+
             if (!searchExample.getPriority().equals(0.0)) {
                 predicateList.add(criteriaBuilder.equal(root.get("priority"), searchExample.getPriority()));
             }

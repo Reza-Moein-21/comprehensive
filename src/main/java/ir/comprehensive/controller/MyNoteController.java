@@ -71,6 +71,8 @@ public class MyNoteController implements Initializable {
     @FXML
     public JFXActiveCombo cmbIsActiveS;
     @FXML
+    public JFXTextField txfDescriptionS;
+    @FXML
     MyNoteModel createModel;
     @FXML
     MyNoteModel searchModel;
@@ -193,11 +195,11 @@ public class MyNoteController implements Initializable {
             calNoteSearch.getEventList().clear();
             myNoteService.getCalenderNoteStatuses(minDate, maxDate, MyNoteCategoryController.myNoteCategoryId).forEach(calenderNoteStatus -> {
                 if (calenderNoteStatus.getInActiveCount() != 0) {
-                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.DONE));
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getInActiveCount() + " : " + MessageUtils.Message.INACTIVE));
                 }
 
                 if (calenderNoteStatus.getActiveCount() != 0) {
-                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getActiveCount() + " : " + MessageUtils.Message.IN_PROGRESS));
+                    calNoteSearch.getEventList().add(new CalenderEvent(calenderNoteStatus.getCreationTime(), calenderNoteStatus.getActiveCount() + " : " + MessageUtils.Message.ACTIVE));
                 }
 
 
@@ -279,7 +281,7 @@ public class MyNoteController implements Initializable {
 
         colInActivationDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getInActivationDate() == null ? null : PersianDate.fromGregorian(param.getValue().getInActivationDate())));
 
-        colIsActive.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getIsActive() ? MessageUtils.Message.IN_PROGRESS : MessageUtils.Message.DONE));
+        colIsActive.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getIsActive() ? MessageUtils.Message.ACTIVE : MessageUtils.Message.INACTIVE));
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
 
@@ -291,6 +293,7 @@ public class MyNoteController implements Initializable {
                 .toString());
 
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
+        autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
         sdpCreationDateC.setValidators(Collections.singletonList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.CREATION_DATE)));
 
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
@@ -387,8 +390,9 @@ public class MyNoteController implements Initializable {
     private boolean validateBeforeSave() {
         boolean titleValidate = txfTitleC.validate();
         boolean creationDateValidate = sdpCreationDateC.validate();
+        boolean personValidate = autPersonC.validate();
 
-        return titleValidate && creationDateValidate;
+        return titleValidate && creationDateValidate && personValidate;
     }
 
     @FXML
@@ -434,6 +438,8 @@ public class MyNoteController implements Initializable {
         txfTitleS.setText(null);
         sdpCreationDateFromS.setValue(null);
         sdpCreationDateToS.setValue(null);
+        txfDescriptionS.setText(null);
+        autPersonS.setValue(null);
         cmbIsActiveS.setValue(JFXActiveValue.NONE);
         rtnPriorityS.setRating(0.0);
         updateDataTable(false);
