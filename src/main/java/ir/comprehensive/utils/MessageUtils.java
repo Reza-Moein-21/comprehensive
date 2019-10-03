@@ -119,6 +119,12 @@ public class MessageUtils {
         public static final String STOPPED = getMessage("stopped");
         public static final String ACTIVE = getMessage("active");
         public static final String INACTIVE = getMessage("inActive");
+        public static final String WAREHOUSE = getMessage("warehouse");
+        public static final String WAREHOUSE_CATEGORY = getMessage("warehouseCategory");
+        public static final String CODE = getMessage("code");
+        public static final String COMPANY_NAME = getMessage("companyName");
+        public static final String COUNT = getMessage("count");
+        public static final String  WAREHOUSE_TAG = getMessage("warehouseTag");
 
 
         private Message() {
