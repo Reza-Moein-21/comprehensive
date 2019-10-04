@@ -20,7 +20,7 @@
 
         <WarehouseModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}" companyName="${txtCompanyNameS.text}"
                         count="${txtCountS.text}" description="${txfDescriptionS.text}"
-                        category="${autCategoryS.value}" tagList="${autTagListS.value}"/>
+                        category="${autCategoryS.value}" tagList="${mauTagListS.valueList}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">
@@ -69,16 +69,14 @@
                 <RowConstraints percentHeight="25"/>
                 <RowConstraints percentHeight="25"/>
             </rowConstraints>
-            <JFXTextField fx:id="txfTitleS" promptText="%productName" labelFloat="true"
-                          GridPane.columnIndex="1"/>
-            <JFXTextField fx:id="txtCodeS" promptText="%code" labelFloat="true"
-                          GridPane.columnIndex="1"/>
-            <JFXTextField fx:id="txtCompanyNameS" promptText="%companyName" labelFloat="true"
-                          GridPane.columnIndex="1"/>
-            <Autocomplete fx:id="autCategoryS" promptText="%warehouseCategory" labelFloat="true"/>
-            <Autocomplete fx:id="autTagListS" promptText="%warehouseTag" labelFloat="true"/>
-            <JFXTextField fx:id="txtCountS" promptText="%count" labelFloat="true"
-                          GridPane.columnIndex="1"/>
+            <JFXTextField fx:id="txfTitleS" promptText="%productName" labelFloat="true"/>
+            <JFXTextField fx:id="txtCodeS" promptText="%code" labelFloat="true" GridPane.columnIndex="1"/>
+            <JFXTextField fx:id="txtCompanyNameS" promptText="%companyName" labelFloat="true" GridPane.columnIndex="2"/>
+            <Autocomplete fx:id="autCategoryS" promptText="%warehouseCategory" labelFloat="true" GridPane.rowIndex="1"/>
+            <MultiAutocomplete fx:id="mauTagListS" promptText="%warehouseTag" labelFloat="true" GridPane.rowIndex="1"
+                               GridPane.columnIndex="1"/>
+            <JFXTextField fx:id="txtCountS" promptText="%count" labelFloat="true" GridPane.rowIndex="1"
+                          GridPane.columnIndex="2"/>
             <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="2"
                   GridPane.columnSpan="2">
                 <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"

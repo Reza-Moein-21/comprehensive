@@ -3,11 +3,15 @@ package ir.comprehensive.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.component.MultiAutocomplete;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.mapper.WarehouseMapper;
+import ir.comprehensive.mapper.WarehouseTagMapper;
 import ir.comprehensive.model.WarehouseModel;
+import ir.comprehensive.model.WarehouseTagModel;
 import ir.comprehensive.service.WarehouseService;
+import ir.comprehensive.service.WarehouseTagService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
@@ -26,16 +30,21 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Controller
 public class WarehouseController implements Initializable {
 
     @Autowired
     private WarehouseService warehouseService;
+    @FXML
+    public MultiAutocomplete<WarehouseTagModel> mauTagListS;
     @Autowired
     private StartController startController;
     @Autowired
     private WarehouseMapper mapper;
+    @Autowired
+    private WarehouseTagService warehouseTagService;
 
 
     @FXML
@@ -52,7 +61,8 @@ public class WarehouseController implements Initializable {
     public GridPane grdSearchContent;
     @FXML
     public JFXButton btnCreate;
-
+    @Autowired
+    private WarehouseTagMapper tagMapper;
     @FXML
     public JFXButton btnSearch;
     @FXML
@@ -93,6 +103,8 @@ public class WarehouseController implements Initializable {
         applyFontStyle(dlgDelete);
 
         parent.setSpacing(ScreenUtils.getActualSize(10));
+
+        mauTagListS.setOnSearch(s -> warehouseTagService.findByTitle(s).map(warehouseTags -> warehouseTags.stream().map(tagMapper::entityToModel).collect(Collectors.toList())).get());
 
         //
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
