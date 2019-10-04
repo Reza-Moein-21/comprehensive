@@ -8,7 +8,7 @@ public enum ViewName {
     START("fxml/start.fxml", MessageUtils.Message.START_PAGE),
     HOME("fxml/home.fxml", MessageUtils.Message.HOME),
     STORE_ROOM("fxml/storeRoom.fxml", MessageUtils.Message.STOREROOM),
-    WAREHOUSE("fxml/warehouse.fxml", MessageUtils.Message.WAREHOUSE),
+    WAREHOUSE("fxml/warehouseBase.fxml", MessageUtils.Message.WAREHOUSE),
     WAREHOUSE_CATEGORY("fxml/warehouseCategory.fxml", MessageUtils.Message.WAREHOUSE_CATEGORY),
     HUMAN_RESOURCE("fxml/humanresource/humanResource.fxml", MessageUtils.Message.HUMAN_RESOURCE),
     MY_NOTEBOOK("fxml/myNote.fxml", MessageUtils.Message.MY_NOTE),

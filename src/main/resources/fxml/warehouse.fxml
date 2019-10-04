@@ -30,7 +30,7 @@
                 <Label text="%createProduct"/>
             </HBox>
             <VBox fx:id="vbxCreateCenter">
-                <GridPane fx:id="grdPersonProduct" prefWidth="Infinity">
+                <GridPane fx:id="grdMainCreate" prefWidth="Infinity">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="50"/>
                         <ColumnConstraints percentWidth="50"/>
@@ -95,7 +95,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblWarehouse" VBox.vgrow="ALWAYS">
         <columns>
             <CustomTableColumn resizable="false" text="%productName" percentageWidth="7"
                                style="-fx-alignment: center">

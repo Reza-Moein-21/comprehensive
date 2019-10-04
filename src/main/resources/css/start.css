@@ -186,6 +186,17 @@
     -fx-border-color: #F57F17;
 }
 
+.warehouse-card {
+}
+
+.warehouse-card .bodyStyleClass {
+    -fx-background-color: #d8bd89;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-width: 0.5;
+    -fx-border-color: #6f5d41;
+}
+
 .project-card {
 }
 

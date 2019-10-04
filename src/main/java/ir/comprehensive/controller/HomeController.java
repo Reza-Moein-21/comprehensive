@@ -17,6 +17,8 @@ public class HomeController implements Initializable {
     @FXML
     public Card crdStoreRoom;
     @FXML
+    public Card crdWarehouse;
+    @FXML
     public Card crdHumanResource;
     @FXML
     public Card crdMyNoteCategory;
@@ -37,6 +39,11 @@ public class HomeController implements Initializable {
     }
 
     @FXML
+    public void goToWarehouse() {
+        startController.navigateToView(ViewName.WAREHOUSE);
+    }
+
+    @FXML
     public void goToHumanResource() {
         startController.navigateToView(ViewName.HUMAN_RESOURCE);
     }
@@ -52,6 +59,8 @@ public class HomeController implements Initializable {
         crdStoreRoom.setPrefHeight(ScreenUtils.getActualSize(210));
         crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
         crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(210));
+        crdWarehouse.setPrefWidth(ScreenUtils.getActualSize(350));
+        crdWarehouse.setPrefHeight(ScreenUtils.getActualSize(210));
         crdMyNoteCategory.setPrefWidth(ScreenUtils.getActualSize(350.0));
         crdMyNoteCategory.setPrefHeight(ScreenUtils.getActualSize(210));
         masonry.setHgap(ScreenUtils.getActualSize(15));
