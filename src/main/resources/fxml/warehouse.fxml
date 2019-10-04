@@ -16,7 +16,7 @@
     <fx:define>
         <WarehouseModel fx:id="createModel" title="${txfTitleC.text}" code="${txtCodeC.text}" companyName="${txtCompanyNameC.text}"
                         count="${txtCountC.text}" description="${txfDescriptionC.text}"
-                        category="${autCategoryC.value}" tagList="${autTagListC.value}"/>
+                        category="${autCategoryC.value}" tagList="${mauTagListC.valueList}"/>
 
         <WarehouseModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}" companyName="${txtCompanyNameS.text}"
                         count="${txtCountS.text}" description="${txfDescriptionS.text}"
@@ -35,16 +35,19 @@
                         <ColumnConstraints percentWidth="50"/>
                         <ColumnConstraints percentWidth="50"/>
                     </columnConstraints>
-                    <JFXTextField fx:id="txfTitleC" promptText="%productName" labelFloat="true"
-                                  GridPane.columnIndex="1"/>
-                    <Autocomplete fx:id="autCategoryC" promptText="%warehouseCategory" labelFloat="true"/>
-                    <Autocomplete fx:id="autTagListC" promptText="%warehouseTag" labelFloat="true"/>
+                    <JFXTextField fx:id="txfTitleC" promptText="%productName" labelFloat="true"/>
                     <JFXTextField fx:id="txtCodeC" promptText="%code" labelFloat="true"
                                   GridPane.columnIndex="1"/>
+
                     <JFXTextField fx:id="txtCompanyNameC" promptText="%companyName" labelFloat="true"
-                                  GridPane.columnIndex="1"/>
+                                  GridPane.rowIndex="1"/>
                     <JFXTextField fx:id="txtCountC" promptText="%count" labelFloat="true"
-                                  GridPane.columnIndex="1"/>
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Autocomplete fx:id="autCategoryC" promptText="%warehouseCategory" labelFloat="true"
+                                  GridPane.rowIndex="2"/>
+                    <MultiAutocomplete fx:id="mauTagListC" promptText="%warehouseTag" labelFloat="true"
+                                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 </GridPane>
                 <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>
 
@@ -60,24 +63,22 @@
     <TitledPane expanded="false" text="%search">
         <GridPane fx:id="grdSearchContent">
             <columnConstraints>
-                <ColumnConstraints percentWidth="35"/>
-                <ColumnConstraints percentWidth="35"/>
-                <ColumnConstraints percentWidth="35"/>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints percentHeight="25"/>
-                <RowConstraints percentHeight="25"/>
-                <RowConstraints percentHeight="25"/>
+                <RowConstraints percentHeight="20"/>
+                <RowConstraints percentHeight="32"/>
+                <RowConstraints percentHeight="32"/>
             </rowConstraints>
             <JFXTextField fx:id="txfTitleS" promptText="%productName" labelFloat="true"/>
             <JFXTextField fx:id="txtCodeS" promptText="%code" labelFloat="true" GridPane.columnIndex="1"/>
-            <JFXTextField fx:id="txtCompanyNameS" promptText="%companyName" labelFloat="true" GridPane.columnIndex="2"/>
-            <Autocomplete fx:id="autCategoryS" promptText="%warehouseCategory" labelFloat="true" GridPane.rowIndex="1"/>
-            <MultiAutocomplete fx:id="mauTagListS" promptText="%warehouseTag" labelFloat="true" GridPane.rowIndex="1"
-                               GridPane.columnIndex="1"/>
-            <JFXTextField fx:id="txtCountS" promptText="%count" labelFloat="true" GridPane.rowIndex="1"
-                          GridPane.columnIndex="2"/>
-            <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="2"
+            <JFXTextField fx:id="txtCompanyNameS" promptText="%companyName" labelFloat="true" GridPane.rowIndex="1"/>
+            <Autocomplete fx:id="autCategoryS" promptText="%warehouseCategory" labelFloat="true" GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"/>
+            <MultiAutocomplete fx:id="mauTagListS" promptText="%warehouseTag" labelFloat="true" GridPane.rowIndex="2"
+                               GridPane.columnSpan="2"/>
+            <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="3"
                   GridPane.columnSpan="2">
                 <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
                            onAction="#search"/>

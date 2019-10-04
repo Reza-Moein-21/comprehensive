@@ -30,12 +30,15 @@ public class Warehouse {
     @Column(name = "DESCRIPTION")
     String description;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "WAREHOUSE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_WHOUSE_WHOUSE_CAT"), nullable = false)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "WAREHOUSE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_WHOUSE_WHOUSE_CAT"))
     WarehouseCategory category;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "WAREHOUSE_TAG_ID", foreignKey = @ForeignKey(name = "FK_WHOUSE_WHOUSE_TAG"), nullable = false)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "WAREHOUSE_TAG_JOIN_TABLE",
+            joinColumns = @JoinColumn(name = "WAREHOUSE_ID", foreignKey = @ForeignKey(name = "FK_W_TAG")),
+            inverseJoinColumns = @JoinColumn(name = "TAG_ID", foreignKey = @ForeignKey(name = "FK_TAG_W")))
     List<WarehouseTag> tagList;
+
 
 }

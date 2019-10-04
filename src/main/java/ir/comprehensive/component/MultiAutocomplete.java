@@ -199,11 +199,14 @@ public class MultiAutocomplete<T extends BaseModel> extends VBox {
         jfxPopup = null;
     }
 
-    public ObservableList getValueList() {
+    public ObservableList<T> getValueList() {
         return valueList.get();
     }
 
-    public void setValueList(ObservableList valueList) {
+    public void setValueList(ObservableList<T> valueList) {
+        if (valueList == null) {
+            valueList = FXCollections.observableArrayList();
+        }
         this.valueList.set(valueList);
     }
 

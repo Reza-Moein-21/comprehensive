@@ -1,7 +1,5 @@
 package ir.comprehensive.model;
 
-import ir.comprehensive.domain.WarehouseCategory;
-import ir.comprehensive.domain.WarehouseTag;
 import ir.comprehensive.model.basemodel.BaseModel;
 import javafx.beans.property.*;
 
@@ -15,8 +13,8 @@ public class WarehouseModel extends BaseModel {
     private StringProperty producerName = new SimpleStringProperty();
     private LongProperty count = new SimpleLongProperty();
     private StringProperty description = new SimpleStringProperty();
-    private ObjectProperty<WarehouseCategory> category = new SimpleObjectProperty<>();
-    private ObjectProperty<List<WarehouseTag>> tagList = new SimpleObjectProperty<>(new ArrayList<>());
+    private ObjectProperty<WarehouseCategoryModel> category = new SimpleObjectProperty<>();
+    private ObjectProperty<List<WarehouseTagModel>> tagList = new SimpleObjectProperty<>(new ArrayList<>());
 
 
     public final String getCode() {
@@ -79,27 +77,27 @@ public class WarehouseModel extends BaseModel {
         this.description.set(description);
     }
 
-    public final WarehouseCategory getCategory() {
+    public final WarehouseCategoryModel getCategory() {
         return category.get();
     }
 
-    public final ObjectProperty<WarehouseCategory> categoryProperty() {
-        return category;
-    }
-
-    public final void setCategory(WarehouseCategory category) {
+    public final void setCategory(WarehouseCategoryModel category) {
         this.category.set(category);
     }
 
-    public final List<WarehouseTag> getTagList() {
+    public final ObjectProperty<WarehouseCategoryModel> categoryProperty() {
+        return category;
+    }
+
+    public final List<WarehouseTagModel> getTagList() {
         return tagList.get();
     }
 
-    public final ObjectProperty<List<WarehouseTag>> tagListProperty() {
-        return tagList;
+    public final void setTagList(List<WarehouseTagModel> tagList) {
+        this.tagList.set(tagList);
     }
 
-    public final void setTagList(List<WarehouseTag> tagList) {
-        this.tagList.set(tagList);
+    public final ObjectProperty<List<WarehouseTagModel>> tagListProperty() {
+        return tagList;
     }
 }

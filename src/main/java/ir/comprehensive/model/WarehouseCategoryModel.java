@@ -14,4 +14,9 @@ public class WarehouseCategoryModel extends BaseModel {
     public WarehouseCategoryModel(Long id, String title) {
         super(id, title);
     }
+
+    @Override
+    public String toString() {
+        return super.getTitle();
+    }
 }
