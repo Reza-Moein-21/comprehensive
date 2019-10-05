@@ -1,4 +1,4 @@
-package ir.comprehensive.controller;
+package ir.comprehensive.controller.warehouse;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -7,6 +7,7 @@ import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.MultiAutocomplete;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
+import ir.comprehensive.controller.StartController;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.mapper.WarehouseTagMapper;

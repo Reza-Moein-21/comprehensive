@@ -1,4 +1,4 @@
-package ir.comprehensive.controller;
+package ir.comprehensive.controller.warehouse;
 
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package ir.comprehensive.controller;
+package ir.comprehensive.controller.warehouse;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;

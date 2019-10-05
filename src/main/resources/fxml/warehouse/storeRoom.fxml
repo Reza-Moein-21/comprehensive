@@ -14,7 +14,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" nodeOrientation="RIGHT_TO_LEFT" fx:id="parent"
-      xmlns="http://javafx.com/javafx/8" fx:controller="ir.comprehensive.controller.StoreRoomController"
+      xmlns="http://javafx.com/javafx/8" fx:controller="ir.comprehensive.controller.warehouse.StoreRoomController"
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <fx:define>

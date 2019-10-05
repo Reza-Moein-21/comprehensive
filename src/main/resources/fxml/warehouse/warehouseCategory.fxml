@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="ir.comprehensive.controller.WarehouseCategoryController">
+      fx:controller="ir.comprehensive.controller.warehouse.WarehouseCategoryController">
     <fx:define>
         <WarehouseCategoryModel fx:id="createModel" title="${txfTitleC.text}"/>
 

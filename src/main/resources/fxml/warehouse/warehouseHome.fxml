@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ir.comprehensive.component.Card?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ir.comprehensive.controller.warehouse.WarehouseHomeController"
+      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+    <FlowPane fx:id="masonry">
+        <Card fx:id="crdStoreRoom" styleClass="warehouse-card" title="%warehouse"
+              onClick="#goToWarehouse">
+            <icon>
+                <Image url="@../../image/warehouse.png"/>
+            </icon>
+        </Card>
+        <Card fx:id="crdWarehouse" styleClass="storeroom-card" title="%storeroom"
+              onClick="#goToStoreroom">
+            <icon>
+                <Image url="@../../image/storeroom.png"/>
+            </icon>
+        </Card>
+    </FlowPane>
+</VBox>

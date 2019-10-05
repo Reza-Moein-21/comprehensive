@@ -9,16 +9,10 @@
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
     <FlowPane fx:id="masonry">
-        <Card fx:id="crdStoreRoom" styleClass="warehouse-card" title="%warehouse"
-              onClick="#goToWarehouse">
+        <Card fx:id="crdWarehouseHome" styleClass="warehouse-card" title="%warehouse"
+              onClick="#goToWarehouseHome">
             <icon>
                 <Image url="@../image/warehouse.png"/>
-            </icon>
-        </Card>
-        <Card fx:id="crdWarehouse" styleClass="storeroom-card" title="%storeroom"
-              onClick="#goToStoreroom">
-            <icon>
-                <Image url="@../image/storeroom.png"/>
             </icon>
         </Card>
         <Card fx:id="crdHumanResource" styleClass="human-resource-card" title="%humanResource"
