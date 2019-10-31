@@ -72,7 +72,7 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Stage stage = getWelcomeStage();
-
+        stage.getIcons().add(new Image("/image/icon2.png"));
 
         final Task<ConfigurableApplicationContext> progressTask = new Task<ConfigurableApplicationContext>() {
             @Override
@@ -96,8 +96,8 @@ public class Start extends Application {
             primaryStage.getIcons().add(new Image("/image/icon2.png"));
             primaryStage.setOnCloseRequest(e -> System.exit(0));
             primaryStage.setTitle(MessageUtils.Message.APP_TITLE);
-            primaryStage.show();
             stage.close();
+            primaryStage.show();
 
         });
 
