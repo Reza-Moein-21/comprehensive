@@ -61,19 +61,19 @@ public class PersonService implements Swappable<Person> {
         Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("firstName"), StringUtils.makeAnyMatch(searchExample.getFirstName())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("firstName")), StringUtils.makeAnyMatch(searchExample.getFirstName())));
             }
             if (searchExample.getLastName() != null && !searchExample.getLastName().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("lastName"), StringUtils.makeAnyMatch(searchExample.getLastName())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("lastName")), StringUtils.makeAnyMatch(searchExample.getLastName())));
             }
             if (searchExample.getPhoneNumber() != null && !searchExample.getPhoneNumber().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("phoneNumber"), StringUtils.makeAnyMatch(searchExample.getPhoneNumber())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("phoneNumber")), StringUtils.makeAnyMatch(searchExample.getPhoneNumber())));
             }
             if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), StringUtils.makeAnyMatch(searchExample.getDescription())));
             }
             if (searchExample.getEmail() != null && !searchExample.getEmail().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("email"), StringUtils.makeAnyMatch(searchExample.getEmail())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("email")), StringUtils.makeAnyMatch(searchExample.getEmail())));
             }
             if (searchExample.getCategories() != null && !searchExample.getCategories().isEmpty()) {
                 Join<Person, Category> categories = root.join("categories");

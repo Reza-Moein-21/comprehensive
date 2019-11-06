@@ -10,7 +10,7 @@
       AnchorPane.leftAnchor="0">
 
     <TabPane VBox.vgrow="ALWAYS">
-        <Tab fx:id="tabWarehouse" text="%warehouse" style="-fx-font-weight: bold" closable="false">
+        <Tab fx:id="tabWarehouse" text="%storeroom" style="-fx-font-weight: bold" closable="false">
             <fx:include source="warehouse.fxml"/>
         </Tab>
         <Tab fx:id="tabWarehouseCategories" text="%warehouseCategory" style="-fx-font-weight: bold" closable="false">

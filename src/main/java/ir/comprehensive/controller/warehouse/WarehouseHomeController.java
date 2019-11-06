@@ -38,12 +38,16 @@ public class WarehouseHomeController implements Initializable {
         startController.navigateToView(ViewName.WAREHOUSE);
     }
 
+    private void configCard(Card card) {
+        card.setPrefWidth(ScreenUtils.getActualSize(820));
+        card.setPrefHeight(ScreenUtils.getActualSize(340));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        crdStoreRoom.setPrefWidth(ScreenUtils.getActualSize(350.0));
-        crdStoreRoom.setPrefHeight(ScreenUtils.getActualSize(210));
-        crdWarehouse.setPrefWidth(ScreenUtils.getActualSize(350));
-        crdWarehouse.setPrefHeight(ScreenUtils.getActualSize(210));
+        configCard(crdStoreRoom);
+        configCard(crdWarehouse);
+
         masonry.setHgap(ScreenUtils.getActualSize(15));
         masonry.setVgap(ScreenUtils.getActualSize(15));
         masonry.setPadding(new Insets(ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10)));

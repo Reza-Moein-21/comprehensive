@@ -51,16 +51,19 @@ public class HomeController implements Initializable {
         startController.navigateToView(ViewName.MY_NOTE_CATEGORY);
     }
 
+    private void configCard(Card card) {
+        card.setPrefWidth(ScreenUtils.getActualSize(820));
+        card.setPrefHeight(ScreenUtils.getActualSize(340));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        crdHumanResource.setPrefWidth(ScreenUtils.getActualSize(350));
-        crdHumanResource.setPrefHeight(ScreenUtils.getActualSize(210));
-        crdWarehouseHome.setPrefWidth(ScreenUtils.getActualSize(350));
-        crdWarehouseHome.setPrefHeight(ScreenUtils.getActualSize(210));
-        crdMyNoteCategory.setPrefWidth(ScreenUtils.getActualSize(350.0));
-        crdMyNoteCategory.setPrefHeight(ScreenUtils.getActualSize(210));
-        masonry.setHgap(ScreenUtils.getActualSize(15));
-        masonry.setVgap(ScreenUtils.getActualSize(15));
+        configCard(crdHumanResource);
+        configCard(crdWarehouseHome);
+        configCard(crdMyNoteCategory);
+
+        masonry.setHgap(ScreenUtils.getActualSize(22));
+        masonry.setVgap(ScreenUtils.getActualSize(22));
         masonry.setPadding(new Insets(ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10)));
     }
 

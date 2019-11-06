@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,22 +45,22 @@ public class CategoryService implements Swappable<Category> {
         Specification<Category> categorySpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
             if (searchExample.getPhoneNumber() != null && !searchExample.getPhoneNumber().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("phoneNumber"), StringUtils.makeAnyMatch(searchExample.getPhoneNumber())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("phoneNumber")), StringUtils.makeAnyMatch(searchExample.getPhoneNumber())));
             }
             if (searchExample.getFax() != null && !searchExample.getFax().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("fax"), StringUtils.makeAnyMatch(searchExample.getFax())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("fax")), StringUtils.makeAnyMatch(searchExample.getFax())));
             }
             if (searchExample.getEmail() != null && !searchExample.getEmail().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("email"), StringUtils.makeAnyMatch(searchExample.getEmail())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("email")), StringUtils.makeAnyMatch(searchExample.getEmail())));
             }
             if (searchExample.getAddress() != null && !searchExample.getAddress().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("address"), StringUtils.makeAnyMatch(searchExample.getAddress())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("address")), StringUtils.makeAnyMatch(searchExample.getAddress())));
             }
             if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), StringUtils.makeAnyMatch(searchExample.getDescription())));
             }
 
 

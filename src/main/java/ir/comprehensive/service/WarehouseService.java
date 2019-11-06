@@ -59,13 +59,13 @@ public class WarehouseService implements Swappable<Warehouse> {
         Specification<Warehouse> warehouseSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
             if (searchExample.getCode() != null && !searchExample.getCode().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("code"), StringUtils.makeAnyMatch(searchExample.getCode())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("code")), StringUtils.makeAnyMatch(searchExample.getCode())));
             }
             if (searchExample.getCompanyName() != null && !searchExample.getCompanyName().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("companyName"), StringUtils.makeAnyMatch(searchExample.getCompanyName())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("companyName")), StringUtils.makeAnyMatch(searchExample.getCompanyName())));
             }
             if (searchExample.getCategory() != null && searchExample.getCategory().getId() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("category").get("id"), searchExample.getCategory().getId()));

@@ -8,7 +8,7 @@
       fx:controller="ir.comprehensive.controller.HomeController"
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
-    <FlowPane fx:id="masonry">
+    <FlowPane fx:id="masonry" alignment="CENTER">
         <Card fx:id="crdWarehouseHome" styleClass="warehouse-manage" title="%warehouse"
               onClick="#goToWarehouseHome">
             <icon>

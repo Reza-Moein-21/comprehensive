@@ -109,7 +109,7 @@
             <JFXTextField fx:id="txtCompanyNameS" promptText="%companyName" labelFloat="true" GridPane.rowIndex="1"/>
             <Autocomplete fx:id="autCategoryS" promptText="%warehouseCategory" labelFloat="true" GridPane.rowIndex="1"
                           GridPane.columnIndex="1"/>
-            <MultiAutocomplete fx:id="mauTagListS" promptText="%warehouseTag" labelFloat="true" GridPane.rowIndex="2"
+            <MultiAutocomplete fx:id="mauTagListS" promptText="%description" labelFloat="true" GridPane.rowIndex="2"
                                GridPane.columnSpan="2"/>
             <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="10" GridPane.rowIndex="3"
                   GridPane.columnSpan="2">
@@ -137,28 +137,28 @@
             </CustomTableColumn>
 
             <CustomTableColumn sortable="false" text="%code" percentageWidth="15"
-                               percentageMinWidth="10">
+                               style="-fx-alignment: center" percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="code"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
             <CustomTableColumn text="%count" percentageWidth="9"
-                               percentageMinWidth="9">
+                               style="-fx-alignment: center" percentageMinWidth="9">
                 <cellValueFactory>
                     <PropertyValueFactory property="count"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
             <CustomTableColumn text="%companyName" percentageWidth="10"
-                               percentageMinWidth="10">
+                               style="-fx-alignment: center" percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="companyName"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
             <CustomTableColumn text="%warehouseCategory" percentageWidth="12"
-                               percentageMinWidth="10">
+                               style="-fx-alignment: center" percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="category"/>
                 </cellValueFactory>

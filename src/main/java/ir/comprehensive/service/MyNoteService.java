@@ -65,7 +65,7 @@ public class MyNoteService implements Swappable<MyNote> {
             predicateList.add(criteriaBuilder.equal(root.get("myNoteCategory").get("id"), myNoteCategoryId));
 
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
 
             if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
@@ -73,7 +73,7 @@ public class MyNoteService implements Swappable<MyNote> {
             }
 
             if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), StringUtils.makeAnyMatch(searchExample.getDescription())));
             }
 
             if (!searchExample.getPriority().equals(0.0)) {

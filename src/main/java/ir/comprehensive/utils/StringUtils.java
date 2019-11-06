@@ -5,6 +5,6 @@ public class StringUtils {
     }
 
     public static String makeAnyMatch(String value) {
-        return "%" + value + "%";
+        return "%" + value.toUpperCase() + "%";
     }
 }

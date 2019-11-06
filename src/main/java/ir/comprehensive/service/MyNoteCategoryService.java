@@ -45,10 +45,10 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
         Specification<MyNoteCategory> categorySpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("title"), StringUtils.makeAnyMatch(searchExample.getTitle())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
             if (searchExample.getDescription() != null && !searchExample.getDescription().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("description"), StringUtils.makeAnyMatch(searchExample.getDescription())));
+                predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), StringUtils.makeAnyMatch(searchExample.getDescription())));
             }
             if (searchExample.getStatus() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("status"), searchExample.getStatus()));
