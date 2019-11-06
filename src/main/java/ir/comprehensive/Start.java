@@ -1,5 +1,6 @@
 package ir.comprehensive;
 
+import com.jfoenix.controls.JFXProgressBar;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.animation.FadeTransition;
@@ -7,6 +8,7 @@ import javafx.animation.ParallelTransition;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,6 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
+import java.util.StringJoiner;
 
 import static ir.comprehensive.utils.MessageUtils.getMessageBundle;
 
@@ -46,15 +49,28 @@ public class Start extends Application {
     private Stage getWelcomeStage() {
         Stage stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
-        StackPane vBox = new StackPane();
-        vBox.setMaxHeight(10);
-        vBox.setMaxWidth(10);
-        Label t = new Label("Welcome page");
-        vBox.getChildren().addAll(t);
-        applyFontStyle(vBox);
-        t.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(100));
+        StackPane stackPane = new StackPane();
+        stackPane.setMaxHeight(10);
+        stackPane.setMaxWidth(10);
+        JFXProgressBar jfxProgressBar = new JFXProgressBar();
+        jfxProgressBar.setPrefWidth(ScreenUtils.getActualSize(780));
+        jfxProgressBar.setPrefHeight(ScreenUtils.getActualSize(6));
+        Label t = new Label(MessageUtils.Message.APP_TITLE);
 
-        Scene startScene = new Scene(vBox, 2000, 399);
+
+        VBox vBox = new VBox(t, jfxProgressBar);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(ScreenUtils.getActualSize(10));
+        stackPane.getChildren().addAll(vBox);
+        applyFontStyle(stackPane);
+        t.setStyle("-fx-font-family: 'shabnam';-fx-font-size: " + ScreenUtils.getActualSize(56));
+        StringJoiner vboxStyle = new StringJoiner(" ; ");
+        vboxStyle.add("-fx-background-color: #EFEBE9").add("-fx-background-radius: " + ScreenUtils.getActualSize(50) + " " + ScreenUtils.getActualSize(0))
+                .add("-fx-border-radius: " + ScreenUtils.getActualSize(45) + " " + ScreenUtils.getActualSize(0))
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(5))
+                .add("-fx-border-color: #9E9E9E");
+        stackPane.setStyle(vboxStyle.toString());
+        Scene startScene = new Scene(stackPane, ScreenUtils.getActualSize(1048), ScreenUtils.getActualSize(280));
         startScene.setFill(Color.TRANSPARENT);
 
         stage.setScene(startScene);
@@ -65,7 +81,7 @@ public class Start extends Application {
         ft.setToValue(1);
         ft.setAutoReverse(false);
 
-        ParallelTransition pt = new ParallelTransition(vBox, ft);
+        ParallelTransition pt = new ParallelTransition(stackPane, ft);
         pt.play();
         return stage;
     }

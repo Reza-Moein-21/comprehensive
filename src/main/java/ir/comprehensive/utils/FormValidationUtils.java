@@ -1,5 +1,6 @@
 package ir.comprehensive.utils;
 
+import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
@@ -18,6 +19,12 @@ public class FormValidationUtils {
         RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
         requiredFieldValidator.setMessage(fieldTitle + " " + MessageUtils.Message.REQUIRED);
         return requiredFieldValidator;
+    }
+
+    public static CountValidator getCountValidator(String fieldTitle) {
+        CountValidator countValidator = new CountValidator();
+        countValidator.setMessage(MessageUtils.Message.WRONG_COUNT.replace("{0}", fieldTitle));
+        return countValidator;
     }
 
     public static EmailFieldValidator getEmailFieldValidator() {
@@ -110,6 +117,26 @@ public class FormValidationUtils {
             if (srcControl.get() instanceof TextInputControl) {
                 TextInputControl textField = (TextInputControl) srcControl.get();
                 Matcher matcher = VALID_PHONE_NUMBER_REGEX.matcher(textField.getText() != null ? textField.getText() : "");
+                boolean isNotNull = textField.getText() != null && !textField.getText().isEmpty();
+                if (isNotNull) {
+                    hasErrors.set(!matcher.find());
+                } else {
+                    hasErrors.set(false);
+                }
+            }
+        }
+
+    }
+
+    private static class CountValidator extends ValidatorBase {
+        public static final Pattern VALID_COUNT_REGEX =
+                Pattern.compile("[0-9]+", Pattern.CASE_INSENSITIVE);
+
+        @Override
+        protected void eval() {
+            if (srcControl.get() instanceof TextInputControl) {
+                TextInputControl textField = (TextInputControl) srcControl.get();
+                Matcher matcher = VALID_COUNT_REGEX.matcher(textField.getText() != null ? textField.getText() : "");
                 boolean isNotNull = textField.getText() != null && !textField.getText().isEmpty();
                 if (isNotNull) {
                     hasErrors.set(!matcher.find());

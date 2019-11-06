@@ -13,11 +13,13 @@ import ir.comprehensive.controller.StartController;
 import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
+import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
-import ir.comprehensive.model.ProductModel;
+import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
+import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
@@ -55,8 +57,12 @@ public class StoreRoomController implements Initializable {
     private PersonService personService;
     @Autowired
     private StartController startController;
+    @FXML
+    public Autocomplete<WarehouseModel> autProductNameS;
+    @FXML
+    public Autocomplete<WarehouseModel> autProductNameC;
     @Autowired
-    private ProductDeliveryMapper mapper;
+    private WarehouseService warehouseService;
     @Autowired
     private PersonMapper personMapper;
 
@@ -96,8 +102,8 @@ public class StoreRoomController implements Initializable {
     public SimpleDatePicker sdpReceivedDateFromS;
     @FXML
     public SimpleDatePicker sdpReceivedDateToS;
-    @FXML
-    public JFXTextField txfProductNameS;
+    @Autowired
+    private WarehouseMapper warehouseMapper;
     @FXML
     public Autocomplete<PersonModel> autPersonS;
     @FXML
@@ -111,8 +117,8 @@ public class StoreRoomController implements Initializable {
     public SimpleDatePicker sdpDesiredDateC;
     @FXML
     public SimpleDatePicker sdpDeliveryDateC;
-    @FXML
-    public JFXTextField txfProductNameC;
+    @Autowired
+    private ProductDeliveryMapper mapper;
     @FXML
     public Autocomplete<PersonModel> autPersonC;
     @FXML
@@ -163,7 +169,7 @@ public class StoreRoomController implements Initializable {
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
         //init Table
-        colProductName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getProduct().getTitle()));
+        colProductName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getProduct().getCode() + " : " + param.getValue().getProduct().getTitle()));
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
 
@@ -218,13 +224,13 @@ public class StoreRoomController implements Initializable {
         btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
-        txfProductNameC.setPrefWidth(ScreenUtils.getActualSize(500));
+        autProductNameC.setPrefWidth(ScreenUtils.getActualSize(500));
         tblProductDelivery.setOnEdit(selectedItem -> {
             ProductDeliveryModel editModel = productDeliveryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             editModel.getPerson().getTitle();
             autPersonC.setValue(editModel.getPerson());
-            txfProductNameC.setText(editModel.getProduct().getTitle());
+            autProductNameC.setValue(editModel.getProduct());
             sdpDeliveryDateC.setValue(editModel.getDeliveryDate());
             sdpDesiredDateC.setValue(editModel.getDesiredDate());
             txfDescriptionC.setText(editModel.getDescription());
@@ -250,6 +256,7 @@ public class StoreRoomController implements Initializable {
         });
 
         autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
+        autProductNameC.setOnSearch(s -> warehouseService.findByName(s).map(warehouseList -> warehouseList.stream().map(warehouseMapper::entityToModel).collect(Collectors.toList())).get());
 
 
         autPersonC.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -257,19 +264,20 @@ public class StoreRoomController implements Initializable {
                 autPersonC.validate();
             }
         });
-        txfProductNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        autProductNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                txfProductNameC.validate();
+                autProductNameC.validate();
             }
         });
 
         autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
-        txfProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
+        autProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
         sdpDeliveryDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
         sdpReceivedDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
 
 
         autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
+        autProductNameS.setOnSearch(s -> warehouseService.findByName(s).map(warehouses -> warehouses.stream().map(warehouseMapper::entityToModel).collect(Collectors.toList())).get());
 
         sdpDeliveryDateC.setDialogContainer(startController.mainStack);
         sdpDesiredDateC.setDialogContainer(startController.mainStack);
@@ -305,14 +313,13 @@ public class StoreRoomController implements Initializable {
 
 
     public void search(ActionEvent actionEvent) {
-        searchModel.setProduct(new ProductModel(txfProductNameS.getText()));
-        tblProductDelivery.setItems(productDeliveryService.search(searchModel).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblProductDelivery.setItems(productDeliveryService.search(searchModel).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
     }
 
     public void showCreateDialog() {
         createModel.setId(null);
         autPersonC.setValue(null);
-        txfProductNameC.setText("");
+        autProductNameC.setValue(null);
         txfDescriptionC.setText("");
         sdpDeliveryDateC.setValue(null);
         sdpDesiredDateC.setValue(null);
@@ -327,7 +334,7 @@ public class StoreRoomController implements Initializable {
 
     private boolean validateBeforeSave() {
         boolean personValidate = autPersonC.validate();
-        boolean productNameValidate = txfProductNameC.validate();
+        boolean productNameValidate = autProductNameC.validate();
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
         boolean receivedDateValidate = true;
         if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
@@ -340,8 +347,6 @@ public class StoreRoomController implements Initializable {
         if (!validateBeforeSave()) {
             return;
         }
-        createModel.setProduct(new ProductModel(txfProductNameC.getText()));
-
         try {
             productDeliveryService.saveOrUpdate(mapper.modelToEntity(createModel));
             dlgCreate.close();
@@ -355,12 +360,12 @@ public class StoreRoomController implements Initializable {
 
     public void showAll(ActionEvent actionEvent) {
         autPersonS.setValue(null);
-        txfProductNameS.setText(null);
+        autProductNameS.setValue(null);
         sdpReceivedDateToS.setValue(null);
         sdpReceivedDateFromS.setValue(null);
         sdpDeliveryDateToS.setValue(null);
         sdpDeliveryDateFromS.setValue(null);
         cmbStatusS.setValue(null);
-        tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
     }
 }

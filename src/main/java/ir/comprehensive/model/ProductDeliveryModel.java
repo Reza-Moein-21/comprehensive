@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
-    private ObjectProperty<ProductModel> product = new SimpleObjectProperty();
+    private ObjectProperty<WarehouseModel> product = new SimpleObjectProperty();
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> deliveryDateFrom = new SimpleObjectProperty<>();
@@ -34,16 +34,16 @@ public class ProductDeliveryModel extends BaseModel {
         this.person.set(person);
     }
 
-    public final ProductModel getProduct() {
+    public WarehouseModel getProduct() {
         return product.get();
     }
 
-    public final ObjectProperty<ProductModel> productProperty() {
-        return product;
+    public void setProduct(WarehouseModel product) {
+        this.product.set(product);
     }
 
-    public final void setProduct(ProductModel product) {
-        this.product.set(product);
+    public ObjectProperty<WarehouseModel> productProperty() {
+        return product;
     }
 
     public final String getDescription() {

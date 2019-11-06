@@ -2,10 +2,9 @@
 
 
 <?import com.jfoenix.controls.*?>
-<?import ir.comprehensive.component.Autocomplete?>
+<?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.datepicker.*?>
-<?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.domain.*?>
 <?import ir.comprehensive.model.ProductDeliveryModel?>
 <?import javafx.collections.FXCollections?>
@@ -18,11 +17,12 @@
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <fx:define>
-        <ProductDeliveryModel fx:id="createModel" person="${autPersonC.value}" deliveryDate="${sdpDeliveryDateC.value}"
+        <ProductDeliveryModel fx:id="createModel" product="${autProductNameC.value}" person="${autPersonC.value}"
+                              deliveryDate="${sdpDeliveryDateC.value}"
                               desiredDate="${sdpDesiredDateC.value}" description="${txfDescriptionC.text}"
                               receivedDate="${sdpReceivedDateC.value}"
                               status="${cmbStatusC.value}"/>
-        <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}"
+        <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}" product="${autProductNameS.value}"
                               deliveryDateFrom="${sdpDeliveryDateFromS.value}"
                               deliveryDateTo="${sdpDeliveryDateToS.value}"
                               receivedDateFrom="${sdpReceivedDateFromS.value}"
@@ -43,7 +43,7 @@
                         <ColumnConstraints percentWidth="50"/>
                     </columnConstraints>
                     <Autocomplete fx:id="autPersonC" promptText="%person" labelFloat="true"/>
-                    <JFXTextField fx:id="txfProductNameC" promptText="%productName" labelFloat="true"
+                    <Autocomplete fx:id="autProductNameC" promptText="%productName" labelFloat="true"
                                   GridPane.columnIndex="1"/>
                 </GridPane>
                 <GridPane fx:id="grdDeliverDesiredDate" prefWidth="Infinity">
@@ -96,7 +96,7 @@
                 <RowConstraints percentHeight="25"/>
             </rowConstraints>
             <Autocomplete fx:id="autPersonS" promptText="%person" labelFloat="true"/>
-            <JFXTextField fx:id="txfProductNameS" promptText="%productName" labelFloat="true" GridPane.columnIndex="1"/>
+            <Autocomplete fx:id="autProductNameS" promptText="%productName" labelFloat="true" GridPane.columnIndex="1"/>
             <HBox spacing="10" GridPane.columnIndex="2">
                 <SimpleDatePicker fx:id="sdpDeliveryDateFromS" promptText="%deliveryDateFrom"/>
                 <SimpleDatePicker fx:id="sdpDeliveryDateToS" promptText="%deliveryDateTo"/>
@@ -139,15 +139,20 @@
         <columns>
             <CustomTableColumn fx:id="colProductName" text="%productName" percentageWidth="13" percentageMinWidth="9"/>
             <CustomTableColumn fx:id="colFullName" text="%fullName" percentageWidth="13" percentageMinWidth="9"/>
-            <CustomTableColumn resizable="false" text="%productStatus" percentageWidth="7" style="-fx-alignment: center">
+            <CustomTableColumn resizable="false" text="%productStatus" percentageWidth="7"
+                               style="-fx-alignment: center">
                 <cellValueFactory>
                     <PropertyValueFactory property="status"/>
                 </cellValueFactory>
             </CustomTableColumn>
-            <CustomTableColumn fx:id="colDeliveryDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%deliveryDate"/>
-            <CustomTableColumn fx:id="colDesiredDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%desiredDate"/>
-            <CustomTableColumn fx:id="colReceivedDate" resizable="false" percentageWidth="8"  style="-fx-alignment: center" text="%receivedDate"/>
-            <CustomTableColumn fx:id="colDescription" sortable="false" text="%description" percentageWidth="30.8" percentageMinWidth="18">
+            <CustomTableColumn fx:id="colDeliveryDate" resizable="false" percentageWidth="8"
+                               style="-fx-alignment: center" text="%deliveryDate"/>
+            <CustomTableColumn fx:id="colDesiredDate" resizable="false" percentageWidth="8"
+                               style="-fx-alignment: center" text="%desiredDate"/>
+            <CustomTableColumn fx:id="colReceivedDate" resizable="false" percentageWidth="8"
+                               style="-fx-alignment: center" text="%receivedDate"/>
+            <CustomTableColumn fx:id="colDescription" sortable="false" text="%description" percentageWidth="30.8"
+                               percentageMinWidth="18">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>

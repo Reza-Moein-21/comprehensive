@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.MultiAutocomplete;
 import ir.comprehensive.component.YesNoDialog;
+import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
@@ -18,9 +19,11 @@ import ir.comprehensive.service.WarehouseCategoryService;
 import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.service.WarehouseTagService;
 import ir.comprehensive.service.extra.GeneralException;
+import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -44,9 +48,9 @@ public class WarehouseController implements Initializable {
     @Autowired
     private WarehouseService warehouseService;
     @FXML
-    public JFXTextField txfTitleS;
+    public com.jfoenix.controls.JFXTextField txfTitleS;
     @FXML
-    public JFXTextField txtCodeS;
+    public com.jfoenix.controls.JFXTextField txtCodeS;
     @FXML
     public MultiAutocomplete<WarehouseTagModel> mauTagListS;
     @Autowired
@@ -56,7 +60,18 @@ public class WarehouseController implements Initializable {
     @Autowired
     private WarehouseTagService warehouseTagService;
 
+    public CustomTableColumn<WarehouseModel, String> colTag;
 
+    @FXML
+    public com.jfoenix.controls.JFXTextField txtCountD;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txfTitleD;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txtCompanyNameD;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txtTagListD;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txtCodeD;
     @FXML
     public GridPane grdMainCreate;
     @FXML
@@ -80,19 +95,27 @@ public class WarehouseController implements Initializable {
     @FXML
     public VBox parent;
     @FXML
-    public JFXTextField txtCompanyNameS;
+    public com.jfoenix.controls.JFXTextField txtCompanyNameS;
     @FXML
     public Autocomplete<WarehouseCategoryModel> autCategoryS;
     @FXML
-    public JFXTextField txfTitleC;
+    public VBox vbxDisplayContent;
+    @FXML
+    public HBox hbxDisplayHeader;
+    @FXML
+    public JFXDialog dlgDisplay;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txfTitleC;
     @FXML
     public Autocomplete<WarehouseCategoryModel> autCategoryC;
     @FXML
     public MultiAutocomplete<WarehouseTagModel> mauTagListC;
     @FXML
-    public JFXTextField txtCodeC;
+    public com.jfoenix.controls.JFXTextField txtCodeC;
     @FXML
-    public JFXTextField txtCompanyNameC;
+    public GridPane grdDisplayMain;
+    @FXML
+    public com.jfoenix.controls.JFXTextField txtCompanyNameC;
     @FXML
     public JFXTextField txtCountC;
     @Autowired
@@ -100,11 +123,13 @@ public class WarehouseController implements Initializable {
     @Autowired
     private WarehouseCategoryMapper warehouseCategoryMapper;
     @FXML
-    public JFXTextField txfDescriptionC;
+    public com.jfoenix.controls.JFXTextField txfDescriptionC;
     @FXML
     public YesNoDialog dlgDelete;
     @FXML
     public JFXDialog dlgCreate;
+    @FXML
+    public HBox hbxDisplayFooter;
     @FXML
     public DataTable<WarehouseModel> tblWarehouse;
 
@@ -128,8 +153,12 @@ public class WarehouseController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        dlgDisplay.setDialogContainer(startController.mainStack);
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
+        applyFontStyle(dlgDisplay);
+
+        colTag.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining())));
 
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
@@ -137,8 +166,17 @@ public class WarehouseController implements Initializable {
         mauTagListS.setOnSearch(s -> warehouseTagService.findByTitle(s).map(warehouseTags -> warehouseTags.stream().map(tagMapper::entityToModel).collect(Collectors.toList())).get());
 
         grdMainCreate.setHgap(ScreenUtils.getActualSize(50));
-        grdMainCreate.setVgap(ScreenUtils.getActualSize(50));
+        grdMainCreate.setVgap(ScreenUtils.getActualSize(100));
+        //
+        vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
+        //
+        hbxDisplayHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
 
+        grdDisplayMain.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdDisplayMain.setHgap(ScreenUtils.getActualSize(10));
+        grdDisplayMain.setVgap(ScreenUtils.getActualSize(100));
+        hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
         //
         vbxCreateContent.setSpacing(ScreenUtils.getActualSize(50));
         vbxCreateContent.setPrefWidth(ScreenUtils.getActualSize(1600));
@@ -163,6 +201,7 @@ public class WarehouseController implements Initializable {
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
         autCategoryC.setOnSearch(s -> warehouseCategoryService.findByTitle(s).map(warehouseCategories -> warehouseCategories.stream().map(warehouseCategoryMapper::entityToModel).collect(Collectors.toList())).get());
+        autCategoryS.setOnSearch(s -> warehouseCategoryService.findByTitle(s).map(warehouseCategories -> warehouseCategories.stream().map(warehouseCategoryMapper::entityToModel).collect(Collectors.toList())).get());
 
         tblWarehouse.setOnEdit(selectedItem -> {
             WarehouseModel editModel = warehouseService.load(selectedItem.getId()).map(mapper::entityToModel).get();
@@ -192,12 +231,25 @@ public class WarehouseController implements Initializable {
             });
         });
 
+        tblWarehouse.setOnVisit(selectedItem -> {
+            txfTitleD.setText(selectedItem.getTitle());
+            txtCodeD.setText(selectedItem.getCode());
+            txtCountD.setText(String.valueOf(selectedItem.getCount()));
+            txtCompanyNameD.setText(selectedItem.getCompanyName());
+            txtTagListD.setText(selectedItem.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
+            dlgDisplay.show();
+        });
+        txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
+        txtCodeC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.CODE));
+        txtCountC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT));
+        txtCountC.getValidators().add(FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT));
+
         fillDataTable();
     }
 
 
     public void search() {
-        tblWarehouse.setItems(warehouseService.search(searchModel).map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblWarehouse.setItems(warehouseService.search(searchModel).map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
     }
 
     public void showCreateDialog() {
@@ -217,8 +269,15 @@ public class WarehouseController implements Initializable {
         dlgCreate.close();
     }
 
+    public void closeDisplayDialog(ActionEvent actionEvent) {
+        dlgDisplay.close();
+    }
+
     private boolean validateBeforeSave() {
-        return true;
+        boolean titleValidate = txfTitleC.validate();
+        boolean codeValidate = txtCodeC.validate();
+        boolean countValidate = txtCountC.validate();
+        return titleValidate && codeValidate && countValidate;
     }
 
     public void save() {
@@ -226,6 +285,17 @@ public class WarehouseController implements Initializable {
             return;
         }
         try {
+            List<WarehouseTagModel> collect = createModel.getTagList().stream().map(warehouseTag -> {
+                WarehouseTagModel myTag = new WarehouseTagModel();
+                if (warehouseTag.getId() != null && warehouseTag.getId() > 0) {
+                    myTag.setId(warehouseTag.getId());
+                }
+                myTag.setTitle(warehouseTag.getTitle());
+                return myTag;
+            }).collect(Collectors.toList());
+
+            createModel.getTagList().clear();
+            createModel.getTagList().addAll(collect);
             warehouseService.saveOrUpdate(mapper.modelToEntity(createModel));
             dlgCreate.close();
             fillDataTable();
@@ -242,6 +312,6 @@ public class WarehouseController implements Initializable {
         mauTagListS.setValueList(null);
         txtCodeS.setText(null);
         txtCompanyNameS.setText(null);
-        tblWarehouse.setItems(warehouseService.loadAll().map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblWarehouse.setItems(warehouseService.loadAll().map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
     }
 }

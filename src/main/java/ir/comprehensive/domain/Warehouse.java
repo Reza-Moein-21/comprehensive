@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,15 +31,15 @@ public class Warehouse {
     @Column(name = "DESCRIPTION")
     String description;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "WAREHOUSE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_WHOUSE_WHOUSE_CAT"))
     WarehouseCategory category;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "WAREHOUSE_TAG_JOIN_TABLE",
+    @JoinTable(name = "WAREHOUSE_WAREHOUSE_TAG",
             joinColumns = @JoinColumn(name = "WAREHOUSE_ID", foreignKey = @ForeignKey(name = "FK_W_TAG")),
             inverseJoinColumns = @JoinColumn(name = "TAG_ID", foreignKey = @ForeignKey(name = "FK_TAG_W")))
-    List<WarehouseTag> tagList;
+    List<WarehouseTag> tagList = new ArrayList<>();
 
 
 }

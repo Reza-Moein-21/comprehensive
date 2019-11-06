@@ -27,6 +27,7 @@ public class MessageUtils {
         public static final String RECEIVED = getMessage("received");
         public static final String REJECTED = getMessage("rejected");
         public static final String STOREROOM = getMessage("storeroom");
+        public static final String IN_OUT_CONTROL = getMessage("inOutControl");
         public static final String PROJECT = getMessage("project");
         public static final String SEARCH_AND_CREATE = getMessage("searchAndCreate");
         public static final String CREATE = getMessage("create");
@@ -53,6 +54,7 @@ public class MessageUtils {
         public static final String ADVANCE_SEARCH = getMessage("advanceSearch");
         public static final String SAVE = getMessage("save");
         public static final String REQUIRED = getMessage("required");
+        public static final String WRONG_COUNT = getMessage("wrongCount");
         public static final String CREATE_PRODUCT = getMessage("createProduct");
         public static final String CREATE_PERSON = getMessage("createPerson");
         public static final String CREATE_CATEGORY = getMessage("createCategory");

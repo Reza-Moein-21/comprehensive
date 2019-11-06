@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery, Long>, JpaSpecificationExecutor<ProductDelivery> {
     @Query("select case when count(pd) > 0 then true else false end from ProductDelivery pd  where pd.person.id = ?1")
     Boolean isPersonExist(Long personId);
+
+    @Query("select case when count(pd) > 0 then true else false end from ProductDelivery pd  where pd.product.id = ?1")
+    boolean isWarehouseExist(Long productId);
 }

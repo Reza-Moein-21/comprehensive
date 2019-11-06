@@ -9,13 +9,13 @@
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
     <FlowPane fx:id="masonry">
-        <Card fx:id="crdStoreRoom" styleClass="warehouse-card" title="%warehouse"
+        <Card fx:id="crdStoreRoom" styleClass="warehouse-card" title="%storeroom"
               onClick="#goToWarehouse">
             <icon>
                 <Image url="@../../image/warehouse.png"/>
             </icon>
         </Card>
-        <Card fx:id="crdWarehouse" styleClass="storeroom-card" title="%storeroom"
+        <Card fx:id="crdWarehouse" styleClass="storeroom-card" title="%inOutControl"
               onClick="#goToStoreroom">
             <icon>
                 <Image url="@../../image/storeroom.png"/>

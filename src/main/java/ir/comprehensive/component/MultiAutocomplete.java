@@ -2,6 +2,7 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.model.WarehouseTagModel;
 import ir.comprehensive.model.basemodel.BaseModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -83,12 +85,12 @@ public class MultiAutocomplete<T extends BaseModel> extends VBox {
 
         this.setOnKeyPressed(event -> {
             if (KeyCode.ENTER.equals(event.getCode())) {
-                if (isNullOrEmpty(suggestedModels)) {
-                    this.textField.setText("");
-                } else {
-                    setFirstResultToValue();
-                }
-
+                // TODO must fix this shite. Must use  Option model.
+                WarehouseTagModel model = new WarehouseTagModel();
+                model.setId(-new Date().getTime());
+                model.setTitle(this.textField.getText());
+                setToValueListIfNotExist((T) model);
+                this.textField.setText("");
                 this.closePopup();
             }
         });
@@ -104,7 +106,7 @@ public class MultiAutocomplete<T extends BaseModel> extends VBox {
     }
 
     private void setToValueListIfNotExist(T model) {
-        if (this.valueList.stream().noneMatch(m -> m.test(model))) {
+        if (this.valueList.stream().noneMatch(m -> m.getTitle() != null && model.getTitle() != null && m.getTitle().equals(model.getTitle()))) {
             this.valueList.add(model);
         }
     }

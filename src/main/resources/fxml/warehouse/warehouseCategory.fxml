@@ -40,6 +40,29 @@
 
         </VBox>
     </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%showCategory"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfTitleD" editable="false" labelFloat="true" promptText="%title"/>
+
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <TitledPane text="%search" expanded="false">
         <GridPane fx:id="grdSearchContent">

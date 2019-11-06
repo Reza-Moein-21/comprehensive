@@ -14,11 +14,13 @@
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <fx:define>
-        <WarehouseModel fx:id="createModel" title="${txfTitleC.text}" code="${txtCodeC.text}" companyName="${txtCompanyNameC.text}"
+        <WarehouseModel fx:id="createModel" title="${txfTitleC.text}" code="${txtCodeC.text}"
+                        companyName="${txtCompanyNameC.text}"
                         count="${txtCountC.text}" description="${txfDescriptionC.text}"
                         category="${autCategoryC.value}" tagList="${mauTagListC.valueList}"/>
 
-        <WarehouseModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}" companyName="${txtCompanyNameS.text}"
+        <WarehouseModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}"
+                        companyName="${txtCompanyNameS.text}"
                         count="${txtCountS.text}" description="${txfDescriptionS.text}"
                         category="${autCategoryS.value}" tagList="${mauTagListS.valueList}"/>
     </fx:define>
@@ -59,6 +61,37 @@
             </HBox>
         </VBox>
     </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%showWarehouse"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfTitleD" editable="false" promptText="%title" labelFloat="true"/>
+                <JFXTextField fx:id="txtCodeD" editable="false" promptText="%code" labelFloat="true"
+                              GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txtCountD" editable="false" promptText="%count" labelFloat="true"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txtCompanyNameD" editable="false" promptText="%companyName" labelFloat="true"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txtTagListD" editable="false" promptText="%warehouseTag" labelFloat="true"
+                              GridPane.columnSpan="2" GridPane.rowIndex="2"/>
+
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <TitledPane expanded="false" text="%search">
         <GridPane fx:id="grdSearchContent">
@@ -94,42 +127,46 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblWarehouse" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblWarehouse" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
-            <CustomTableColumn resizable="false" text="%productName" percentageWidth="7"
+            <CustomTableColumn resizable="false" text="%productName" percentageWidth="16"
                                style="-fx-alignment: center">
                 <cellValueFactory>
                     <PropertyValueFactory property="title"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn sortable="false" text="%code" percentageWidth="30.8"
-                               percentageMinWidth="18">
+            <CustomTableColumn sortable="false" text="%code" percentageWidth="15"
+                               percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="code"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-                 <CustomTableColumn  text="%companyName" percentageWidth="30.8"
-                               percentageMinWidth="18">
+            <CustomTableColumn text="%count" percentageWidth="9"
+                               percentageMinWidth="9">
+                <cellValueFactory>
+                    <PropertyValueFactory property="count"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%companyName" percentageWidth="10"
+                               percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="companyName"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn  text="%warehouseCategory" percentageWidth="30.8"
-                               percentageMinWidth="18">
+            <CustomTableColumn text="%warehouseCategory" percentageWidth="12"
+                               percentageMinWidth="10">
                 <cellValueFactory>
                     <PropertyValueFactory property="category"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn  text="%count" percentageWidth="30.8"
-                               percentageMinWidth="18">
-                <cellValueFactory>
-                    <PropertyValueFactory property="count"/>
-                </cellValueFactory>
-            </CustomTableColumn>
+            <CustomTableColumn fx:id="colTag" text="%description" percentageWidth="21.7"
+                               percentageMinWidth="10"/>
+
 
         </columns>
     </DataTable>

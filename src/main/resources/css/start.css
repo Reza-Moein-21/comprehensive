@@ -197,6 +197,17 @@
     -fx-border-color: #6f5d41;
 }
 
+.warehouse-manage {
+}
+
+.warehouse-manage .bodyStyleClass {
+    -fx-background-color: #C5E1A5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-width: 0.5;
+    -fx-border-color: #33691E;
+}
+
 .project-card {
 }
 

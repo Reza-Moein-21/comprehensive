@@ -7,9 +7,9 @@ import java.net.URL;
 public enum ViewName {
     START("fxml/start.fxml", MessageUtils.Message.START_PAGE),
     HOME("fxml/home.fxml", MessageUtils.Message.HOME),
-    STORE_ROOM("fxml/warehouse/storeRoom.fxml", MessageUtils.Message.STOREROOM),
+    STORE_ROOM("fxml/warehouse/storeRoom.fxml", MessageUtils.Message.IN_OUT_CONTROL),
     WAREHOUSE_HOME("fxml/warehouse/warehouseHome.fxml", MessageUtils.Message.WAREHOUSE),
-    WAREHOUSE("fxml/warehouse/warehouseBase.fxml", MessageUtils.Message.WAREHOUSE),
+    WAREHOUSE("fxml/warehouse/warehouseBase.fxml", MessageUtils.Message.STOREROOM),
     WAREHOUSE_CATEGORY("fxml/warehouse/warehouseCategory.fxml", MessageUtils.Message.WAREHOUSE_CATEGORY),
     HUMAN_RESOURCE("fxml/humanresource/humanResource.fxml", MessageUtils.Message.HUMAN_RESOURCE),
     MY_NOTEBOOK("fxml/myNote.fxml", MessageUtils.Message.MY_NOTE),

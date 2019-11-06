@@ -7,7 +7,6 @@ import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
-import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -52,8 +51,8 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
             if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("person").get("id"), searchExample.getPerson().getId()));
             }
-            if (searchExample.getProduct() != null && searchExample.getProduct().getTitle() != null && !searchExample.getProduct().getTitle().isEmpty()) {
-                predicateList.add(criteriaBuilder.like(root.get("product").get("title"), StringUtils.makeAnyMatch(searchExample.getProduct().getTitle())));
+            if (searchExample.getProduct() != null && searchExample.getProduct().getId() != null) {
+                predicateList.add(criteriaBuilder.equal(root.get("product").get("id"), searchExample.getProduct().getId()));
             }
             if (searchExample.getDeliveryDateFrom() != null) {
                 predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("deliveryDate"), searchExample.getDeliveryDateFrom()));
