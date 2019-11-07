@@ -55,6 +55,7 @@ public class MessageUtils {
         public static final String SAVE = getMessage("save");
         public static final String REQUIRED = getMessage("required");
         public static final String WRONG_COUNT = getMessage("wrongCount");
+        public static final String MAX_COUNT_VIOLATED = getMessage("maxCountViolated");
         public static final String CREATE_PRODUCT = getMessage("createProduct");
         public static final String CREATE_PERSON = getMessage("createPerson");
         public static final String CREATE_CATEGORY = getMessage("createCategory");

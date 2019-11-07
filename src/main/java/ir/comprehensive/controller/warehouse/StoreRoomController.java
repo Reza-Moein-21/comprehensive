@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -66,6 +67,8 @@ public class StoreRoomController implements Initializable {
     @Autowired
     private PersonMapper personMapper;
 
+    @FXML
+    public JFXTextField txfCountC;
 
     @FXML
     public GridPane grdPersonProduct;
@@ -274,7 +277,7 @@ public class StoreRoomController implements Initializable {
         autProductNameC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PRODUCT_NAME));
         sdpDeliveryDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
         sdpReceivedDateC.setValidators(Arrays.asList(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.DELIVERY_DATE), FormValidationUtils.getMaxDateValidator(MessageUtils.Message.DELIVERY_DATE, LocalDate.now(), MessageUtils.Message.TODAY_DATE)));
-
+        txfCountC.setValidators(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT), FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT), FormValidationUtils.getMaxNumberValidator(createModel.getProduct() != null ? createModel.getProduct().getCount() : null));
 
         autPersonS.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
         autProductNameS.setOnSearch(s -> warehouseService.findByName(s).map(warehouses -> warehouses.stream().map(warehouseMapper::entityToModel).collect(Collectors.toList())).get());
@@ -287,6 +290,11 @@ public class StoreRoomController implements Initializable {
         sdpReceivedDateFromS.setDialogContainer(startController.mainStack);
         sdpReceivedDateToS.setDialogContainer(startController.mainStack);
 
+        createModel.productProperty().addListener((observable, oldValue, newValue) -> {
+
+            txfCountC.setValidators(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT), FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT), FormValidationUtils.getMaxNumberValidator(newValue != null ? newValue.getCount() : null));
+
+        });
         cmbStatusS.valueProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue != null && newValue.equals(ProductStatus.RECEIVED)) {
                         receivedDateFromToHBox.setVisible(true);
@@ -323,6 +331,7 @@ public class StoreRoomController implements Initializable {
         txfDescriptionC.setText("");
         sdpDeliveryDateC.setValue(null);
         sdpDesiredDateC.setValue(null);
+        txfCountC.setText("");
         cmbStatusC.setValue(ProductStatus.UNKNOWN);
         cmbStatusC.setDisable(true);
         dlgCreate.show();
@@ -336,11 +345,12 @@ public class StoreRoomController implements Initializable {
         boolean personValidate = autPersonC.validate();
         boolean productNameValidate = autProductNameC.validate();
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
+        boolean countValidate = txfCountC.validate();
         boolean receivedDateValidate = true;
         if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
             receivedDateValidate = sdpReceivedDateC.validate();
         }
-        return personValidate && productNameValidate && deliveryDateValidate && receivedDateValidate;
+        return personValidate && productNameValidate && deliveryDateValidate && countValidate && receivedDateValidate;
     }
 
     public void save() {
@@ -348,6 +358,7 @@ public class StoreRoomController implements Initializable {
             return;
         }
         try {
+
             productDeliveryService.saveOrUpdate(mapper.modelToEntity(createModel));
             dlgCreate.close();
             fillDataTable();

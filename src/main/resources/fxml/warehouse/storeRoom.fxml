@@ -21,6 +21,7 @@
                               deliveryDate="${sdpDeliveryDateC.value}"
                               desiredDate="${sdpDesiredDateC.value}" description="${txfDescriptionC.text}"
                               receivedDate="${sdpReceivedDateC.value}"
+                              count="${txfCountC.text}"
                               status="${cmbStatusC.value}"/>
         <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}" product="${autProductNameS.value}"
                               deliveryDateFrom="${sdpDeliveryDateFromS.value}"
@@ -48,11 +49,13 @@
                 </GridPane>
                 <GridPane fx:id="grdDeliverDesiredDate" prefWidth="Infinity">
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="50"/>
-                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
                     </columnConstraints>
-                    <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate"/>
-                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate" GridPane.columnIndex="1"/>
+                    <JFXTextField fx:id="txfCountC" labelFloat="true" promptText="%count"/>
+                    <SimpleDatePicker fx:id="sdpDeliveryDateC" promptText="%deliveryDate" GridPane.columnIndex="1"/>
+                    <SimpleDatePicker fx:id="sdpDesiredDateC" promptText="%desiredDate" GridPane.columnIndex="2"/>
 
                 </GridPane>
                 <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"/>

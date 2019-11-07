@@ -26,6 +26,9 @@ public class ProductDelivery implements Serializable {
     @Column(name = "DESCRIPTION")
     String description;
 
+    @Column(name = "COUNT")
+    String count;
+
     @Column(name = "DELIVERY_DATE", nullable = false)
     LocalDate deliveryDate;
 

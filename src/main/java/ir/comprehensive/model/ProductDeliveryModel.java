@@ -2,10 +2,7 @@ package ir.comprehensive.model;
 
 import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.model.basemodel.BaseModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
@@ -13,6 +10,7 @@ public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
     private ObjectProperty<WarehouseModel> product = new SimpleObjectProperty();
     private StringProperty description = new SimpleStringProperty();
+    private LongProperty count = new SimpleLongProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> deliveryDateFrom = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> deliveryDateTo = new SimpleObjectProperty<>();
@@ -56,6 +54,18 @@ public class ProductDeliveryModel extends BaseModel {
 
     public final void setDescription(String description) {
         this.description.set(description);
+    }
+
+    public Long getCount() {
+        return count.get();
+    }
+
+    public void setCount(Long count) {
+        this.count.set(count);
+    }
+
+    public LongProperty countProperty() {
+        return count;
     }
 
     public final LocalDate getDeliveryDate() {

@@ -1,6 +1,5 @@
 package ir.comprehensive.utils;
 
-import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
@@ -25,6 +24,12 @@ public class FormValidationUtils {
         CountValidator countValidator = new CountValidator();
         countValidator.setMessage(MessageUtils.Message.WRONG_COUNT.replace("{0}", fieldTitle));
         return countValidator;
+    }
+
+    public static MaxNumberValidator getMaxNumberValidator(Long maxValue) {
+        MaxNumberValidator maxNumberValidator = new MaxNumberValidator(maxValue);
+        maxNumberValidator.setMessage(MessageUtils.Message.MAX_COUNT_VIOLATED);
+        return maxNumberValidator;
     }
 
     public static EmailFieldValidator getEmailFieldValidator() {
@@ -105,6 +110,38 @@ public class FormValidationUtils {
                     hasErrors.set(false);
                 }
             }
+        }
+    }
+
+    private static class MaxNumberValidator extends ValidatorBase {
+        public static final Pattern VALID_NUMBER_REGEX =
+                Pattern.compile("[0-9]+", Pattern.CASE_INSENSITIVE);
+        private Long maxValue;
+
+        public MaxNumberValidator(Long maxValue) {
+            this.maxValue = maxValue;
+        }
+
+        @Override
+        protected void eval() {
+            if (srcControl.get() instanceof TextInputControl) {
+                TextInputControl textField = (TextInputControl) srcControl.get();
+                boolean isNotNull = textField.getText() != null && !textField.getText().isEmpty();
+                if (isNotNull) {
+                    Matcher matcher = VALID_NUMBER_REGEX.matcher(textField.getText());
+                    hasErrors.set(matcher.find() && maxValue != null && (Long.parseLong(textField.getText())) > maxValue);
+                } else {
+                    hasErrors.set(false);
+                }
+            }
+        }
+
+        public Long getMaxValue() {
+            return maxValue;
+        }
+
+        public void setMaxValue(Long maxValue) {
+            this.maxValue = maxValue;
         }
     }
 
