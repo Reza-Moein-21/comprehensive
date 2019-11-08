@@ -138,4 +138,18 @@ public class WarehouseService implements Swappable<Warehouse> {
 
         return Optional.of(id);
     }
+
+    public void reduceCount(Long id, Long count) {
+        Warehouse warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
+        Long currentCount = warehouse.getCount();
+        warehouse.setCount(currentCount - count);
+        repository.save(warehouse);
+    }
+
+    public void increaseCount(Long id, Long count) {
+        Warehouse warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
+        Long currentCount = warehouse.getCount();
+        warehouse.setCount(currentCount + count);
+        repository.save(warehouse);
+    }
 }

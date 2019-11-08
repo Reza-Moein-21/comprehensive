@@ -21,10 +21,11 @@ import java.util.Optional;
 @Transactional
 public class ProductDeliveryService implements Swappable<ProductDelivery> {
     private ProductDeliveryRepository repository;
+    private WarehouseService warehouseService;
 
-
-    public ProductDeliveryService(ProductDeliveryRepository repository) {
+    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService) {
         this.repository = repository;
+        this.warehouseService = warehouseService;
     }
 
     public Optional<ProductDelivery> load(Long id) throws GeneralException {
@@ -91,6 +92,10 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
         productDelivery.setId(null);
         productDelivery.setStatus(ProductStatus.UNKNOWN);
         productDelivery.setReceivedDate(null);
+
+        // reduce count of warehouse
+        warehouseService.reduceCount(productDelivery.getProduct().getId(), productDelivery.getCount());
+
         return Optional.of(repository.save(productDelivery));
     }
 
@@ -106,8 +111,64 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
         // TODO must fix message
         ProductDelivery loadedProductDelivery = repository.findById(productDelivery.getId()).orElseThrow(() -> new GeneralException("not found"));
 
-        return Optional.of(repository.save(swap(productDelivery, loadedProductDelivery)));
+        ProductStatus currentStatus = loadedProductDelivery.getStatus();
+        ProductStatus newStatus = productDelivery.getStatus();
 
+        Long currentProductId = loadedProductDelivery.getProduct().getId();
+        Long newProductId = productDelivery.getProduct().getId();
+
+        Long currentCount = loadedProductDelivery.getCount();
+        Long newCount = productDelivery.getCount();
+
+
+        Optional<ProductDelivery> save = Optional.of(repository.save(swap(productDelivery, loadedProductDelivery)));
+
+
+        if (currentStatus.equals(ProductStatus.UNKNOWN) && newStatus.equals(ProductStatus.UNKNOWN)) {
+            state1(currentProductId, newProductId, currentCount, newCount);
+        } else if (currentStatus.equals(ProductStatus.UNKNOWN) && newStatus.equals(ProductStatus.RECEIVED)) {
+            warehouseService.increaseCount(newProductId, currentCount);
+        } else if (currentStatus.equals(ProductStatus.RECEIVED) && newStatus.equals(ProductStatus.RECEIVED)) {
+            // nothing
+        } else if (currentStatus.equals(ProductStatus.RECEIVED) && newStatus.equals(ProductStatus.UNKNOWN)) {
+            warehouseService.reduceCount(currentProductId, currentCount);
+            state1(currentProductId, newProductId, currentCount, newCount);
+        } else if (currentStatus.equals(ProductStatus.UNKNOWN) && lostOrRejected(newStatus)) {
+            // nothing
+        } else if (lostOrRejected(currentStatus) && lostOrRejected(newStatus)) {
+            // nothing
+        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatus.UNKNOWN)) {
+            state1(currentProductId, newProductId, currentCount, newCount);
+        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatus.RECEIVED)) {
+            warehouseService.increaseCount(currentProductId, currentCount);
+        } else if (currentStatus.equals(ProductStatus.RECEIVED) && lostOrRejected(newStatus)) {
+            warehouseService.reduceCount(currentProductId, currentCount);
+        }
+
+        return save;
+    }
+
+    private void state1(Long currentProductId, Long newProductId, Long currentCount, Long newCount) {
+        // when product change, increase count of current product and reduce new product count
+        if (!currentProductId.equals(newProductId)) {
+            warehouseService.increaseCount(currentProductId, currentCount);
+            warehouseService.reduceCount(newProductId, currentCount);
+        }
+        // update new product count by resolution of productDelivery current count and new count
+        warehouseService.increaseCount(newProductId, currentCount - newCount);
+    }
+
+    private boolean lostOrRejected(ProductStatus newStatus) {
+        return newStatus.equals(ProductStatus.REJECTED) || newStatus.equals(ProductStatus.LOST);
+    }
+
+
+    private boolean inSameStatus(ProductStatus currentStatus, ProductStatus newStatus) {
+        return newStatus.equals(currentStatus);
+    }
+
+    private boolean isStatusChange(ProductStatus currentStatus, ProductStatus newStatus) {
+        return !newStatus.equals(currentStatus);
     }
 
     public Optional<ProductDelivery> saveOrUpdate(ProductDelivery productDelivery) throws GeneralException {

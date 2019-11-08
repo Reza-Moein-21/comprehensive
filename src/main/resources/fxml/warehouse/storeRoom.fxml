@@ -85,6 +85,47 @@
             </HBox>
         </VBox>
     </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%show"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfProductNameD" editable="false" promptText="%productName" labelFloat="true"/>
+                <JFXTextField fx:id="txfFullNameD" editable="false" promptText="%fullName" labelFloat="true"
+                              GridPane.columnIndex="1"/>
+                <JFXTextField fx:id="txfStatusD" editable="false" promptText="%productStatus" labelFloat="true"
+                              GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txfCountD" editable="false" promptText="%count" labelFloat="true"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="1"/>
+
+                <JFXTextField fx:id="txfDeliveryDateD" editable="false" promptText="%deliveryDate" labelFloat="true"
+                              GridPane.rowIndex="2"/>
+                <JFXTextField fx:id="txfDesiredDateD" editable="false" promptText="%desiredDate" labelFloat="true"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="2"/>
+                <JFXTextField fx:id="txfReceivedDateD" editable="false" promptText="%receivedDate" labelFloat="true"
+                              GridPane.columnIndex="0"
+                              GridPane.rowIndex="3"/>
+                <JFXTextField fx:id="txfDescriptionD" editable="false" promptText="%description" labelFloat="true"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="3"/>
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
     <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
     <TitledPane expanded="false" text="%search">
         <GridPane fx:id="grdSearchContent">
@@ -115,7 +156,7 @@
                     </FXCollections>
                 </items>
             </JFXComboBox>
-            <HBox fx:id="receivedDateFromToHBox" visible="false" GridPane.columnIndex="1"
+            <HBox fx:id="receivedDateFromToHBox" visible="false" GridPane.columnIndex="2"
                   GridPane.rowIndex="1">
                 <SimpleDatePicker fx:id="sdpReceivedDateFromS" promptText="%receivedDateFrom"/>
                 <SimpleDatePicker fx:id="sdpReceivedDateToS" promptText="%receivedDateTo"/>
@@ -138,7 +179,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS">
+    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS" showVisit="true">
         <columns>
             <CustomTableColumn fx:id="colProductName" text="%productName" percentageWidth="13" percentageMinWidth="9"/>
             <CustomTableColumn fx:id="colFullName" text="%fullName" percentageWidth="13" percentageMinWidth="9"/>
@@ -146,6 +187,12 @@
                                style="-fx-alignment: center">
                 <cellValueFactory>
                     <PropertyValueFactory property="status"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn resizable="false" text="%count" percentageWidth="7"
+                               style="-fx-alignment: center">
+                <cellValueFactory>
+                    <PropertyValueFactory property="count"/>
                 </cellValueFactory>
             </CustomTableColumn>
             <CustomTableColumn fx:id="colDeliveryDate" resizable="false" percentageWidth="8"

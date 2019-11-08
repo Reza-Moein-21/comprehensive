@@ -63,6 +63,8 @@ public class WarehouseController implements Initializable {
     public CustomTableColumn<WarehouseModel, String> colTag;
 
     @FXML
+    public JFXTextField txfDescriptionD;
+    @FXML
     public com.jfoenix.controls.JFXTextField txtCountD;
     @FXML
     public com.jfoenix.controls.JFXTextField txfTitleD;
@@ -237,6 +239,7 @@ public class WarehouseController implements Initializable {
             txtCountD.setText(String.valueOf(selectedItem.getCount()));
             txtCompanyNameD.setText(selectedItem.getCompanyName());
             txtTagListD.setText(selectedItem.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
+            txfDescriptionD.setText(selectedItem.getDescription());
             dlgDisplay.show();
         });
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));

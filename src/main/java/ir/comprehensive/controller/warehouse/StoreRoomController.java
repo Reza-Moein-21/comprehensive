@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
@@ -52,6 +51,19 @@ import java.util.stream.Collectors;
 public class StoreRoomController implements Initializable {
 
 
+    private static Long currentCount;
+    private static WarehouseModel currentProduct;
+    public JFXDialog dlgDisplay;
+    public VBox vbxDisplayContent;
+    public HBox hbxDisplayHeader;
+    public GridPane grdDisplayMain;
+    public JFXTextField txfProductNameD;
+    public JFXTextField txfFullNameD;
+    public JFXTextField txfStatusD;
+    public JFXTextField txfCountD;
+    public JFXTextField txfDeliveryDateD;
+    public JFXTextField txfDesiredDateD;
+    public JFXTextField txfReceivedDateD;
     @Autowired
     private ProductDeliveryService productDeliveryService;
     @Autowired
@@ -66,7 +78,7 @@ public class StoreRoomController implements Initializable {
     private WarehouseService warehouseService;
     @Autowired
     private PersonMapper personMapper;
-
+    public JFXTextField txfDescriptionD;
     @FXML
     public JFXTextField txfCountC;
 
@@ -145,6 +157,7 @@ public class StoreRoomController implements Initializable {
     public TableColumn<ProductDeliveryModel, PersianDate> colReceivedDate;
     @FXML
     public TableColumn<ProductDeliveryModel, String> colDescription;
+    public HBox hbxDisplayFooter;
 
     private void fillDataTable() {
         tblProductDelivery.setItems(productDeliveryService.loadByStatus(cmbStatusS.getValue()).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
@@ -166,8 +179,10 @@ public class StoreRoomController implements Initializable {
         // bind create dialog
         dlgCreate.setDialogContainer(startController.mainStack);
         dlgDelete.setDialogContainer(startController.mainStack);
+        dlgDisplay.setDialogContainer(startController.mainStack);
         applyFontStyle(dlgCreate);
         applyFontStyle(dlgDelete);
+        applyFontStyle(dlgDisplay);
 
         parent.setSpacing(ScreenUtils.getActualSize(10));
 
@@ -176,6 +191,18 @@ public class StoreRoomController implements Initializable {
 
         colFullName.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPerson().getTitle()));
 
+        hbxDisplayHeader.setPadding(new Insets(ScreenUtils.getActualSize(10)));
+
+        grdDisplayMain.setPadding(new Insets(ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(40), ScreenUtils.getActualSize(20)));
+        grdDisplayMain.setHgap(ScreenUtils.getActualSize(10));
+        grdDisplayMain.setVgap(ScreenUtils.getActualSize(100));
+
+
+        hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
+
+
+        vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
+        vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
 
         colDeliveryDate.setCellValueFactory(param -> new ReadOnlyObjectWrapper<PersianDate>(param.getValue().getDeliveryDate() == null ? null : PersianDate.fromGregorian(param.getValue().getDeliveryDate())));
 
@@ -237,6 +264,9 @@ public class StoreRoomController implements Initializable {
             sdpDeliveryDateC.setValue(editModel.getDeliveryDate());
             sdpDesiredDateC.setValue(editModel.getDesiredDate());
             txfDescriptionC.setText(editModel.getDescription());
+            txfCountC.setText(String.valueOf(editModel.getCount()));
+            currentCount = editModel.getCount();
+            currentProduct = editModel.getProduct();
             cmbStatusC.setValue(editModel.getStatus());
             cmbStatusC.setDisable(false);
             sdpReceivedDateC.setValue(editModel.getReceivedDate());
@@ -257,7 +287,17 @@ public class StoreRoomController implements Initializable {
                 dlgDelete.close();
             });
         });
-
+        tblProductDelivery.setOnVisit(selectedItem -> {
+            txfProductNameD.setText(selectedItem.getProduct().getCode() + " : " + selectedItem.getProduct().getTitle());
+            txfFullNameD.setText(selectedItem.getPerson().toString());
+            txfStatusD.setText(selectedItem.getStatus().toString());
+            txfCountD.setText(String.valueOf(selectedItem.getCount()));
+            txfDeliveryDateD.setText(selectedItem.getDeliveryDate() != null ? PersianDate.fromGregorian(selectedItem.getDeliveryDate()).toString() : "");
+            txfDesiredDateD.setText(selectedItem.getDesiredDate() != null ? PersianDate.fromGregorian(selectedItem.getDesiredDate()).toString() : "");
+            txfReceivedDateD.setText(selectedItem.getReceivedDate() != null ? PersianDate.fromGregorian(selectedItem.getReceivedDate()).toString() : "");
+            txfDescriptionD.setText(selectedItem.getDescription());
+            dlgDisplay.show();
+        });
         autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
         autProductNameC.setOnSearch(s -> warehouseService.findByName(s).map(warehouseList -> warehouseList.stream().map(warehouseMapper::entityToModel).collect(Collectors.toList())).get());
 
@@ -313,10 +353,27 @@ public class StoreRoomController implements Initializable {
                         sdpReceivedDateC.setValue(null);
                         sdpReceivedDateC.setVisible(false);
                     }
+
+
+            if (mustDisableCount(newValue)) {
+                autProductNameC.setDisable(true);
+                autProductNameC.setValue(currentProduct);
+
+                txfCountC.setDisable(true);
+                txfCountC.setText(String.valueOf(currentCount));
+            } else {
+                txfCountC.setDisable(false);
+                autProductNameC.setDisable(false);
+            }
+
                 }
         );
         cmbStatusS.setValue(ProductStatus.UNKNOWN);
         fillDataTable();
+    }
+
+    private boolean mustDisableCount(ProductStatus newValue) {
+        return !(newValue != null && newValue.equals(ProductStatus.UNKNOWN));
     }
 
 
@@ -378,5 +435,9 @@ public class StoreRoomController implements Initializable {
         sdpDeliveryDateFromS.setValue(null);
         cmbStatusS.setValue(null);
         tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
+    }
+
+    public void closeDisplayDialog(ActionEvent actionEvent) {
+        dlgDisplay.close();
     }
 }
