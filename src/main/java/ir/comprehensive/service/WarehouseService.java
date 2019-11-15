@@ -13,6 +13,7 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class WarehouseService implements Swappable<Warehouse> {
     }
 
     public Optional<List<Warehouse>> loadAll() {
-        return Optional.of(repository.findAll());
+        return Optional.of(repository.findAll(Sort.by(Sort.Order.asc("category.title"))));
     }
 
 
