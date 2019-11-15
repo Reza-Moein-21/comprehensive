@@ -307,6 +307,12 @@ public class StoreRoomController implements Initializable {
                 autPersonC.validate();
             }
         });
+        // todo must complete later....
+        //        txfCountC.focusedProperty().addListener((observable, oldValue, newValue) -> {
+//            if (!newValue && !isNotValidateCount()) {
+//                txfCountC.validate();
+//            }
+//        });
         autProductNameC.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 autProductNameC.validate();
@@ -402,12 +408,16 @@ public class StoreRoomController implements Initializable {
         boolean personValidate = autPersonC.validate();
         boolean productNameValidate = autProductNameC.validate();
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
-        boolean countValidate = txfCountC.validate();
+        boolean countValidate = isNotValidateCount() || txfCountC.validate();
         boolean receivedDateValidate = true;
         if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
             receivedDateValidate = sdpReceivedDateC.validate();
         }
         return personValidate && productNameValidate && deliveryDateValidate && countValidate && receivedDateValidate;
+    }
+
+    private boolean isNotValidateCount() {
+        return createModel.getId() != null && txfCountC.getText().equals(String.valueOf(currentCount));
     }
 
     public void save() {

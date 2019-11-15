@@ -181,7 +181,11 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
             // TODO fix message
             throw new GeneralException("not null id");
         }
-
+        // back count to warehouse
+        ProductDelivery productDelivery = repository.findById(id).orElseThrow(() -> new GeneralException("Id not found"));
+        if (!productDelivery.getStatus().equals(ProductStatus.RECEIVED)) {
+            warehouseService.increaseCount(productDelivery.getProduct().getId(), productDelivery.getCount());
+        }
         repository.deleteById(id);
         return Optional.of(id);
     }
