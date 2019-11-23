@@ -28,7 +28,7 @@ public class SimpleDatePicker extends StackPane {
     JFXTextField textField;
 
 
-    private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>(LocalDate.now());
 
 
     public final LocalDate getValue() {
@@ -96,9 +96,8 @@ public class SimpleDatePicker extends StackPane {
         button.setGraphic(imageView);
         StackPane.setAlignment(button, Pos.CENTER_RIGHT);
         button.setOnAction(event -> {
-            PickerContent pickerContent = new PickerContent(getPromptText(), this);
+            PickerDialog pickerContent = new PickerDialog(getPromptText(), this);
             applyFontStyle(pickerContent);
-            pickerContent.setDateToPicker(value.getValue());
             pickerContent.setDialogContainer(getDialogContainer());
             pickerContent.show();
         });
