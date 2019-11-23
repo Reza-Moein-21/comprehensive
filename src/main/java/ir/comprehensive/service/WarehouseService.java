@@ -13,6 +13,7 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -112,7 +113,10 @@ public class WarehouseService implements Swappable<Warehouse> {
 
         if (warehouse.getTagList() != null) {
             for (WarehouseTag warehouseTag : warehouse.getTagList()) {
-                if (warehouseTag.getId() != null) {
+                Optional<WarehouseTag> byTitleExact = warehouseTagRepository.findByTitleExact(warehouseTag.getTitle());
+                if (byTitleExact.isPresent()) {
+                    newTagListForSave.add(byTitleExact.get());
+                } else if (warehouseTag.getId() != null) {
                     newTagListForSave.add(warehouseTagRepository.findById(warehouseTag.getId()).orElse(null));
                 } else {
                     newTagListForSave.add(warehouseTag);

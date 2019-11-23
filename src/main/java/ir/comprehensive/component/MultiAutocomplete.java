@@ -88,7 +88,7 @@ public class MultiAutocomplete<T extends BaseModel> extends VBox {
                 // TODO must fix this shite. Must use  Option model.
                 WarehouseTagModel model = new WarehouseTagModel();
                 model.setId(-new Date().getTime());
-                model.setTitle(this.textField.getText());
+                model.setTitle(this.textField.getText() != null ? this.textField.getText().trim() : this.textField.getText());
                 setToValueListIfNotExist((T) model);
                 this.textField.setText("");
                 this.closePopup();
