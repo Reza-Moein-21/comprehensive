@@ -12,6 +12,10 @@ delete
 from CATEGORY
 where 1 = 1;
 
+delete
+FROM WAREHOUSE_CATEGORY
+where 1 = 1;
+
 insert into PERSON
 values (987654321, '', 'alializadeh@gmail.com', 'علی', 'علی زاده', '09118445768');
 insert into PERSON
@@ -56,4 +60,11 @@ insert into PERSON_CATEGORY
 values (934543526, 997234555);
 insert into PERSON_CATEGORY
 values (987654332, 987234764);
+
+insert into WAREHOUSE_CATEGORY
+values (8793452, 'دست افزار');
+insert into WAREHOUSE_CATEGORY
+values (98342565, 'الکترونیک');
+insert into WAREHOUSE_CATEGORY
+values (79438294, 'متفرقه')
 
