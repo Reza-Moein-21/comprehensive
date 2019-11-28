@@ -28,7 +28,7 @@ public class SimpleDatePicker extends StackPane {
     JFXTextField textField;
 
 
-    private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>(LocalDate.now());
+    private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>();
 
 
     public final LocalDate getValue() {
