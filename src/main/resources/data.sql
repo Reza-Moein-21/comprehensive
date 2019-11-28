@@ -19,7 +19,7 @@ where 1 = 1;
 insert into PERSON
 values (987654321, '', 'alializadeh@gmail.com', 'علی', 'علی زاده', '09118445768');
 insert into PERSON
-values (987654320, '', 'akbar23@yahoo.com', 'اکبر', 'هاشمی', '09324433534');
+values (987654320, '', 'beh23@yahoo.com', 'بهنام', 'جعفری', '09324433534');
 insert into PERSON
 values (987654319, '', 'tt@gmail.com', 'تقی', 'تقی زاده', '09333454568');
 insert into PERSON
@@ -35,7 +35,7 @@ values (883322556, '', 'mahmoodahmaad@yahoo.com', 'محمود', 'احمدزاد�
 insert into PERSON
 values (987654332, '', 'akbarakbar@gmail.com', 'اکبر', 'اکبری', '09334546323');
 insert into PERSON
-values (934543526, '', 'lavash@yahoo.com', 'بربری', 'تافتون', '09368749834');
+values (934543526, '', 'hashem@yahoo.com', 'هاشم', 'راهدار', '09368749834');
 
 
 insert into CATEGORY
