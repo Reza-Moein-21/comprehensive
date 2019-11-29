@@ -417,7 +417,15 @@ public class StoreRoomController implements Initializable {
     }
 
     private boolean isNotValidateCount() {
-        return createModel.getId() != null && txfCountC.getText().equals(String.valueOf(currentCount));
+        boolean result;
+        try {
+            long selectedCount = Long.parseLong(txfCountC.getText());
+            result = createModel.getId() != null && (selectedCount < currentCount || selectedCount == currentCount || selectedCount <= (currentCount + currentProduct.getCount()));
+
+        } catch (NumberFormatException e) {
+            result = false;
+        }
+        return result;
     }
 
     public void save() {
