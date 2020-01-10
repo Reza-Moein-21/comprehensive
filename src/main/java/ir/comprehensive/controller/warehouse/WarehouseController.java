@@ -219,11 +219,11 @@ public class WarehouseController implements Initializable {
 
         });
 
-        tblWarehouse.setOnDelete(selectedItem -> {
+        tblWarehouse.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    warehouseService.delete(selectedItem.getId());
+                    selectedIds.forEach(warehouseService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_DELETE);
                     fillDataTable();
                 } catch (GeneralException e) {

@@ -1,5 +1,7 @@
 package ir.comprehensive.component.basetable;
 
-public interface Deletable<T> {
-    void delete(T selectedItem);
+import java.util.Set;
+
+public interface Deletable {
+    void delete(Set<Long> ids);
 }

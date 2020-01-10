@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.CheckBox;
 
 import java.util.function.Predicate;
 
@@ -11,6 +12,7 @@ import java.util.function.Predicate;
 public abstract class BaseModel implements Comparable<BaseModel>, Predicate<BaseModel> {
     protected ObjectProperty<Long> id = new SimpleObjectProperty<>();
     protected StringProperty title = new SimpleStringProperty();
+    protected ObjectProperty<CheckBox> chb = new SimpleObjectProperty<>(new CheckBox());
 
     public BaseModel() {
     }
@@ -46,6 +48,18 @@ public abstract class BaseModel implements Comparable<BaseModel>, Predicate<Base
 
     public StringProperty titleProperty() {
         return title;
+    }
+
+    public CheckBox getChb() {
+        return chb.get();
+    }
+
+    public ObjectProperty<CheckBox> chbProperty() {
+        return chb;
+    }
+
+    public void setChb(CheckBox chb) {
+        this.chb.set(chb);
     }
 
     @Override

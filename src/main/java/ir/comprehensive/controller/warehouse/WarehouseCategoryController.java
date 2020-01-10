@@ -158,11 +158,11 @@ public class WarehouseCategoryController implements Initializable {
 
         });
 
-        tblWarehouseCategory.setOnDelete(selectedItem -> {
+        tblWarehouseCategory.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    categoryService.delete(selectedItem.getId());
+                    selectedIds.forEach(categoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable();
                 } catch (GeneralException e) {

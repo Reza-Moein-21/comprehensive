@@ -186,11 +186,11 @@ public class HumanResourceCategoryController implements Initializable {
 
         });
 
-        tblCategory.setOnDelete(selectedItem -> {
+        tblCategory.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    categoryService.delete(selectedItem.getId());
+                    selectedIds.forEach(categoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable();
                 } catch (GeneralException e) {

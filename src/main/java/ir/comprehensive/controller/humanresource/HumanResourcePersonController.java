@@ -184,11 +184,11 @@ public class HumanResourcePersonController implements Initializable {
 
         });
 
-        tblPerson.setOnDelete(selectedItem -> {
+        tblPerson.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    personService.delete(selectedItem.getId());
+                    selectedIds.forEach(personService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable();
                 } catch (GeneralException e) {

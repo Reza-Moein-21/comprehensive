@@ -242,11 +242,11 @@ public class MyNoteController implements Initializable {
 
         });
 
-        tblMyNote.setOnDelete(selectedItem -> {
+        tblMyNote.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    myNoteService.delete(selectedItem.getId());
+                    selectedIds.forEach(myNoteService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable(true);
                     refreshCalender();

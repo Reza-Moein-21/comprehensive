@@ -157,11 +157,11 @@ public class MyNoteCategoryController implements Initializable {
 
         });
 
-        tblMyNoteCategory.setOnDelete(selectedItem -> {
+        tblMyNoteCategory.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    myNoteCategoryService.delete(selectedItem.getId());
+                    selectedIds.forEach(myNoteCategoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE_CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
                     updateDataTable();
                 } catch (GeneralException e) {

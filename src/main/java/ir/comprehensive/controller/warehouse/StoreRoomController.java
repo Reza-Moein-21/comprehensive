@@ -274,11 +274,11 @@ public class StoreRoomController implements Initializable {
 
         });
 
-        tblProductDelivery.setOnDelete(selectedItem -> {
+        tblProductDelivery.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
                 try {
-                    productDeliveryService.delete(selectedItem.getId());
+                    selectedIds.forEach(productDeliveryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_DELETE);
                     fillDataTable();
                 } catch (GeneralException e) {

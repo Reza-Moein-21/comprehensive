@@ -3,6 +3,7 @@ package ir.comprehensive.component.basetable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 
 public class CustomTableColumn<S, T> extends TableColumn<S, T> {
@@ -13,6 +14,11 @@ public class CustomTableColumn<S, T> extends TableColumn<S, T> {
         super(text);
     }
 
+    public CustomTableColumn(String text, Node graphic) {
+        super(text);
+        this.setGraphic(graphic);
+    }
+
     private final DoubleProperty percentageWidth = new SimpleDoubleProperty(100);
     private final DoubleProperty percentageMinWidth = new SimpleDoubleProperty();
 
@@ -21,9 +27,10 @@ public class CustomTableColumn<S, T> extends TableColumn<S, T> {
             if (CustomTableColumn.this.prefWidthProperty().isBound()) {
                 CustomTableColumn.this.prefWidthProperty().unbind();
             }
-
-            CustomTableColumn.this.prefWidthProperty().bind(t1.widthProperty().multiply(Bindings.divide(percentageWidth, 100)));
-            CustomTableColumn.this.minWidthProperty().bind(t1.widthProperty().multiply(Bindings.divide(percentageMinWidth, 100)));
+            if (t1 != null) {
+                CustomTableColumn.this.prefWidthProperty().bind(t1.widthProperty().multiply(Bindings.divide(percentageWidth, 100)));
+                CustomTableColumn.this.minWidthProperty().bind(t1.widthProperty().multiply(Bindings.divide(percentageMinWidth, 100)));
+            }
         });
     }
 
