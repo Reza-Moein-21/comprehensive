@@ -128,7 +128,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblMyNote" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblMyNote" VBox.vgrow="ALWAYS" showVisit="true" showExtraButton="true">
         <columns>
             <CustomTableColumn text="%title" sortable="false" percentageWidth="15" percentageMinWidth="15">
                 <cellValueFactory>

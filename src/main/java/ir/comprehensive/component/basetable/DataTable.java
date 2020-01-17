@@ -8,6 +8,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -25,21 +26,25 @@ public class DataTable<T extends BaseModel> extends VBox {
     HBox hbxHeader = new HBox();
     Label lblNumberOfSelected = new Label();
     JFXButton btnDelete = new JFXButton();
+    JFXButton btnExtra = new JFXButton();
 
     private Editable<T> onEdit;
     private Deletable onDelete;
+    private Extra onExtra;
     private Visitable<T> onVisit;
 
     private BooleanProperty showSelect = new SimpleBooleanProperty(this, "showSelect", true);
     private BooleanProperty showEdit = new SimpleBooleanProperty(this, "showEdit", true);
     private BooleanProperty showDelete = new SimpleBooleanProperty(this, "showDelete", true);
+    private BooleanProperty showExtraButton = new SimpleBooleanProperty(this, "showExtraButton", false);
     private BooleanProperty showVisit = new SimpleBooleanProperty(this, "showVisit", false);
 
 
     public DataTable() {
         tableView = new TableView<>();
         VBox.setVgrow(tableView, Priority.ALWAYS);
-
+        hbxHeader.setSpacing(ScreenUtils.getActualSize(50));
+        hbxHeader.setPadding(new Insets(ScreenUtils.getActualSize(10),ScreenUtils.getActualSize(20),ScreenUtils.getActualSize(10),ScreenUtils.getActualSize(20)));
 
         btnDelete.getStyleClass().addAll("table-row-button", "delete-table-row-button");
         btnDelete.setPrefWidth(ScreenUtils.getActualSize(62));
@@ -50,7 +55,18 @@ public class DataTable<T extends BaseModel> extends VBox {
             this.onDelete.delete(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
         });
 
-        hbxHeader.getChildren().addAll(btnDelete, lblNumberOfSelected);
+        btnExtra.getStyleClass().addAll("table-row-button", "send-table-row-button");
+        btnExtra.setPrefWidth(ScreenUtils.getActualSize(62));
+        btnExtra.setPrefHeight(ScreenUtils.getActualSize(62));
+        btnExtra.disableProperty().bind(btnDelete.disableProperty());
+        btnExtra.visibleProperty().bind(showExtraButton);
+        btnExtra.setOnAction(event -> {
+            this.onExtra.acceptExtra(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
+        });
+
+        HBox hbxDeleteAndLabel = new HBox(btnDelete, lblNumberOfSelected);
+        hbxDeleteAndLabel.setAlignment(Pos.CENTER);
+        hbxHeader.getChildren().addAll(hbxDeleteAndLabel, btnExtra);
 
 
         CustomTableColumn<T, String> rowNumberColumn = new CustomTableColumn<>(MessageUtils.Message.NUMBER_SIGN);
@@ -233,6 +249,18 @@ public class DataTable<T extends BaseModel> extends VBox {
 
     public final void setShowVisit(boolean showVisit) {
         this.showVisit.set(showVisit);
+    }
+
+    public final boolean isShowExtraButton() {
+        return showExtraButton.get();
+    }
+
+    public final BooleanProperty showExtraButtonProperty() {
+        return showExtraButton;
+    }
+
+    public final void setShowExtraButton(boolean showExtraButton) {
+        this.showExtraButton.set(showExtraButton);
     }
 }
 

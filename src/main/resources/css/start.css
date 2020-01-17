@@ -169,6 +169,10 @@
     -fx-background-image: url('/image/visit-table-row.png');
 }
 
+.send-table-row-button {
+    -fx-background-image: url('/image/send-table-row.png');
+}
+
 /*
 * *************************************
 * Card
