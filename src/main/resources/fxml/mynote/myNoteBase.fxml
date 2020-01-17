@@ -13,7 +13,7 @@
         <Tab fx:id="tabMyNoteCategory" text="%myNoteCategory" style="-fx-font-weight: bold" closable="false">
             <fx:include source="myNoteCategory.fxml"/>
         </Tab>
-        <Tab fx:id="tabMyNoteTemp" text="%inProgress" style="-fx-font-weight: bold" closable="false">
+        <Tab fx:id="tabMyNoteTemp" text="%myNoteTemp" style="-fx-font-weight: bold" closable="false">
             <fx:include source="myNoteTemp.fxml"/>
         </Tab>
 

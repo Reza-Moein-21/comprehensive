@@ -23,4 +23,6 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
     @Query("select case when count(p) > 0 then true else false end from Person p where p.firstName = :firstName and p.lastName = :lastName and p.id <> :id")
     Boolean isNotUnique(@Param("id") Long id, @Param("firstName") String firstName, @Param("lastName") String lastName);
 
+    @Query("select count(p) from Person p")
+    long totalCount();
 }

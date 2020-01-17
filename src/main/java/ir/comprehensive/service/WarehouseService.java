@@ -1,7 +1,9 @@
 package ir.comprehensive.service;
 
+import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.domain.Warehouse;
 import ir.comprehensive.domain.WarehouseTag;
+import ir.comprehensive.model.WarehouseInfo;
 import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.model.WarehouseTagModel;
 import ir.comprehensive.repository.ProductDeliveryRepository;
@@ -155,5 +157,16 @@ public class WarehouseService implements Swappable<Warehouse> {
         Long currentCount = warehouse.getCount();
         warehouse.setCount(currentCount + count);
         repository.save(warehouse);
+    }
+
+    public WarehouseInfo getInfo() {
+        WarehouseInfo info = new WarehouseInfo();
+        info.setTotalWarehouse(this.getNumberString(repository.totalCount()));
+        info.setLostCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.LOST)));
+        info.setReceivedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.RECEIVED)));
+        info.setRejectedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.REJECTED)));
+        info.setUnknownCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.UNKNOWN)));
+
+        return info;
     }
 }

@@ -20,8 +20,7 @@ public class WarehouseTagService implements Swappable<WarehouseTag> {
     WarehouseTagRepository repository;
 
     public Optional<List<WarehouseTag>> findByTitle(String title) {
-        Page<WarehouseTag> warehouseTags = repository.findByTitle(title, PageRequest.of(0, 10));
-        System.out.println(warehouseTags);
+        Page<WarehouseTag> warehouseTags = repository.findByTitle(title.replace("%", "\\%"), PageRequest.of(0, 10));
         return Optional.of(warehouseTags.getContent());
     }
 }

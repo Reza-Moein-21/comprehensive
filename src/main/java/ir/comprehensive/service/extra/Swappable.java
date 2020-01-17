@@ -21,4 +21,14 @@ public interface Swappable<T> {
             return null;
         }
     }
+
+    default String getNumberString(long number) {
+        if (number >= 1000 && number < 1_000_000) {
+            return String.format("%.1f K", (number * 1.0 / 1_000));
+        } else if (number >= 1_000_000) {
+            return String.format("%.1f M", (number * 1.0 / 1_000_000));
+        }
+        return String.valueOf(number);
+
+    }
 }

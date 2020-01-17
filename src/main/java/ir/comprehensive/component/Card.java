@@ -9,11 +9,15 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.TextAlignment;
+
+import java.util.StringJoiner;
 
 
 public class Card extends AnchorPane {
@@ -21,13 +25,13 @@ public class Card extends AnchorPane {
 
     private AnchorPane body;
     private Label bodyTitle;
-    private Label bodyComment;
+    //    private Node bodyContent;
     private JFXButton bodyButton;
     private ImageView iconView;
     private ObjectProperty<EventHandler<ActionEvent>> onClick = new SimpleObjectProperty<>(this, "onClick", null);
     private ObjectProperty<Image> icon = new SimpleObjectProperty<>(this, "icon", null);
     private StringProperty title = new SimpleStringProperty(this, "title", "");
-    private StringProperty comment = new SimpleStringProperty(this, "comment", "");
+    private ObjectProperty<Node> content = new SimpleObjectProperty<>(this, "content");
 
     public Card() {
         init();
@@ -43,6 +47,7 @@ public class Card extends AnchorPane {
         bodyTitle.setAlignment(Pos.CENTER_RIGHT);
         bodyTitle.setTextAlignment(TextAlignment.RIGHT);
         bodyTitle.textProperty().bind(titleProperty());
+        bodyTitle.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(40) + "px;-fx-font-family: 'shabnam';");
         AnchorPane.setTopAnchor(bodyTitle, ScreenUtils.getActualSize(0.0));
         AnchorPane.setRightAnchor(bodyTitle, ScreenUtils.getActualSize(10.0));
         AnchorPane.setLeftAnchor(bodyTitle, ScreenUtils.getActualSize(75.0));
@@ -52,16 +57,20 @@ public class Card extends AnchorPane {
          *   Init bodyComment
          * ********************************
          */
-        bodyComment = new Label();
-        bodyComment.setAlignment(Pos.TOP_RIGHT);
-        bodyComment.setTextAlignment(TextAlignment.RIGHT);
-        bodyComment.setWrapText(true);
-        bodyComment.setText(comment.get());
-        bodyComment.textProperty().bind(commentProperty());
-        AnchorPane.setTopAnchor(bodyComment, ScreenUtils.getActualSize(55.0));
-        AnchorPane.setRightAnchor(bodyComment, ScreenUtils.getActualSize(5.0));
-        AnchorPane.setBottomAnchor(bodyComment, ScreenUtils.getActualSize(0.0));
-        AnchorPane.setLeftAnchor(bodyComment, ScreenUtils.getActualSize(5.0));
+        StackPane contentWrapper = new StackPane();
+        StringJoiner contentWrapperStyle = new StringJoiner(";");
+        contentWrapperStyle
+                .add("-fx-border-width: " + ScreenUtils.getActualSize(1) + "px 0px 0px 0px")
+                .add("-fx-padding: " + ScreenUtils.getActualSize(5) + "px " + ScreenUtils.getActualSize(10) + "px")
+                .add("-fx-border-color: gray;");
+        contentWrapper.setStyle(contentWrapperStyle.toString());
+        content.addListener((observable, oldValue, newValue) -> {
+            contentWrapper.getChildren().setAll(newValue);
+        });
+        AnchorPane.setTopAnchor(contentWrapper, ScreenUtils.getActualSize(70.0));
+        AnchorPane.setRightAnchor(contentWrapper, ScreenUtils.getActualSize(5.0));
+        AnchorPane.setBottomAnchor(contentWrapper, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setLeftAnchor(contentWrapper, ScreenUtils.getActualSize(5.0));
 
         /*
          * ********************************
@@ -86,8 +95,8 @@ public class Card extends AnchorPane {
         AnchorPane.setTopAnchor(iconView, ScreenUtils.getActualSize(0.0));
         AnchorPane.setRightAnchor(iconView, ScreenUtils.getActualSize(40.0));
         AnchorPane.setLeftAnchor(iconView, ScreenUtils.getActualSize(10.0));
-        iconView.setFitHeight(ScreenUtils.getActualSize(96));
-        iconView.setFitWidth(ScreenUtils.getActualSize(96));
+        iconView.setFitHeight(ScreenUtils.getActualSize(115));
+        iconView.setFitWidth(ScreenUtils.getActualSize(115));
         iconView.imageProperty().bind(iconProperty());
 
         /*
@@ -101,7 +110,7 @@ public class Card extends AnchorPane {
         AnchorPane.setBottomAnchor(body, ScreenUtils.getActualSize(0.0));
         AnchorPane.setLeftAnchor(body, ScreenUtils.getActualSize(0.0));
         body.getStyleClass().add(BODY_STYLE_CLASS);
-        body.getChildren().addAll(bodyTitle, bodyComment, bodyButton);
+        body.getChildren().addAll(bodyTitle, contentWrapper, bodyButton);
 
         /*
          * ********************************
@@ -153,15 +162,15 @@ public class Card extends AnchorPane {
     }
 
 
-    public final StringProperty commentProperty() {
-        return this.comment;
+    public Node getContent() {
+        return content.get();
     }
 
-    public final String getComment() {
-        return comment == null ? "" : comment.getValue();
+    public void setContent(Node content) {
+        this.content.set(content);
     }
 
-    public final void setComment(String comment) {
-        this.comment.set(comment);
+    public ObjectProperty<Node> contentProperty() {
+        return content;
     }
 }

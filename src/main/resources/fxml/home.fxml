@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import ir.comprehensive.component.Card?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
@@ -14,18 +15,83 @@
             <icon>
                 <Image url="@../image/warehouse-management.png"/>
             </icon>
+            <content>
+                <GridPane fx:id="grdWarehouseHomeContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label text="%totalWarehouse"/>
+                        <Label fx:id="lblTotalWarehouse">22K</Label>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label text="%unknownCount"/>
+                        <Label fx:id="lblUnknownCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <Label text="%receivedCount"/>
+                        <Label fx:id="lblReceivedCount"/>
+
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
+                        <Label text="%rejectedCount"/>
+                        <Label fx:id="lblRejectedCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="1">
+                        <Label text="%lostCount"/>
+                        <Label fx:id="lblLostCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
         </Card>
         <Card fx:id="crdHumanResource" styleClass="human-resource-card" title="%humanResource"
               onClick="#goToHumanResource">
             <icon>
                 <Image url="@../image/person-man.png"/>
             </icon>
+            <content>
+                <GridPane fx:id="grdHumanResourceContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label text="%totalPerson"/>
+                        <Label fx:id="lblPersonCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label text="%totalCategory"/>
+                        <Label fx:id="lblCategoryCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
         </Card>
         <Card fx:id="crdMyNoteCategory" styleClass="my-note-category-card" title="%project"
               onClick="#goToMyNoteCategory">
             <icon>
                 <Image url="@../image/my-note.png"/>
             </icon>
+            <content>
+                <GridPane fx:id="grdMyNoteCategoryContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label text="%totalMyNoteCategory"/>
+                        <Label fx:id="lblTotalMyNoteCategory"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label text="%inProgressCount"/>
+                        <Label fx:id="lblInProgressCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <Label text="%doneCount"/>
+                        <Label fx:id="lblDoneCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
+                        <Label text="%stoppedCount"/>
+                        <Label fx:id="lblStoppedCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
         </Card>
     </FlowPane>
 </VBox>

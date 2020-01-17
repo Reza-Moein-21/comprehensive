@@ -13,4 +13,8 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long>, Jpa
     @Query("select w from Warehouse w where concat(lower(w.title),' ',lower(w.code) ) like concat('%',lower(trim(?1)),'%') order by w.title")
     Page<Warehouse> findByName(String name, Pageable pageable);
 
+
+    @Query("select count(w) from Warehouse w")
+    long totalCount();
+
 }

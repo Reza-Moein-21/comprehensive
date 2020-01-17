@@ -1,6 +1,7 @@
 package ir.comprehensive.repository;
 
 import ir.comprehensive.domain.ProductDelivery;
+import ir.comprehensive.domain.ProductStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,6 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
 
     @Query("select case when count(pd) > 0 then true else false end from ProductDelivery pd  where pd.product.id = ?1")
     boolean isWarehouseExist(Long productId);
+
+    long countByStatus(ProductStatus status);
 }

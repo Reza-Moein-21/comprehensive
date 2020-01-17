@@ -20,4 +20,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
     @Query("select case when count(c) > 0 then true else false end from Category c where c.title = :title and c.id <> :id")
     Boolean isNotUnique(@Param("id") Long id, @Param("title") String title);
 
+
+    @Query("select count(c) from Category c")
+    long totalCount();
 }

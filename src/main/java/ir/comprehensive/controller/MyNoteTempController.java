@@ -61,7 +61,7 @@ public class MyNoteTempController implements Initializable {
             dlgDelete.setOnConfirm(() -> {
                 try {
                     myNoteTempService.deleteAll(selectedIds);
-                    Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE_TEMP + " " + MessageUtils.Message.SUCCESS_DELETE);
+                    Notify.showSuccessMessage(MessageUtils.Message.REMOVE_FROM_MY_NOTE_TEMP);
                     updateDataTable();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());

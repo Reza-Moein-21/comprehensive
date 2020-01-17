@@ -70,6 +70,8 @@ public class MessageUtils {
         public static final String TASK_TITLE = getMessage("taskTitle");
         public static final String MY_NOTE_CATEGORY_TITLE = getMessage("myNoteCategoryTitle");
         public static final String MY_NOTE_TEMP = getMessage("myNoteTemp");
+        public static final String ADD_TO_MY_NOTE_TEMP = getMessage("addToMyNoteTemp");
+        public static final String REMOVE_FROM_MY_NOTE_TEMP = getMessage("removeFromMyNoteTemp");
         public static final String CREATION_TIME = getMessage("creationTime");
         public static final String HUMAN_RESOURCE = getMessage("humanResource");
         public static final String CATEGORIES = getMessage("categories");

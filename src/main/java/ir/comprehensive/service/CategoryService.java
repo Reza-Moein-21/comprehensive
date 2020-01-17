@@ -2,6 +2,7 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
 import ir.comprehensive.model.CategoryModel;
+import ir.comprehensive.model.HumanResourceInfo;
 import ir.comprehensive.repository.CategoryRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.service.extra.GeneralException;
@@ -111,5 +112,12 @@ public class CategoryService implements Swappable<Category> {
         }
         repository.deleteById(id);
         return Optional.of(id);
+    }
+
+    public HumanResourceInfo getInfo() {
+        HumanResourceInfo info = new HumanResourceInfo();
+        info.setCategoryCount(this.getNumberString(repository.totalCount()));
+        info.setPersonCount(this.getNumberString(personRepository.totalCount()));
+        return info;
     }
 }

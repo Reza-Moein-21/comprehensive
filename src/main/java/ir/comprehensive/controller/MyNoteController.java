@@ -263,7 +263,7 @@ public class MyNoteController implements Initializable {
         tblMyNote.setOnExtra(selectedIds -> {
             try {
                 myNoteTempService.sendToTemp(selectedIds);
-                Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE + " " + MessageUtils.Message.SUCCESS_SEND);
+                Notify.showSuccessMessage(MessageUtils.Message.ADD_TO_MY_NOTE_TEMP);
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());
             }

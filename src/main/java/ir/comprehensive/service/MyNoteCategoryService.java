@@ -1,6 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.MyNoteCategory;
+import ir.comprehensive.domain.MyNoteCategoryStatus;
+import ir.comprehensive.model.MyNoteCategoryInfo;
 import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.repository.MyNoteCategoryRepository;
 import ir.comprehensive.repository.MyNoteRepository;
@@ -102,4 +104,15 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
         repository.deleteById(id);
         return Optional.of(id);
     }
+
+
+    public MyNoteCategoryInfo getInfo() {
+        MyNoteCategoryInfo info = new MyNoteCategoryInfo();
+        info.setTotalCount(this.getNumberString(repository.totalCount()));
+        info.setDoneCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.DONE)));
+        info.setInProgressCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.IN_PROGRESS)));
+        info.setStoppedCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.STOPPED)));
+        return info;
+    }
+
 }
