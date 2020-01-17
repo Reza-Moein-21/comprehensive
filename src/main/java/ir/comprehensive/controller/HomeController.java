@@ -48,7 +48,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void goToMyNoteCategory() {
-        startController.navigateToView(ViewName.MY_NOTE_CATEGORY);
+        startController.navigateToView(ViewName.MY_NOTE_BASE);
     }
 
     private void configCard(Card card) {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ir.comprehensive.component.basetable.CustomTableColumn?>
+<?import ir.comprehensive.component.basetable.DataTable?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:id="parent" nodeOrientation="RIGHT_TO_LEFT"
+      AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+      fx:controller="ir.comprehensive.controller.MyNoteTempController">
+
+    <DataTable fx:id="tblMyNoteTemp" VBox.vgrow="ALWAYS" showVisit="false" showEdit="false">
+        <columns>
+            <CustomTableColumn text="%description" sortable="false" percentageWidth="20" percentageMinWidth="15">
+                <cellValueFactory>
+                    <PropertyValueFactory property="myNote.description"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+            <CustomTableColumn text="%priority" percentageWidth="31.8" percentageMinWidth="28">
+                <cellValueFactory>
+                    <PropertyValueFactory property="myNote.priority"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%myNoteCategory" percentageWidth="31.8" percentageMinWidth="28">
+                <cellValueFactory>
+                    <PropertyValueFactory property="myNote.myNoteCategory.title"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%fullName" percentageWidth="31.8" percentageMinWidth="28">
+                <cellValueFactory>
+                    <PropertyValueFactory property="myNote.person"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+        </columns>
+    </DataTable>
+
+</VBox>

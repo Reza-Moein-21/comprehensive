@@ -12,8 +12,9 @@ public enum ViewName {
     WAREHOUSE("fxml/warehouse/warehouseBase.fxml", MessageUtils.Message.STOREROOM),
     WAREHOUSE_CATEGORY("fxml/warehouse/warehouseCategory.fxml", MessageUtils.Message.WAREHOUSE_CATEGORY),
     HUMAN_RESOURCE("fxml/humanresource/humanResource.fxml", MessageUtils.Message.HUMAN_RESOURCE),
-    MY_NOTEBOOK("fxml/myNote.fxml", MessageUtils.Message.MY_NOTE),
-    MY_NOTE_CATEGORY("fxml/MyNoteCategory.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
+    MY_NOTEBOOK("fxml/mynote/myNote.fxml", MessageUtils.Message.MY_NOTE),
+    MY_NOTE_CATEGORY("fxml/mynote/myNoteCategory.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
+    MY_NOTE_BASE("fxml/mynote/myNoteBase.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
 
     ;
     private String viewPath;

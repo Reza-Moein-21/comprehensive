@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ir.comprehensive.controller.MyNoteBaseController"
+      xmlns="http://javafx.com/javafx" nodeOrientation="RIGHT_TO_LEFT"
+      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+
+    <TabPane VBox.vgrow="ALWAYS">
+        <Tab fx:id="tabMyNoteCategory" text="%myNoteCategory" style="-fx-font-weight: bold" closable="false">
+            <fx:include source="myNoteCategory.fxml"/>
+        </Tab>
+        <Tab fx:id="tabMyNoteTemp" text="%inProgress" style="-fx-font-weight: bold" closable="false">
+            <fx:include source="myNoteTemp.fxml"/>
+        </Tab>
+
+    </TabPane>
+
+</VBox>
