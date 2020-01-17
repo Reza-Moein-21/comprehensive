@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import ir.comprehensive.component.basetable.CustomTableColumn?>
-<?import ir.comprehensive.component.basetable.DataTable?>
+<?import ir.comprehensive.component.basetable.*?>
+<?import ir.comprehensive.component.YesNoDialog?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
@@ -9,28 +9,33 @@
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
       fx:controller="ir.comprehensive.controller.MyNoteTempController">
 
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+
     <DataTable fx:id="tblMyNoteTemp" VBox.vgrow="ALWAYS" showVisit="false" showEdit="false">
         <columns>
-            <CustomTableColumn text="%description" sortable="false" percentageWidth="20" percentageMinWidth="15">
+            <CustomTableColumn text="%priority" fx:id="colPriority" resizable="false" percentageWidth="6"/>
+
+            <CustomTableColumn text="%taskTitle" percentageWidth="15" percentageMinWidth="10">
                 <cellValueFactory>
-                    <PropertyValueFactory property="myNote.description"/>
-                </cellValueFactory>
-            </CustomTableColumn>
-            <CustomTableColumn text="%priority" percentageWidth="31.8" percentageMinWidth="28">
-                <cellValueFactory>
-                    <PropertyValueFactory property="myNote.priority"/>
+                    <PropertyValueFactory property="title"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn text="%myNoteCategory" percentageWidth="31.8" percentageMinWidth="28">
+            <CustomTableColumn text="%myNoteCategoryTitle" percentageWidth="15" percentageMinWidth="10">
                 <cellValueFactory>
-                    <PropertyValueFactory property="myNote.myNoteCategory.title"/>
+                    <PropertyValueFactory property="projectName"/>
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn text="%fullName" percentageWidth="31.8" percentageMinWidth="28">
+            <CustomTableColumn text="%fullName" percentageWidth="15" percentageMinWidth="10">
                 <cellValueFactory>
-                    <PropertyValueFactory property="myNote.person"/>
+                    <PropertyValueFactory property="person"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%description" sortable="false" percentageWidth="40.8" percentageMinWidth="24">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
                 </cellValueFactory>
             </CustomTableColumn>
         </columns>

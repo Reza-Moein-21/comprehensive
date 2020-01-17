@@ -31,7 +31,10 @@ public class Person implements Serializable {
     @Column(name = "DESCRIPTION", length = Integer.MAX_VALUE)
     String description;
 
-    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @Transient
+    String fullName = this.firstName + " " + this.lastName;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "PERSON_CATEGORY",
             joinColumns = {@JoinColumn(name = "PERSON_ID")},

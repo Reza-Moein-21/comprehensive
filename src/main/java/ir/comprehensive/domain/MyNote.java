@@ -43,4 +43,15 @@ public class MyNote {
     @ManyToOne
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_PERSON"), nullable = false)
     Person person;
+
+    @OneToOne(mappedBy = "myNote", orphanRemoval = true)
+    MyNoteTemp myNoteTemp;
+
+    public MyNote() {
+    }
+
+    public MyNote(Long id) {
+        this.id = id;
+    }
+
 }

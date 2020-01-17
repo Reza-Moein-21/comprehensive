@@ -1,6 +1,7 @@
 package ir.comprehensive.controller;
 
 import ir.comprehensive.utils.ScreenUtils;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -30,5 +31,12 @@ public class MyNoteBaseController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tabMyNoteTemp.setStyle(String.format("-fx-padding: %s %s", ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         tabMyNoteCategory.setStyle(String.format("-fx-padding: %s %s", ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        tabMyNoteTemp.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                myNoteTempController.updateDataTable();
+            }
+        });
     }
+
+
 }

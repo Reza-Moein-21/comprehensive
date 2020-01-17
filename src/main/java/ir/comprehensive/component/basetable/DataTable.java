@@ -195,6 +195,14 @@ public class DataTable<T extends BaseModel> extends VBox {
         this.onDelete = onDelete;
     }
 
+    public Extra getOnExtra() {
+        return onExtra;
+    }
+
+    public void setOnExtra(Extra onExtra) {
+        this.onExtra = onExtra;
+    }
+
     public Visitable<T> getOnVisit() {
         return onVisit;
     }

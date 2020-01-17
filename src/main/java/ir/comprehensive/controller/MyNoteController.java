@@ -20,6 +20,7 @@ import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.model.MyNoteModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.MyNoteService;
+import ir.comprehensive.service.MyNoteTempService;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
@@ -56,6 +57,8 @@ public class MyNoteController implements Initializable {
     StartController startController;
     @Autowired
     MyNoteService myNoteService;
+    @Autowired
+    MyNoteTempService myNoteTempService;
     @Autowired
     private PersonService personService;
     @Autowired
@@ -256,6 +259,16 @@ public class MyNoteController implements Initializable {
                 dlgDelete.close();
             });
         });
+
+        tblMyNote.setOnExtra(selectedIds -> {
+            try {
+                myNoteTempService.sendToTemp(selectedIds);
+                Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE + " " + MessageUtils.Message.SUCCESS_SEND);
+            } catch (GeneralException e) {
+                Notify.showErrorMessage(e.getMessage());
+            }
+        });
+
         tblMyNote.setOnVisit(selectedItem -> {
             myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).ifPresent(loadedModel -> {
                 lblTitleShow.setText(loadedModel.getTitle());
