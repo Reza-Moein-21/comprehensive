@@ -12,9 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
@@ -51,6 +50,29 @@ public class HomeController implements Initializable {
     public Label lblStoppedCount;
     public Label lblPersonCount;
     public Label lblCategoryCount;
+    public HBox hbxHadis;
+    public ImageView imgCalender;
+    public ImageView imgTime;
+    public TilePane tlpClaAndClock;
+    public HBox hbxClock;
+    public HBox hbxCalender;
+    public HBox hbxTolooAftab;
+    public ImageView imgSobh;
+    public HBox hbxSobh;
+    public HBox hbxZohre;
+    public ImageView imgZohre;
+    public ImageView imgTolooAftab;
+    public HBox hbxGhroobAftab;
+    public ImageView imgGhroobAftab;
+    public HBox hbxMaghreb;
+    public ImageView imgMaghreb;
+    public HBox hbxNemehShab;
+    public ImageView imgNemehShab;
+    public VBox vbxAzan;
+    public AnchorPane ancAzan;
+    public HBox hbxAzan;
+    public GridPane grdAzan;
+    public ImageView imgAzan;
     private WarehouseInfo warehouseInfo = new WarehouseInfo();
 
     @FXML
@@ -117,6 +139,61 @@ public class HomeController implements Initializable {
         this.lblUnknownCount.textProperty().bindBidirectional(warehouseInfo.unknownCountProperty());
         this.lblReceivedCount.textProperty().bindBidirectional(warehouseInfo.receivedCountProperty());
         this.lblRejectedCount.textProperty().bindBidirectional(warehouseInfo.rejectedCountProperty());
+
+
+        hbxHadis.setMaxHeight(ScreenUtils.getActualSize(250));
+
+
+        hbxAzan.setMaxHeight(ScreenUtils.getActualSize(410));
+        ancAzan.setMinWidth(ScreenUtils.getActualSize(1100));
+
+        AnchorPane.setTopAnchor(vbxAzan, ScreenUtils.getActualSize(68));
+        vbxAzan.setStyle("-fx-background-color: #80DEEA;-fx-border-width: " + ScreenUtils.getActualSize(0.5) + ";-fx-border-color: #d1d1d1;-fx-border-radius: " + ScreenUtils.getActualSize(5) + "; -fx-background-radius: " + ScreenUtils.getActualSize(5));
+        vbxAzan.setSpacing(ScreenUtils.getActualSize(5));
+
+
+        hbxClock.setSpacing(ScreenUtils.getActualSize(10));
+        hbxCalender.setSpacing(ScreenUtils.getActualSize(10));
+        hbxTolooAftab.setSpacing(ScreenUtils.getActualSize(10));
+        hbxSobh.setSpacing(ScreenUtils.getActualSize(10));
+        hbxZohre.setSpacing(ScreenUtils.getActualSize(10));
+        hbxGhroobAftab.setSpacing(ScreenUtils.getActualSize(10));
+        hbxMaghreb.setSpacing(ScreenUtils.getActualSize(10));
+        hbxNemehShab.setSpacing(ScreenUtils.getActualSize(10));
+
+        imgAzan.setFitHeight(ScreenUtils.getActualSize(170));
+        imgAzan.setFitWidth(ScreenUtils.getActualSize(170));
+        AnchorPane.setTopAnchor(imgAzan, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setRightAnchor(imgAzan, ScreenUtils.getActualSize(40.0));
+
+        imgCalender.setFitWidth(ScreenUtils.getActualSize(64));
+        imgTime.setFitWidth(ScreenUtils.getActualSize(64));
+        imgCalender.setFitHeight(ScreenUtils.getActualSize(64));
+        imgTime.setFitHeight(ScreenUtils.getActualSize(64));
+
+        tlpClaAndClock.setHgap(ScreenUtils.getActualSize(10));
+        tlpClaAndClock.setVgap(ScreenUtils.getActualSize(10));
+        tlpClaAndClock.setStyle("-fx-padding: " + ScreenUtils.getActualSize(20) + " 0px " + ScreenUtils.getActualSize(40) + " 0px;");
+
+        grdAzan.setHgap(ScreenUtils.getActualSize(50));
+        grdAzan.setVgap(ScreenUtils.getActualSize(50));
+
+
+        imgSobh.setFitWidth(ScreenUtils.getActualSize(64));
+        imgSobh.setFitHeight(ScreenUtils.getActualSize(64));
+
+        imgZohre.setFitWidth(ScreenUtils.getActualSize(64));
+        imgZohre.setFitHeight(ScreenUtils.getActualSize(64));
+
+
+        imgGhroobAftab.setFitWidth(ScreenUtils.getActualSize(64));
+        imgMaghreb.setFitHeight(ScreenUtils.getActualSize(64));
+        imgNemehShab.setFitWidth(ScreenUtils.getActualSize(64));
+        imgNemehShab.setFitHeight(ScreenUtils.getActualSize(64));
+
+
+        imgTolooAftab.setFitWidth(ScreenUtils.getActualSize(64));
+        imgTolooAftab.setFitHeight(ScreenUtils.getActualSize(64));
 
 
         masonry.setHgap(ScreenUtils.getActualSize(22));

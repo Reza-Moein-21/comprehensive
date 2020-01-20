@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx"
+         nodeOrientation="RIGHT_TO_LEFT">
+    <children>
+        <BorderPane>
+            <left>
+                <ImageView fx:id="imgLeft" scaleX="-1" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/image/hadis-border.png"/>
+                    </image>
+                </ImageView>
+            </left>
+            <center>
+                <VBox>
+                    <StackPane>
+
+                        <ImageView fx:id="imgHeader" pickOnBounds="true" preserveRatio="true">
+
+                            <image>
+                                <Image url="@/image/hadis-header.png"/>
+                            </image>
+                        </ImageView>
+                        <Label fx:id="lblHeader">سخن بزرگان</Label>
+                    </StackPane>
+                    <Label fx:id="lblTitle" style="-fx-text-fill: #4CAF50"/>
+                    <Label fx:id="lblContent"/>
+
+                </VBox>
+            </center>
+            <right>
+                <ImageView fx:id="imgRight" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/image/hadis-border.png"/>
+                    </image>
+                </ImageView>
+            </right>
+        </BorderPane>
+    </children>
+</fx:root>
