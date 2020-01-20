@@ -2,15 +2,19 @@ package ir.comprehensive.service.extra;
 
 
 import java.lang.reflect.Field;
+import java.util.stream.Stream;
 
 public interface Swappable<T> {
-    default T swap(T from, T to) {
+    default T swap(T from, T to, String... ignoreFields) {
         Field[] fromFields = from.getClass().getDeclaredFields();
         Class<?> toClass = to.getClass();
 
         try {
             for (Field fromField : fromFields) {
                 fromField.setAccessible(true);
+                if (ignoreFields != null && Stream.of(ignoreFields).anyMatch(fieldName -> fromField.getName().equals(fieldName))) {
+                    continue;
+                }
                 Field toField = toClass.getDeclaredField(fromField.getName());
                 toField.setAccessible(true);
                 toField.set(to, fromField.get(from));

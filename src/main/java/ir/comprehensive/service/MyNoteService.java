@@ -128,7 +128,7 @@ public class MyNoteService implements Swappable<MyNote> {
         // TODO must fix message
         MyNote loadedMyNote = repository.findById(myNote.getId()).orElseThrow(() -> new GeneralException("not found"));
 
-        MyNote myNoteSwap = swap(myNote, loadedMyNote);
+        MyNote myNoteSwap = swap(myNote, loadedMyNote, "myNoteTemp");
         myNoteSwap.setInActivationDate(myNoteSwap.getIsActive() ? null : LocalDate.now());
         return Optional.of(repository.save(myNoteSwap));
 

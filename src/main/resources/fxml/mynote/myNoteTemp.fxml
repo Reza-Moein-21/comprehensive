@@ -33,11 +33,8 @@
                 </cellValueFactory>
             </CustomTableColumn>
 
-            <CustomTableColumn text="%description" sortable="false" percentageWidth="40.8" percentageMinWidth="24">
-                <cellValueFactory>
-                    <PropertyValueFactory property="description"/>
-                </cellValueFactory>
-            </CustomTableColumn>
+            <CustomTableColumn fx:id="colDescription" text="%description" sortable="false" percentageWidth="40.8"
+                               percentageMinWidth="24"/>
         </columns>
     </DataTable>
 

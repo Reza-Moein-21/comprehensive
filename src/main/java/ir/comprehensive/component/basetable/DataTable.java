@@ -13,7 +13,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -44,7 +47,8 @@ public class DataTable<T extends BaseModel> extends VBox {
         tableView = new TableView<>();
         VBox.setVgrow(tableView, Priority.ALWAYS);
         hbxHeader.setSpacing(ScreenUtils.getActualSize(50));
-        hbxHeader.setPadding(new Insets(ScreenUtils.getActualSize(10),ScreenUtils.getActualSize(20),ScreenUtils.getActualSize(10),ScreenUtils.getActualSize(20)));
+        hbxHeader.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20)));
+        hbxHeader.setAlignment(Pos.CENTER_LEFT);
 
         btnDelete.getStyleClass().addAll("table-row-button", "delete-table-row-button");
         btnDelete.setPrefWidth(ScreenUtils.getActualSize(62));
@@ -64,9 +68,8 @@ public class DataTable<T extends BaseModel> extends VBox {
             this.onExtra.acceptExtra(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
         });
 
-        HBox hbxDeleteAndLabel = new HBox(btnDelete, lblNumberOfSelected);
-        hbxDeleteAndLabel.setAlignment(Pos.CENTER);
-        hbxHeader.getChildren().addAll(hbxDeleteAndLabel, btnExtra);
+
+        hbxHeader.getChildren().addAll(wrapToCircle(lblNumberOfSelected), btnDelete, btnExtra);
 
 
         CustomTableColumn<T, String> rowNumberColumn = new CustomTableColumn<>(MessageUtils.Message.NUMBER_SIGN);
@@ -124,11 +127,22 @@ public class DataTable<T extends BaseModel> extends VBox {
         this.setStyle(style.toString());
     }
 
+    private StackPane wrapToCircle(Label lblNumberOfSelected) {
+        StackPane stackPane = new StackPane();
+        stackPane.disableProperty().bindBidirectional(lblNumberOfSelected.disableProperty());
+        Circle circle = new Circle();
+        circle.setFill(Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        circle.setRadius(ScreenUtils.getActualSize(32));
+        stackPane.getChildren().addAll(circle, lblNumberOfSelected);
+        return stackPane;
+    }
+
     private void updateDeleteInfo(Label lblNumberOfSelected, JFXButton btnDelete) {
         long count = this.getItems().stream().filter(t -> t.getChb().isSelected()).count();
 
         if (count > 0) {
-            lblNumberOfSelected.setVisible(true);
+            lblNumberOfSelected.setDisable(false);
 
             lblNumberOfSelected.setText(String.valueOf(count));
             btnDelete.setDisable(false);
@@ -142,7 +156,8 @@ public class DataTable<T extends BaseModel> extends VBox {
         } else {
             checkBox.setSelected(false);
             checkBox.setIndeterminate(false);
-            lblNumberOfSelected.setVisible(false);
+            lblNumberOfSelected.setDisable(true);
+            lblNumberOfSelected.setText("0");
             btnDelete.setDisable(true);
         }
     }

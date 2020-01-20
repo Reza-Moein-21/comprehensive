@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class MyNoteTempController implements Initializable {
     public CustomTableColumn<MyNoteTempModel, RatingExtra> colPriority;
     @FXML
     public VBox parent;
+    public CustomTableColumn<MyNoteTempModel, String> colDescription;
 
     @Autowired
     StartController startController;
@@ -56,6 +58,8 @@ public class MyNoteTempController implements Initializable {
         colPriority.setCellValueFactory(param -> new ReadOnlyObjectWrapper<RatingExtra>(new RatingExtra(null, param.getValue().getPriority(), null, true)));
         colPriority.setComparator(Comparator.comparing(RatingExtra::getRating));
 
+        colDescription.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(getRightDescription(param)));
+
         tblMyNoteTemp.setOnDelete(selectedIds -> {
             dlgDelete.show();
             dlgDelete.setOnConfirm(() -> {
@@ -71,6 +75,19 @@ public class MyNoteTempController implements Initializable {
         });
 
         updateDataTable();
+    }
+
+    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteTempModel, String> param) {
+        final int MAX_LENGTH = 50;
+        String description = param.getValue().getDescription();
+        if (description == null) {
+            return "";
+        }
+        int originalLength = description.length();
+
+        description = description.replace("\n", " ");
+        description = description.substring(0, Math.min(description.length(), MAX_LENGTH));
+        return originalLength > MAX_LENGTH ? description + "..." : description;
     }
 
     public void updateDataTable() {
