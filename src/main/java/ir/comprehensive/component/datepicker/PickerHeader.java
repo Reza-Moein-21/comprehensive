@@ -6,7 +6,9 @@ import ir.comprehensive.component.JavaFxComponent;
 import ir.comprehensive.component.arrowchoiceboxwidget.ArrowChoiceBoxWidget;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -22,6 +24,8 @@ class PickerHeader extends JavaFxComponent {
      * calender time
      */
     ObjectProperty<LocalDate> tempTime;
+
+    BooleanProperty isShowYear = new SimpleBooleanProperty(true);
 
     public PickerHeader(ObjectProperty<LocalDate> tempTime) {
         this.tempTime = tempTime;
@@ -83,6 +87,14 @@ class PickerHeader extends JavaFxComponent {
         base.setAlignment(Pos.CENTER);
         base.getChildren().setAll(btnToday, acbMonth, acbYear);
 
+
+        isShowYear.addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                base.getChildren().setAll(btnToday, acbMonth);
+            } else {
+                base.getChildren().setAll(btnToday, acbMonth, acbYear);
+            }
+        });
         this.setStyle("-fx-border-width: 0 0 " + ScreenUtils.getActualSize(3) + " 0; -fx-border-color: #bdbdbd;-fx-padding: " + ScreenUtils.getActualSize(10) + " 0;");
         return base;
     }
@@ -109,4 +121,15 @@ class PickerHeader extends JavaFxComponent {
         return tempTime;
     }
 
+    public boolean isIsShowYear() {
+        return isShowYear.get();
+    }
+
+    public BooleanProperty isShowYearProperty() {
+        return isShowYear;
+    }
+
+    public void setIsShowYear(boolean isShowYear) {
+        this.isShowYear.set(isShowYear);
+    }
 }

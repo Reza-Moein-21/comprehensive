@@ -5,10 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
 import ir.comprehensive.utils.ScreenUtils;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,6 +24,7 @@ public class SimpleDatePicker extends StackPane {
     private StackPane dialogContainer;
     JFXTextField textField;
 
+    BooleanProperty isShowYear = new SimpleBooleanProperty(true);
 
     private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>();
 
@@ -143,5 +141,17 @@ public class SimpleDatePicker extends StackPane {
         for (Node n : rootNode.getChildren()) {
             n.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(32) + "px;-fx-font-family: 'shabnam';");
         }
+    }
+
+    public boolean isIsShowYear() {
+        return isShowYear.get();
+    }
+
+    public BooleanProperty isShowYearProperty() {
+        return isShowYear;
+    }
+
+    public void setIsShowYear(boolean isShowYear) {
+        this.isShowYear.set(isShowYear);
     }
 }
