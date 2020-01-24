@@ -15,6 +15,7 @@ public enum ViewName {
     MY_NOTEBOOK("fxml/mynote/myNote.fxml", MessageUtils.Message.MY_NOTE),
     MY_NOTE_CATEGORY("fxml/mynote/myNoteCategory.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
     MY_NOTE_BASE("fxml/mynote/myNoteBase.fxml", MessageUtils.Message.MY_NOTE_CATEGORY),
+    ADD_HADIS("fxml/addHadis.fxml", MessageUtils.Message.HADIS),
 
     ;
     private String viewPath;

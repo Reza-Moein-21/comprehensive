@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Hadis extends VBox implements Initializable {
+public class HadisComponent extends VBox implements Initializable {
 
     @FXML
     ImageView imgRight;
@@ -31,7 +31,7 @@ public class Hadis extends VBox implements Initializable {
     private StringProperty title = new SimpleStringProperty();
     private StringProperty content = new SimpleStringProperty();
 
-    public Hadis() {
+    public HadisComponent() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/hadis.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);

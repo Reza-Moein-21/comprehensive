@@ -28,22 +28,34 @@ public class Notify {
     }
 
     public static void showSuccessMessage(String message) {
+        showSuccessMessage(message, MESSAGE_TIMEOUT);
+    }
+
+    public static void showSuccessMessage(String message, long timeOut) {
         JFXSnackbar snackbar = getSnackbar();
         snackbar.getStyleClass().add("success-toast");
-        snackbar.show(message, "X", MESSAGE_TIMEOUT, event -> snackbar.close());
+        snackbar.show(message, "X", timeOut, event -> snackbar.close());
 
     }
 
     public static void showErrorMessage(String message) {
+        showErrorMessage(message, MESSAGE_TIMEOUT);
+    }
+
+    public static void showErrorMessage(String message, long timeOut) {
         JFXSnackbar snackbar = getSnackbar();
         snackbar.getStyleClass().add("error-toast");
-        snackbar.show(message, "X", MESSAGE_TIMEOUT, event -> snackbar.close());
+        snackbar.show(message, "X", timeOut, event -> snackbar.close());
     }
 
     public static void showWarningMessage(String message) {
+        showWarningMessage(message, MESSAGE_TIMEOUT);
+    }
+
+    public static void showWarningMessage(String message, long timeOut) {
         JFXSnackbar snackbar = getSnackbar();
         snackbar.getStyleClass().add("warning-toast");
-        snackbar.show(message, "X", MESSAGE_TIMEOUT, event -> snackbar.close());
+        snackbar.show(message, "X", timeOut, event -> snackbar.close());
     }
 
     @PostConstruct

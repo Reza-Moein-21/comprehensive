@@ -3,12 +3,16 @@ package ir.comprehensive.controller;
 import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.component.Card;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
+import ir.comprehensive.component.hadis.HadisComponent;
+import ir.comprehensive.domain.Hadis;
 import ir.comprehensive.model.HumanResourceInfo;
 import ir.comprehensive.model.MyNoteCategoryInfo;
 import ir.comprehensive.model.WarehouseInfo;
 import ir.comprehensive.service.CategoryService;
+import ir.comprehensive.service.HadisService;
 import ir.comprehensive.service.MyNoteCategoryService;
 import ir.comprehensive.service.WarehouseService;
+import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -25,6 +29,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
@@ -55,7 +60,6 @@ public class HomeController implements Initializable {
 
     public MyNoteCategoryInfo myNoteCategoryInfo = new MyNoteCategoryInfo();
     public HumanResourceInfo humanResourceInfo = new HumanResourceInfo();
-
     public Label lblTotalWarehouse;
     public Label lblLostCount;
     public Label lblUnknownCount;
@@ -98,6 +102,8 @@ public class HomeController implements Initializable {
     public Label lblGhroobAftab;
     public Label lblMaghreb;
     public Label lblNemehShab;
+    public HadisComponent hadisComponent;
+    public Label lblOwghatTitle;
     private WarehouseInfo warehouseInfo = new WarehouseInfo();
 
     @FXML
@@ -106,12 +112,19 @@ public class HomeController implements Initializable {
     private MyNoteCategoryService myNoteCategoryService;
     private CategoryService categoryService;
     private WarehouseService warehouseService;
+    private HadisService hadisService;
 
-    public HomeController(StartController startController, MyNoteCategoryService myNoteCategoryService, CategoryService categoryService, WarehouseService warehouseService) {
+    @Value("${hadis.change.time}")
+    private int hadisChangeTime;
+    @Value("${azan.remaining.time}")
+    private long azanRemainingTime;
+
+    public HomeController(StartController startController, MyNoteCategoryService myNoteCategoryService, CategoryService categoryService, WarehouseService warehouseService, HadisService hadisService) {
         this.startController = startController;
         this.myNoteCategoryService = myNoteCategoryService;
         this.categoryService = categoryService;
         this.warehouseService = warehouseService;
+        this.hadisService = hadisService;
     }
 
     @FXML
@@ -152,7 +165,7 @@ public class HomeController implements Initializable {
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
 
-                        setAzanValue(cell.getColumnIndex(),getCellStringValue(cell));
+                        setAzanValue(cell.getColumnIndex(), getCellStringValue(cell));
                     }
 
                 }
@@ -160,7 +173,7 @@ public class HomeController implements Initializable {
             file.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-          clearAzanFields();
+            clearAzanFields();
         }
     };
 
@@ -178,7 +191,7 @@ public class HomeController implements Initializable {
             case Cell.CELL_TYPE_NUMERIC:
                 return String.valueOf(cell.getNumericCellValue());
             case Cell.CELL_TYPE_STRING:
-                return  cell.getStringCellValue();
+                return cell.getStringCellValue();
             default:
                 return "";
         }
@@ -233,7 +246,7 @@ public class HomeController implements Initializable {
         sdpAzan.setDialogContainer(this.startController.mainStack);
 
         setTimeByTimeLine();
-
+        setHadisByTimeLine();
 
         lblTotalMyNoteCategory.textProperty().bindBidirectional(myNoteCategoryInfo.totalCountProperty());
         lblInProgressCount.textProperty().bindBidirectional(myNoteCategoryInfo.inProgressCountProperty());
@@ -259,8 +272,8 @@ public class HomeController implements Initializable {
         hbxAzan.setMaxHeight(ScreenUtils.getActualSize(410));
         ancAzan.setMinWidth(ScreenUtils.getActualSize(1100));
 
-        AnchorPane.setTopAnchor(vbxAzan, ScreenUtils.getActualSize(68));
-        vbxAzan.setStyle("-fx-background-color: #80DEEA;-fx-border-width: " + ScreenUtils.getActualSize(0.5) + ";-fx-border-color: #d1d1d1;-fx-border-radius: " + ScreenUtils.getActualSize(5) + "; -fx-background-radius: " + ScreenUtils.getActualSize(5));
+        AnchorPane.setTopAnchor(vbxAzan, ScreenUtils.getActualSize(72));
+        vbxAzan.setStyle("-fx-background-color: #80DEEA;-fx-border-width: " + ScreenUtils.getActualSize(2.5) + ";-fx-border-color: #2a4d55;-fx-border-radius: " + ScreenUtils.getActualSize(5) + "; -fx-background-radius: " + ScreenUtils.getActualSize(5));
         vbxAzan.setSpacing(ScreenUtils.getActualSize(5));
 
 
@@ -275,7 +288,11 @@ public class HomeController implements Initializable {
         imgAzan.setFitHeight(ScreenUtils.getActualSize(170));
         imgAzan.setFitWidth(ScreenUtils.getActualSize(170));
         AnchorPane.setTopAnchor(imgAzan, ScreenUtils.getActualSize(0.0));
-        AnchorPane.setRightAnchor(imgAzan, ScreenUtils.getActualSize(40.0));
+        AnchorPane.setRightAnchor(imgAzan, ScreenUtils.getActualSize(10.0));
+
+        lblOwghatTitle.setStyle("-fx-font-size: " + ScreenUtils.getActualSize(40) + "px;-fx-font-family: 'shabnam';");
+        AnchorPane.setTopAnchor(lblOwghatTitle, ScreenUtils.getActualSize(0.0));
+        AnchorPane.setRightAnchor(lblOwghatTitle, ScreenUtils.getActualSize(200.0));
 
 //        imgCalender.setFitWidth(ScreenUtils.getActualSize(64));
 //        imgCalender.setFitHeight(ScreenUtils.getActualSize(64));
@@ -312,11 +329,82 @@ public class HomeController implements Initializable {
         masonry.setPadding(new Insets(ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10)));
     }
 
+    private boolean isShowAgainNotify = true;
+
     private void setTimeByTimeLine() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            lblTime.setText(LocalTime.now().format(formatter));
-        }), new KeyFrame(Duration.seconds(1)));
+            LocalTime now = LocalTime.now();
+            lblTime.setText(now.format(formatter));
+            LocalTime timeSobh = getTimeFromText(lblSobh.getText());
+            LocalTime timeZohre = getTimeFromText(lblZohre.getText());
+            LocalTime timeMaghreb = getTimeFromText(lblMaghreb.getText());
+            if (timeSobh != null && timeZohre != null && timeMaghreb != null) {
+                LocalTime nthNextTime = now.plusMinutes(azanRemainingTime);
+                if (isEqualsByHourAndMinute(now, timeSobh)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("اذان صبح", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else if (isEqualsByHourAndMinute(nthNextTime, timeSobh)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان صبح", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else if (isEqualsByHourAndMinute(now, timeZohre)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("اذان ظهر", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else if (isEqualsByHourAndMinute(nthNextTime, timeZohre)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان ظهر", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else if (isEqualsByHourAndMinute(now, timeMaghreb)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("اذان مغرب", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else if (isEqualsByHourAndMinute(nthNextTime, timeMaghreb)) {
+                    if (isShowAgainNotify) {
+                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان مغرب", 999999999);
+                    }
+                    isShowAgainNotify = false;
+                } else {
+                    isShowAgainNotify = true;
+                }
+
+
+            }
+        }, new javafx.animation.KeyValue[]{}), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+    }
+
+    private boolean isEqualsByHourAndMinute(LocalTime now, LocalTime timeSobh) {
+        return now.getHour() == timeSobh.getHour() && now.getMinute() == timeSobh.getMinute();
+    }
+
+    private LocalTime getTimeFromText(String text) {
+        if (text == null) {
+            return null;
+        }
+
+        return LocalTime.parse(text, DateTimeFormatter.ofPattern("H:mm"));
+    }
+
+    private void setHadisByTimeLine() {
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            Hadis randomHadis = hadisService.getRandomHadis();
+            if (randomHadis == null) {
+                hadisComponent.setTitle("------------");
+                hadisComponent.setContent("----------------------------");
+            } else {
+                hadisComponent.setTitle(randomHadis.getTitle());
+                hadisComponent.setContent(randomHadis.getDescription());
+            }
+        }), new KeyFrame(Duration.minutes(hadisChangeTime)));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }

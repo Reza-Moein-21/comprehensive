@@ -1,5 +1,7 @@
 package ir.comprehensive.utils;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.stage.Screen;
 
 public class ScreenUtils {
@@ -9,6 +11,8 @@ public class ScreenUtils {
     public static final double EXTRA = 1;
     public static final double _4K_RESOLUTION = 2160;
 
+    public DoubleProperty scaleFactor = new SimpleDoubleProperty(ScreenUtils.getScale());
+
     public static double getScale() {
         double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
@@ -17,5 +21,17 @@ public class ScreenUtils {
 
     public static double getActualSize(double size) {
         return size * ScreenUtils.getScale();
+    }
+
+    public double getScaleFactor() {
+        return scaleFactor.get();
+    }
+
+    public DoubleProperty scaleFactorProperty() {
+        return scaleFactor;
+    }
+
+    public void setScaleFactor(double scaleFactor) {
+        this.scaleFactor.set(scaleFactor);
     }
 }

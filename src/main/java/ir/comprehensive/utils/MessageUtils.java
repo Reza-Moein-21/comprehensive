@@ -76,6 +76,7 @@ public class MessageUtils {
         public static final String HUMAN_RESOURCE = getMessage("humanResource");
         public static final String CATEGORIES = getMessage("categories");
         public static final String CATEGORY = getMessage("category");
+        public static final String HADIS = getMessage("hadis");
         public static final String MY_NOTE_CATEGORY = getMessage("myNoteCategory");
         public static final String EMAIL = getMessage("email");
         public static final String PHONE_NUMBER = getMessage("phoneNumber");

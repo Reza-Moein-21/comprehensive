@@ -29,7 +29,7 @@
 
                     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
                         <JFXButton fx:id="btnHome" styleClass="header-button,home-button" onAction="#backToHome"/>
-                        <JFXButton fx:id="btnSetting" styleClass="header-button,settings-button"/>
+                        <JFXButton fx:id="btnSetting" styleClass="header-button,settings-button" onAction="#openHadis"/>
                     </HBox>
                 </GridPane>
 

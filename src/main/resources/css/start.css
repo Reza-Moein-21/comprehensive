@@ -184,10 +184,7 @@
 
 .storeroom-card .bodyStyleClass {
     -fx-background-color: #FFEB3B;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
-    -fx-border-color: #F57F17;
+    -fx-border-color: #70671c;
 }
 
 .warehouse-card {
@@ -195,9 +192,6 @@
 
 .warehouse-card .bodyStyleClass {
     -fx-background-color: #d8bd89;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
     -fx-border-color: #6f5d41;
 }
 
@@ -206,9 +200,6 @@
 
 .warehouse-manage .bodyStyleClass {
     -fx-background-color: #C5E1A5;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
     -fx-border-color: #33691E;
 }
 
@@ -217,9 +208,6 @@
 
 .project-card .bodyStyleClass {
     -fx-background-color: #8BC34A;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
     -fx-border-color: #33691E;
 }
 
@@ -228,9 +216,6 @@
 
 .human-resource-card .bodyStyleClass {
     -fx-background-color: #8c9eff;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
     -fx-border-color: #1a237e;
 }
 
@@ -239,8 +224,5 @@
 
 .my-note-category-card .bodyStyleClass {
     -fx-background-color: #80cbc4;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-width: 0.5;
-    -fx-border-color: #26a69a;
+    -fx-border-color: #1a584d;
 }

@@ -115,4 +115,8 @@ public class StartController implements Initializable {
     public void backToHome(ActionEvent actionEvent) {
         navigateToView(ViewName.HOME);
     }
+
+    public void openHadis(ActionEvent actionEvent) {
+        navigateToView(ViewName.ADD_HADIS);
+    }
 }

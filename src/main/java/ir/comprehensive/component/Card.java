@@ -110,6 +110,7 @@ public class Card extends AnchorPane {
         AnchorPane.setBottomAnchor(body, ScreenUtils.getActualSize(0.0));
         AnchorPane.setLeftAnchor(body, ScreenUtils.getActualSize(0.0));
         body.getStyleClass().add(BODY_STYLE_CLASS);
+        body.setStyle("-fx-background-radius: "+ScreenUtils.getActualSize(5)+";-fx-border-radius: "+ScreenUtils.getActualSize(5) +";-fx-border-width: "+ScreenUtils.getActualSize(2.5));
         body.getChildren().addAll(bodyTitle, contentWrapper, bodyButton);
 
         /*

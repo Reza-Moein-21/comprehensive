@@ -2,7 +2,8 @@
 
 <?import ir.comprehensive.component.Card?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
-<?import ir.comprehensive.component.hadis.Hadis?>
+<?import ir.comprehensive.component.hadis.HadisComponent?>
+<?import ir.comprehensive.utils.ScreenUtils?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -12,10 +13,12 @@
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
     <HBox fx:id="hbxHadis" VBox.vgrow="ALWAYS" alignment="CENTER">
-        <Hadis alignment="CENTER" title="حکمت 19 نهج البلاغه"
-               content="آن کس که در پی آرزوی خویش باشد، مرگ او را از پای در آورد."/>
+        <HadisComponent fx:id="hadisComponent" alignment="CENTER" title="حکمت 19 نهج البلاغه"
+                        content="آن کس که در پی آرزوی خویش باشد، مرگ او را از پای در آورد."/>
     </HBox>
-
+    <fx:define>
+        <ScreenUtils fx:id="screenUtils"/>
+    </fx:define>
     <FlowPane fx:id="masonry" alignment="CENTER">
         <Card fx:id="crdWarehouseHome" styleClass="warehouse-manage" title="%warehouse"
               onClick="#goToWarehouseHome">
@@ -25,28 +28,28 @@
             <content>
                 <GridPane fx:id="grdWarehouseHomeContent" nodeOrientation="RIGHT_TO_LEFT">
                     <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
-                        <Label text="%totalWarehouse"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalWarehouse"/>
                         <Label fx:id="lblTotalWarehouse">22K</Label>
                     </HBox>
 
                     <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
-                        <Label text="%unknownCount"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%unknownCount"/>
                         <Label fx:id="lblUnknownCount"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
-                        <Label text="%receivedCount"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%receivedCount"/>
                         <Label fx:id="lblReceivedCount"/>
 
                     </HBox>
 
                     <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
-                        <Label text="%rejectedCount"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%rejectedCount"/>
                         <Label fx:id="lblRejectedCount"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="2" GridPane.columnIndex="1">
-                        <Label text="%lostCount"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%lostCount"/>
                         <Label fx:id="lblLostCount"/>
                     </HBox>
                 </GridPane>
@@ -60,12 +63,12 @@
             <content>
                 <GridPane fx:id="grdHumanResourceContent" nodeOrientation="RIGHT_TO_LEFT">
                     <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
-                        <Label text="%totalPerson"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalPerson"/>
                         <Label fx:id="lblPersonCount"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
-                        <Label text="%totalCategory"/>
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalCategory"/>
                         <Label fx:id="lblCategoryCount"/>
                     </HBox>
                 </GridPane>
@@ -79,22 +82,22 @@
             <content>
                 <GridPane fx:id="grdMyNoteCategoryContent" nodeOrientation="RIGHT_TO_LEFT">
                     <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
-                        <Label text="%totalMyNoteCategory"/>
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%totalMyNoteCategory"/>
                         <Label fx:id="lblTotalMyNoteCategory"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
-                        <Label text="%inProgressCount"/>
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%inProgressCount"/>
                         <Label fx:id="lblInProgressCount"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
-                        <Label text="%doneCount"/>
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%doneCount"/>
                         <Label fx:id="lblDoneCount"/>
                     </HBox>
 
                     <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
-                        <Label text="%stoppedCount"/>
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%stoppedCount"/>
                         <Label fx:id="lblStoppedCount"/>
                     </HBox>
                 </GridPane>
@@ -125,7 +128,7 @@
                                 <Image url="@/image/zohre.png"/>
                             </image>
                         </ImageView>
-                        <Label>اذان صبح:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان صبح:</Label>
                         <Label fx:id="lblSobh">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxTolooAftab" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -134,7 +137,7 @@
                                 <Image url="@/image/zohre.png"/>
                             </image>
                         </ImageView>
-                        <Label>طلوع آفتاب:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">طلوع آفتاب:</Label>
                         <Label fx:id="lblTolooAftab">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxZohre" GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -143,7 +146,7 @@
                                 <Image url="@/image/zohre.png"/>
                             </image>
                         </ImageView>
-                        <Label>اذان ظهر:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان ظهر:</Label>
                         <Label fx:id="lblZohre">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxGhroobAftab" GridPane.columnIndex="0" GridPane.rowIndex="1">
@@ -152,7 +155,7 @@
                                 <Image url="@/image/ghoroob.png"/>
                             </image>
                         </ImageView>
-                        <Label>غروب آفتاب:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">غروب آفتاب:</Label>
                         <Label fx:id="lblGhroobAftab">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxMaghreb" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -161,7 +164,7 @@
                                 <Image url="@/image/ghoroob.png"/>
                             </image>
                         </ImageView>
-                        <Label>اذان مغرب:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان مغرب:</Label>
                         <Label fx:id="lblMaghreb">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxNemehShab" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -170,7 +173,7 @@
                                 <Image url="@/image/ghoroob.png"/>
                             </image>
                         </ImageView>
-                        <Label>نیمه شب:</Label>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">نیمه شب:</Label>
                         <Label fx:id="lblNemehShab">22:33</Label>
                     </HBox>
 
@@ -182,6 +185,7 @@
                     <Image url="@/image/azaan.png"/>
                 </image>
             </ImageView>
+            <Label fx:id="lblOwghatTitle" text="اوقات شرعی"/>
         </AnchorPane>
     </HBox>
 </VBox>
