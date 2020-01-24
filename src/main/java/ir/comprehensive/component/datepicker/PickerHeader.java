@@ -25,7 +25,7 @@ class PickerHeader extends JavaFxComponent {
      */
     ObjectProperty<LocalDate> tempTime;
 
-    BooleanProperty isShowYear = new SimpleBooleanProperty(true);
+    BooleanProperty dontShowYear = new SimpleBooleanProperty();
 
     public PickerHeader(ObjectProperty<LocalDate> tempTime) {
         this.tempTime = tempTime;
@@ -88,8 +88,8 @@ class PickerHeader extends JavaFxComponent {
         base.getChildren().setAll(btnToday, acbMonth, acbYear);
 
 
-        isShowYear.addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
+        dontShowYear.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
                 base.getChildren().setAll(btnToday, acbMonth);
             } else {
                 base.getChildren().setAll(btnToday, acbMonth, acbYear);
@@ -121,15 +121,15 @@ class PickerHeader extends JavaFxComponent {
         return tempTime;
     }
 
-    public boolean isIsShowYear() {
-        return isShowYear.get();
+    public boolean getDontShowYear() {
+        return dontShowYear.get();
     }
 
-    public BooleanProperty isShowYearProperty() {
-        return isShowYear;
+    public BooleanProperty dontShowYearProperty() {
+        return dontShowYear;
     }
 
-    public void setIsShowYear(boolean isShowYear) {
-        this.isShowYear.set(isShowYear);
+    public void setDontShowYear(boolean dontShowYear) {
+        this.dontShowYear.set(dontShowYear);
     }
 }

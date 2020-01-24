@@ -9,6 +9,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -24,7 +25,7 @@ public class SimpleDatePicker extends StackPane {
     private StackPane dialogContainer;
     JFXTextField textField;
 
-    BooleanProperty isShowYear = new SimpleBooleanProperty(true);
+    BooleanProperty isAzan = new SimpleBooleanProperty();
 
     private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>();
 
@@ -118,7 +119,23 @@ public class SimpleDatePicker extends StackPane {
             }
             textField.getValidators().setAll(newValue);
         });
-        this.getChildren().addAll(textField, button);
+
+        isAzan.addListener((observable, oldValue, newValue) -> {
+            addFinalComponentToParent(button, newValue);
+        });
+
+        addFinalComponentToParent(button, isAzan.get());
+    }
+
+    private void addFinalComponentToParent(JFXButton button, Boolean newValue) {
+        if (newValue) {
+            Label lblDateTitle = new Label();
+            lblDateTitle.setMinWidth(ScreenUtils.getActualSize(250));
+            lblDateTitle.textProperty().bind(textField.textProperty());
+            this.getChildren().setAll(lblDateTitle, button);
+        } else {
+            this.getChildren().setAll(textField, button);
+        }
     }
 
     public StackPane getDialogContainer() {
@@ -143,15 +160,15 @@ public class SimpleDatePicker extends StackPane {
         }
     }
 
-    public boolean isIsShowYear() {
-        return isShowYear.get();
+    public boolean getIsAzan() {
+        return isAzan.get();
     }
 
-    public BooleanProperty isShowYearProperty() {
-        return isShowYear;
+    public BooleanProperty isAzanProperty() {
+        return isAzan;
     }
 
-    public void setIsShowYear(boolean isShowYear) {
-        this.isShowYear.set(isShowYear);
+    public void setIsAzan(boolean isAzan) {
+        this.isAzan.set(isAzan);
     }
 }

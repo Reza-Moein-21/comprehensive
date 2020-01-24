@@ -27,7 +27,7 @@ public class PickerDialog extends JFXDialog {
         VBox base = new VBox();
 
         PickerHeader pickerHeader = new PickerHeader(this.tempTime);
-        pickerHeader.isShowYear.bind(parent.isShowYear);
+        pickerHeader.dontShowYear.bind(parent.isAzan);
 
         PickerMain pickerMain = new PickerMain(this);
         PickerFooter pickerFooter = new PickerFooter(this);

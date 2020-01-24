@@ -1,6 +1,8 @@
 package ir.comprehensive.controller;
 
+import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.component.Card;
+import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.model.HumanResourceInfo;
 import ir.comprehensive.model.MyNoteCategoryInfo;
 import ir.comprehensive.model.WarehouseInfo;
@@ -8,15 +10,30 @@ import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.MyNoteCategoryService;
 import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.utils.ScreenUtils;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 @Controller
@@ -51,11 +68,11 @@ public class HomeController implements Initializable {
     public Label lblPersonCount;
     public Label lblCategoryCount;
     public HBox hbxHadis;
-    public ImageView imgCalender;
+    //    public ImageView imgCalender;
     public ImageView imgTime;
     public TilePane tlpClaAndClock;
     public HBox hbxClock;
-    public HBox hbxCalender;
+    //    public HBox hbxCalender;
     public HBox hbxTolooAftab;
     public ImageView imgSobh;
     public HBox hbxSobh;
@@ -73,6 +90,14 @@ public class HomeController implements Initializable {
     public HBox hbxAzan;
     public GridPane grdAzan;
     public ImageView imgAzan;
+    public SimpleDatePicker sdpAzan;
+    public Label lblTime;
+    public Label lblSobh;
+    public Label lblTolooAftab;
+    public Label lblZohre;
+    public Label lblGhroobAftab;
+    public Label lblMaghreb;
+    public Label lblNemehShab;
     private WarehouseInfo warehouseInfo = new WarehouseInfo();
 
     @FXML
@@ -104,6 +129,85 @@ public class HomeController implements Initializable {
         startController.navigateToView(ViewName.HUMAN_RESOURCE);
     }
 
+    private ChangeListener<LocalDate> handelDateChange = (observable, oldValue, newValue) -> {
+        try {
+            FileInputStream file = new FileInputStream(new File("./.database/owghat.xlsx"));
+            PersianDate persianDate = PersianDate.fromGregorian(newValue);
+
+            //Create Workbook instance holding reference to .xlsx file
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+            //Get first/desired sheet from the workbook
+            XSSFSheet sheet = workbook.getSheetAt(persianDate.getMonthValue() - 1);
+
+            //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                int rowIndex = row.getRowNum();
+                if (rowIndex == persianDate.getDayOfMonth()) {
+                    //For each row, iterate through all the columns
+                    Iterator<Cell> cellIterator = row.cellIterator();
+
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+
+                        setAzanValue(cell.getColumnIndex(),getCellStringValue(cell));
+                    }
+
+                }
+            }
+            file.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+          clearAzanFields();
+        }
+    };
+
+    private void clearAzanFields() {
+        lblSobh.setText("---");
+        lblTolooAftab.setText("---");
+        lblZohre.setText("---");
+        lblGhroobAftab.setText("---");
+        lblMaghreb.setText("---");
+        lblNemehShab.setText("---");
+    }
+
+    private String getCellStringValue(Cell cell) {
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case Cell.CELL_TYPE_STRING:
+                return  cell.getStringCellValue();
+            default:
+                return "";
+        }
+    }
+
+    private void setAzanValue(int index, String value) {
+        switch (index) {
+            case 1:
+                lblSobh.setText(value);
+                return;
+            case 2:
+                lblTolooAftab.setText(value);
+                return;
+            case 3:
+                lblZohre.setText(value);
+                return;
+            case 4:
+                lblGhroobAftab.setText(value);
+                return;
+            case 5:
+                lblMaghreb.setText(value);
+                return;
+            case 6:
+                lblNemehShab.setText(value);
+                return;
+
+        }
+    }
+
     @FXML
     public void goToMyNoteCategory() {
         startController.navigateToView(ViewName.MY_NOTE_BASE);
@@ -120,8 +224,16 @@ public class HomeController implements Initializable {
         configCard(crdWarehouseHome);
         configCard(crdMyNoteCategory);
 
+
         applyContentStyle(grdMyNoteCategoryContent, grdHumanResourceContent, grdWarehouseHomeContent);
         this.myNoteCategoryInfo = myNoteCategoryService.getInfo();
+
+        sdpAzan.valueProperty().addListener(handelDateChange);
+        sdpAzan.setValue(LocalDate.now());
+        sdpAzan.setDialogContainer(this.startController.mainStack);
+
+        setTimeByTimeLine();
+
 
         lblTotalMyNoteCategory.textProperty().bindBidirectional(myNoteCategoryInfo.totalCountProperty());
         lblInProgressCount.textProperty().bindBidirectional(myNoteCategoryInfo.inProgressCountProperty());
@@ -153,7 +265,6 @@ public class HomeController implements Initializable {
 
 
         hbxClock.setSpacing(ScreenUtils.getActualSize(10));
-        hbxCalender.setSpacing(ScreenUtils.getActualSize(10));
         hbxTolooAftab.setSpacing(ScreenUtils.getActualSize(10));
         hbxSobh.setSpacing(ScreenUtils.getActualSize(10));
         hbxZohre.setSpacing(ScreenUtils.getActualSize(10));
@@ -166,9 +277,9 @@ public class HomeController implements Initializable {
         AnchorPane.setTopAnchor(imgAzan, ScreenUtils.getActualSize(0.0));
         AnchorPane.setRightAnchor(imgAzan, ScreenUtils.getActualSize(40.0));
 
-        imgCalender.setFitWidth(ScreenUtils.getActualSize(64));
+//        imgCalender.setFitWidth(ScreenUtils.getActualSize(64));
+//        imgCalender.setFitHeight(ScreenUtils.getActualSize(64));
         imgTime.setFitWidth(ScreenUtils.getActualSize(64));
-        imgCalender.setFitHeight(ScreenUtils.getActualSize(64));
         imgTime.setFitHeight(ScreenUtils.getActualSize(64));
 
         tlpClaAndClock.setHgap(ScreenUtils.getActualSize(10));
@@ -199,6 +310,15 @@ public class HomeController implements Initializable {
         masonry.setHgap(ScreenUtils.getActualSize(22));
         masonry.setVgap(ScreenUtils.getActualSize(22));
         masonry.setPadding(new Insets(ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10)));
+    }
+
+    private void setTimeByTimeLine() {
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            lblTime.setText(LocalTime.now().format(formatter));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
     private void applyContentStyle(GridPane... gridPanes) {

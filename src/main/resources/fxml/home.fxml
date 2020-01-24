@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import ir.comprehensive.component.Card?>
+<?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.hadis.Hadis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -106,21 +107,14 @@
             <VBox fx:id="vbxAzan" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
                   AnchorPane.leftAnchor="0" nodeOrientation="RIGHT_TO_LEFT">
                 <TilePane fx:id="tlpClaAndClock" alignment="CENTER">
-                    <HBox fx:id="hbxCalender" alignment="CENTER">
-                        <ImageView fx:id="imgCalender" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@/image/calender.png"/>
-                            </image>
-                        </ImageView>
-                        <Label>1398/2/2</Label>
-                    </HBox>
+                    <SimpleDatePicker fx:id="sdpAzan" isAzan="true" nodeOrientation="LEFT_TO_RIGHT"/>
                     <HBox fx:id="hbxClock" alignment="CENTER">
                         <ImageView fx:id="imgTime" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@/image/clock.png"/>
                             </image>
                         </ImageView>
-                        <Label>22:00</Label>
+                        <Label fx:id="lblTime">22:00</Label>
                     </HBox>
 
                 </TilePane>
@@ -132,7 +126,7 @@
                             </image>
                         </ImageView>
                         <Label>اذان صبح:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblSobh">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxTolooAftab" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <ImageView fx:id="imgTolooAftab" pickOnBounds="true" preserveRatio="true">
@@ -141,7 +135,7 @@
                             </image>
                         </ImageView>
                         <Label>طلوع آفتاب:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblTolooAftab">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxZohre" GridPane.columnIndex="2" GridPane.rowIndex="0">
                         <ImageView fx:id="imgZohre" pickOnBounds="true" preserveRatio="true">
@@ -150,7 +144,7 @@
                             </image>
                         </ImageView>
                         <Label>اذان ظهر:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblZohre">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxGhroobAftab" GridPane.columnIndex="0" GridPane.rowIndex="1">
                         <ImageView fx:id="imgGhroobAftab" pickOnBounds="true" preserveRatio="true">
@@ -159,7 +153,7 @@
                             </image>
                         </ImageView>
                         <Label>غروب آفتاب:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblGhroobAftab">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxMaghreb" GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <ImageView fx:id="imgMaghreb" pickOnBounds="true" preserveRatio="true">
@@ -168,7 +162,7 @@
                             </image>
                         </ImageView>
                         <Label>اذان مغرب:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblMaghreb">22:33</Label>
                     </HBox>
                     <HBox fx:id="hbxNemehShab" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <ImageView fx:id="imgNemehShab" pickOnBounds="true" preserveRatio="true">
@@ -177,7 +171,7 @@
                             </image>
                         </ImageView>
                         <Label>نیمه شب:</Label>
-                        <Label>22:33</Label>
+                        <Label fx:id="lblNemehShab">22:33</Label>
                     </HBox>
 
                 </GridPane>
