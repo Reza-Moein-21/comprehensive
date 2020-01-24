@@ -13,6 +13,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -52,27 +54,31 @@ public class Start extends Application {
         Stage stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         StackPane stackPane = new StackPane();
-        stackPane.setMaxHeight(10);
-        stackPane.setMaxWidth(10);
+        stackPane.setMaxHeight(ScreenUtils.getActualSize(50));
+        stackPane.setMaxWidth(ScreenUtils.getActualSize(50));
         JFXProgressBar jfxProgressBar = new JFXProgressBar();
         jfxProgressBar.setPrefWidth(ScreenUtils.getActualSize(780));
         jfxProgressBar.setPrefHeight(ScreenUtils.getActualSize(6));
         Label t = new Label(MessageUtils.Message.APP_TITLE);
+        t.setStyle("-fx-font-family: 'shabnam';-fx-font-size: " + ScreenUtils.getActualSize(56));
 
-
-        VBox vBox = new VBox(t, jfxProgressBar);
+        ImageView logo = new ImageView("/image/logo.png");
+        logo.setFitWidth(ScreenUtils.getActualSize(313));
+        logo.setFitHeight(ScreenUtils.getActualSize(333));
+        HBox logoWrapper = new HBox(logo);
+        logoWrapper.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(logoWrapper,t, jfxProgressBar);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(ScreenUtils.getActualSize(10));
         stackPane.getChildren().addAll(vBox);
         applyFontStyle(stackPane);
-        t.setStyle("-fx-font-family: 'shabnam';-fx-font-size: " + ScreenUtils.getActualSize(56));
         StringJoiner vboxStyle = new StringJoiner(" ; ");
         vboxStyle.add("-fx-background-color: #EFEBE9").add("-fx-background-radius: " + ScreenUtils.getActualSize(50) + " " + ScreenUtils.getActualSize(0))
                 .add("-fx-border-radius: " + ScreenUtils.getActualSize(45) + " " + ScreenUtils.getActualSize(0))
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(5))
                 .add("-fx-border-color: #9E9E9E");
         stackPane.setStyle(vboxStyle.toString());
-        Scene startScene = new Scene(stackPane, ScreenUtils.getActualSize(1048), ScreenUtils.getActualSize(280));
+        Scene startScene = new Scene(stackPane, ScreenUtils.getActualSize(1048), ScreenUtils.getActualSize(580));
         startScene.setFill(Color.TRANSPARENT);
 
         stage.setScene(startScene);

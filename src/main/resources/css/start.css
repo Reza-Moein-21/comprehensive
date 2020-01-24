@@ -127,7 +127,7 @@
 }
 
 .green-background {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #2196F3;
 }
 
 .back-button {
@@ -183,46 +183,46 @@
 }
 
 .storeroom-card .bodyStyleClass {
-    -fx-background-color: #FFEB3B;
-    -fx-border-color: #70671c;
+    -fx-background-color: #90caf9;
+    -fx-border-color: #344a63;
 }
 
 .warehouse-card {
 }
 
 .warehouse-card .bodyStyleClass {
-    -fx-background-color: #d8bd89;
-    -fx-border-color: #6f5d41;
+    -fx-background-color: #bbdefb;
+    -fx-border-color: #4d5b65;
 }
 
 .warehouse-manage {
 }
 
 .warehouse-manage .bodyStyleClass {
-    -fx-background-color: #C5E1A5;
-    -fx-border-color: #33691E;
+    -fx-background-color: #bbdefb;
+    -fx-border-color: #4d5b65;
 }
 
 .project-card {
 }
 
 .project-card .bodyStyleClass {
-    -fx-background-color: #8BC34A;
-    -fx-border-color: #33691E;
+    -fx-background-color: #90caf9;
+    -fx-border-color: #344a63;
 }
 
 .human-resource-card {
 }
 
 .human-resource-card .bodyStyleClass {
-    -fx-background-color: #8c9eff;
-    -fx-border-color: #1a237e;
+    -fx-background-color: #64b5f6;
+    -fx-border-color: #314863;
 }
 
 .my-note-category-card {
 }
 
 .my-note-category-card .bodyStyleClass {
-    -fx-background-color: #80cbc4;
-    -fx-border-color: #1a584d;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: #173653;
 }

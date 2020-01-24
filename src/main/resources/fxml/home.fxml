@@ -7,18 +7,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="100"
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="${screenUtils.scaleFactor * 100}"
       xmlns="http://javafx.com/javafx" fx:id="homePage"
       fx:controller="ir.comprehensive.controller.HomeController"
       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
-    <HBox fx:id="hbxHadis" VBox.vgrow="ALWAYS" alignment="CENTER">
-        <HadisComponent fx:id="hadisComponent" alignment="CENTER" title="حکمت 19 نهج البلاغه"
-                        content="آن کس که در پی آرزوی خویش باشد، مرگ او را از پای در آورد."/>
-    </HBox>
     <fx:define>
         <ScreenUtils fx:id="screenUtils"/>
     </fx:define>
+    <StackPane>
+        <HBox fx:id="hbxHadis" VBox.vgrow="ALWAYS" alignment="CENTER">
+            <HadisComponent fx:id="hadisComponent" alignment="CENTER" title="حکمت 19 نهج البلاغه"
+                            content="آن کس که در پی آرزوی خویش باشد، مرگ او را از پای در آورد."/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT">
+            <ImageView fitHeight="${screenUtils.scaleFactor * 467}" fitWidth="${screenUtils.scaleFactor * 216}"
+                       pickOnBounds="true" preserveRatio="true">
+
+                <image>
+                    <Image url="@/image/Picture5.png"/>
+                </image>
+            </ImageView>
+        </HBox>
+
+    </StackPane>
     <FlowPane fx:id="masonry" alignment="CENTER">
         <Card fx:id="crdWarehouseHome" styleClass="warehouse-manage" title="%warehouse"
               onClick="#goToWarehouseHome">

@@ -31,6 +31,8 @@ public class PickerDialog extends JFXDialog {
 
         PickerMain pickerMain = new PickerMain(this);
         PickerFooter pickerFooter = new PickerFooter(this);
+        pickerFooter.isAzanProperty().bind(parent.isAzan);
+
         base.getChildren().setAll(pickerHeader, pickerMain, pickerFooter);
 
         base.setStyle(String.format("-fx-alignment: center; -fx-background-color: #fff9c4;-fx-background-radius: %s ;-fx-effect: dropshadow(three-pass-box, #bdbdbd, %s , 0, 0, 0);", ScreenUtils.getActualSize(5), ScreenUtils.getActualSize(5)));

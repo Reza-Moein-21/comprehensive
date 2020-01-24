@@ -12,6 +12,7 @@ import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.HadisService;
 import ir.comprehensive.service.MyNoteCategoryService;
 import ir.comprehensive.service.WarehouseService;
+import ir.comprehensive.utils.AzanType;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.animation.Animation;
@@ -21,9 +22,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -273,7 +276,7 @@ public class HomeController implements Initializable {
         ancAzan.setMinWidth(ScreenUtils.getActualSize(1100));
 
         AnchorPane.setTopAnchor(vbxAzan, ScreenUtils.getActualSize(72));
-        vbxAzan.setStyle("-fx-background-color: #80DEEA;-fx-border-width: " + ScreenUtils.getActualSize(2.5) + ";-fx-border-color: #2a4d55;-fx-border-radius: " + ScreenUtils.getActualSize(5) + "; -fx-background-radius: " + ScreenUtils.getActualSize(5));
+        vbxAzan.setStyle("-fx-background-color: #42a5f5;-fx-border-width: " + ScreenUtils.getActualSize(2.5) + ";-fx-border-color: #2a4d55;-fx-border-radius: " + ScreenUtils.getActualSize(5) + "; -fx-background-radius: " + ScreenUtils.getActualSize(5));
         vbxAzan.setSpacing(ScreenUtils.getActualSize(5));
 
 
@@ -343,32 +346,33 @@ public class HomeController implements Initializable {
                 LocalTime nthNextTime = now.plusMinutes(azanRemainingTime);
                 if (isEqualsByHourAndMinute(now, timeSobh)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("اذان صبح", 999999999);
+
+                        Notify.showMessage("اذان صبح", AzanType.SOBH);
                     }
                     isShowAgainNotify = false;
                 } else if (isEqualsByHourAndMinute(nthNextTime, timeSobh)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان صبح", 999999999);
+                        Notify.showMessage("۱۵ دقیقه تا اذان صبح", AzanType.REMINDEING);
                     }
                     isShowAgainNotify = false;
                 } else if (isEqualsByHourAndMinute(now, timeZohre)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("اذان ظهر", 999999999);
+                        Notify.showMessage("اذان ظهر", AzanType.ZOHRE);
                     }
                     isShowAgainNotify = false;
                 } else if (isEqualsByHourAndMinute(nthNextTime, timeZohre)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان ظهر", 999999999);
+                        Notify.showMessage("۱۵ دقیقه تا اذان ظهر", AzanType.REMINDEING);
                     }
                     isShowAgainNotify = false;
                 } else if (isEqualsByHourAndMinute(now, timeMaghreb)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("اذان مغرب", 999999999);
+                        Notify.showMessage("اذان مغرب", AzanType.MAGHREB);
                     }
                     isShowAgainNotify = false;
                 } else if (isEqualsByHourAndMinute(nthNextTime, timeMaghreb)) {
                     if (isShowAgainNotify) {
-                        Notify.showSuccessMessage("۱۰ دقیقه تا اذان مغرب", 999999999);
+                        Notify.showMessage("۱۵ دقیقه تا اذان مغرب", AzanType.REMINDEING);
                     }
                     isShowAgainNotify = false;
                 } else {

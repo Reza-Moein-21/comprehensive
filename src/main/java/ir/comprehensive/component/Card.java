@@ -62,7 +62,7 @@ public class Card extends AnchorPane {
         contentWrapperStyle
                 .add("-fx-border-width: " + ScreenUtils.getActualSize(1) + "px 0px 0px 0px")
                 .add("-fx-padding: " + ScreenUtils.getActualSize(5) + "px " + ScreenUtils.getActualSize(10) + "px")
-                .add("-fx-border-color: gray;");
+                .add("-fx-border-color: #0d47a1;");
         contentWrapper.setStyle(contentWrapperStyle.toString());
         content.addListener((observable, oldValue, newValue) -> {
             contentWrapper.getChildren().setAll(newValue);
