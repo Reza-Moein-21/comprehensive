@@ -20,7 +20,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +73,8 @@ public class WarehouseService implements Swappable<Warehouse> {
                 predicateList.add(criteriaBuilder.equal(root.get("category").get("id"), searchExample.getCategory().getId()));
             }
             if (searchExample.getTagList() != null && !searchExample.getTagList().isEmpty()) {
-                Join<Warehouse, WarehouseTag> categories = root.join("tagList");
-                predicateList.add(categories.in(searchExample.getTagList().stream().map(WarehouseTagModel::getId).collect(Collectors.toSet())));
+                List<Long> warehouseIdByTag = repository.warehouseByTag(searchExample.getTagList().size(), searchExample.getTagList().stream().map(WarehouseTagModel::getId).collect(Collectors.toList()));
+                predicateList.add(root.get("id").in(warehouseIdByTag));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
