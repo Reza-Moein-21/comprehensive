@@ -21,9 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.math.BigInteger;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,8 +72,35 @@ public class WarehouseService implements Swappable<Warehouse> {
                 predicateList.add(criteriaBuilder.equal(root.get("category").get("id"), searchExample.getCategory().getId()));
             }
             if (searchExample.getTagList() != null && !searchExample.getTagList().isEmpty()) {
-                List<Long> warehouseIdByTag = repository.warehouseByTag(searchExample.getTagList().size(), searchExample.getTagList().stream().map(WarehouseTagModel::getId).collect(Collectors.toList()));
-                predicateList.add(root.get("id").in(warehouseIdByTag));
+                List<Long> allWarehouseByTag = new ArrayList<>();
+
+                searchExample
+                        .getTagList()
+                        .stream()
+                        .map(WarehouseTagModel::getId)
+                        .map(tagId -> repository.warehouseByTag(tagId))
+                        .map(bigIntegers -> bigIntegers
+                                .stream()
+                                .map(BigInteger::longValue)
+                                .collect(Collectors.toList()))
+                        .forEach(allWarehouseByTag::addAll);
+
+
+                // inner join on allWarehouseByTag
+                Set<Long> result = new HashSet<>();
+                for (Long aLong : allWarehouseByTag) {
+                    int countOfMatch = 0;
+                    for (Long aLong1 : allWarehouseByTag) {
+                        if (aLong.equals(aLong1)) {
+                            countOfMatch++;
+                        }
+                    }
+                    if (countOfMatch == searchExample.getTagList().size()) {
+                        result.add(aLong);
+                    }
+                }
+
+                predicateList.add(root.get("id").in(result));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
