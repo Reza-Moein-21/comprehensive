@@ -23,8 +23,8 @@ public class TablePagination extends HBox implements Updater {
     private PageRequest pageRequest;
     private Changeable onPaginationChange;
 
-    private JFXButton btnNext = new JFXButton("بعدی");
-    private JFXButton btnPrevious = new JFXButton("قبلی");
+    private JFXButton btnNext = new JFXButton(">");
+    private JFXButton btnPrevious = new JFXButton("<");
     private Label lblPageNumber = new Label("");
     private JFXComboBox<Integer> cmbPageCount = new JFXComboBox<>(FXCollections.observableArrayList(Stream.of(10, 20, 50).collect(Collectors.toList())));
 
@@ -65,13 +65,23 @@ public class TablePagination extends HBox implements Updater {
         cmbPageCount.setValue(DEFAULT_PAGE_SIZE);
         this.setSpacing(ScreenUtils.getActualSize(100));
         this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(new CenterHBox(btnNext, btnPrevious), lblPageNumber, new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
+        this.getChildren().addAll(new CenterHBox(btnNext, lblPageNumber, btnPrevious), new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
     }
 
     @Override
     public void update(PaginationModelAdapter modelAdapter) {
         paginationModel = modelAdapter;
-        lblPageNumber.setText(String.format("%d-%d از %d",paginationModel.getCurrentPage() + 1,paginationModel.getNumberOfElements() + paginationModel.getCurrentPage(),  paginationModel.getTotalItems()));
+
+        int fromNumber = 1 + (cmbPageCount.getValue() * (paginationModel.getCurrentPage()));
+        long toNumber = cmbPageCount.getValue() * (paginationModel.getCurrentPage() + 1);
+
+        long totalNumber = paginationModel.getTotalItems();
+
+        if (toNumber > totalNumber) {
+            toNumber = totalNumber;
+        }
+
+        lblPageNumber.setText(String.format("%d-%d از %d", toNumber, fromNumber, totalNumber));
 
         btnNext.setDisable(false);
         btnPrevious.setDisable(false);
