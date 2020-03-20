@@ -1,14 +1,15 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
+import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.HumanResourceInfo;
 import ir.comprehensive.repository.CategoryRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,16 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CategoryService implements Swappable<Category> {
+public class CategoryService implements BaseService<Category, CategoryModel> {
 
     private CategoryRepository repository;
     private PersonRepository personRepository;
+    private CategoryMapper mapper;
 
-    public CategoryService(CategoryRepository repository, PersonRepository personRepository) {
+    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryMapper mapper) {
         this.repository = repository;
         this.personRepository = personRepository;
+        this.mapper = mapper;
     }
 
     public Optional<List<Category>> findByTitle(String title) {
@@ -42,7 +45,12 @@ public class CategoryService implements Swappable<Category> {
 
 
     public Optional<List<Category>> search(CategoryModel searchExample) {
-        Specification<Category> categorySpecification = (root, query, criteriaBuilder) -> {
+        Specification<Category> categorySpecification = getCategorySpecification(searchExample);
+        return Optional.of(repository.findAll(categorySpecification));
+    }
+
+    private Specification<Category> getCategorySpecification(CategoryModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
@@ -66,7 +74,6 @@ public class CategoryService implements Swappable<Category> {
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        return Optional.of(repository.findAll(categorySpecification));
     }
 
     private void validateEntity(Category category) throws GeneralException {
@@ -120,4 +127,17 @@ public class CategoryService implements Swappable<Category> {
         info.setPersonCount(this.getNumberString(personRepository.totalCount()));
         return info;
     }
+
+    @Override
+    public Page<CategoryModel> loadItem(CategoryModel searchModel, PageRequest pageRequest) {
+        Page<Category> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getCategorySpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
+
+    }
+
 }

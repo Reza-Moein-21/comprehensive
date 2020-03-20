@@ -1,10 +1,10 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.WarehouseCategory;
+import ir.comprehensive.mapper.WarehouseCategoryMapper;
 import ir.comprehensive.model.WarehouseCategoryModel;
 import ir.comprehensive.repository.WarehouseCategoryRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -20,11 +20,13 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseCategoryService implements Swappable<WarehouseCategory> {
+public class WarehouseCategoryService implements BaseService<WarehouseCategory, WarehouseCategoryModel> {
     private WarehouseCategoryRepository repository;
+    private WarehouseCategoryMapper mapper;
 
-    public WarehouseCategoryService(WarehouseCategoryRepository repository) {
+    public WarehouseCategoryService(WarehouseCategoryRepository repository, WarehouseCategoryMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public Optional<WarehouseCategory> load(Long id) throws GeneralException {
@@ -46,15 +48,19 @@ public class WarehouseCategoryService implements Swappable<WarehouseCategory> {
 
 
     public Optional<List<WarehouseCategory>> search(WarehouseCategoryModel searchExample) {
-        Specification<WarehouseCategory> warehouseCategorySpecification = (root, query, criteriaBuilder) -> {
+        Specification<WarehouseCategory> warehouseCategorySpecification = getWarehouseCategorySpecification(searchExample);
+
+        return Optional.of(repository.findAll(warehouseCategorySpecification));
+    }
+
+    private Specification<WarehouseCategory> getWarehouseCategorySpecification(WarehouseCategoryModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-
-        return Optional.of(repository.findAll(warehouseCategorySpecification));
     }
 
     private void validateEntity(WarehouseCategory warehouseCategory) throws GeneralException {
@@ -96,5 +102,16 @@ public class WarehouseCategoryService implements Swappable<WarehouseCategory> {
 
         repository.deleteById(id);
         return Optional.of(id);
+    }
+
+    @Override
+    public Page<WarehouseCategoryModel> loadItem(WarehouseCategoryModel searchModel, PageRequest pageRequest) {
+        Page<WarehouseCategory> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getWarehouseCategorySpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
     }
 }

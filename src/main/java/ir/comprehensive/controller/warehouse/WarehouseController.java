@@ -135,10 +135,6 @@ public class WarehouseController implements Initializable {
     @FXML
     public DataTable<WarehouseModel> tblWarehouse;
 
-    private void fillDataTable() {
-        tblWarehouse.setItems(warehouseService.loadAll().map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-    }
-
     @FXML
     private WarehouseModel createModel;
     @FXML
@@ -225,7 +221,7 @@ public class WarehouseController implements Initializable {
                 try {
                     selectedIds.forEach(warehouseService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.PRODUCT + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    fillDataTable();
+                    tblWarehouse.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -246,13 +242,13 @@ public class WarehouseController implements Initializable {
         txtCodeC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.CODE));
         txtCountC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT));
         txtCountC.getValidators().add(FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT));
-
-        fillDataTable();
+        tblWarehouse.setItemPage(pageRequest -> warehouseService.loadItem(searchModel,pageRequest));
+        tblWarehouse.refresh();
     }
 
 
     public void search() {
-        tblWarehouse.setItems(warehouseService.search(searchModel).map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
+        tblWarehouse.refresh();
     }
 
     public void showCreateDialog() {
@@ -301,7 +297,7 @@ public class WarehouseController implements Initializable {
             createModel.getTagList().addAll(collect);
             warehouseService.saveOrUpdate(mapper.modelToEntity(createModel));
             dlgCreate.close();
-            fillDataTable();
+            tblWarehouse.refresh();
             Notify.showSuccessMessage(MessageUtils.Message.WAREHOUSE + " " + MessageUtils.Message.SUCCESS_SAVE);
         } catch (GeneralException e) {
             Notify.showErrorMessage(e.getMessage());
@@ -315,6 +311,5 @@ public class WarehouseController implements Initializable {
         mauTagListS.setValueList(null);
         txtCodeS.setText(null);
         txtCompanyNameS.setText(null);
-        tblWarehouse.setItems(warehouseService.loadAll().map(warehouses -> warehouses.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
-    }
+        tblWarehouse.refresh();    }
 }

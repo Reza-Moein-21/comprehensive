@@ -171,7 +171,6 @@ public class HumanResourcePersonController implements Initializable {
 
         slbCategoriesC.setPrefHeight(ScreenUtils.getActualSize(320));
 
-        updateDataTable();
         tblPerson.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfFirstNameC.setText(selectedItem.getFirstName());
@@ -183,6 +182,8 @@ public class HumanResourcePersonController implements Initializable {
             dlgCreate.show();
 
         });
+        tblPerson.setItemPage(pageRequest -> personService.loadItem(searchModel,pageRequest));
+        tblPerson.refresh();
 
         tblPerson.setOnDelete(selectedIds -> {
             dlgDelete.show();
@@ -190,7 +191,7 @@ public class HumanResourcePersonController implements Initializable {
                 try {
                     selectedIds.forEach(personService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    updateDataTable();
+                    tblPerson.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -260,17 +261,12 @@ public class HumanResourcePersonController implements Initializable {
         txfEmailS.setText(null);
         txfDescriptionS.setText(null);
         slbCategoriesS.clean();
-        updateDataTable();
-    }
-
-    private void updateDataTable() {
-        tblPerson.setItems(personService.loadAll().map(people -> people.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
+        tblPerson.refresh();
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblPerson.setItems(personService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+        tblPerson.refresh();
     }
 
     @FXML
@@ -304,7 +300,7 @@ public class HumanResourcePersonController implements Initializable {
             try {
                 personService.saveOrUpdate(mapper.modelToEntity(createModel));
                 dlgCreate.close();
-                updateDataTable();
+                tblPerson.refresh();
                 Notify.showSuccessMessage(MessageUtils.Message.PERSON + " " + MessageUtils.Message.SUCCESS_SAVE);
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());

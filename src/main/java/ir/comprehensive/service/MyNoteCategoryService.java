@@ -2,14 +2,16 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.MyNoteCategory;
 import ir.comprehensive.domain.MyNoteCategoryStatus;
+import ir.comprehensive.mapper.MyNoteCategoryMapper;
 import ir.comprehensive.model.MyNoteCategoryInfo;
 import ir.comprehensive.model.MyNoteCategoryModel;
 import ir.comprehensive.repository.MyNoteCategoryRepository;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +23,15 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
+public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteCategoryModel> {
     MyNoteCategoryRepository repository;
     MyNoteRepository myNoteRepository;
+    MyNoteCategoryMapper mapper;
 
-    public MyNoteCategoryService(MyNoteCategoryRepository repository, MyNoteRepository myNoteRepository) {
+    public MyNoteCategoryService(MyNoteCategoryRepository repository, MyNoteRepository myNoteRepository,MyNoteCategoryMapper mapper) {
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
+        this.mapper = mapper;
     }
 
     public Optional<MyNoteCategory> load(Long id) throws GeneralException {
@@ -44,7 +48,12 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
 
 
     public Optional<List<MyNoteCategory>> search(MyNoteCategoryModel searchExample) {
-        Specification<MyNoteCategory> categorySpecification = (root, query, criteriaBuilder) -> {
+        Specification<MyNoteCategory> categorySpecification = getMyNoteCategorySpecification(searchExample);
+        return Optional.of(repository.findAll(categorySpecification));
+    }
+
+    private Specification<MyNoteCategory> getMyNoteCategorySpecification(MyNoteCategoryModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
@@ -57,7 +66,6 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        return Optional.of(repository.findAll(categorySpecification));
     }
 
     private void validateEntity(MyNoteCategory category) throws GeneralException {
@@ -115,4 +123,14 @@ public class MyNoteCategoryService implements Swappable<MyNoteCategory> {
         return info;
     }
 
+    @Override
+    public Page<MyNoteCategoryModel> loadItem(MyNoteCategoryModel searchModel, PageRequest pageRequest) {
+        Page<MyNoteCategory> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getMyNoteCategorySpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
+    }
 }

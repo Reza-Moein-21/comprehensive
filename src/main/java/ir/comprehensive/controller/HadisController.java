@@ -14,7 +14,6 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Controller
 public class HadisController implements Initializable {
@@ -147,7 +145,8 @@ public class HadisController implements Initializable {
         grdSearchContent.setVgap(ScreenUtils.getActualSize(50));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
         //        dlgLayout
-        updateDataTable();
+        tblHadis.setItemPage(pageRequest -> hadisService.loadItem(searchModel,pageRequest));
+        tblHadis.refresh();
         tblHadis.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfTitleC.setText(selectedItem.getTitle());
@@ -163,7 +162,7 @@ public class HadisController implements Initializable {
                 try {
                     selectedIds.forEach(hadisService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    updateDataTable();
+                    tblHadis.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -195,14 +194,12 @@ public class HadisController implements Initializable {
     public void showAll(ActionEvent actionEvent) {
         txfTitleS.setText(null);
         txfDescriptionS.setText(null);
-        updateDataTable();
+        tblHadis.refresh();
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblHadis.setItems(hadisService.search(searchModel).map(hadisList -> hadisList.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
-
+        tblHadis.refresh();
     }
 
     @FXML
@@ -229,16 +226,12 @@ public class HadisController implements Initializable {
                 hadisService.saveOrUpdate(mapper.modelToEntity(createModel));
                 Notify.showSuccessMessage(MessageUtils.Message.HADIS + " " + MessageUtils.Message.SUCCESS_SAVE);
                 dlgCreate.close();
-                updateDataTable();
+                tblHadis.refresh();
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());
             }
 
         }
-    }
-
-    private void updateDataTable() {
-        tblHadis.setItems(hadisService.loadAll().map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     public void closeDisplayDialog(ActionEvent actionEvent) {

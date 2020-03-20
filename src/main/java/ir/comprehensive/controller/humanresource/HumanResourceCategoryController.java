@@ -15,7 +15,6 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Controller
 public class HumanResourceCategoryController implements Initializable {
@@ -172,7 +170,9 @@ public class HumanResourceCategoryController implements Initializable {
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
         //        dlgLayout
-        updateDataTable();
+        tblCategory.setItemPage(pageRequest -> categoryService.loadItem(searchModel,pageRequest));
+        tblCategory.refresh();
+
         tblCategory.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfTitleC.setText(selectedItem.getTitle());
@@ -192,7 +192,7 @@ public class HumanResourceCategoryController implements Initializable {
                 try {
                     selectedIds.forEach(categoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    updateDataTable();
+                    tblCategory.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -236,14 +236,12 @@ public class HumanResourceCategoryController implements Initializable {
         txfEmailS.setText(null);
         txfAddressS.setText(null);
         txfDescriptionS.setText(null);
-        updateDataTable();
+        tblCategory.refresh();
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblCategory.setItems(categoryService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
-
+        tblCategory.refresh();
     }
 
     @FXML
@@ -277,16 +275,12 @@ public class HumanResourceCategoryController implements Initializable {
                 categoryService.saveOrUpdate(mapper.modelToEntity(createModel));
                 Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE);
                 dlgCreate.close();
-                updateDataTable();
+                tblCategory.refresh();
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());
             }
 
         }
-    }
-
-    private void updateDataTable() {
-        tblCategory.setItems(categoryService.loadAll().map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     public void closeDisplayDialog(ActionEvent actionEvent) {

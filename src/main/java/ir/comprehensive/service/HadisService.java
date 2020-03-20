@@ -1,10 +1,10 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Hadis;
+import ir.comprehensive.mapper.HadisMapper;
 import ir.comprehensive.model.HadisModel;
 import ir.comprehensive.repository.HadisRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -20,12 +20,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class HadisService implements Swappable<Hadis> {
+public class HadisService implements BaseService<Hadis,HadisModel> {
 
     private HadisRepository repository;
+    private HadisMapper mapper;
 
-    public HadisService(HadisRepository repository) {
+    public HadisService(HadisRepository repository, HadisMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public Optional<List<Hadis>> loadAll() {
@@ -34,7 +36,12 @@ public class HadisService implements Swappable<Hadis> {
 
 
     public Optional<List<Hadis>> search(HadisModel searchExample) {
-        Specification<Hadis> hadisSpecification = (root, query, criteriaBuilder) -> {
+        Specification<Hadis> hadisSpecification = getHadisSpecification(searchExample);
+        return Optional.of(repository.findAll(hadisSpecification));
+    }
+
+    private Specification<Hadis> getHadisSpecification(HadisModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
@@ -46,7 +53,6 @@ public class HadisService implements Swappable<Hadis> {
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        return Optional.of(repository.findAll(hadisSpecification));
     }
 
     private void validateEntity(Hadis hadis) throws GeneralException {
@@ -97,5 +103,17 @@ public class HadisService implements Swappable<Hadis> {
             q = hadisPage.getContent().get(0);
         }
         return q;
+    }
+
+    @Override
+    public Page<HadisModel> loadItem(HadisModel searchModel, PageRequest pageRequest) {
+        Page<Hadis> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getHadisSpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
+
     }
 }

@@ -3,6 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.domain.Warehouse;
 import ir.comprehensive.domain.WarehouseTag;
+import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.model.WarehouseInfo;
 import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.model.WarehouseTagModel;
@@ -10,7 +11,6 @@ import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.repository.WarehouseRepository;
 import ir.comprehensive.repository.WarehouseTagRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -27,13 +27,15 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class WarehouseService implements Swappable<Warehouse> {
+public class WarehouseService implements BaseService<Warehouse,WarehouseModel> {
     private WarehouseRepository repository;
+    private WarehouseMapper mapper;
     private ProductDeliveryRepository productDeliveryRepository;
     private WarehouseTagRepository warehouseTagRepository;
 
-    public WarehouseService(WarehouseRepository repository, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository) {
+    public WarehouseService(WarehouseRepository repository, WarehouseMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository) {
         this.repository = repository;
+        this.mapper = mapper;
         this.productDeliveryRepository = productDeliveryRepository;
         this.warehouseTagRepository = warehouseTagRepository;
     }
@@ -57,7 +59,13 @@ public class WarehouseService implements Swappable<Warehouse> {
 
 
     public Optional<List<Warehouse>> search(WarehouseModel searchExample) {
-        Specification<Warehouse> warehouseSpecification = (root, query, criteriaBuilder) -> {
+        Specification<Warehouse> warehouseSpecification = getWarehouseSpecification(searchExample);
+
+        return Optional.of(repository.findAll(warehouseSpecification).stream().distinct().collect(Collectors.toList()));
+    }
+
+    private Specification<Warehouse> getWarehouseSpecification(WarehouseModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
@@ -104,8 +112,6 @@ public class WarehouseService implements Swappable<Warehouse> {
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-
-        return Optional.of(repository.findAll(warehouseSpecification).stream().distinct().collect(Collectors.toList()));
     }
 
     private void validateEntity(Warehouse warehouse) throws GeneralException {
@@ -193,5 +199,16 @@ public class WarehouseService implements Swappable<Warehouse> {
         info.setUnknownCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.UNKNOWN)));
 
         return info;
+    }
+
+    @Override
+    public Page<WarehouseModel> loadItem(WarehouseModel searchModel, PageRequest pageRequest) {
+        Page<Warehouse> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getWarehouseSpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
     }
 }

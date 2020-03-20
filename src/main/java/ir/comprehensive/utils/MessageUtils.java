@@ -49,6 +49,7 @@ public class MessageUtils {
         public static final String MONTH = getMessage("month");
         public static final String DAY = getMessage("day");
         public static final String SEARCH = getMessage("search");
+        public static final String COUNT_PER_PAGE = getMessage("countPerPage");
         public static final String SELECT_CREATION_TIME_BY_CALENDER = getMessage("selectCreationTimeByCalender");
         public static final String SELECT_CREATION_TIME_BY_DATE_RANGE = getMessage("selectCreationTimeByDateRange");
         public static final String ADVANCE_SEARCH = getMessage("advanceSearch");

@@ -1,6 +1,8 @@
 package ir.comprehensive.component.basetable;
 
 import com.jfoenix.controls.JFXButton;
+import ir.comprehensive.component.basetable.pagination.PaginationModelAdapter;
+import ir.comprehensive.component.basetable.pagination.TablePagination;
 import ir.comprehensive.model.basemodel.BaseModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
@@ -11,14 +13,14 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.StringJoiner;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DataTable<T extends BaseModel> extends VBox {
@@ -26,6 +28,8 @@ public class DataTable<T extends BaseModel> extends VBox {
     private final ObservableList<TableColumn<T, ?>> columns = FXCollections.observableArrayList();
 
     private final TableView<T> tableView;
+    private final TablePagination tablePagination;
+
     HBox hbxHeader = new HBox();
     Label lblNumberOfSelected = new Label();
     JFXButton btnDelete = new JFXButton();
@@ -33,6 +37,7 @@ public class DataTable<T extends BaseModel> extends VBox {
 
     private Editable<T> onEdit;
     private Deletable onDelete;
+    private Function<PageRequest, Page<T>> itemPage;
     private Extra onExtra;
     private Visitable<T> onVisit;
 
@@ -45,6 +50,13 @@ public class DataTable<T extends BaseModel> extends VBox {
 
     public DataTable() {
         tableView = new TableView<>();
+        tablePagination = new TablePagination();
+        tablePagination.setOnPaginationChange(pageRequest -> {
+            Page<T> page = itemPage.apply(pageRequest);
+            itemsProperty().set(FXCollections.observableArrayList(page.getContent()));
+            return page;
+        });
+
         VBox.setVgrow(tableView, Priority.ALWAYS);
         hbxHeader.setSpacing(ScreenUtils.getActualSize(50));
         hbxHeader.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(20)));
@@ -116,7 +128,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         columns.addListener((InvalidationListener) observable -> tableView.getColumns().setAll(columns));
         tableView.itemsProperty().bindBidirectional(this.items);
         tableView.itemsProperty().addListener((observable, oldValue, newValue) -> this.updateDeleteInfo(lblNumberOfSelected, btnDelete));
-        getChildren().addAll(hbxHeader, tableView);
+        getChildren().addAll(new BorderPane(tablePagination,null,null,null,hbxHeader), tableView);
 
         StringJoiner style = new StringJoiner(";");
         style.add("-fx-background-color: #ffff")
@@ -178,8 +190,14 @@ public class DataTable<T extends BaseModel> extends VBox {
     private ObjectProperty<ObservableList<T>> items =
             new SimpleObjectProperty<ObservableList<T>>(this, "items");
 
-    public final void setItems(ObservableList<T> value) {
-        itemsProperty().set(value);
+//    public final void setItems(ObservableList<T> value) {
+//        itemsProperty().set(value);
+//    }
+
+    public final void refresh() {
+        Page<T> page = getItemPage().apply(tablePagination.getPageRequest());
+        tablePagination.update(new PaginationModelAdapter(page));
+        itemsProperty().set(FXCollections.observableArrayList(page.getContent()));
     }
 
     public final ObservableList<T> getItems() {
@@ -200,6 +218,14 @@ public class DataTable<T extends BaseModel> extends VBox {
 
     public void setOnEdit(Editable<T> onEdit) {
         this.onEdit = onEdit;
+    }
+
+    public Function<PageRequest, Page<T>> getItemPage() {
+        return itemPage;
+    }
+
+    public void setItemPage(Function<PageRequest, Page<T>> itemPage) {
+        this.itemPage = itemPage;
     }
 
     public Deletable getOnDelete() {

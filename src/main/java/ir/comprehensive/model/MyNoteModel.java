@@ -6,6 +6,10 @@ import javafx.beans.property.*;
 import java.time.LocalDate;
 
 public class MyNoteModel extends BaseModel {
+    // todo must fix later
+    private Long myNoteCategoryId;
+    private boolean allActive;
+
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<LocalDate> creationDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> inActivationDate = new SimpleObjectProperty<>();
@@ -122,5 +126,21 @@ public class MyNoteModel extends BaseModel {
 
     public final void setPerson(PersonModel person) {
         this.person.set(person);
+    }
+
+    public Long getMyNoteCategoryId() {
+        return myNoteCategoryId;
+    }
+
+    public void setMyNoteCategoryId(Long myNoteCategoryId) {
+        this.myNoteCategoryId = myNoteCategoryId;
+    }
+
+    public boolean isAllActive() {
+        return allActive;
+    }
+
+    public void setAllActive(boolean allActive) {
+        this.allActive = allActive;
     }
 }

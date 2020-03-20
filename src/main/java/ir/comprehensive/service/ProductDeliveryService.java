@@ -2,12 +2,14 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.ProductDelivery;
 import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.model.ProductDeliveryModel;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +21,15 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ProductDeliveryService implements Swappable<ProductDelivery> {
+public class ProductDeliveryService implements BaseService<ProductDelivery,ProductDeliveryModel> {
     private ProductDeliveryRepository repository;
     private WarehouseService warehouseService;
+    private ProductDeliveryMapper mapper;
 
-    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService) {
+    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, ProductDeliveryMapper mapper) {
         this.repository = repository;
         this.warehouseService = warehouseService;
+        this.mapper = mapper;
     }
 
     public Optional<ProductDelivery> load(Long id) throws GeneralException {
@@ -47,7 +51,13 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
     }
 
     public Optional<List<ProductDelivery>> search(ProductDeliveryModel searchExample) {
-        Specification<ProductDelivery> productDeliverySpecification = (root, query, criteriaBuilder) -> {
+        Specification<ProductDelivery> productDeliverySpecification = getProductDeliverySpecification(searchExample);
+
+        return Optional.of(repository.findAll(productDeliverySpecification));
+    }
+
+    private Specification<ProductDelivery> getProductDeliverySpecification(ProductDeliveryModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("person").get("id"), searchExample.getPerson().getId()));
@@ -77,8 +87,6 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
             query.orderBy(criteriaBuilder.asc(root.get("deliveryDate")));
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-
-        return Optional.of(repository.findAll(productDeliverySpecification));
     }
 
     private void validateEntity(ProductDelivery productDelivery) throws GeneralException {
@@ -188,5 +196,16 @@ public class ProductDeliveryService implements Swappable<ProductDelivery> {
         }
         repository.deleteById(id);
         return Optional.of(id);
+    }
+
+    @Override
+    public Page<ProductDeliveryModel> loadItem(ProductDeliveryModel searchModel, PageRequest pageRequest) {
+        Page<ProductDelivery> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getProductDeliverySpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
     }
 }

@@ -27,7 +27,6 @@ import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -160,7 +159,8 @@ public class StoreRoomController implements Initializable {
     public HBox hbxDisplayFooter;
 
     private void fillDataTable() {
-        tblProductDelivery.setItems(productDeliveryService.loadByStatus(cmbStatusS.getValue()).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
+//        searchModel.setStatus(cmbStatusS.getValue());
+        tblProductDelivery.refresh();
     }
 
     @FXML
@@ -361,20 +361,21 @@ public class StoreRoomController implements Initializable {
                     }
 
 
-            if (mustDisableCount(newValue)) {
-                autProductNameC.setDisable(true);
-                autProductNameC.setValue(currentProduct);
+                    if (mustDisableCount(newValue)) {
+                        autProductNameC.setDisable(true);
+                        autProductNameC.setValue(currentProduct);
 
-                txfCountC.setDisable(true);
-                txfCountC.setText(String.valueOf(currentCount));
-            } else {
-                txfCountC.setDisable(false);
-                autProductNameC.setDisable(false);
-            }
+                        txfCountC.setDisable(true);
+                        txfCountC.setText(String.valueOf(currentCount));
+                    } else {
+                        txfCountC.setDisable(false);
+                        autProductNameC.setDisable(false);
+                    }
 
                 }
         );
         cmbStatusS.setValue(ProductStatus.UNKNOWN);
+        tblProductDelivery.setItemPage(pageRequest -> productDeliveryService.loadItem(searchModel, pageRequest));
         fillDataTable();
     }
 
@@ -384,7 +385,7 @@ public class StoreRoomController implements Initializable {
 
 
     public void search(ActionEvent actionEvent) {
-        tblProductDelivery.setItems(productDeliveryService.search(searchModel).map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
+        tblProductDelivery.refresh();
     }
 
     public void showCreateDialog() {
@@ -452,7 +453,7 @@ public class StoreRoomController implements Initializable {
         sdpDeliveryDateToS.setValue(null);
         sdpDeliveryDateFromS.setValue(null);
         cmbStatusS.setValue(null);
-        tblProductDelivery.setItems(productDeliveryService.loadAll().map(productDeliveries -> productDeliveries.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).orElse(null));
+        tblProductDelivery.refresh();
     }
 
     public void closeDisplayDialog(ActionEvent actionEvent) {

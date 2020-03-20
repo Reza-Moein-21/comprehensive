@@ -1,4 +1,17 @@
 delete
+from WAREHOUSE_WAREHOUSE_TAG
+where 1 = 1;
+
+delete
+from WAREHOUSE
+where 1 = 1;
+
+delete
+from MY_NOTE
+where 1 = 1;
+
+
+delete
 from PRODUCT_DELIVERY
 where 1 = 1;
 

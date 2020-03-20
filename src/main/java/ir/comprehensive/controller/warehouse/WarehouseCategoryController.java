@@ -15,22 +15,17 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Controller
 public class WarehouseCategoryController implements Initializable {
@@ -94,6 +89,7 @@ public class WarehouseCategoryController implements Initializable {
     @FXML
     public HBox hbxDisplayHeader;
     public DataTable<WarehouseCategoryModel> tblWarehouseCategory;
+    public BorderPane brdCreate;
 
 
     @Autowired
@@ -146,11 +142,14 @@ public class WarehouseCategoryController implements Initializable {
         grdSearchFooter.setHgap(ScreenUtils.getActualSize(10));
         hbxCreateFooter.setSpacing(ScreenUtils.getActualSize(20));
         hbxCreateFooter.setPadding(new Insets(ScreenUtils.getActualSize(10)));
-        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(700));
+        grdSearchContent.setPrefHeight(ScreenUtils.getActualSize(300));
         grdSearchContent.setVgap(ScreenUtils.getActualSize(10));
         grdSearchContent.setHgap(ScreenUtils.getActualSize(10));
+        brdCreate.setPadding(new Insets(ScreenUtils.getActualSize(20)));
         //        dlgLayout
-        updateDataTable();
+        tblWarehouseCategory.setItemPage(pageRequest -> categoryService.loadItem(searchModel,pageRequest));
+        tblWarehouseCategory.refresh();
+
         tblWarehouseCategory.setOnEdit(selectedItem -> {
             createModel.setId(selectedItem.getId());
             txfTitleC.setText(selectedItem.getTitle());
@@ -164,7 +163,7 @@ public class WarehouseCategoryController implements Initializable {
                 try {
                     selectedIds.forEach(categoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    updateDataTable();
+                    tblWarehouseCategory.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -193,14 +192,12 @@ public class WarehouseCategoryController implements Initializable {
     @FXML
     public void showAll(ActionEvent actionEvent) {
         txfTitleS.setText(null);
-        updateDataTable();
+        tblWarehouseCategory.refresh();
     }
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblWarehouseCategory.setItems(categoryService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
-
+        tblWarehouseCategory.refresh();
     }
 
     @FXML
@@ -227,16 +224,12 @@ public class WarehouseCategoryController implements Initializable {
                 categoryService.saveOrUpdate(mapper.modelToEntity(createModel));
                 Notify.showSuccessMessage(MessageUtils.Message.CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE);
                 dlgCreate.close();
-                updateDataTable();
+                tblWarehouseCategory.refresh();
             } catch (GeneralException e) {
                 Notify.showErrorMessage(e.getMessage());
             }
 
         }
-    }
-
-    private void updateDataTable() {
-        tblWarehouseCategory.setItems(categoryService.loadAll().map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
     }
 
     public void closeDisplayDialog(ActionEvent actionEvent) {

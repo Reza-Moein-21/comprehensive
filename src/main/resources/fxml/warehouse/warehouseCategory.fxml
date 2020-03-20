@@ -15,7 +15,7 @@
     <fx:define>
         <WarehouseCategoryModel fx:id="createModel" title="${txfTitleC.text}"/>
 
-        <WarehouseCategoryModel fx:id="searchModel" title="${txfTitleC.text}"/>
+        <WarehouseCategoryModel fx:id="searchModel" title="${txfTitleS.text}"/>
 
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
@@ -92,7 +92,7 @@
 
 
     </TitledPane>
-    <BorderPane>
+    <BorderPane fx:id="brdCreate">
         <right>
             <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button,green-background" buttonType="RAISED"
                        onAction="#openCreateDialog"/>

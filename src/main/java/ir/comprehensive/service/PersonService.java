@@ -2,13 +2,13 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
 import ir.comprehensive.domain.Person;
+import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -27,16 +27,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PersonService implements Swappable<Person> {
+public class PersonService implements BaseService<Person, PersonModel> {
     private ProductDeliveryRepository productDeliveryRepository;
     private PersonRepository repository;
     private MyNoteRepository myNoteRepository;
+    private PersonMapper mapper;
 
 
-    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository) {
+    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonMapper mapper) {
         this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
+        this.mapper = mapper;
     }
 
     public Optional<List<Person>> findByName(String name) {
@@ -58,7 +60,12 @@ public class PersonService implements Swappable<Person> {
 
 
     public Optional<List<Person>> search(PersonModel searchExample) {
-        Specification<Person> personSpecification = (root, query, criteriaBuilder) -> {
+        Specification<Person> personSpecification = getPersonSpecification(searchExample);
+        return Optional.of(repository.findAll(personSpecification));
+    }
+
+    private Specification<Person> getPersonSpecification(PersonModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("firstName")), StringUtils.makeAnyMatch(searchExample.getFirstName())));
@@ -83,7 +90,6 @@ public class PersonService implements Swappable<Person> {
             query.orderBy(criteriaBuilder.asc(root.get("firstName")));
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-        return Optional.of(repository.findAll(personSpecification));
     }
 
     private void validateEntity(Person person) throws GeneralException {
@@ -133,4 +139,16 @@ public class PersonService implements Swappable<Person> {
         repository.deleteById(id);
         return Optional.of(id);
     }
+
+    @Override
+    public Page<PersonModel> loadItem(PersonModel searchModel, PageRequest pageRequest) {
+        Page<Person> personPage;
+        if (searchModel == null) {
+            personPage = repository.findAll(pageRequest);
+        } else {
+            personPage = repository.findAll(getPersonSpecification(searchModel), pageRequest);
+        }
+        return personPage.map(mapper::entityToModel);
+    }
+
 }

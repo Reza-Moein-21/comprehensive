@@ -2,13 +2,15 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.MyNote;
 import ir.comprehensive.domain.MyNoteCategory;
+import ir.comprehensive.mapper.MyNoteMapper;
 import ir.comprehensive.model.MyNoteModel;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,13 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteService implements Swappable<MyNote> {
+public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
     private MyNoteRepository repository;
+    private MyNoteMapper mapper;
 
-    public MyNoteService(MyNoteRepository repository) {
+    public MyNoteService(MyNoteRepository repository, MyNoteMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public Optional<MyNote> load(Long id, Long myNoteCategoryId) throws GeneralException {
@@ -58,11 +62,17 @@ public class MyNoteService implements Swappable<MyNote> {
     }
 
 
-    public Optional<List<MyNote>> search(MyNoteModel searchExample, Long myNoteCategoryId) {
-        Specification<MyNote> myNoteSpecification = (root, query, criteriaBuilder) -> {
+    public Optional<List<MyNote>> search(MyNoteModel searchExample) {
+        Specification<MyNote> myNoteSpecification = getMyNoteSpecification(searchExample);
+
+        return Optional.of(repository.findAll(myNoteSpecification, Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
+    }
+
+    private Specification<MyNote> getMyNoteSpecification(MyNoteModel searchExample) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
 
-            predicateList.add(criteriaBuilder.equal(root.get("myNoteCategory").get("id"), myNoteCategoryId));
+            predicateList.add(criteriaBuilder.equal(root.get("myNoteCategory").get("id"), searchExample.getMyNoteCategoryId()));
 
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), StringUtils.makeAnyMatch(searchExample.getTitle())));
@@ -80,7 +90,9 @@ public class MyNoteService implements Swappable<MyNote> {
                 predicateList.add(criteriaBuilder.equal(root.get("priority"), searchExample.getPriority()));
             }
 
-            if (searchExample.getIsActive() != null) {
+            if (searchExample.isAllActive()) {
+                predicateList.add(criteriaBuilder.equal(root.get("isActive"), true));
+            } else if (searchExample.getIsActive() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("isActive"), searchExample.getIsActive()));
             }
 
@@ -98,8 +110,6 @@ public class MyNoteService implements Swappable<MyNote> {
 
             return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
-
-        return Optional.of(repository.findAll(myNoteSpecification, Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
     private void validateEntity(MyNote myNote) throws GeneralException {
@@ -147,5 +157,17 @@ public class MyNoteService implements Swappable<MyNote> {
 
         repository.deleteById(id);
         return Optional.of(id);
+    }
+
+    @Override
+    public Page<MyNoteModel> loadItem(MyNoteModel searchModel, PageRequest pageRequest) {
+        pageRequest.getSort().and(Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate")));
+        Page<MyNote> page;
+        if (searchModel == null) {
+            page = repository.findAll(pageRequest);
+        } else {
+            page = repository.findAll(getMyNoteSpecification(searchModel), pageRequest);
+        }
+        return page.map(mapper::entityToModel);
     }
 }

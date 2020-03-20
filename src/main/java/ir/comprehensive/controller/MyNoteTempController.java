@@ -12,7 +12,6 @@ import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Controller
 public class MyNoteTempController implements Initializable {
@@ -73,7 +71,7 @@ public class MyNoteTempController implements Initializable {
                 dlgDelete.close();
             });
         });
-
+        tblMyNoteTemp.setItemPage(pageRequest -> myNoteTempService.loadItem(pageRequest));
         updateDataTable();
     }
 
@@ -91,9 +89,7 @@ public class MyNoteTempController implements Initializable {
     }
 
     public void updateDataTable() {
-        tblMyNoteTemp.setItems(myNoteTempService.loadAll()
-                .map(myNoteTemps -> myNoteTemps.stream().map(mapper::entityToModel).collect(Collectors.toList()))
-                .map(FXCollections::observableArrayList).get());
+        tblMyNoteTemp.refresh();
     }
 
     private void applyFontStyle(Pane rootNode) {

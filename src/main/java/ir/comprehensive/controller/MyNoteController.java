@@ -29,7 +29,6 @@ import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -277,6 +276,7 @@ public class MyNoteController implements Initializable {
                 dlgShowDescription.show();
             });
         });
+        tblMyNote.setItemPage(pageRequest -> myNoteService.loadItem(searchModel,pageRequest));
         updateDataTable(true);
 
         chbIsActiveC.setMinWidth(ScreenUtils.getActualSize(300));
@@ -373,14 +373,9 @@ public class MyNoteController implements Initializable {
     }
 
     private void updateDataTable(boolean allActive) {
-        if (allActive)
-            tblMyNote.setItems(myNoteService.loadAllActive(MyNoteCategoryController.myNoteCategoryId)
-                    .map(myNotes -> myNotes.stream().map(mapper::entityToModel).collect(Collectors.toList()))
-                    .map(FXCollections::observableArrayList).get());
-        else
-            tblMyNote.setItems(myNoteService.loadAll(MyNoteCategoryController.myNoteCategoryId)
-                    .map(myNotes -> myNotes.stream().map(mapper::entityToModel).collect(Collectors.toList()))
-                    .map(FXCollections::observableArrayList).get());
+        searchModel.setAllActive(allActive);
+        searchModel.setMyNoteCategoryId(MyNoteCategoryController.myNoteCategoryId);
+        tblMyNote.refresh();
     }
 
     @FXML
@@ -442,8 +437,8 @@ public class MyNoteController implements Initializable {
         } else {
             searchModel.setCreationDate(null);
         }
-        tblMyNote.setItems(myNoteService.search(searchModel, MyNoteCategoryController.myNoteCategoryId).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
+        searchModel.setMyNoteCategoryId(MyNoteCategoryController.myNoteCategoryId);
+        tblMyNote.refresh();
     }
 
     @FXML

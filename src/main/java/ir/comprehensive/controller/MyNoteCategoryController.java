@@ -16,7 +16,6 @@ import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,7 +35,6 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Controller
 public class MyNoteCategoryController implements Initializable {
@@ -163,7 +161,7 @@ public class MyNoteCategoryController implements Initializable {
                 try {
                     selectedIds.forEach(myNoteCategoryService::delete);
                     Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE_CATEGORY + " " + MessageUtils.Message.SUCCESS_DELETE);
-                    updateDataTable();
+                    tblMyNoteCategory.refresh();
                 } catch (GeneralException e) {
                     Notify.showErrorMessage(e.getMessage());
                 }
@@ -179,7 +177,8 @@ public class MyNoteCategoryController implements Initializable {
             dlgDisplay.show();
         });
         addButtonToTable();
-        updateDataTable();
+        tblMyNoteCategory.setItemPage(pageRequest -> myNoteCategoryService.loadItem(searchModel,pageRequest));
+        tblMyNoteCategory.refresh();
 
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
 
@@ -216,12 +215,6 @@ public class MyNoteCategoryController implements Initializable {
     }
 
 
-    private void updateDataTable() {
-        tblMyNoteCategory.setItems(myNoteCategoryService.loadAll()
-                .map(myNotes -> myNotes.stream().map(mapper::entityToModel).collect(Collectors.toList()))
-                .map(FXCollections::observableArrayList).get());
-    }
-
     @FXML
     public void closeCreateDialog(ActionEvent actionEvent) {
         dlgCreate.close();
@@ -246,7 +239,7 @@ public class MyNoteCategoryController implements Initializable {
             try {
                 myNoteCategoryService.saveOrUpdate(mapper.modelToEntity(createModel));
                 dlgCreate.close();
-                updateDataTable();
+                tblMyNoteCategory.refresh();
 
                 Notify.showSuccessMessage(MessageUtils.Message.MY_NOTE_CATEGORY + " " + MessageUtils.Message.SUCCESS_SAVE);
             } catch (GeneralException e) {
@@ -257,8 +250,7 @@ public class MyNoteCategoryController implements Initializable {
 
     @FXML
     public void search(ActionEvent actionEvent) {
-        tblMyNoteCategory.setItems(myNoteCategoryService.search(searchModel).map(categories -> categories.stream().map(mapper::entityToModel).collect(Collectors.toList())).map(FXCollections::observableArrayList).get());
-
+        tblMyNoteCategory.refresh();
     }
 
     @FXML
@@ -266,7 +258,7 @@ public class MyNoteCategoryController implements Initializable {
         txfTitleS.setText(null);
         txfDescriptionS.setText(null);
         cmbStatusS.setValue(null);
-        updateDataTable();
+        tblMyNoteCategory.refresh();
     }
 
     private void addButtonToTable() {

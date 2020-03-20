@@ -2,10 +2,13 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.MyNote;
 import ir.comprehensive.domain.MyNoteTemp;
+import ir.comprehensive.mapper.MyNoteTempMapper;
+import ir.comprehensive.model.MyNoteTempModel;
 import ir.comprehensive.repository.MyNoteTempRepository;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.service.extra.Swappable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +19,15 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class MyNoteTempService implements Swappable<MyNoteTemp> {
+public class MyNoteTempService implements BaseService<MyNoteTemp, MyNoteTempModel> {
 
     private MyNoteTempRepository repository;
+    private MyNoteTempMapper mapper;
 
     @Autowired
-    public MyNoteTempService(MyNoteTempRepository repository) {
+    public MyNoteTempService(MyNoteTempRepository repository, MyNoteTempMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public void sendToTemp(Set<Long> ids) {
@@ -53,5 +58,12 @@ public class MyNoteTempService implements Swappable<MyNoteTemp> {
         }
 
         repository.deleteAllById(ids);
+    }
+
+    @Override
+    public Page<MyNoteTempModel> loadItem(MyNoteTempModel searchModel, PageRequest pageRequest) {
+        Page<MyNoteTemp> page;
+        page = repository.findAll(pageRequest);
+        return page.map(mapper::entityToModel);
     }
 }
