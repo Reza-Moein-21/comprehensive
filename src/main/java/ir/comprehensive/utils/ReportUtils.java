@@ -36,9 +36,11 @@ public class ReportUtils {
 
             {
                 case PDF:
+                    destinationPath+= ".pdf";
                     JasperExportManager.exportReportToPdfFile(p, destinationPath);
                     break;
                 case HTML:
+                    destinationPath+= ".html";
                     JasperExportManager.exportReportToHtmlFile(p, destinationPath);
                     break;
                 case EXCEL:
