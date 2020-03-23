@@ -101,24 +101,24 @@
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 				</reportElement>
 				<textField>
-					<reportElement style="table_body" x="0" y="0" width="125" height="40" uuid="9fbeed49-fb13-4ea2-a6f9-588fc48cd9f9"/>
+					<reportElement style="table_body" x="0" y="0" width="125" height="40" uuid="60ecc754-9592-45b1-b59f-57e55914936c"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="table_body" x="125" y="0" width="125" height="40" uuid="69b75261-4148-4426-9f43-5e375d834b97"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="table_body" x="250" y="0" width="125" height="40" uuid="dc014f93-c279-4264-8001-dee95c6cd95d"/>
+					<reportElement style="table_body" x="125" y="0" width="125" height="40" uuid="dc014f93-c279-4264-8001-dee95c6cd95d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="table_body" x="375" y="0" width="125" height="40" uuid="60ecc754-9592-45b1-b59f-57e55914936c"/>
+					<reportElement style="table_body" x="250" y="0" width="125" height="40" uuid="69b75261-4148-4426-9f43-5e375d834b97"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="table_body" x="375" y="0" width="125" height="40" uuid="9fbeed49-fb13-4ea2-a6f9-588fc48cd9f9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
