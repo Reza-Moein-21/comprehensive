@@ -25,7 +25,9 @@ public class ReportUtils {
     }
 
     public static void print(String jrxmlPath, String destinationPath, Map<String, Object> parameterValue, Collection<?> beanCollection, PrintType printType) {
-
+        if (destinationPath == null || beanCollection == null || beanCollection.isEmpty()) {
+            return;
+        }
         try (InputStream jrxmlPathStream = new FileInputStream(ReportUtils.class.getClassLoader().getResource(jrxmlPath).getFile())) {
             JasperDesign d = JRXmlLoader.load(jrxmlPathStream);
             JasperReport r = JasperCompileManager.compileReport(d);
