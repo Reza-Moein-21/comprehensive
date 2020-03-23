@@ -16,15 +16,13 @@ import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
+import ir.comprehensive.model.ProductDeliveryReportBean;
 import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
 import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.utils.FormValidationUtils;
-import ir.comprehensive.utils.MessageUtils;
-import ir.comprehensive.utils.Notify;
-import ir.comprehensive.utils.ScreenUtils;
+import ir.comprehensive.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
@@ -37,9 +35,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -63,6 +64,8 @@ public class StoreRoomController implements Initializable {
     public JFXTextField txfDeliveryDateD;
     public JFXTextField txfDesiredDateD;
     public JFXTextField txfReceivedDateD;
+    public HBox hbxPrint;
+    public JFXButton btnPrint;
     @Autowired
     private ProductDeliveryService productDeliveryService;
     @Autowired
@@ -199,7 +202,7 @@ public class StoreRoomController implements Initializable {
 
 
         hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
-
+        hbxPrint.setSpacing(ScreenUtils.getActualSize(20));
 
         vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
         vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
@@ -251,6 +254,8 @@ public class StoreRoomController implements Initializable {
         //
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
         btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
+        btnPrint.setPrefWidth(ScreenUtils.getActualSize(400));
+        btnPrint.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
@@ -459,4 +464,18 @@ public class StoreRoomController implements Initializable {
     public void closeDisplayDialog(ActionEvent actionEvent) {
         dlgDisplay.close();
     }
+
+    public void doPrint(ActionEvent actionEvent) {
+        JFXButton saveButton = (JFXButton) actionEvent.getSource();
+        Window window = saveButton.getScene().getWindow();
+        File file = new FileChooser().showSaveDialog(window);
+        System.out.println(file);
+
+
+        ReportUtils.print("report/productDelivery.jrxml", file.getPath(), null, tblProductDelivery.getItems().stream().map(m -> {
+            return new ProductDeliveryReportBean(m.getProduct().getTitle(), m.getPerson().toString(), m.getCount().toString(), m.getStatus().getTitle());
+        }).collect(Collectors.toList()));
+    }
+
+
 }

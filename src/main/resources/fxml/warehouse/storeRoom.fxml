@@ -174,8 +174,12 @@
     </TitledPane>
     <BorderPane>
         <right>
+            <HBox fx:id="hbxPrint">
             <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
-                       styleClass="primary-button,green-background"/>
+                           styleClass="primary-button,green-background"/>
+                <JFXButton fx:id="btnPrint" text="%print" onAction="#doPrint"
+                           styleClass="primary-button,green-background"/>
+            </HBox>
         </right>
     </BorderPane>
 
