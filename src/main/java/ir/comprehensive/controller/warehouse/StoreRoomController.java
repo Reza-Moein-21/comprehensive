@@ -337,7 +337,9 @@ public class StoreRoomController implements Initializable {
         sdpReceivedDateToS.setDialogContainer(startController.mainStack);
 
         createModel.productProperty().addListener((observable, oldValue, newValue) -> {
-
+        	if(txfCountC != null && txfCountC.getValidators() != null)
+        		txfCountC.getValidators().clear();
+        	
             txfCountC.setValidators(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT), FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT), FormValidationUtils.getMaxNumberValidator(newValue != null ? newValue.getCount() : null));
 
         });
