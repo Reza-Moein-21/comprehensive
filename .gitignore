@@ -8,3 +8,11 @@ out/
 \.database/
 
 build/
+
+bin/
+
+.settings/
+
+.classpath
+
+.project
