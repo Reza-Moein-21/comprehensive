@@ -35,6 +35,7 @@ public class MessageUtils {
         public static final String FULL_NAME = getMessage("fullName");
         public static final String PRODUCT_NAME = getMessage("productName");
         public static final String PRODUCT = getMessage("product");
+        public static final String PRINT = getMessage("print");
         public static final String PRODUCT_STATUS = getMessage("productStatus");
         public static final String PROJECT_DETAIL_STATUS = getMessage("projectDetailStatus");
         public static final String DESCRIPTION = getMessage("description");
@@ -64,6 +65,7 @@ public class MessageUtils {
         public static final String OK = getMessage("ok");
         public static final String CLEAR = getMessage("clear");
         public static final String SUCCESS_LOAD = getMessage("successLoad");
+        public static final String SUCCESS_DONE = getMessage("successDone");
         public static final String SUCCESS_SAVE = getMessage("successSave");
         public static final String SUCCESS_UPDATE = getMessage("successUpdate");
         public static final String SUCCESS_DELETE = getMessage("successDelete");

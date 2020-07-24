@@ -131,7 +131,7 @@
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>
-    <DataTable fx:id="tblPerson" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblPerson" VBox.vgrow="ALWAYS" showVisit="true" showPrintButton="true">
         <columns>
             <CustomTableColumn text="%firstName" percentageWidth="13" percentageMinWidth="8">
                 <cellValueFactory>

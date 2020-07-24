@@ -16,7 +16,6 @@ import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
-import ir.comprehensive.model.ProductDeliveryReportBean;
 import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
@@ -64,8 +63,6 @@ public class StoreRoomController implements Initializable {
     public JFXTextField txfDeliveryDateD;
     public JFXTextField txfDesiredDateD;
     public JFXTextField txfReceivedDateD;
-    public HBox hbxPrint;
-    public JFXButton btnPrint;
     @Autowired
     private ProductDeliveryService productDeliveryService;
     @Autowired
@@ -202,7 +199,6 @@ public class StoreRoomController implements Initializable {
 
 
         hbxDisplayFooter.setPadding(new Insets(ScreenUtils.getActualSize(20)));
-        hbxPrint.setSpacing(ScreenUtils.getActualSize(20));
 
         vbxDisplayContent.setSpacing(ScreenUtils.getActualSize(50));
         vbxDisplayContent.setPrefWidth(ScreenUtils.getActualSize(1900));
@@ -254,8 +250,6 @@ public class StoreRoomController implements Initializable {
         //
         btnCreate.setPrefWidth(ScreenUtils.getActualSize(400));
         btnCreate.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
-        btnPrint.setPrefWidth(ScreenUtils.getActualSize(400));
-        btnPrint.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnSearch.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
         btnShowAll.setPadding(new Insets(ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50), ScreenUtils.getActualSize(10), ScreenUtils.getActualSize(50)));
 
@@ -303,6 +297,20 @@ public class StoreRoomController implements Initializable {
             txfDescriptionD.setText(selectedItem.getDescription());
             dlgDisplay.show();
         });
+
+        tblProductDelivery.setOnPrint(selectedIds -> {
+            Window window = tblProductDelivery.getScene().getWindow();
+            File file = new FileChooser().showSaveDialog(window);
+
+            try {
+                ReportUtils.print("report/productDelivery.jrxml", file.getPath(), null, productDeliveryService.getReportBeanList(searchModel,selectedIds));
+
+                Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+            } catch (GeneralException e) {
+                Notify.showErrorMessage(e.getMessage());
+            }
+        });
+
         autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());
         autProductNameC.setOnSearch(s -> warehouseService.findByName(s).map(warehouseList -> warehouseList.stream().map(warehouseMapper::entityToModel).collect(Collectors.toList())).get());
 
@@ -342,9 +350,9 @@ public class StoreRoomController implements Initializable {
         sdpReceivedDateToS.setDialogContainer(startController.mainStack);
 
         createModel.productProperty().addListener((observable, oldValue, newValue) -> {
-        	if(txfCountC != null && txfCountC.getValidators() != null)
-        		txfCountC.getValidators().clear();
-        	
+            if (txfCountC != null && txfCountC.getValidators() != null)
+                txfCountC.getValidators().clear();
+
             txfCountC.setValidators(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT), FormValidationUtils.getCountValidator(MessageUtils.Message.COUNT), FormValidationUtils.getMaxNumberValidator(newValue != null ? newValue.getCount() : null));
 
         });
@@ -465,18 +473,6 @@ public class StoreRoomController implements Initializable {
 
     public void closeDisplayDialog(ActionEvent actionEvent) {
         dlgDisplay.close();
-    }
-
-    public void doPrint(ActionEvent actionEvent) {
-        JFXButton saveButton = (JFXButton) actionEvent.getSource();
-        Window window = saveButton.getScene().getWindow();
-        File file = new FileChooser().showSaveDialog(window);
-        System.out.println(file);
-
-
-        ReportUtils.print("report/productDelivery.jrxml", file.getPath(), null, tblProductDelivery.getItems().stream().map(m -> {
-            return new ProductDeliveryReportBean(m.getProduct().getTitle(), m.getPerson().toString(), m.getCount().toString(), m.getStatus().getTitle());
-        }).collect(Collectors.toList()));
     }
 
 

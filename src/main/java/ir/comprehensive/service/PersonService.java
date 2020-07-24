@@ -3,8 +3,11 @@ package ir.comprehensive.service;
 import ir.comprehensive.domain.Category;
 import ir.comprehensive.domain.Person;
 import ir.comprehensive.mapper.PersonMapper;
+import ir.comprehensive.mapper.PersonReportMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.model.PersonModel;
+import ir.comprehensive.model.PersonReportBean;
+import ir.comprehensive.model.basemodel.BaseReportBean;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.repository.ProductDeliveryRepository;
@@ -22,6 +25,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -32,13 +36,14 @@ public class PersonService implements BaseService<Person, PersonModel> {
     private PersonRepository repository;
     private MyNoteRepository myNoteRepository;
     private PersonMapper mapper;
+    private PersonReportMapper personReportMapper;
 
-
-    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonMapper mapper) {
+    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonMapper mapper, PersonReportMapper personReportMapper) {
         this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
         this.mapper = mapper;
+        this.personReportMapper = personReportMapper;
     }
 
     public Optional<List<Person>> findByName(String name) {
@@ -151,4 +156,17 @@ public class PersonService implements BaseService<Person, PersonModel> {
         return personPage.map(mapper::entityToModel);
     }
 
+    public List<PersonReportBean> getReportBeanList(PersonModel searchModel) throws GeneralException {
+        return getReportBeanList(searchModel, null);
+    }
+
+    public List<PersonReportBean> getReportBeanList(PersonModel searchModel, Set<Long> ids) throws GeneralException {
+        if (ids != null && !ids.isEmpty()) {
+            List<PersonReportBean> personReportBeans = repository.findAllById(ids).stream().map(personReportMapper::entityToModel).collect(Collectors.toList());
+            return BaseReportBean.fillRowNumber(personReportBeans);
+        }
+
+        List<PersonReportBean> personReportBeans = repository.findAll(getPersonSpecification(searchModel)).stream().map(personReportMapper::entityToModel).collect(Collectors.toList());
+        return BaseReportBean.fillRowNumber(personReportBeans);
+    }
 }

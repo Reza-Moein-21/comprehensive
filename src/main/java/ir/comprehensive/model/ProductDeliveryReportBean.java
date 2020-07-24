@@ -1,6 +1,8 @@
 package ir.comprehensive.model;
 
-public class ProductDeliveryReportBean {
+import ir.comprehensive.model.basemodel.BaseReportBean;
+
+public class ProductDeliveryReportBean extends BaseReportBean {
     private String productName;
     private String fullName;
     private String count;

@@ -3,7 +3,10 @@ package ir.comprehensive.service;
 import ir.comprehensive.domain.ProductDelivery;
 import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
+import ir.comprehensive.mapper.ProductDeliveryReportMapper;
 import ir.comprehensive.model.ProductDeliveryModel;
+import ir.comprehensive.model.ProductDeliveryReportBean;
+import ir.comprehensive.model.basemodel.BaseReportBean;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
@@ -18,18 +21,22 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ProductDeliveryService implements BaseService<ProductDelivery,ProductDeliveryModel> {
+public class ProductDeliveryService implements BaseService<ProductDelivery, ProductDeliveryModel> {
     private ProductDeliveryRepository repository;
     private WarehouseService warehouseService;
     private ProductDeliveryMapper mapper;
+    private ProductDeliveryReportMapper productDeliveryReportMapper;
 
-    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, ProductDeliveryMapper mapper) {
+    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, ProductDeliveryMapper mapper, ProductDeliveryReportMapper productDeliveryReportMapper) {
         this.repository = repository;
         this.warehouseService = warehouseService;
         this.mapper = mapper;
+        this.productDeliveryReportMapper = productDeliveryReportMapper;
     }
 
     public Optional<ProductDelivery> load(Long id) throws GeneralException {
@@ -207,5 +214,20 @@ public class ProductDeliveryService implements BaseService<ProductDelivery,Produ
             page = repository.findAll(getProductDeliverySpecification(searchModel), pageRequest);
         }
         return page.map(mapper::entityToModel);
+    }
+
+    public List<ProductDeliveryReportBean> getReportBeanList(ProductDeliveryModel searchModel) throws GeneralException {
+        return getReportBeanList(searchModel, null);
+    }
+
+    public List<ProductDeliveryReportBean> getReportBeanList(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+        if (ids != null && !ids.isEmpty()) {
+            List<ProductDeliveryReportBean> personReportBeans = repository.findAllById(ids).stream().map(productDeliveryReportMapper::entityToModel).collect(Collectors.toList());
+            return BaseReportBean.fillRowNumber(personReportBeans);
+        }
+
+        List<ProductDeliveryReportBean> personReportBeans = repository.findAll(getProductDeliverySpecification(searchModel)).stream().map(productDeliveryReportMapper::entityToModel).collect(Collectors.toList());
+        return BaseReportBean.fillRowNumber(personReportBeans);
+
     }
 }

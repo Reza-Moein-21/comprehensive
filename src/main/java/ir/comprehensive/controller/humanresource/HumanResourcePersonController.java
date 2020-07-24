@@ -15,10 +15,7 @@ import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.utils.FormValidationUtils;
-import ir.comprehensive.utils.MessageUtils;
-import ir.comprehensive.utils.Notify;
-import ir.comprehensive.utils.ScreenUtils;
+import ir.comprehensive.utils.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,9 +26,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -205,6 +205,19 @@ public class HumanResourcePersonController implements Initializable {
             txfDescriptionD.setText(selectedItem.getDescription());
             txfPhoneNumberD.setText(selectedItem.getPhoneNumber());
             dlgDisplay.show();
+        });
+
+        tblPerson.setOnPrint(selectedIds -> {
+            Window window = tblPerson.getScene().getWindow();
+            File file = new FileChooser().showSaveDialog(window);
+
+            try {
+                ReportUtils.print("report/person.jrxml", file.getPath(), null, personService.getReportBeanList(searchModel,selectedIds));
+
+                Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+            } catch (Exception e ) {
+                Notify.showErrorMessage(e.getMessage());
+            }
         });
         initSelectBox(slbCategoriesS);
 

@@ -34,18 +34,21 @@ public class DataTable<T extends BaseModel> extends VBox {
     Label lblNumberOfSelected = new Label();
     JFXButton btnDelete = new JFXButton();
     JFXButton btnExtra = new JFXButton();
+    JFXButton btnPrint = new JFXButton();
 
     private Editable<T> onEdit;
     private Deletable onDelete;
     private Function<PageRequest, Page<T>> itemPage;
     private Extra onExtra;
     private Visitable<T> onVisit;
+    private Printable onPrint;
 
     private BooleanProperty showSelect = new SimpleBooleanProperty(this, "showSelect", true);
     private BooleanProperty showEdit = new SimpleBooleanProperty(this, "showEdit", true);
     private BooleanProperty showDelete = new SimpleBooleanProperty(this, "showDelete", true);
     private BooleanProperty showExtraButton = new SimpleBooleanProperty(this, "showExtraButton", false);
     private BooleanProperty showVisit = new SimpleBooleanProperty(this, "showVisit", false);
+    private BooleanProperty showPrintButton = new SimpleBooleanProperty(this, "showPrintButton", false);
 
 
     public DataTable() {
@@ -71,6 +74,15 @@ public class DataTable<T extends BaseModel> extends VBox {
             this.onDelete.delete(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
         });
 
+
+        btnPrint.getStyleClass().addAll("table-row-button", "print-table-row-button");
+        btnPrint.setPrefWidth(ScreenUtils.getActualSize(62));
+        btnPrint.setPrefHeight(ScreenUtils.getActualSize(62));
+        btnPrint.visibleProperty().bind(showPrintButton);
+        btnPrint.setOnAction(event -> {
+            this.onPrint.print(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
+        });
+
         btnExtra.getStyleClass().addAll("table-row-button", "send-table-row-button");
         btnExtra.setPrefWidth(ScreenUtils.getActualSize(62));
         btnExtra.setPrefHeight(ScreenUtils.getActualSize(62));
@@ -81,7 +93,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         });
 
 
-        hbxHeader.getChildren().addAll(wrapToCircle(lblNumberOfSelected), btnDelete, btnExtra);
+        hbxHeader.getChildren().addAll(wrapToCircle(lblNumberOfSelected), btnDelete, btnPrint, btnExtra);
 
 
         CustomTableColumn<T, String> rowNumberColumn = new CustomTableColumn<>(MessageUtils.Message.NUMBER_SIGN);
@@ -128,7 +140,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         columns.addListener((InvalidationListener) observable -> tableView.getColumns().setAll(columns));
         tableView.itemsProperty().bindBidirectional(this.items);
         tableView.itemsProperty().addListener((observable, oldValue, newValue) -> this.updateDeleteInfo(lblNumberOfSelected, btnDelete));
-        getChildren().addAll(new BorderPane(tablePagination,null,null,null,hbxHeader), tableView);
+        getChildren().addAll(new BorderPane(tablePagination, null, null, null, hbxHeader), tableView);
 
         StringJoiner style = new StringJoiner(";");
         style.add("-fx-background-color: #ffff")
@@ -252,6 +264,14 @@ public class DataTable<T extends BaseModel> extends VBox {
         this.onVisit = onVisit;
     }
 
+    public Printable getOnPrint() {
+        return onPrint;
+    }
+
+    public void setOnPrint(Printable onPrint) {
+        this.onPrint = onPrint;
+    }
+
     public boolean isShowSelect() {
         return showSelect.get();
     }
@@ -310,6 +330,18 @@ public class DataTable<T extends BaseModel> extends VBox {
 
     public final void setShowExtraButton(boolean showExtraButton) {
         this.showExtraButton.set(showExtraButton);
+    }
+
+    public final boolean getShowPrintButton() {
+        return showPrintButton.get();
+    }
+
+    public final BooleanProperty showPrintButtonProperty() {
+        return showPrintButton;
+    }
+
+    public final void setShowPrintButton(boolean showPrintButton) {
+        this.showPrintButton.set(showPrintButton);
     }
 }
 

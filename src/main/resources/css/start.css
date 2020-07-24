@@ -161,6 +161,10 @@
     -fx-background-image: url('/image/delete-table-row.png');
 }
 
+.print-table-row-button {
+    -fx-background-image: url('/image/print-table-row.png');
+}
+
 .edit-table-row-button {
     -fx-background-image: url('/image/edit-table-row.png');
 }

@@ -174,16 +174,12 @@
     </TitledPane>
     <BorderPane>
         <right>
-            <HBox fx:id="hbxPrint">
             <JFXButton fx:id="btnCreate" text="%create" onAction="#showCreateDialog"
-                           styleClass="primary-button,green-background"/>
-                <JFXButton fx:id="btnPrint" text="%print" onAction="#doPrint"
-                           styleClass="primary-button,green-background"/>
-            </HBox>
+                       styleClass="primary-button,green-background"/>
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblProductDelivery" VBox.vgrow="ALWAYS" showVisit="true" showPrintButton="true">
         <columns>
             <CustomTableColumn fx:id="colProductName" text="%productName" percentageWidth="13" percentageMinWidth="9"/>
             <CustomTableColumn fx:id="colFullName" text="%fullName" percentageWidth="13" percentageMinWidth="9"/>
