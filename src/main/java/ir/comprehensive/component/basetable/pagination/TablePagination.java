@@ -23,15 +23,30 @@ public class TablePagination extends HBox implements Updater {
     private PageRequest pageRequest;
     private Changeable onPaginationChange;
 
-    private JFXButton btnNext = new JFXButton(">");
-    private JFXButton btnPrevious = new JFXButton("<");
+    private JFXButton btnNext = new JFXButton();
+    private JFXButton btnPrevious = new JFXButton();
+    private JFXButton btnFirst = new JFXButton();
+    private JFXButton btnEnd = new JFXButton();
     private Label lblPageNumber = new Label("");
     private JFXComboBox<Integer> cmbPageCount = new JFXComboBox<>(FXCollections.observableArrayList(Stream.of(10, 20, 50).collect(Collectors.toList())));
 
     public TablePagination() {
         pageRequest = PageRequest.of(DEFAULT_START_PAGE, DEFAULT_PAGE_SIZE);
-        btnNext.setButtonType(JFXButton.ButtonType.RAISED);
-        btnPrevious.setButtonType(JFXButton.ButtonType.RAISED);
+        btnNext.getStyleClass().addAll("table-row-button", "next-table-row-button");
+        btnNext.setPrefWidth(ScreenUtils.getActualSize(38));
+        btnNext.setPrefHeight(ScreenUtils.getActualSize(38));
+
+        btnPrevious.getStyleClass().addAll("table-row-button", "previous-table-row-button");
+        btnPrevious.setPrefWidth(ScreenUtils.getActualSize(38));
+        btnPrevious.setPrefHeight(ScreenUtils.getActualSize(38));
+
+        btnFirst.getStyleClass().addAll("table-row-button", "first-table-row-button");
+        btnFirst.setPrefWidth(ScreenUtils.getActualSize(38));
+        btnFirst.setPrefHeight(ScreenUtils.getActualSize(38));
+
+        btnEnd.getStyleClass().addAll("table-row-button", "end-table-row-button");
+        btnEnd.setPrefWidth(ScreenUtils.getActualSize(38));
+        btnEnd.setPrefHeight(ScreenUtils.getActualSize(38));
 
 
         btnNext.setOnAction(event -> {
@@ -47,6 +62,18 @@ public class TablePagination extends HBox implements Updater {
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
 
+        });
+
+        btnFirst.setOnAction(event -> {
+            pageRequest = PageRequest.of(DEFAULT_START_PAGE, cmbPageCount.getValue());
+            Page page = onPaginationChange.paginationChange(pageRequest);
+            update(new PaginationModelAdapter(page));
+        });
+
+        btnEnd.setOnAction(event -> {
+            pageRequest = PageRequest.of(paginationModel.getTotalPages() - 1, cmbPageCount.getValue());
+            Page page = onPaginationChange.paginationChange(pageRequest);
+            update(new PaginationModelAdapter(page));
         });
 
         cmbPageCount.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -65,7 +92,7 @@ public class TablePagination extends HBox implements Updater {
         cmbPageCount.setValue(DEFAULT_PAGE_SIZE);
         this.setSpacing(ScreenUtils.getActualSize(100));
         this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(new CenterHBox(btnNext, lblPageNumber, btnPrevious), new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
+        this.getChildren().addAll(new CenterHBox(btnEnd,btnNext, lblPageNumber, btnPrevious,btnFirst), new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
     }
 
     @Override
@@ -85,20 +112,26 @@ public class TablePagination extends HBox implements Updater {
 
         btnNext.setDisable(false);
         btnPrevious.setDisable(false);
+        btnFirst.setDisable(false);
+        btnEnd.setDisable(false);
 
         if (paginationModel.getNumberOfElements() == 0 || paginationModel.getTotalPages() == 1) {
             btnNext.setDisable(true);
             btnPrevious.setDisable(true);
+            btnFirst.setDisable(true);
+            btnEnd.setDisable(true);
             return;
         }
 
         if (paginationModel.getCurrentPage() == 0) {
             btnPrevious.setDisable(true);
+            btnFirst.setDisable(true);
             return;
         }
 
         if (paginationModel.getCurrentPage() == paginationModel.getTotalPages() - 1) {
             btnNext.setDisable(true);
+            btnEnd.setDisable(true);
             return;
         }
     }

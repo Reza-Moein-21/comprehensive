@@ -23,6 +23,9 @@ import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static ir.comprehensive.component.basetable.pagination.TablePagination.DEFAULT_PAGE_SIZE;
+import static ir.comprehensive.component.basetable.pagination.TablePagination.DEFAULT_START_PAGE;
+
 public class DataTable<T extends BaseModel> extends VBox {
 
     private final ObservableList<TableColumn<T, ?>> columns = FXCollections.observableArrayList();
@@ -207,7 +210,7 @@ public class DataTable<T extends BaseModel> extends VBox {
 //    }
 
     public final void refresh() {
-        Page<T> page = getItemPage().apply(tablePagination.getPageRequest());
+        Page<T> page = getItemPage().apply(PageRequest.of(DEFAULT_START_PAGE, DEFAULT_PAGE_SIZE));
         tablePagination.update(new PaginationModelAdapter(page));
         itemsProperty().set(FXCollections.observableArrayList(page.getContent()));
     }

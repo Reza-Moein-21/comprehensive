@@ -160,6 +160,19 @@
 .delete-table-row-button {
     -fx-background-image: url('/image/delete-table-row.png');
 }
+.next-table-row-button {
+    -fx-background-image: url('/image/fast_rewind.png');
+}
+
+.previous-table-row-button {
+    -fx-background-image: url('/image/fast_forward.png');
+}
+.first-table-row-button {
+    -fx-background-image: url('/image/skip_next.png');
+}
+.end-table-row-button {
+    -fx-background-image: url('/image/skip_previous.png');
+}
 
 .print-table-row-button {
     -fx-background-image: url('/image/print-table-row.png');
