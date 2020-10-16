@@ -1,9 +1,11 @@
 package ir.comprehensive.service;
 
+import ir.comprehensive.domain.Person;
 import ir.comprehensive.domain.ProductDelivery;
 import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.domain.Warehouse;
+import ir.comprehensive.mapper.ProductDeliveryDetailReportMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
-import ir.comprehensive.mapper.ProductDeliveryReportMapper;
 import ir.comprehensive.model.ProductDeliveryModel;
 import ir.comprehensive.model.ProductDeliveryReportBean;
 import ir.comprehensive.model.basemodel.BaseReportBean;
@@ -18,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,14 +28,16 @@ import java.util.stream.Collectors;
 public class ProductDeliveryService implements BaseService<ProductDelivery, ProductDeliveryModel> {
     private ProductDeliveryRepository repository;
     private WarehouseService warehouseService;
+    private PersonService personService;
     private ProductDeliveryMapper mapper;
-    private ProductDeliveryReportMapper productDeliveryReportMapper;
+    private ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper;
 
-    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, ProductDeliveryMapper mapper, ProductDeliveryReportMapper productDeliveryReportMapper) {
+    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, PersonService personService, ProductDeliveryMapper mapper, ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper) {
         this.repository = repository;
         this.warehouseService = warehouseService;
+        this.personService = personService;
         this.mapper = mapper;
-        this.productDeliveryReportMapper = productDeliveryReportMapper;
+        this.productDeliveryDetailReportMapper = productDeliveryDetailReportMapper;
     }
 
     public Optional<ProductDelivery> load(Long id) throws GeneralException {
@@ -216,18 +217,78 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         return page.map(mapper::entityToModel);
     }
 
-    public List<ProductDeliveryReportBean> getReportBeanList(ProductDeliveryModel searchModel) throws GeneralException {
-        return getReportBeanList(searchModel, null);
+    public ProductDeliveryReportBean getProductReport(ProductDeliveryModel searchModel) throws GeneralException {
+        return getProductReport(searchModel, null);
     }
 
-    public List<ProductDeliveryReportBean> getReportBeanList(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+    public ProductDeliveryReportBean getProductReport(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+        if (searchModel == null || searchModel.getProduct() == null) {
+            throw new GeneralException("Product not found");
+        }
+        Map<String, Object> params = new HashMap<>();
+        ProductDeliveryReportBean bean = new ProductDeliveryReportBean();
+
+        Optional<Warehouse> warehouseOptional = warehouseService.load(searchModel.getProduct().getId());
+        warehouseOptional.ifPresent(warehouse -> {
+            params.put("productName", warehouse.getTitle());
+            params.put("productCode", warehouse.getCode());
+            params.put("category", warehouse.getCategory() == null ? "" : warehouse.getCategory().getTitle());
+            params.put("productDescription", warehouse.getTagList() == null ? "" : warehouse.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
+            Long availableCount = warehouse.getCount();
+            Long consumptionCount = repository.consumptionCountForPrint(warehouse.getId());
+            params.put("availableCount", availableCount.toString());
+            params.put("consumptionCount", consumptionCount.toString());
+            params.put("totalCount", String.valueOf(availableCount + consumptionCount));
+        });
+
+        bean.setParams(params);
+
         if (ids != null && !ids.isEmpty()) {
-            List<ProductDeliveryReportBean> personReportBeans = repository.findAllById(ids).stream().map(productDeliveryReportMapper::entityToModel).collect(Collectors.toList());
-            return BaseReportBean.fillRowNumber(personReportBeans);
+            List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDetailReportBeans = repository.findAllById(ids).stream().map(productDeliveryDetailReportMapper::entityToModel).collect(Collectors.toList());
+            bean.setTableDetail(BaseReportBean.fillRowNumber(productDetailReportBeans));
+            return bean;
         }
 
-        List<ProductDeliveryReportBean> personReportBeans = repository.findAll(getProductDeliverySpecification(searchModel)).stream().map(productDeliveryReportMapper::entityToModel).collect(Collectors.toList());
-        return BaseReportBean.fillRowNumber(personReportBeans);
-
+        List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDetailReportBeans = repository.findAll(getProductDeliverySpecification(searchModel)).stream().map(productDeliveryDetailReportMapper::entityToModel).collect(Collectors.toList());
+        bean.setTableDetail(BaseReportBean.fillRowNumber(productDetailReportBeans));
+        return bean;
     }
+
+    public ProductDeliveryReportBean getPersonReport(ProductDeliveryModel searchModel) throws GeneralException {
+        return getPersonReport(searchModel, null);
+    }
+
+    public ProductDeliveryReportBean getPersonReport(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+        if (searchModel == null || searchModel.getPerson() == null) {
+            throw new GeneralException("Person not found");
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        ProductDeliveryReportBean bean = new ProductDeliveryReportBean();
+        Long personId = searchModel.getPerson().getId();
+        String fullName = personService.load(personId).map(p -> p.getFirstName() + " " + p.getLastName()).orElse("");
+        params.put("personName", fullName);
+        params.put("unknownCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.UNKNOWN, personId)));
+        params.put("lostCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.LOST, personId)));
+        params.put("rejectedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.REJECTED, personId)));
+        params.put("receivedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.RECEIVED, personId)));
+
+        bean.setParams(params);
+
+        if (ids != null && !ids.isEmpty()) {
+            List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDetailReportBeans = repository.findAllById(ids).stream().map(productDeliveryDetailReportMapper::entityToModel).collect(Collectors.toList());
+            List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDeliveryDetailReports = BaseReportBean.fillRowNumber(productDetailReportBeans);
+            productDeliveryDetailReports.sort(Comparator.comparing(ProductDeliveryReportBean.ProductDeliveryDetailReport::getCategory));
+            bean.setTableDetail(productDeliveryDetailReports);
+            return bean;
+        }
+
+        List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDetailReportBeans = repository.findAll(getProductDeliverySpecification(searchModel)).stream().map(productDeliveryDetailReportMapper::entityToModel).collect(Collectors.toList());
+        List<ProductDeliveryReportBean.ProductDeliveryDetailReport> productDeliveryDetailReports = BaseReportBean.fillRowNumber(productDetailReportBeans);
+        productDeliveryDetailReports.sort(Comparator.comparing(ProductDeliveryReportBean.ProductDeliveryDetailReport::getCategory));
+        bean.setTableDetail(productDeliveryDetailReports);
+        return bean;
+    }
+
+
 }

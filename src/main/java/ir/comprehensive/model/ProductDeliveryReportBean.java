@@ -1,52 +1,30 @@
 package ir.comprehensive.model;
 
 import ir.comprehensive.model.basemodel.BaseReportBean;
+import lombok.Getter;
+import lombok.Setter;
 
-public class ProductDeliveryReportBean extends BaseReportBean {
-    private String productName;
-    private String fullName;
-    private String count;
-    private String status;
+import java.util.List;
+import java.util.Map;
 
-    public ProductDeliveryReportBean() {
+@Getter
+@Setter
+public class ProductDeliveryReportBean {
+    private Map<String, Object> params;
+    private List<ProductDeliveryDetailReport> tableDetail;
+
+    @Getter
+    @Setter
+    public static class ProductDeliveryDetailReport extends BaseReportBean {
+        private String productName;
+        private String productCode;
+        private String category;
+        private String fullName;
+        private String count;
+        private String status;
+        private String deliveryDate;
+        private String receivedDate;
+
     }
 
-    public ProductDeliveryReportBean(String productName, String fullName, String count, String status) {
-        this.productName = productName;
-        this.fullName = fullName;
-        this.count = count;
-        this.status = status;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getCount() {
-        return count;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

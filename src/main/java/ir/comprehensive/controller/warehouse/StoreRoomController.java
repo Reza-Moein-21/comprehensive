@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.Autocomplete;
+import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
@@ -16,6 +17,7 @@ import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.model.PersonModel;
 import ir.comprehensive.model.ProductDeliveryModel;
+import ir.comprehensive.model.ProductDeliveryReportBean;
 import ir.comprehensive.model.WarehouseModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
@@ -39,10 +41,13 @@ import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -299,16 +304,33 @@ public class StoreRoomController implements Initializable {
         });
 
         tblProductDelivery.setOnPrint(selectedIds -> {
-            Window window = tblProductDelivery.getScene().getWindow();
-            File file = new FileChooser().showSaveDialog(window);
-
-            try {
-                ReportUtils.print("report/productDelivery.jrxml", file.getPath(), null, productDeliveryService.getReportBeanList(searchModel,selectedIds));
-
-                Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
-            } catch (GeneralException e) {
-                Notify.showErrorMessage(e.getMessage());
+            if (searchModel == null || (searchModel.getPerson() == null && searchModel.getProduct() == null)) {
+                Notify.showErrorMessage(MessageUtils.Message.SELECT_PRODUCT_OR_PERSON);
+                return;
             }
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.setDialogContainer(startController.mainStack);
+            applyFontStyle(printDialog);
+            printDialog.show();
+            printDialog.setOnPrintConfirm(printModel -> {
+                try {
+                    ProductDeliveryReportBean productReport = Objects.nonNull(searchModel.getProduct()) ?
+                            productDeliveryService.getProductReport(searchModel, selectedIds) :
+                            productDeliveryService.getPersonReport(searchModel, selectedIds);
+
+                    productReport.getParams().put("printTitle",printModel.getTitle());
+
+                    String jrxmlPath = Objects.nonNull(searchModel.getProduct()) ? "report/product.jrxml" : "report/product-person.jrxml";
+
+                    ReportUtils.print(jrxmlPath, printModel.getDestinationPath(), productReport.getParams(), productReport.getTableDetail(), printModel.getType());
+                    Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+                } catch (GeneralException e) {
+                    Notify.showErrorMessage(e.getMessage());
+                } finally {
+                    printDialog.close();
+                }
+
+            });
         });
 
         autPersonC.setOnSearch(s -> personService.findByName(s).map(people -> people.stream().map(personMapper::entityToModel).collect(Collectors.toList())).get());

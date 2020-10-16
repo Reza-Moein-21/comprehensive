@@ -139,6 +139,10 @@ public class MessageUtils {
         public static final String COMPANY_NAME = getMessage("companyName");
         public static final String COUNT = getMessage("count");
         public static final String  WAREHOUSE_TAG = getMessage("warehouseTag");
+        public static final String PRINT_TITLE = getMessage("printTitle");
+        public static final String PRINT_PATH = getMessage("printPath");
+        public static final String PRINT_TYPE =  getMessage("printType");
+        public static final String SELECT_PRODUCT_OR_PERSON = getMessage("cantPrint");
 
 
         private Message() {

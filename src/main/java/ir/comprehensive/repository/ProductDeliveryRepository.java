@@ -16,4 +16,9 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
     boolean isWarehouseExist(Long productId);
 
     long countByStatus(ProductStatus status);
+
+    @Query("select sum(pd.count) from ProductDelivery pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.domain.ProductStatus).RECEIVED} ")
+    long consumptionCountForPrint(Long WarehouseId);
+
+    long countByStatusAndPersonId(ProductStatus status, Long personId);
 }
