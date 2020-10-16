@@ -3,9 +3,11 @@ package ir.comprehensive.utils;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -34,18 +36,22 @@ public class ReportUtils {
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(beanCollection);
             JasperPrint p = JasperFillManager.fillReport(r, parameterValue, dataSource);
 
-            switch(printType)
-
-            {
+            switch (printType) {
                 case PDF:
-                    destinationPath+= ".pdf";
+                    destinationPath += ".pdf";
                     JasperExportManager.exportReportToPdfFile(p, destinationPath);
                     break;
                 case HTML:
-                    destinationPath+= ".html";
+                    destinationPath += ".html";
                     JasperExportManager.exportReportToHtmlFile(p, destinationPath);
                     break;
                 case EXCEL:
+                    destinationPath += ".xls";
+                    JRXlsxExporter exporter = new JRXlsxExporter();
+                    exporter.setParameter(JRExporterParameter.JASPER_PRINT, p);
+                    exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream(destinationPath));
+                    exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destinationPath);
+                    exporter.exportReport();
                     break;
                 default:
                     break;

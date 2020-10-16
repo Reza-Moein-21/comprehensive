@@ -62,8 +62,15 @@ dependencies {
 // https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.3.0'
 
+//    // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
+//    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.2'
+
     // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.2'
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.15.0'
+// https://mvnrepository.com/artifact/com.lowagie/itext
+    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+
+
 
 
 
