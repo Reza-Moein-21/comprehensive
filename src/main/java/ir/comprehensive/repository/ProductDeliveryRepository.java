@@ -18,7 +18,7 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
     long countByStatus(ProductStatus status);
 
     @Query("select sum(pd.count) from ProductDelivery pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.domain.ProductStatus).RECEIVED} ")
-    long consumptionCountForPrint(Long WarehouseId);
+    Long consumptionCountForPrint(Long WarehouseId);
 
-    long countByStatusAndPersonId(ProductStatus status, Long personId);
+    Long countByStatusAndPersonId(ProductStatus status, Long personId);
 }

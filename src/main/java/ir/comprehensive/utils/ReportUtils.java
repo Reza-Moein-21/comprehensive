@@ -6,10 +6,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Collection;
 import java.util.Map;
 
@@ -30,7 +27,7 @@ public class ReportUtils {
         if (destinationPath == null || beanCollection == null || beanCollection.isEmpty()) {
             return;
         }
-        try (InputStream jrxmlPathStream = new FileInputStream(ReportUtils.class.getClassLoader().getResource(jrxmlPath).getFile())) {
+        try (InputStream jrxmlPathStream =  Thread.currentThread().getContextClassLoader().getResourceAsStream(jrxmlPath)) {
             JasperDesign d = JRXmlLoader.load(jrxmlPathStream);
             JasperReport r = JasperCompileManager.compileReport(d);
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(beanCollection);

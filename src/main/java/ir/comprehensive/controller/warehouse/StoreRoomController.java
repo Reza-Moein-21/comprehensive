@@ -36,14 +36,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -324,7 +319,7 @@ public class StoreRoomController implements Initializable {
 
                     ReportUtils.print(jrxmlPath, printModel.getDestinationPath(), productReport.getParams(), productReport.getTableDetail(), printModel.getType());
                     Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
-                } catch (GeneralException e) {
+                } catch (Exception e) {
                     Notify.showErrorMessage(e.getMessage());
                 } finally {
                     printDialog.close();

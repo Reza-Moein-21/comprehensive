@@ -235,7 +235,7 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
             params.put("category", warehouse.getCategory() == null ? "" : warehouse.getCategory().getTitle());
             params.put("productDescription", warehouse.getTagList() == null ? "" : warehouse.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
             Long availableCount = warehouse.getCount();
-            Long consumptionCount = repository.consumptionCountForPrint(warehouse.getId());
+            Long consumptionCount = repository.consumptionCountForPrint(warehouse.getId()) == null ? 0L :  repository.consumptionCountForPrint(warehouse.getId());
             params.put("availableCount", availableCount.toString());
             params.put("consumptionCount", consumptionCount.toString());
             params.put("totalCount", String.valueOf(availableCount + consumptionCount));
