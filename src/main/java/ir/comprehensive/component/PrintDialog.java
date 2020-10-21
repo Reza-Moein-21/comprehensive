@@ -137,7 +137,7 @@ public class PrintDialog extends JFXDialog {
 
         public String getDestinationPath() {
             if (destinationPath == null) {
-                return System.getProperty("user.home") + "/" + DEFAULT_FILE_NAME;
+                return System.getProperty("user.home") + "/Desktop/" + DEFAULT_FILE_NAME;
             }
             return destinationPath;
         }

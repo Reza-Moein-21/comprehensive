@@ -11,7 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<style name="Parent" pdfFontName="./fonts/shabnam.ttf" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+	<style name="Parent" fontName="ShabnamFamily" isPdfEmbedded="true"/>
 	<style name="table_body" style="Parent">
 		<box>
 			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
