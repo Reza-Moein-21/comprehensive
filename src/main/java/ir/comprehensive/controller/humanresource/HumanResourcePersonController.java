@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.MultiSelectBox;
+import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
@@ -26,13 +27,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -182,7 +182,7 @@ public class HumanResourcePersonController implements Initializable {
             dlgCreate.show();
 
         });
-        tblPerson.setItemPage(pageRequest -> personService.loadItem(searchModel,pageRequest));
+        tblPerson.setItemPage(pageRequest -> personService.loadItem(searchModel, pageRequest));
         tblPerson.refresh();
 
         tblPerson.setOnDelete(selectedIds -> {
@@ -208,17 +208,26 @@ public class HumanResourcePersonController implements Initializable {
         });
 
         tblPerson.setOnPrint(selectedIds -> {
-            Window window = tblPerson.getScene().getWindow();
-            File file = new FileChooser().showSaveDialog(window);
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.setDialogContainer(startController.mainStack);
+            applyFontStyle(printDialog);
+            printDialog.show();
+            printDialog.setOnPrintConfirm(printModel -> {
+                try {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("printTitle", printModel.getTitle() == null ? "" : printModel.getTitle());
+                    ReportUtils.print("report/person.jrxml", printModel.getDestinationPath(), params, personService.getReportBeanList(searchModel, selectedIds), printModel.getType());
+                    Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+                } catch (Exception e) {
+                    Notify.showErrorMessage(e.getMessage());
+                } finally {
+                    printDialog.close();
+                }
 
-            try {
-                ReportUtils.print("report/person.jrxml", file.getPath(), null, personService.getReportBeanList(searchModel,selectedIds));
+            });
 
-                Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
-            } catch (Exception e ) {
-                Notify.showErrorMessage(e.getMessage());
-            }
         });
+
         initSelectBox(slbCategoriesS);
 
         initSelectBox(slbCategoriesC);

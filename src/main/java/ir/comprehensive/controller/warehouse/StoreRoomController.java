@@ -313,7 +313,7 @@ public class StoreRoomController implements Initializable {
                             productDeliveryService.getProductReport(searchModel, selectedIds) :
                             productDeliveryService.getPersonReport(searchModel, selectedIds);
 
-                    productReport.getParams().put("printTitle",printModel.getTitle());
+                    productReport.getParams().put("printTitle", printModel.getTitle() == null ? "" : printModel.getTitle());
 
                     String jrxmlPath = Objects.nonNull(searchModel.getProduct()) ? "report/product.jrxml" : "report/product-person.jrxml";
 
