@@ -3,6 +3,7 @@ package ir.comprehensive.controller.humanresource;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
@@ -10,10 +11,7 @@ import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.model.CategoryModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.utils.FormValidationUtils;
-import ir.comprehensive.utils.MessageUtils;
-import ir.comprehensive.utils.Notify;
-import ir.comprehensive.utils.ScreenUtils;
+import ir.comprehensive.utils.*;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Controller
@@ -210,7 +210,26 @@ public class HumanResourceCategoryController implements Initializable {
 
             dlgDisplay.show();
         });
+        tblCategory.setOnPrint(selectedIds -> {
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.setDialogContainer(startController.mainStack);
+            applyFontStyle(printDialog);
+            printDialog.show();
+            printDialog.setOnPrintConfirm(printModel -> {
+                try {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("printTitle", printModel.getTitle() == null ? "" : printModel.getTitle());
+                    ReportUtils.print("report/category.jrxml", printModel.getDestinationPath(), params, categoryService.getReportBeanList(searchModel, selectedIds), printModel.getType());
+                    Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+                } catch (Exception e) {
+                    Notify.showErrorMessage(e.getMessage());
+                } finally {
+                    printDialog.close();
+                }
 
+            });
+
+        });
         txfTitleC.focusedProperty().addListener(getChangeListener(txfTitleC));
         txfEmailC.focusedProperty().addListener(getChangeListener(txfEmailC));
         txfPhoneNumberC.focusedProperty().addListener(getChangeListener(txfPhoneNumberC));

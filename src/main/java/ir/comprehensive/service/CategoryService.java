@@ -2,8 +2,9 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.domain.Category;
 import ir.comprehensive.mapper.CategoryMapper;
-import ir.comprehensive.model.CategoryModel;
-import ir.comprehensive.model.HumanResourceInfo;
+import ir.comprehensive.mapper.CategoryReportMapper;
+import ir.comprehensive.model.*;
+import ir.comprehensive.model.basemodel.BaseReportBean;
 import ir.comprehensive.repository.CategoryRepository;
 import ir.comprehensive.repository.PersonRepository;
 import ir.comprehensive.service.extra.GeneralException;
@@ -19,6 +20,8 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,11 +30,13 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
     private CategoryRepository repository;
     private PersonRepository personRepository;
     private CategoryMapper mapper;
+    private CategoryReportMapper categoryReportMapper;
 
-    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryMapper mapper) {
+    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryMapper mapper, CategoryReportMapper categoryReportMapper) {
         this.repository = repository;
         this.personRepository = personRepository;
         this.mapper = mapper;
+        this.categoryReportMapper = categoryReportMapper;
     }
 
     public Optional<List<Category>> findByTitle(String title) {
@@ -138,6 +143,20 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
         }
         return page.map(mapper::entityToModel);
 
+    }
+
+    public List<CategoryReportBean> getReportBeanList(CategoryModel searchModel) throws GeneralException {
+        return getReportBeanList(searchModel, null);
+    }
+
+    public List<CategoryReportBean> getReportBeanList(CategoryModel searchModel, Set<Long> ids) throws GeneralException {
+        if (ids != null && !ids.isEmpty()) {
+            List<CategoryReportBean> categoryReportBeans = repository.findAllById(ids).stream().map(categoryReportMapper::entityToModel).collect(Collectors.toList());
+            return BaseReportBean.fillRowNumber(categoryReportBeans);
+        }
+
+        List<CategoryReportBean> categoryReportBeans = repository.findAll(getCategorySpecification(searchModel)).stream().map(categoryReportMapper::entityToModel).collect(Collectors.toList());
+        return BaseReportBean.fillRowNumber(categoryReportBeans);
     }
 
 }

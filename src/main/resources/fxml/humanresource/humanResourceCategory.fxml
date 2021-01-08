@@ -127,7 +127,7 @@
                        onAction="#openCreateDialog"/>
         </right>
     </BorderPane>
-    <DataTable fx:id="tblCategory" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblCategory" VBox.vgrow="ALWAYS" showVisit="true" showPrintButton="true">
         <columns>
             <CustomTableColumn text="%title" percentageWidth="13" percentageMinWidth="8">
                 <cellValueFactory>
