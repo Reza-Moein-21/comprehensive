@@ -129,7 +129,7 @@
         </right>
     </BorderPane>
 
-    <DataTable fx:id="tblWarehouse" VBox.vgrow="ALWAYS" showVisit="true">
+    <DataTable fx:id="tblWarehouse" VBox.vgrow="ALWAYS" showVisit="true" showPrintButton="true">
         <columns>
             <CustomTableColumn resizable="false" text="%productName" percentageWidth="16"
                                style="-fx-alignment: center">

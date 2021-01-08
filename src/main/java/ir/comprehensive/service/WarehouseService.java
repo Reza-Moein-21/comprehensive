@@ -4,9 +4,12 @@ import ir.comprehensive.domain.ProductStatus;
 import ir.comprehensive.domain.Warehouse;
 import ir.comprehensive.domain.WarehouseTag;
 import ir.comprehensive.mapper.WarehouseMapper;
+import ir.comprehensive.mapper.WarehouseReportMapper;
 import ir.comprehensive.model.WarehouseInfo;
 import ir.comprehensive.model.WarehouseModel;
+import ir.comprehensive.model.WarehouseReportBean;
 import ir.comprehensive.model.WarehouseTagModel;
+import ir.comprehensive.model.basemodel.BaseReportBean;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.repository.WarehouseRepository;
 import ir.comprehensive.repository.WarehouseTagRepository;
@@ -23,21 +26,24 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class WarehouseService implements BaseService<Warehouse,WarehouseModel> {
+public class WarehouseService implements BaseService<Warehouse, WarehouseModel> {
     private WarehouseRepository repository;
     private WarehouseMapper mapper;
     private ProductDeliveryRepository productDeliveryRepository;
     private WarehouseTagRepository warehouseTagRepository;
+    private final WarehouseReportMapper warehouseReportMapper;
 
-    public WarehouseService(WarehouseRepository repository, WarehouseMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository) {
+    public WarehouseService(WarehouseRepository repository, WarehouseMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository, WarehouseReportMapper warehouseReportMapper) {
         this.repository = repository;
         this.mapper = mapper;
         this.productDeliveryRepository = productDeliveryRepository;
         this.warehouseTagRepository = warehouseTagRepository;
+        this.warehouseReportMapper = warehouseReportMapper;
     }
 
     public Optional<Warehouse> load(Long id) throws GeneralException {
@@ -210,5 +216,24 @@ public class WarehouseService implements BaseService<Warehouse,WarehouseModel> {
             page = repository.findAll(getWarehouseSpecification(searchModel), pageRequest);
         }
         return page.map(mapper::entityToModel);
+    }
+
+    public List<WarehouseReportBean> getReportBeanList(WarehouseModel searchModel) throws GeneralException {
+        return getReportBeanList(searchModel, null);
+    }
+
+    public List<WarehouseReportBean> getReportBeanList(WarehouseModel searchModel, Set<Long> ids) throws GeneralException {
+        Function<Warehouse, WarehouseReportBean> customReportMapper = warehouse -> {
+            WarehouseReportBean reportBean = warehouseReportMapper.entityToModel(warehouse);
+            reportBean.setTagList(warehouse.getTagList() == null ? "" : warehouse.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
+            return reportBean;
+        };
+        if (ids != null && !ids.isEmpty()) {
+            List<WarehouseReportBean> warehouseReportBeans = repository.findAllById(ids).stream().map(customReportMapper).collect(Collectors.toList());
+            return BaseReportBean.fillRowNumber(warehouseReportBeans);
+        }
+
+        List<WarehouseReportBean> warehouseReportBeans = repository.findAll(getWarehouseSpecification(searchModel)).stream().map(customReportMapper).collect(Collectors.toList());
+        return BaseReportBean.fillRowNumber(warehouseReportBeans);
     }
 }

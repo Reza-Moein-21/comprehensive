@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.Autocomplete;
 import ir.comprehensive.component.MultiAutocomplete;
+import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
@@ -19,10 +20,7 @@ import ir.comprehensive.service.WarehouseCategoryService;
 import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.service.WarehouseTagService;
 import ir.comprehensive.service.extra.GeneralException;
-import ir.comprehensive.utils.FormValidationUtils;
-import ir.comprehensive.utils.MessageUtils;
-import ir.comprehensive.utils.Notify;
-import ir.comprehensive.utils.ScreenUtils;
+import ir.comprehensive.utils.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -38,7 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -238,6 +238,28 @@ public class WarehouseController implements Initializable {
             txfDescriptionD.setText(selectedItem.getDescription());
             dlgDisplay.show();
         });
+
+        tblWarehouse.setOnPrint(selectedIds -> {
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.setDialogContainer(startController.mainStack);
+            applyFontStyle(printDialog);
+            printDialog.show();
+            printDialog.setOnPrintConfirm(printModel -> {
+                try {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("printTitle", printModel.getTitle() == null ? "" : printModel.getTitle());
+                    ReportUtils.print("report/warehouse.jrxml", printModel.getDestinationPath(), params, warehouseService.getReportBeanList(searchModel, selectedIds), printModel.getType());
+                    Notify.showSuccessMessage(MessageUtils.Message.PRINT + " " + MessageUtils.Message.SUCCESS_DONE);
+                } catch (Exception e) {
+                    Notify.showErrorMessage(e.getMessage());
+                } finally {
+                    printDialog.close();
+                }
+
+            });
+
+        });
+
         txfTitleC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.TITLE));
         txtCodeC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.CODE));
         txtCountC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.COUNT));
