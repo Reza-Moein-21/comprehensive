@@ -1,4 +1,4 @@
-package ir.comprehensive.entity.extra;
+package ir.comprehensive.entity.base;
 
 public interface BaseEnum {
 

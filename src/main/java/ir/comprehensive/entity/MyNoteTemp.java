@@ -1,18 +1,15 @@
 package ir.comprehensive.entity;
 
-import lombok.Data;
+import ir.comprehensive.entity.base.BaseEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "MY_NOTE_TEMP")
-public class MyNoteTemp {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    private Long id;
+public class MyNoteTemp extends BaseEntity<Long> {
 
     @OneToOne
     @JoinColumn(name = "MY_NOTE_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_MY_NOTE_TEMP"))

@@ -1,19 +1,22 @@
 package ir.comprehensive.entity;
 
-import lombok.Data;
+import ir.comprehensive.entity.base.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "PRODUCT")
-public class Product implements Serializable {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    Long id;
+public class Product extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;

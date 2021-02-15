@@ -1,19 +1,19 @@
 package ir.comprehensive.entity;
 
-import lombok.Data;
+import ir.comprehensive.entity.base.BaseEntity;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "PRODUCT_DELIVERY")
-public class ProductDelivery implements Serializable {
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    Long id;
+public class ProductDelivery extends BaseEntity<Long> {
 
     @ManyToOne
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_DELIVERY_PERSON"), nullable = false)

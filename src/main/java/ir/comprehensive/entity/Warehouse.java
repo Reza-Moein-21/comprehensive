@@ -1,5 +1,6 @@
 package ir.comprehensive.entity;
 
+import ir.comprehensive.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "WAREHOUSE")
-public class Warehouse {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    Long id;
+public class Warehouse extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;

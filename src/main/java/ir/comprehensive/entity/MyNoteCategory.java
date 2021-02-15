@@ -1,5 +1,6 @@
 package ir.comprehensive.entity;
 
+import ir.comprehensive.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;
@@ -13,12 +14,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "MY_NOTE_CATEGORY")
-public class MyNoteCategory implements Serializable {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    Long id;
+public class MyNoteCategory extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;

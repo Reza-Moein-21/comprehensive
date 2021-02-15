@@ -1,6 +1,9 @@
 package ir.comprehensive.entity;
 
+import ir.comprehensive.entity.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,12 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "MY_NOTE")
-public class MyNote {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    Long id;
+public class MyNote extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;
