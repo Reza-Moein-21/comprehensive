@@ -1,15 +1,15 @@
-package ir.comprehensive.domain;
+package ir.comprehensive.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "PRODUCT")
-public class Product implements Serializable {
-
+@Table(name = "WAREHOUSE_TAG")
+public class WarehouseTag {
     @Id
     @GeneratedValue
     @Column(name = "ID")
@@ -17,6 +17,4 @@ public class Product implements Serializable {
 
     @Column(name = "TITLE", nullable = false)
     String title;
-
 }
-

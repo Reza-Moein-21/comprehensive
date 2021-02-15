@@ -1,6 +1,6 @@
-package ir.comprehensive.domain;
+package ir.comprehensive.entity;
 
-import ir.comprehensive.domain.extra.BaseEnum;
+import ir.comprehensive.entity.extra.BaseEnum;
 import ir.comprehensive.utils.MessageUtils;
 
 public enum MyNoteCategoryStatus implements BaseEnum {

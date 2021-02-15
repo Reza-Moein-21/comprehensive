@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.WarehouseTag;
+import ir.comprehensive.entity.WarehouseTag;
 import ir.comprehensive.mapper.WarehouseTagMapper;
 import ir.comprehensive.model.WarehouseTagModel;
 import ir.comprehensive.repository.WarehouseTagRepository;

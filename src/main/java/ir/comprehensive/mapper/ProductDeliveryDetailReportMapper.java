@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import com.github.mfathi91.time.PersianDate;
-import ir.comprehensive.domain.ProductDelivery;
+import ir.comprehensive.entity.ProductDelivery;
 import ir.comprehensive.model.ProductDeliveryReportBean;
 import org.springframework.stereotype.Component;
 

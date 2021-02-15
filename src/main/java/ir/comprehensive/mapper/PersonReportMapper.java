@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.Person;
+import ir.comprehensive.entity.Person;
 import ir.comprehensive.model.PersonReportBean;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

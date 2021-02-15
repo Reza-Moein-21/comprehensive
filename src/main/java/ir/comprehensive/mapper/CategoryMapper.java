@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.Category;
+import ir.comprehensive.entity.Category;
 import ir.comprehensive.model.CategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

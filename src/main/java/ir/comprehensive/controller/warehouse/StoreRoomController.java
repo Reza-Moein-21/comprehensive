@@ -11,7 +11,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.entity.ProductStatus;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;

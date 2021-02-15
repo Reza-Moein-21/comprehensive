@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.WarehouseTag;
+import ir.comprehensive.entity.WarehouseTag;
 import ir.comprehensive.model.WarehouseTagModel;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.MyNoteCategory;
+import ir.comprehensive.entity.MyNoteCategory;
 import ir.comprehensive.model.MyNoteCategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,9 +1,8 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.Person;
-import ir.comprehensive.domain.ProductDelivery;
-import ir.comprehensive.domain.ProductStatus;
-import ir.comprehensive.domain.Warehouse;
+import ir.comprehensive.entity.ProductDelivery;
+import ir.comprehensive.entity.ProductStatus;
+import ir.comprehensive.entity.Warehouse;
 import ir.comprehensive.mapper.ProductDeliveryDetailReportMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.model.ProductDeliveryModel;

@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.Hadis;
+import ir.comprehensive.entity.Hadis;
 import ir.comprehensive.model.HadisModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.ProductStatus;
-import ir.comprehensive.domain.Warehouse;
-import ir.comprehensive.domain.WarehouseTag;
+import ir.comprehensive.entity.ProductStatus;
+import ir.comprehensive.entity.Warehouse;
+import ir.comprehensive.entity.WarehouseTag;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.mapper.WarehouseReportMapper;
 import ir.comprehensive.model.WarehouseInfo;

@@ -1,6 +1,6 @@
 package ir.comprehensive.model;
 
-import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.entity.ProductStatus;
 import ir.comprehensive.model.basemodel.BaseModel;
 import javafx.beans.property.*;
 

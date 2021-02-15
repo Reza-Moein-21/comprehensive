@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.MyNote;
-import ir.comprehensive.domain.MyNoteTemp;
+import ir.comprehensive.entity.MyNote;
+import ir.comprehensive.entity.MyNoteTemp;
 import ir.comprehensive.mapper.MyNoteTempMapper;
 import ir.comprehensive.model.MyNoteTempModel;
 import ir.comprehensive.repository.MyNoteTempRepository;

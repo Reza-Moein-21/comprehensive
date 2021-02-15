@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.MyNote;
+import ir.comprehensive.entity.MyNote;
 import ir.comprehensive.model.MyNoteModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

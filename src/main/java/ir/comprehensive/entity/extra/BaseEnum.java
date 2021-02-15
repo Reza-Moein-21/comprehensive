@@ -1,4 +1,4 @@
-package ir.comprehensive.domain.extra;
+package ir.comprehensive.entity.extra;
 
 public interface BaseEnum {
 

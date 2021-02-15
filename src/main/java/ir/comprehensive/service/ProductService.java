@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.Product;
+import ir.comprehensive.entity.Product;
 import ir.comprehensive.mapper.ProductMapper;
 import ir.comprehensive.model.ProductModel;
 import ir.comprehensive.repository.ProductRepository;

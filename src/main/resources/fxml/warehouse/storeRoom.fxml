@@ -5,7 +5,7 @@
 <?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.datepicker.*?>
-<?import ir.comprehensive.domain.*?>
+<?import ir.comprehensive.entity.*?>
 <?import ir.comprehensive.model.ProductDeliveryModel?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>

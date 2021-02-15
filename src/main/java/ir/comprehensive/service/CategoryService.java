@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.Category;
+import ir.comprehensive.entity.Category;
 import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.mapper.CategoryReportMapper;
 import ir.comprehensive.model.*;

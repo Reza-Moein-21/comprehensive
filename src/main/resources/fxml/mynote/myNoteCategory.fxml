@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.domain.*?>
+<?import ir.comprehensive.entity.*?>
 <?import ir.comprehensive.model.MyNoteCategoryModel?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.WarehouseCategory;
+import ir.comprehensive.entity.WarehouseCategory;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
 import ir.comprehensive.model.WarehouseCategoryModel;
 import ir.comprehensive.repository.WarehouseCategoryRepository;

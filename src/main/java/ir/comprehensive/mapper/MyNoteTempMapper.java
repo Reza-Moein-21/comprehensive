@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.MyNoteTemp;
+import ir.comprehensive.entity.MyNoteTemp;
 import ir.comprehensive.model.MyNoteTempModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

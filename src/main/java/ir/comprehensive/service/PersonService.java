@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.Category;
-import ir.comprehensive.domain.Person;
+import ir.comprehensive.entity.Category;
+import ir.comprehensive.entity.Person;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.mapper.PersonReportMapper;
 import ir.comprehensive.model.CategoryModel;

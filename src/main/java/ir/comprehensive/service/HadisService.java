@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.domain.Hadis;
+import ir.comprehensive.entity.Hadis;
 import ir.comprehensive.mapper.HadisMapper;
 import ir.comprehensive.model.HadisModel;
 import ir.comprehensive.repository.HadisRepository;

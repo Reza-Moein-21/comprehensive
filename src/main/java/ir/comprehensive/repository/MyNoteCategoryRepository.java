@@ -1,7 +1,7 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.domain.MyNoteCategory;
-import ir.comprehensive.domain.MyNoteCategoryStatus;
+import ir.comprehensive.entity.MyNoteCategory;
+import ir.comprehensive.entity.MyNoteCategoryStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

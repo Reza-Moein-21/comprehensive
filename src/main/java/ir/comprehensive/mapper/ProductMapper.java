@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.domain.Product;
+import ir.comprehensive.entity.Product;
 import ir.comprehensive.model.ProductModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

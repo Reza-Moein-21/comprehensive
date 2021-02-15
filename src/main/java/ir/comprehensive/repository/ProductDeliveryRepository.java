@@ -1,7 +1,7 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.domain.ProductDelivery;
-import ir.comprehensive.domain.ProductStatus;
+import ir.comprehensive.entity.ProductDelivery;
+import ir.comprehensive.entity.ProductStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +17,7 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
 
     long countByStatus(ProductStatus status);
 
-    @Query("select sum(pd.count) from ProductDelivery pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.domain.ProductStatus).RECEIVED} ")
+    @Query("select sum(pd.count) from ProductDelivery pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.entity.ProductStatus).RECEIVED} ")
     Long consumptionCountForPrint(Long WarehouseId);
 
     Long countByStatusAndPersonId(ProductStatus status, Long personId);
