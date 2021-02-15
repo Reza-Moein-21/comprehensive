@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.MyNote;
-import ir.comprehensive.entity.MyNoteCategory;
+import ir.comprehensive.entity.MyNoteEntity;
+import ir.comprehensive.entity.MyNoteCategoryEntity;
 import ir.comprehensive.mapper.MyNoteMapper;
 import ir.comprehensive.fxmodel.MyNoteModel;
 import ir.comprehensive.repository.MyNoteRepository;
@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
+public class MyNoteService implements BaseService<MyNoteEntity,MyNoteModel> {
     private MyNoteRepository repository;
     private MyNoteMapper mapper;
 
@@ -33,27 +33,27 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
         this.mapper = mapper;
     }
 
-    public Optional<MyNote> load(Long id, Long myNoteCategoryId) throws GeneralException {
+    public Optional<MyNoteEntity> load(Long id, Long myNoteCategoryId) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
         }
-        MyNote searchExample = new MyNote();
+        MyNoteEntity searchExample = new MyNoteEntity();
         searchExample.setId(id);
-        searchExample.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
+        searchExample.setMyNoteCategory(new MyNoteCategoryEntity(myNoteCategoryId));
         return Optional.ofNullable(repository.findAll(Example.of(searchExample)).get(0));
     }
 
-    public Optional<List<MyNote>> loadAll(Long myNoteCategoryId) {
-        MyNote searchExample = new MyNote();
-        searchExample.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
+    public Optional<List<MyNoteEntity>> loadAll(Long myNoteCategoryId) {
+        MyNoteEntity searchExample = new MyNoteEntity();
+        searchExample.setMyNoteCategory(new MyNoteCategoryEntity(myNoteCategoryId));
         return Optional.of(repository.findAll(Example.of(searchExample), Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
-    public Optional<List<MyNote>> loadAllActive(Long myNoteCategoryId) {
-        MyNote myNote = new MyNote();
+    public Optional<List<MyNoteEntity>> loadAllActive(Long myNoteCategoryId) {
+        MyNoteEntity myNote = new MyNoteEntity();
         myNote.setIsActive(true);
-        myNote.setMyNoteCategory(new MyNoteCategory(myNoteCategoryId));
+        myNote.setMyNoteCategory(new MyNoteCategoryEntity(myNoteCategoryId));
         return Optional.of(repository.findAll(Example.of(myNote), Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
@@ -62,13 +62,13 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
     }
 
 
-    public Optional<List<MyNote>> search(MyNoteModel searchExample) {
-        Specification<MyNote> myNoteSpecification = getMyNoteSpecification(searchExample);
+    public Optional<List<MyNoteEntity>> search(MyNoteModel searchExample) {
+        Specification<MyNoteEntity> myNoteSpecification = getMyNoteSpecification(searchExample);
 
         return Optional.of(repository.findAll(myNoteSpecification, Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
-    private Specification<MyNote> getMyNoteSpecification(MyNoteModel searchExample) {
+    private Specification<MyNoteEntity> getMyNoteSpecification(MyNoteModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
         };
     }
 
-    private void validateEntity(MyNote myNote) throws GeneralException {
+    private void validateEntity(MyNoteEntity myNote) throws GeneralException {
         if (myNote == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
@@ -121,14 +121,14 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
         }
     }
 
-    public Optional<MyNote> save(MyNote myNote) throws GeneralException {
+    public Optional<MyNoteEntity> save(MyNoteEntity myNote) throws GeneralException {
         validateEntity(myNote);
         myNote.setId(null);
         myNote.setIsActive(true);
         return Optional.of(repository.save(myNote));
     }
 
-    public Optional<MyNote> update(MyNote myNote) throws GeneralException {
+    public Optional<MyNoteEntity> update(MyNoteEntity myNote) throws GeneralException {
         validateEntity(myNote);
         if (myNote.getId() == null) {
             // TODO must fix message
@@ -136,15 +136,15 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
         }
 
         // TODO must fix message
-        MyNote loadedMyNote = repository.findById(myNote.getId()).orElseThrow(() -> new GeneralException("not found"));
+        MyNoteEntity loadedMyNote = repository.findById(myNote.getId()).orElseThrow(() -> new GeneralException("not found"));
 
-        MyNote myNoteSwap = swap(myNote, loadedMyNote, "myNoteTemp");
+        MyNoteEntity myNoteSwap = swap(myNote, loadedMyNote, "myNoteTemp");
         myNoteSwap.setInActivationDate(myNoteSwap.getIsActive() ? null : LocalDate.now());
         return Optional.of(repository.save(myNoteSwap));
 
     }
 
-    public Optional<MyNote> saveOrUpdate(MyNote myNote) throws GeneralException {
+    public Optional<MyNoteEntity> saveOrUpdate(MyNoteEntity myNote) throws GeneralException {
         return myNote.getId() == null ? save(myNote) : update(myNote);
     }
 
@@ -162,7 +162,7 @@ public class MyNoteService implements BaseService<MyNote,MyNoteModel> {
     @Override
     public Page<MyNoteModel> loadItem(MyNoteModel searchModel, PageRequest pageRequest) {
         pageRequest.getSort().and(Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate")));
-        Page<MyNote> page;
+        Page<MyNoteEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {

@@ -1,9 +1,7 @@
 package ir.comprehensive.entity;
 
 import ir.comprehensive.entity.base.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "MY_NOTE")
-public class MyNote extends BaseEntity<Long> {
+public class MyNoteEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;
@@ -35,20 +33,20 @@ public class MyNote extends BaseEntity<Long> {
 
     @ManyToOne
     @JoinColumn(name = "MY_NOTE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_MY_NOTE_CATEGORY"), nullable = false)
-    MyNoteCategory myNoteCategory;
+    MyNoteCategoryEntity myNoteCategory;
 
 
     @ManyToOne
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_MY_NOTE_PERSON"), nullable = false)
-    Person person;
+    PersonEntity person;
 
     @OneToOne(mappedBy = "myNote", orphanRemoval = true)
-    MyNoteTemp myNoteTemp;
+    MyNoteTempEntity myNoteTemp;
 
-    public MyNote() {
+    public MyNoteEntity() {
     }
 
-    public MyNote(Long id) {
+    public MyNoteEntity(Long id) {
         this.id = id;
     }
 

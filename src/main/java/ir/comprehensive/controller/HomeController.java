@@ -4,7 +4,7 @@ import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.component.Card;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.component.hadis.HadisComponent;
-import ir.comprehensive.entity.Hadis;
+import ir.comprehensive.entity.HadisEntity;
 import ir.comprehensive.fxmodel.HumanResourceInfo;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
 import ir.comprehensive.fxmodel.WarehouseInfo;
@@ -398,7 +398,7 @@ public class HomeController implements Initializable {
 
     private void setHadisByTimeLine() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            Hadis randomHadis = hadisService.getRandomHadis();
+            HadisEntity randomHadis = hadisService.getRandomHadis();
             if (randomHadis == null) {
                 hadisComponent.setTitle("------------");
                 hadisComponent.setContent("----------------------------");

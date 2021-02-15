@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "CATEGORY")
-public class Category extends BaseEntity<Long> {
+public class CategoryEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false, unique = true)
     String title;

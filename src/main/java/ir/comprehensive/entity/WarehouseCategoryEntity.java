@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "WAREHOUSE_CATEGORY")
-public class WarehouseCategory extends BaseEntity<Long> {
+public class WarehouseCategoryEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;

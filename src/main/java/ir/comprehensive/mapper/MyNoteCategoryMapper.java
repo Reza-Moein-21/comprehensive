@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.entity.MyNoteCategory;
+import ir.comprehensive.entity.MyNoteCategoryEntity;
 import ir.comprehensive.fxmodel.MyNoteCategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface MyNoteCategoryMapper extends BaseMapper<MyNoteCategory, MyNoteCategoryModel> {
+public interface MyNoteCategoryMapper extends BaseMapper<MyNoteCategoryEntity, MyNoteCategoryModel> {
 
     @Mapping(target = "myNotes", ignore = true)
     @Mapping(target = "title", source = "title")
@@ -17,8 +17,8 @@ public interface MyNoteCategoryMapper extends BaseMapper<MyNoteCategory, MyNoteC
     @Mapping(target = "countOfInActive", source = "countOfInActive")
     @Mapping(target = "id", source = "id")
     @Override
-    MyNoteCategoryModel entityToModel(MyNoteCategory entity);
+    MyNoteCategoryModel entityToModel(MyNoteCategoryEntity entity);
 
     @Override
-    MyNoteCategory modelToEntity(MyNoteCategoryModel dto);
+    MyNoteCategoryEntity modelToEntity(MyNoteCategoryModel dto);
 }

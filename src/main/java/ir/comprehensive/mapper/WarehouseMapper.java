@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.entity.Warehouse;
+import ir.comprehensive.entity.WarehouseEntity;
 import ir.comprehensive.fxmodel.WarehouseModel;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface WarehouseMapper extends BaseMapper<Warehouse, WarehouseModel> {
+public interface WarehouseMapper extends BaseMapper<WarehouseEntity, WarehouseModel> {
 
     @Override
-    WarehouseModel entityToModel(Warehouse entity);
+    WarehouseModel entityToModel(WarehouseEntity entity);
 
     @Override
-    Warehouse modelToEntity(WarehouseModel dto);
+    WarehouseEntity modelToEntity(WarehouseModel dto);
 }

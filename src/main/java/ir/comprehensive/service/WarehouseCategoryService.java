@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.WarehouseCategory;
+import ir.comprehensive.entity.WarehouseCategoryEntity;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
 import ir.comprehensive.fxmodel.WarehouseCategoryModel;
 import ir.comprehensive.repository.WarehouseCategoryRepository;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseCategoryService implements BaseService<WarehouseCategory, WarehouseCategoryModel> {
+public class WarehouseCategoryService implements BaseService<WarehouseCategoryEntity, WarehouseCategoryModel> {
     private WarehouseCategoryRepository repository;
     private WarehouseCategoryMapper mapper;
 
@@ -29,7 +29,7 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategory, 
         this.mapper = mapper;
     }
 
-    public Optional<WarehouseCategory> load(Long id) throws GeneralException {
+    public Optional<WarehouseCategoryEntity> load(Long id) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
@@ -37,23 +37,23 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategory, 
         return repository.findById(id);
     }
 
-    public Optional<List<WarehouseCategory>> findByTitle(String title) {
-        Page<WarehouseCategory> warehouseCategories = repository.findByTitle(title, PageRequest.of(0, 10));
+    public Optional<List<WarehouseCategoryEntity>> findByTitle(String title) {
+        Page<WarehouseCategoryEntity> warehouseCategories = repository.findByTitle(title, PageRequest.of(0, 10));
         return Optional.of(warehouseCategories.getContent());
     }
 
-    public Optional<List<WarehouseCategory>> loadAll() {
+    public Optional<List<WarehouseCategoryEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
 
-    public Optional<List<WarehouseCategory>> search(WarehouseCategoryModel searchExample) {
-        Specification<WarehouseCategory> warehouseCategorySpecification = getWarehouseCategorySpecification(searchExample);
+    public Optional<List<WarehouseCategoryEntity>> search(WarehouseCategoryModel searchExample) {
+        Specification<WarehouseCategoryEntity> warehouseCategorySpecification = getWarehouseCategorySpecification(searchExample);
 
         return Optional.of(repository.findAll(warehouseCategorySpecification));
     }
 
-    private Specification<WarehouseCategory> getWarehouseCategorySpecification(WarehouseCategoryModel searchExample) {
+    private Specification<WarehouseCategoryEntity> getWarehouseCategorySpecification(WarehouseCategoryModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -63,19 +63,19 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategory, 
         };
     }
 
-    private void validateEntity(WarehouseCategory warehouseCategory) throws GeneralException {
+    private void validateEntity(WarehouseCategoryEntity warehouseCategory) throws GeneralException {
         if (warehouseCategory == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public Optional<WarehouseCategory> save(WarehouseCategory warehouseCategory) throws GeneralException {
+    public Optional<WarehouseCategoryEntity> save(WarehouseCategoryEntity warehouseCategory) throws GeneralException {
         validateEntity(warehouseCategory);
         warehouseCategory.setId(null);
         return Optional.of(repository.save(warehouseCategory));
     }
 
-    public Optional<WarehouseCategory> update(WarehouseCategory warehouseCategory) throws GeneralException {
+    public Optional<WarehouseCategoryEntity> update(WarehouseCategoryEntity warehouseCategory) throws GeneralException {
         validateEntity(warehouseCategory);
         if (warehouseCategory.getId() == null) {
             // TODO must fix message
@@ -83,13 +83,13 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategory, 
         }
 
         // TODO must fix message
-        WarehouseCategory loadedWarehouseCategory = repository.findById(warehouseCategory.getId()).orElseThrow(() -> new GeneralException("not found"));
+        WarehouseCategoryEntity loadedWarehouseCategory = repository.findById(warehouseCategory.getId()).orElseThrow(() -> new GeneralException("not found"));
 
         return Optional.of(repository.save(swap(warehouseCategory, loadedWarehouseCategory)));
 
     }
 
-    public Optional<WarehouseCategory> saveOrUpdate(WarehouseCategory warehouseCategory) throws GeneralException {
+    public Optional<WarehouseCategoryEntity> saveOrUpdate(WarehouseCategoryEntity warehouseCategory) throws GeneralException {
         return warehouseCategory.getId() == null ? save(warehouseCategory) : update(warehouseCategory);
     }
 
@@ -106,7 +106,7 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategory, 
 
     @Override
     public Page<WarehouseCategoryModel> loadItem(WarehouseCategoryModel searchModel, PageRequest pageRequest) {
-        Page<WarehouseCategory> page;
+        Page<WarehouseCategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {

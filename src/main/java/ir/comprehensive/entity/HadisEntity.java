@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "HADIS")
-public class Hadis extends BaseEntity<Long> {
+public class HadisEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;

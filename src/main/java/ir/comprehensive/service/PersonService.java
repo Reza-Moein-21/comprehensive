@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.Category;
-import ir.comprehensive.entity.Person;
+import ir.comprehensive.entity.CategoryEntity;
+import ir.comprehensive.entity.PersonEntity;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.mapper.PersonReportMapper;
 import ir.comprehensive.fxmodel.CategoryModel;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PersonService implements BaseService<Person, PersonModel> {
+public class PersonService implements BaseService<PersonEntity, PersonModel> {
     private ProductDeliveryRepository productDeliveryRepository;
     private PersonRepository repository;
     private MyNoteRepository myNoteRepository;
@@ -46,12 +46,12 @@ public class PersonService implements BaseService<Person, PersonModel> {
         this.personReportMapper = personReportMapper;
     }
 
-    public Optional<List<Person>> findByName(String name) {
-        Page<Person> people = repository.findByName(name, PageRequest.of(0, 10));
+    public Optional<List<PersonEntity>> findByName(String name) {
+        Page<PersonEntity> people = repository.findByName(name, PageRequest.of(0, 10));
         return Optional.of(people.getContent());
     }
 
-    public Optional<Person> load(Long id) throws GeneralException {
+    public Optional<PersonEntity> load(Long id) throws GeneralException {
         if (id == null) {
             // TODO must use true message
             throw new GeneralException("null Id");
@@ -59,17 +59,17 @@ public class PersonService implements BaseService<Person, PersonModel> {
         return repository.findById(id);
     }
 
-    public Optional<List<Person>> loadAll() {
+    public Optional<List<PersonEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
 
-    public Optional<List<Person>> search(PersonModel searchExample) {
-        Specification<Person> personSpecification = getPersonSpecification(searchExample);
+    public Optional<List<PersonEntity>> search(PersonModel searchExample) {
+        Specification<PersonEntity> personSpecification = getPersonSpecification(searchExample);
         return Optional.of(repository.findAll(personSpecification));
     }
 
-    private Specification<Person> getPersonSpecification(PersonModel searchExample) {
+    private Specification<PersonEntity> getPersonSpecification(PersonModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
@@ -88,7 +88,7 @@ public class PersonService implements BaseService<Person, PersonModel> {
                 predicateList.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("email")), StringUtils.makeAnyMatch(searchExample.getEmail())));
             }
             if (searchExample.getCategories() != null && !searchExample.getCategories().isEmpty()) {
-                Join<Person, Category> categories = root.join("categories");
+                Join<PersonEntity, CategoryEntity> categories = root.join("categories");
                 predicateList.add(categories.in(searchExample.getCategories().stream().map(CategoryModel::getId).collect(Collectors.toSet())));
             }
             query.distinct(true);
@@ -97,7 +97,7 @@ public class PersonService implements BaseService<Person, PersonModel> {
         };
     }
 
-    private void validateEntity(Person person) throws GeneralException {
+    private void validateEntity(PersonEntity person) throws GeneralException {
         if (person == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
@@ -107,26 +107,26 @@ public class PersonService implements BaseService<Person, PersonModel> {
         }
     }
 
-    public Optional<Person> save(Person person) throws GeneralException {
+    public Optional<PersonEntity> save(PersonEntity person) throws GeneralException {
         validateEntity(person);
         person.setId(null);
         return Optional.of(repository.save(person));
     }
 
-    public Optional<Person> update(Person person) throws GeneralException {
+    public Optional<PersonEntity> update(PersonEntity person) throws GeneralException {
         validateEntity(person);
         if (person.getId() == null) {
             // TODO must fix message
             throw new GeneralException("not null id");
         }
         // TODO must fix message
-        Person loadedPerson = repository.findById(person.getId()).orElseThrow(() -> new GeneralException("not found"));
+        PersonEntity loadedPerson = repository.findById(person.getId()).orElseThrow(() -> new GeneralException("not found"));
 
         return Optional.of(repository.save(swap(person, loadedPerson)));
 
     }
 
-    public Optional<Person> saveOrUpdate(Person person) throws GeneralException {
+    public Optional<PersonEntity> saveOrUpdate(PersonEntity person) throws GeneralException {
         return person.getId() == null ? save(person) : update(person);
     }
 
@@ -147,7 +147,7 @@ public class PersonService implements BaseService<Person, PersonModel> {
 
     @Override
     public Page<PersonModel> loadItem(PersonModel searchModel, PageRequest pageRequest) {
-        Page<Person> personPage;
+        Page<PersonEntity> personPage;
         if (searchModel == null) {
             personPage = repository.findAll(pageRequest);
         } else {

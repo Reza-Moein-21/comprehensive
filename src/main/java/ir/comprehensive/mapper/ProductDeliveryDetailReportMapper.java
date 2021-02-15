@@ -1,16 +1,16 @@
 package ir.comprehensive.mapper;
 
 import com.github.mfathi91.time.PersianDate;
-import ir.comprehensive.entity.ProductDelivery;
+import ir.comprehensive.entity.ProductDeliveryEntity;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductDeliveryDetailReportMapper implements BaseMapper<ProductDelivery, ProductDeliveryReportBean.ProductDeliveryDetailReport> {
+public class ProductDeliveryDetailReportMapper implements BaseMapper<ProductDeliveryEntity, ProductDeliveryReportBean.ProductDeliveryDetailReport> {
 
 
     @Override
-    public ProductDeliveryReportBean.ProductDeliveryDetailReport entityToModel(ProductDelivery entity) {
+    public ProductDeliveryReportBean.ProductDeliveryDetailReport entityToModel(ProductDeliveryEntity entity) {
         ProductDeliveryReportBean.ProductDeliveryDetailReport model = new ProductDeliveryReportBean.ProductDeliveryDetailReport();
         model.setCount(String.valueOf(entity.getCount()));
         model.setDeliveryDate(PersianDate.fromGregorian(entity.getDeliveryDate()).toString());
@@ -31,7 +31,7 @@ public class ProductDeliveryDetailReportMapper implements BaseMapper<ProductDeli
     }
 
     @Override
-    public ProductDelivery modelToEntity(ProductDeliveryReportBean.ProductDeliveryDetailReport dto) {
+    public ProductDeliveryEntity modelToEntity(ProductDeliveryReportBean.ProductDeliveryDetailReport dto) {
         return null;
     }
 }

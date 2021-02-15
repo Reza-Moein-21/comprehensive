@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "MY_NOTE_CATEGORY")
-public class MyNoteCategory extends BaseEntity<Long> {
+public class MyNoteCategoryEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;
@@ -29,16 +28,16 @@ public class MyNoteCategory extends BaseEntity<Long> {
     Long countOfInActive;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "myNoteCategory", orphanRemoval = true)
-    Set<MyNote> myNotes = new HashSet<>();
+    Set<MyNoteEntity> myNotes = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", length = 20)
-    MyNoteCategoryStatus status;
+    MyNoteCategoryStatusEnum status;
 
-    public MyNoteCategory() {
+    public MyNoteCategoryEntity() {
     }
 
-    public MyNoteCategory(Long id) {
+    public MyNoteCategoryEntity(Long id) {
         this.id = id;
     }
 }

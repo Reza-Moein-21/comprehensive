@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.entity.ProductDelivery;
+import ir.comprehensive.entity.ProductDeliveryEntity;
 import ir.comprehensive.fxmodel.ProductDeliveryModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, ProductDeliveryModel> {
+public interface ProductDeliveryMapper extends BaseMapper<ProductDeliveryEntity, ProductDeliveryModel> {
 
     @Mapping(target = "title", ignore = true)
     @Mapping(target = "person.title", ignore = true)
@@ -19,9 +19,9 @@ public interface ProductDeliveryMapper extends BaseMapper<ProductDelivery, Produ
     @Mapping(target = "receivedDateFrom", ignore = true)
     @Mapping(target = "receivedDateTo", ignore = true)
     @Override
-    ProductDeliveryModel entityToModel(ProductDelivery entity);
+    ProductDeliveryModel entityToModel(ProductDeliveryEntity entity);
 
     @Override
     @InheritInverseConfiguration
-    ProductDelivery modelToEntity(ProductDeliveryModel dto);
+    ProductDeliveryEntity modelToEntity(ProductDeliveryModel dto);
 }

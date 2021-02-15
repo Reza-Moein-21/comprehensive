@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "WAREHOUSE")
-public class Warehouse extends BaseEntity<Long> {
+public class WarehouseEntity extends BaseEntity<Long> {
 
     @Column(name = "TITLE", nullable = false)
     String title;
@@ -29,13 +29,13 @@ public class Warehouse extends BaseEntity<Long> {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "WAREHOUSE_CATEGORY_ID", foreignKey = @ForeignKey(name = "FK_WHOUSE_WHOUSE_CAT"))
-    WarehouseCategory category;
+    WarehouseCategoryEntity category;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "WAREHOUSE_WAREHOUSE_TAG",
             joinColumns = @JoinColumn(name = "WAREHOUSE_ID", foreignKey = @ForeignKey(name = "FK_W_TAG")),
             inverseJoinColumns = @JoinColumn(name = "TAG_ID", foreignKey = @ForeignKey(name = "FK_TAG_W")))
-    List<WarehouseTag> tagList = new ArrayList<>();
+    List<WarehouseTagEntity> tagList = new ArrayList<>();
 
 
 }

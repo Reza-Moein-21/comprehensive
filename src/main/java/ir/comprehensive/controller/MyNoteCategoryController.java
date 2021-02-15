@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
-import ir.comprehensive.entity.MyNoteCategoryStatus;
+import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
 import ir.comprehensive.mapper.MyNoteCategoryMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryModel;
 import ir.comprehensive.service.MyNoteCategoryService;
@@ -59,9 +59,9 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public JFXTextField txfDescriptionC;
     @FXML
-    public JFXComboBox<MyNoteCategoryStatus> cmbStatusC;
+    public JFXComboBox<MyNoteCategoryStatusEnum> cmbStatusC;
     @FXML
-    public JFXComboBox<MyNoteCategoryStatus> cmbStatusS;
+    public JFXComboBox<MyNoteCategoryStatusEnum> cmbStatusS;
     @FXML
     public JFXTextField txfDescriptionS;
 
@@ -225,7 +225,7 @@ public class MyNoteCategoryController implements Initializable {
         createModel.setId(null);
         txfTitleC.setText("");
         txfDescriptionC.setText("");
-        cmbStatusC.setValue(MyNoteCategoryStatus.IN_PROGRESS);
+        cmbStatusC.setValue(MyNoteCategoryStatusEnum.IN_PROGRESS);
         dlgCreate.show();
     }
 

@@ -68,10 +68,10 @@
                     <JFXComboBox fx:id="cmbStatusC" promptText="%productStatus" labelFloat="true">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <ProductStatus fx:value="UNKNOWN"/>
-                                <ProductStatus fx:value="RECEIVED"/>
-                                <ProductStatus fx:value="REJECTED"/>
-                                <ProductStatus fx:value="LOST"/>
+                                <ProductStatusEnum fx:value="UNKNOWN"/>
+                                <ProductStatusEnum fx:value="RECEIVED"/>
+                                <ProductStatusEnum fx:value="REJECTED"/>
+                                <ProductStatusEnum fx:value="LOST"/>
                             </FXCollections>
                         </items>
                     </JFXComboBox>
@@ -149,10 +149,10 @@
                          GridPane.rowIndex="1">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <ProductStatus fx:value="UNKNOWN"/>
-                        <ProductStatus fx:value="RECEIVED"/>
-                        <ProductStatus fx:value="REJECTED"/>
-                        <ProductStatus fx:value="LOST"/>
+                        <ProductStatusEnum fx:value="UNKNOWN"/>
+                        <ProductStatusEnum fx:value="RECEIVED"/>
+                        <ProductStatusEnum fx:value="REJECTED"/>
+                        <ProductStatusEnum fx:value="LOST"/>
                     </FXCollections>
                 </items>
             </JFXComboBox>

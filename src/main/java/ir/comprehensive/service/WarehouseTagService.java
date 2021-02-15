@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.WarehouseTag;
+import ir.comprehensive.entity.WarehouseTagEntity;
 import ir.comprehensive.mapper.WarehouseTagMapper;
 import ir.comprehensive.fxmodel.WarehouseTagModel;
 import ir.comprehensive.repository.WarehouseTagRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseTagService implements BaseService<WarehouseTag, WarehouseTagModel> {
+public class WarehouseTagService implements BaseService<WarehouseTagEntity, WarehouseTagModel> {
     private WarehouseTagRepository repository;
     private WarehouseTagMapper mapper;
 
@@ -23,14 +23,14 @@ public class WarehouseTagService implements BaseService<WarehouseTag, WarehouseT
         this.mapper = mapper;
     }
 
-    public Optional<List<WarehouseTag>> findByTitle(String title) {
-        Page<WarehouseTag> warehouseTags = repository.findByTitle(title.replace("%", "\\%"), PageRequest.of(0, 10));
+    public Optional<List<WarehouseTagEntity>> findByTitle(String title) {
+        Page<WarehouseTagEntity> warehouseTags = repository.findByTitle(title.replace("%", "\\%"), PageRequest.of(0, 10));
         return Optional.of(warehouseTags.getContent());
     }
 
     @Override
     public Page<WarehouseTagModel> loadItem(WarehouseTagModel searchModel, PageRequest pageRequest) {
-        Page<WarehouseTag> page;
+        Page<WarehouseTagEntity> page;
         page = repository.findAll(pageRequest);
         return page.map(mapper::entityToModel);
     }

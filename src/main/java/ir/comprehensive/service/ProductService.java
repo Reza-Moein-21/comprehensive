@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.Product;
+import ir.comprehensive.entity.ProductEntity;
 import ir.comprehensive.mapper.ProductMapper;
 import ir.comprehensive.fxmodel.ProductModel;
 import ir.comprehensive.repository.ProductRepository;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ProductService implements BaseService<Product, ProductModel> {
+public class ProductService implements BaseService<ProductEntity, ProductModel> {
     private ProductRepository repository;
     private ProductMapper mapper;
 
@@ -22,7 +22,7 @@ public class ProductService implements BaseService<Product, ProductModel> {
 
     @Override
     public Page<ProductModel> loadItem(ProductModel searchModel, PageRequest pageRequest) {
-        Page<Product> page;
+        Page<ProductEntity> page;
         page = repository.findAll(pageRequest);
         return page.map(mapper::entityToModel);
     }

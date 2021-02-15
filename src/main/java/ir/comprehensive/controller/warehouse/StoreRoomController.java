@@ -11,7 +11,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.entity.ProductStatus;
+import ir.comprehensive.entity.ProductStatusEnum;
 import ir.comprehensive.mapper.PersonMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.mapper.WarehouseMapper;
@@ -107,7 +107,7 @@ public class StoreRoomController implements Initializable {
     @FXML
     public VBox parent;
     @FXML
-    public JFXComboBox<ProductStatus> cmbStatusS;
+    public JFXComboBox<ProductStatusEnum> cmbStatusS;
     @FXML
     public SimpleDatePicker sdpDeliveryDateFromS;
     @FXML
@@ -136,7 +136,7 @@ public class StoreRoomController implements Initializable {
     @FXML
     public Autocomplete<PersonModel> autPersonC;
     @FXML
-    public JFXComboBox<ProductStatus> cmbStatusC;
+    public JFXComboBox<ProductStatusEnum> cmbStatusC;
 
     @FXML
     public YesNoDialog dlgDelete;
@@ -374,7 +374,7 @@ public class StoreRoomController implements Initializable {
 
         });
         cmbStatusS.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null && newValue.equals(ProductStatus.RECEIVED)) {
+                    if (newValue != null && newValue.equals(ProductStatusEnum.RECEIVED)) {
                         receivedDateFromToHBox.setVisible(true);
                     } else {
                         sdpReceivedDateFromS.setValue(null);
@@ -385,7 +385,7 @@ public class StoreRoomController implements Initializable {
         );
 
         cmbStatusC.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null && newValue.equals(ProductStatus.RECEIVED)) {
+                    if (newValue != null && newValue.equals(ProductStatusEnum.RECEIVED)) {
                         sdpReceivedDateC.setVisible(true);
                     } else {
                         sdpReceivedDateC.setValue(null);
@@ -406,13 +406,13 @@ public class StoreRoomController implements Initializable {
 
                 }
         );
-        cmbStatusS.setValue(ProductStatus.UNKNOWN);
+        cmbStatusS.setValue(ProductStatusEnum.UNKNOWN);
         tblProductDelivery.setItemPage(pageRequest -> productDeliveryService.loadItem(searchModel, pageRequest));
         fillDataTable();
     }
 
-    private boolean mustDisableCount(ProductStatus newValue) {
-        return !(newValue != null && newValue.equals(ProductStatus.UNKNOWN));
+    private boolean mustDisableCount(ProductStatusEnum newValue) {
+        return !(newValue != null && newValue.equals(ProductStatusEnum.UNKNOWN));
     }
 
 
@@ -428,7 +428,7 @@ public class StoreRoomController implements Initializable {
         sdpDeliveryDateC.setValue(null);
         sdpDesiredDateC.setValue(null);
         txfCountC.setText("");
-        cmbStatusC.setValue(ProductStatus.UNKNOWN);
+        cmbStatusC.setValue(ProductStatusEnum.UNKNOWN);
         cmbStatusC.setDisable(true);
         dlgCreate.show();
     }
@@ -443,7 +443,7 @@ public class StoreRoomController implements Initializable {
         boolean deliveryDateValidate = sdpDeliveryDateC.validate();
         boolean countValidate = isNotValidateCount() || txfCountC.validate();
         boolean receivedDateValidate = true;
-        if (cmbStatusC.getValue().equals(ProductStatus.RECEIVED)) {
+        if (cmbStatusC.getValue().equals(ProductStatusEnum.RECEIVED)) {
             receivedDateValidate = sdpReceivedDateC.validate();
         }
         return personValidate && productNameValidate && deliveryDateValidate && countValidate && receivedDateValidate;

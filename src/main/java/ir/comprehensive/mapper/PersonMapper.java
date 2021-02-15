@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.entity.Person;
+import ir.comprehensive.entity.PersonEntity;
 import ir.comprehensive.fxmodel.PersonModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface PersonMapper extends BaseMapper<Person, PersonModel> {
+public interface PersonMapper extends BaseMapper<PersonEntity, PersonModel> {
 
     @Mapping(target = "title", ignore = true)
     @Override
-    PersonModel entityToModel(Person entity);
+    PersonModel entityToModel(PersonEntity entity);
 
     @Override
     @InheritInverseConfiguration
-    Person modelToEntity(PersonModel dto);
+    PersonEntity modelToEntity(PersonModel dto);
 }

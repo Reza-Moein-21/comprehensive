@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.ProductDelivery;
-import ir.comprehensive.entity.ProductStatus;
-import ir.comprehensive.entity.Warehouse;
+import ir.comprehensive.entity.ProductDeliveryEntity;
+import ir.comprehensive.entity.ProductStatusEnum;
+import ir.comprehensive.entity.WarehouseEntity;
 import ir.comprehensive.mapper.ProductDeliveryDetailReportMapper;
 import ir.comprehensive.mapper.ProductDeliveryMapper;
 import ir.comprehensive.fxmodel.ProductDeliveryModel;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ProductDeliveryService implements BaseService<ProductDelivery, ProductDeliveryModel> {
+public class ProductDeliveryService implements BaseService<ProductDeliveryEntity, ProductDeliveryModel> {
     private ProductDeliveryRepository repository;
     private WarehouseService warehouseService;
     private PersonService personService;
@@ -39,7 +39,7 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         this.productDeliveryDetailReportMapper = productDeliveryDetailReportMapper;
     }
 
-    public Optional<ProductDelivery> load(Long id) throws GeneralException {
+    public Optional<ProductDeliveryEntity> load(Long id) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
@@ -47,23 +47,23 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         return repository.findById(id);
     }
 
-    public Optional<List<ProductDelivery>> loadAll() {
+    public Optional<List<ProductDeliveryEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
-    public Optional<List<ProductDelivery>> loadByStatus(ProductStatus status) {
-        ProductDelivery example = new ProductDelivery();
+    public Optional<List<ProductDeliveryEntity>> loadByStatus(ProductStatusEnum status) {
+        ProductDeliveryEntity example = new ProductDeliveryEntity();
         example.setStatus(status);
         return Optional.of(repository.findAll(Example.of(example)));
     }
 
-    public Optional<List<ProductDelivery>> search(ProductDeliveryModel searchExample) {
-        Specification<ProductDelivery> productDeliverySpecification = getProductDeliverySpecification(searchExample);
+    public Optional<List<ProductDeliveryEntity>> search(ProductDeliveryModel searchExample) {
+        Specification<ProductDeliveryEntity> productDeliverySpecification = getProductDeliverySpecification(searchExample);
 
         return Optional.of(repository.findAll(productDeliverySpecification));
     }
 
-    private Specification<ProductDelivery> getProductDeliverySpecification(ProductDeliveryModel searchExample) {
+    private Specification<ProductDeliveryEntity> getProductDeliverySpecification(ProductDeliveryModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
@@ -81,7 +81,7 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
             if (searchExample.getStatus() != null) {
                 predicateList.add(criteriaBuilder.equal(root.get("status"), searchExample.getStatus()));
             }
-            if (searchExample.getStatus() != null && searchExample.getStatus().equals(ProductStatus.RECEIVED)) {
+            if (searchExample.getStatus() != null && searchExample.getStatus().equals(ProductStatusEnum.RECEIVED)) {
                 if (searchExample.getReceivedDateFrom() != null) {
                     predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("receivedDate"), searchExample.getReceivedDateFrom()));
                 }
@@ -96,16 +96,16 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         };
     }
 
-    private void validateEntity(ProductDelivery productDelivery) throws GeneralException {
+    private void validateEntity(ProductDeliveryEntity productDelivery) throws GeneralException {
         if (productDelivery == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public Optional<ProductDelivery> save(ProductDelivery productDelivery) throws GeneralException {
+    public Optional<ProductDeliveryEntity> save(ProductDeliveryEntity productDelivery) throws GeneralException {
         validateEntity(productDelivery);
         productDelivery.setId(null);
-        productDelivery.setStatus(ProductStatus.UNKNOWN);
+        productDelivery.setStatus(ProductStatusEnum.UNKNOWN);
         productDelivery.setReceivedDate(null);
 
         // reduce count of warehouse
@@ -114,20 +114,20 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         return Optional.of(repository.save(productDelivery));
     }
 
-    public Optional<ProductDelivery> update(ProductDelivery productDelivery) throws GeneralException {
+    public Optional<ProductDeliveryEntity> update(ProductDeliveryEntity productDelivery) throws GeneralException {
         validateEntity(productDelivery);
         if (productDelivery.getId() == null) {
             // TODO must fix message
             throw new GeneralException("not null id");
         }
 
-        productDelivery.setReceivedDate(productDelivery.getStatus().equals(ProductStatus.RECEIVED) ? productDelivery.getReceivedDate() : null);
+        productDelivery.setReceivedDate(productDelivery.getStatus().equals(ProductStatusEnum.RECEIVED) ? productDelivery.getReceivedDate() : null);
 
         // TODO must fix message
-        ProductDelivery loadedProductDelivery = repository.findById(productDelivery.getId()).orElseThrow(() -> new GeneralException("not found"));
+        ProductDeliveryEntity loadedProductDelivery = repository.findById(productDelivery.getId()).orElseThrow(() -> new GeneralException("not found"));
 
-        ProductStatus currentStatus = loadedProductDelivery.getStatus();
-        ProductStatus newStatus = productDelivery.getStatus();
+        ProductStatusEnum currentStatus = loadedProductDelivery.getStatus();
+        ProductStatusEnum newStatus = productDelivery.getStatus();
 
         Long currentProductId = loadedProductDelivery.getProduct().getId();
         Long newProductId = productDelivery.getProduct().getId();
@@ -136,27 +136,27 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         Long newCount = productDelivery.getCount();
 
 
-        Optional<ProductDelivery> save = Optional.of(repository.save(swap(productDelivery, loadedProductDelivery)));
+        Optional<ProductDeliveryEntity> save = Optional.of(repository.save(swap(productDelivery, loadedProductDelivery)));
 
 
-        if (currentStatus.equals(ProductStatus.UNKNOWN) && newStatus.equals(ProductStatus.UNKNOWN)) {
+        if (currentStatus.equals(ProductStatusEnum.UNKNOWN) && newStatus.equals(ProductStatusEnum.UNKNOWN)) {
             state1(currentProductId, newProductId, currentCount, newCount);
-        } else if (currentStatus.equals(ProductStatus.UNKNOWN) && newStatus.equals(ProductStatus.RECEIVED)) {
+        } else if (currentStatus.equals(ProductStatusEnum.UNKNOWN) && newStatus.equals(ProductStatusEnum.RECEIVED)) {
             warehouseService.increaseCount(newProductId, currentCount);
-        } else if (currentStatus.equals(ProductStatus.RECEIVED) && newStatus.equals(ProductStatus.RECEIVED)) {
+        } else if (currentStatus.equals(ProductStatusEnum.RECEIVED) && newStatus.equals(ProductStatusEnum.RECEIVED)) {
             // nothing
-        } else if (currentStatus.equals(ProductStatus.RECEIVED) && newStatus.equals(ProductStatus.UNKNOWN)) {
+        } else if (currentStatus.equals(ProductStatusEnum.RECEIVED) && newStatus.equals(ProductStatusEnum.UNKNOWN)) {
             warehouseService.reduceCount(currentProductId, currentCount);
             state1(currentProductId, newProductId, currentCount, newCount);
-        } else if (currentStatus.equals(ProductStatus.UNKNOWN) && lostOrRejected(newStatus)) {
+        } else if (currentStatus.equals(ProductStatusEnum.UNKNOWN) && lostOrRejected(newStatus)) {
             // nothing
         } else if (lostOrRejected(currentStatus) && lostOrRejected(newStatus)) {
             // nothing
-        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatus.UNKNOWN)) {
+        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatusEnum.UNKNOWN)) {
             state1(currentProductId, newProductId, currentCount, newCount);
-        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatus.RECEIVED)) {
+        } else if (lostOrRejected(currentStatus) && newStatus.equals(ProductStatusEnum.RECEIVED)) {
             warehouseService.increaseCount(currentProductId, currentCount);
-        } else if (currentStatus.equals(ProductStatus.RECEIVED) && lostOrRejected(newStatus)) {
+        } else if (currentStatus.equals(ProductStatusEnum.RECEIVED) && lostOrRejected(newStatus)) {
             warehouseService.reduceCount(currentProductId, currentCount);
         }
 
@@ -173,20 +173,20 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         warehouseService.increaseCount(newProductId, currentCount - newCount);
     }
 
-    private boolean lostOrRejected(ProductStatus newStatus) {
-        return newStatus.equals(ProductStatus.REJECTED) || newStatus.equals(ProductStatus.LOST);
+    private boolean lostOrRejected(ProductStatusEnum newStatus) {
+        return newStatus.equals(ProductStatusEnum.REJECTED) || newStatus.equals(ProductStatusEnum.LOST);
     }
 
 
-    private boolean inSameStatus(ProductStatus currentStatus, ProductStatus newStatus) {
+    private boolean inSameStatus(ProductStatusEnum currentStatus, ProductStatusEnum newStatus) {
         return newStatus.equals(currentStatus);
     }
 
-    private boolean isStatusChange(ProductStatus currentStatus, ProductStatus newStatus) {
+    private boolean isStatusChange(ProductStatusEnum currentStatus, ProductStatusEnum newStatus) {
         return !newStatus.equals(currentStatus);
     }
 
-    public Optional<ProductDelivery> saveOrUpdate(ProductDelivery productDelivery) throws GeneralException {
+    public Optional<ProductDeliveryEntity> saveOrUpdate(ProductDeliveryEntity productDelivery) throws GeneralException {
         return productDelivery.getId() == null ? save(productDelivery) : update(productDelivery);
     }
 
@@ -197,8 +197,8 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
             throw new GeneralException("not null id");
         }
         // back count to warehouse
-        ProductDelivery productDelivery = repository.findById(id).orElseThrow(() -> new GeneralException("Id not found"));
-        if (!productDelivery.getStatus().equals(ProductStatus.RECEIVED)) {
+        ProductDeliveryEntity productDelivery = repository.findById(id).orElseThrow(() -> new GeneralException("Id not found"));
+        if (!productDelivery.getStatus().equals(ProductStatusEnum.RECEIVED)) {
             warehouseService.increaseCount(productDelivery.getProduct().getId(), productDelivery.getCount());
         }
         repository.deleteById(id);
@@ -207,7 +207,7 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
 
     @Override
     public Page<ProductDeliveryModel> loadItem(ProductDeliveryModel searchModel, PageRequest pageRequest) {
-        Page<ProductDelivery> page;
+        Page<ProductDeliveryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {
@@ -227,7 +227,7 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         Map<String, Object> params = new HashMap<>();
         ProductDeliveryReportBean bean = new ProductDeliveryReportBean();
 
-        Optional<Warehouse> warehouseOptional = warehouseService.load(searchModel.getProduct().getId());
+        Optional<WarehouseEntity> warehouseOptional = warehouseService.load(searchModel.getProduct().getId());
         warehouseOptional.ifPresent(warehouse -> {
             params.put("productName", warehouse.getTitle());
             params.put("productCode", warehouse.getCode());
@@ -267,10 +267,10 @@ public class ProductDeliveryService implements BaseService<ProductDelivery, Prod
         Long personId = searchModel.getPerson().getId();
         String fullName = personService.load(personId).map(p -> p.getFirstName() + " " + p.getLastName()).orElse("");
         params.put("personName", fullName);
-        params.put("unknownCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.UNKNOWN, personId)));
-        params.put("lostCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.LOST, personId)));
-        params.put("rejectedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.REJECTED, personId)));
-        params.put("receivedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatus.RECEIVED, personId)));
+        params.put("unknownCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatusEnum.UNKNOWN, personId)));
+        params.put("lostCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatusEnum.LOST, personId)));
+        params.put("rejectedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatusEnum.REJECTED, personId)));
+        params.put("receivedCount", String.valueOf(repository.countByStatusAndPersonId(ProductStatusEnum.RECEIVED, personId)));
 
         bean.setParams(params);
 

@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.ProductStatus;
-import ir.comprehensive.entity.Warehouse;
-import ir.comprehensive.entity.WarehouseTag;
+import ir.comprehensive.entity.ProductStatusEnum;
+import ir.comprehensive.entity.WarehouseEntity;
+import ir.comprehensive.entity.WarehouseTagEntity;
 import ir.comprehensive.mapper.WarehouseMapper;
 import ir.comprehensive.mapper.WarehouseReportMapper;
 import ir.comprehensive.fxmodel.WarehouseInfo;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class WarehouseService implements BaseService<Warehouse, WarehouseModel> {
+public class WarehouseService implements BaseService<WarehouseEntity, WarehouseModel> {
     private WarehouseRepository repository;
     private WarehouseMapper mapper;
     private ProductDeliveryRepository productDeliveryRepository;
@@ -46,7 +46,7 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
         this.warehouseReportMapper = warehouseReportMapper;
     }
 
-    public Optional<Warehouse> load(Long id) throws GeneralException {
+    public Optional<WarehouseEntity> load(Long id) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
@@ -54,23 +54,23 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
         return repository.findById(id);
     }
 
-    public Optional<List<Warehouse>> findByName(String name) {
-        Page<Warehouse> warehouses = repository.findByName(name, PageRequest.of(0, 10));
+    public Optional<List<WarehouseEntity>> findByName(String name) {
+        Page<WarehouseEntity> warehouses = repository.findByName(name, PageRequest.of(0, 10));
         return Optional.of(warehouses.getContent());
     }
 
-    public Optional<List<Warehouse>> loadAll() {
+    public Optional<List<WarehouseEntity>> loadAll() {
         return Optional.of(repository.findAll(Sort.by(Sort.Order.asc("category.title"))));
     }
 
 
-    public Optional<List<Warehouse>> search(WarehouseModel searchExample) {
-        Specification<Warehouse> warehouseSpecification = getWarehouseSpecification(searchExample);
+    public Optional<List<WarehouseEntity>> search(WarehouseModel searchExample) {
+        Specification<WarehouseEntity> warehouseSpecification = getWarehouseSpecification(searchExample);
 
         return Optional.of(repository.findAll(warehouseSpecification).stream().distinct().collect(Collectors.toList()));
     }
 
-    private Specification<Warehouse> getWarehouseSpecification(WarehouseModel searchExample) {
+    private Specification<WarehouseEntity> getWarehouseSpecification(WarehouseModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -120,19 +120,19 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
         };
     }
 
-    private void validateEntity(Warehouse warehouse) throws GeneralException {
+    private void validateEntity(WarehouseEntity warehouse) throws GeneralException {
         if (warehouse == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public Optional<Warehouse> save(Warehouse warehouse) throws GeneralException {
+    public Optional<WarehouseEntity> save(WarehouseEntity warehouse) throws GeneralException {
         validateEntity(warehouse);
         warehouse.setId(null);
         return Optional.of(repository.save(warehouse));
     }
 
-    public Optional<Warehouse> update(Warehouse warehouse) throws GeneralException {
+    public Optional<WarehouseEntity> update(WarehouseEntity warehouse) throws GeneralException {
         validateEntity(warehouse);
         if (warehouse.getId() == null) {
             // TODO must fix message
@@ -140,18 +140,18 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
         }
 
         // TODO must fix message
-        Warehouse loadedWarehouse = repository.findById(warehouse.getId()).orElseThrow(() -> new GeneralException("not found"));
+        WarehouseEntity loadedWarehouse = repository.findById(warehouse.getId()).orElseThrow(() -> new GeneralException("not found"));
 
         return Optional.of(repository.save(swap(warehouse, loadedWarehouse)));
 
     }
 
-    public Optional<Warehouse> saveOrUpdate(Warehouse warehouse) throws GeneralException {
-        List<WarehouseTag> newTagListForSave = new ArrayList<>();
+    public Optional<WarehouseEntity> saveOrUpdate(WarehouseEntity warehouse) throws GeneralException {
+        List<WarehouseTagEntity> newTagListForSave = new ArrayList<>();
 
         if (warehouse.getTagList() != null) {
-            for (WarehouseTag warehouseTag : warehouse.getTagList()) {
-                Optional<WarehouseTag> byTitleExact = warehouseTagRepository.findByTitleExact(warehouseTag.getTitle());
+            for (WarehouseTagEntity warehouseTag : warehouse.getTagList()) {
+                Optional<WarehouseTagEntity> byTitleExact = warehouseTagRepository.findByTitleExact(warehouseTag.getTitle());
                 if (byTitleExact.isPresent()) {
                     newTagListForSave.add(byTitleExact.get());
                 } else if (warehouseTag.getId() != null) {
@@ -183,14 +183,14 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
     }
 
     public void reduceCount(Long id, Long count) {
-        Warehouse warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
+        WarehouseEntity warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
         Long currentCount = warehouse.getCount();
         warehouse.setCount(currentCount - count);
         repository.save(warehouse);
     }
 
     public void increaseCount(Long id, Long count) {
-        Warehouse warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
+        WarehouseEntity warehouse = repository.findById(id).orElseThrow(RuntimeException::new);
         Long currentCount = warehouse.getCount();
         warehouse.setCount(currentCount + count);
         repository.save(warehouse);
@@ -199,17 +199,17 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
     public WarehouseInfo getInfo() {
         WarehouseInfo info = new WarehouseInfo();
         info.setTotalWarehouse(this.getNumberString(repository.totalCount()));
-        info.setLostCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.LOST)));
-        info.setReceivedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.RECEIVED)));
-        info.setRejectedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.REJECTED)));
-        info.setUnknownCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatus.UNKNOWN)));
+        info.setLostCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatusEnum.LOST)));
+        info.setReceivedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatusEnum.RECEIVED)));
+        info.setRejectedCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatusEnum.REJECTED)));
+        info.setUnknownCount(this.getNumberString(productDeliveryRepository.countByStatus(ProductStatusEnum.UNKNOWN)));
 
         return info;
     }
 
     @Override
     public Page<WarehouseModel> loadItem(WarehouseModel searchModel, PageRequest pageRequest) {
-        Page<Warehouse> page;
+        Page<WarehouseEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {
@@ -223,7 +223,7 @@ public class WarehouseService implements BaseService<Warehouse, WarehouseModel> 
     }
 
     public List<WarehouseReportBean> getReportBeanList(WarehouseModel searchModel, Set<Long> ids) throws GeneralException {
-        Function<Warehouse, WarehouseReportBean> customReportMapper = warehouse -> {
+        Function<WarehouseEntity, WarehouseReportBean> customReportMapper = warehouse -> {
             WarehouseReportBean reportBean = warehouseReportMapper.entityToModel(warehouse);
             reportBean.setTagList(warehouse.getTagList() == null ? "" : warehouse.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));
             return reportBean;

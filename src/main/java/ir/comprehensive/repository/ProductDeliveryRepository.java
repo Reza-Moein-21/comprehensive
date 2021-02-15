@@ -1,24 +1,24 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.entity.ProductDelivery;
-import ir.comprehensive.entity.ProductStatus;
+import ir.comprehensive.entity.ProductDeliveryEntity;
+import ir.comprehensive.entity.ProductStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery, Long>, JpaSpecificationExecutor<ProductDelivery> {
-    @Query("select case when count(pd) > 0 then true else false end from ProductDelivery pd  where pd.person.id = ?1")
+public interface ProductDeliveryRepository extends JpaRepository<ProductDeliveryEntity, Long>, JpaSpecificationExecutor<ProductDeliveryEntity> {
+    @Query("select case when count(pd) > 0 then true else false end from ProductDeliveryEntity pd  where pd.person.id = ?1")
     Boolean isPersonExist(Long personId);
 
-    @Query("select case when count(pd) > 0 then true else false end from ProductDelivery pd  where pd.product.id = ?1")
+    @Query("select case when count(pd) > 0 then true else false end from ProductDeliveryEntity pd  where pd.product.id = ?1")
     boolean isWarehouseExist(Long productId);
 
-    long countByStatus(ProductStatus status);
+    long countByStatus(ProductStatusEnum status);
 
-    @Query("select sum(pd.count) from ProductDelivery pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.entity.ProductStatus).RECEIVED} ")
+    @Query("select sum(pd.count) from ProductDeliveryEntity pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.entity.ProductStatusEnum).RECEIVED} ")
     Long consumptionCountForPrint(Long WarehouseId);
 
-    Long countByStatusAndPersonId(ProductStatus status, Long personId);
+    Long countByStatusAndPersonId(ProductStatusEnum status, Long personId);
 }

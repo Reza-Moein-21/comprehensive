@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.Category;
+import ir.comprehensive.entity.CategoryEntity;
 import ir.comprehensive.mapper.CategoryMapper;
 import ir.comprehensive.mapper.CategoryReportMapper;
 import ir.comprehensive.fxmodel.*;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CategoryService implements BaseService<Category, CategoryModel> {
+public class CategoryService implements BaseService<CategoryEntity, CategoryModel> {
 
     private CategoryRepository repository;
     private PersonRepository personRepository;
@@ -39,22 +39,22 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
         this.categoryReportMapper = categoryReportMapper;
     }
 
-    public Optional<List<Category>> findByTitle(String title) {
-        List<Category> categories = repository.findByTitle(title, PageRequest.of(0, 10)).getContent();
+    public Optional<List<CategoryEntity>> findByTitle(String title) {
+        List<CategoryEntity> categories = repository.findByTitle(title, PageRequest.of(0, 10)).getContent();
         return Optional.of(categories);
     }
 
-    public Optional<List<Category>> loadAll() {
+    public Optional<List<CategoryEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
 
-    public Optional<List<Category>> search(CategoryModel searchExample) {
-        Specification<Category> categorySpecification = getCategorySpecification(searchExample);
+    public Optional<List<CategoryEntity>> search(CategoryModel searchExample) {
+        Specification<CategoryEntity> categorySpecification = getCategorySpecification(searchExample);
         return Optional.of(repository.findAll(categorySpecification));
     }
 
-    private Specification<Category> getCategorySpecification(CategoryModel searchExample) {
+    private Specification<CategoryEntity> getCategorySpecification(CategoryModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -81,7 +81,7 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
         };
     }
 
-    private void validateEntity(Category category) throws GeneralException {
+    private void validateEntity(CategoryEntity category) throws GeneralException {
         if (category == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
@@ -90,26 +90,26 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
         }
     }
 
-    public Optional<Category> save(Category category) throws GeneralException {
+    public Optional<CategoryEntity> save(CategoryEntity category) throws GeneralException {
         validateEntity(category);
         category.setId(null);
         return Optional.of(repository.save(category));
     }
 
-    public Optional<Category> update(Category category) throws GeneralException {
+    public Optional<CategoryEntity> update(CategoryEntity category) throws GeneralException {
         validateEntity(category);
         if (category.getId() == null) {
             // TODO must fix message
             throw new GeneralException("not null id");
         }
         // TODO must fix message
-        Category loaCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
+        CategoryEntity loaCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
 
         return Optional.of(repository.save(swap(category, loaCategory)));
 
     }
 
-    public Optional<Category> saveOrUpdate(Category category) throws GeneralException {
+    public Optional<CategoryEntity> saveOrUpdate(CategoryEntity category) throws GeneralException {
         return category.getId() == null ? save(category) : update(category);
     }
 
@@ -135,7 +135,7 @@ public class CategoryService implements BaseService<Category, CategoryModel> {
 
     @Override
     public Page<CategoryModel> loadItem(CategoryModel searchModel, PageRequest pageRequest) {
-        Page<Category> page;
+        Page<CategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {

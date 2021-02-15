@@ -4,7 +4,6 @@ import ir.comprehensive.entity.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -13,15 +12,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "PRODUCT_DELIVERY")
-public class ProductDelivery extends BaseEntity<Long> {
+public class ProductDeliveryEntity extends BaseEntity<Long> {
 
     @ManyToOne
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_DELIVERY_PERSON"), nullable = false)
-    Person person;
+    PersonEntity person;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "PRODUCT_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_DELIVERY_PRODUCT"), nullable = false)
-    Warehouse product;
+    WarehouseEntity product;
 
     @Column(name = "DESCRIPTION")
     String description;
@@ -40,5 +39,5 @@ public class ProductDelivery extends BaseEntity<Long> {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", length = 20)
-    ProductStatus status;
+    ProductStatusEnum status;
 }

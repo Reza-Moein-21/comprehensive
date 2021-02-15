@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "PERSON", uniqueConstraints = @UniqueConstraint(columnNames = {"FIRST_NAME", "LAST_NAME"}))
-public class Person extends BaseEntity<Long> {
+public class PersonEntity extends BaseEntity<Long> {
 
     @Column(name = "FIRST_NAME", nullable = false)
     String firstName;
@@ -38,7 +38,7 @@ public class Person extends BaseEntity<Long> {
             name = "PERSON_CATEGORY",
             joinColumns = {@JoinColumn(name = "PERSON_ID")},
             inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID")})
-    Set<Category> categories = new HashSet<>();
+    Set<CategoryEntity> categories = new HashSet<>();
 
     @Override
     public String toString() {

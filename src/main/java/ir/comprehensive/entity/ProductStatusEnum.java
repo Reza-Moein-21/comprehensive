@@ -3,13 +3,14 @@ package ir.comprehensive.entity;
 import ir.comprehensive.entity.base.BaseEnum;
 import ir.comprehensive.utils.MessageUtils;
 
-public enum MyNoteCategoryStatus implements BaseEnum {
-    IN_PROGRESS(MessageUtils.Message.IN_PROGRESS), DONE(MessageUtils.Message.DONE), STOPPED(MessageUtils.Message.STOPPED),
+public enum ProductStatusEnum implements BaseEnum {
+    UNKNOWN(MessageUtils.Message.UNKNOWN), RECEIVED(MessageUtils.Message.RECEIVED), REJECTED(MessageUtils.Message.REJECTED),
+    LOST(MessageUtils.Message.LOST)
     ;
 
     private String title;
 
-    MyNoteCategoryStatus(String title) {
+    ProductStatusEnum(String title) {
         this.title = title;
     }
 

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.Hadis;
+import ir.comprehensive.entity.HadisEntity;
 import ir.comprehensive.mapper.HadisMapper;
 import ir.comprehensive.fxmodel.HadisModel;
 import ir.comprehensive.repository.HadisRepository;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class HadisService implements BaseService<Hadis,HadisModel> {
+public class HadisService implements BaseService<HadisEntity,HadisModel> {
 
     private HadisRepository repository;
     private HadisMapper mapper;
@@ -30,17 +30,17 @@ public class HadisService implements BaseService<Hadis,HadisModel> {
         this.mapper = mapper;
     }
 
-    public Optional<List<Hadis>> loadAll() {
+    public Optional<List<HadisEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
 
-    public Optional<List<Hadis>> search(HadisModel searchExample) {
-        Specification<Hadis> hadisSpecification = getHadisSpecification(searchExample);
+    public Optional<List<HadisEntity>> search(HadisModel searchExample) {
+        Specification<HadisEntity> hadisSpecification = getHadisSpecification(searchExample);
         return Optional.of(repository.findAll(hadisSpecification));
     }
 
-    private Specification<Hadis> getHadisSpecification(HadisModel searchExample) {
+    private Specification<HadisEntity> getHadisSpecification(HadisModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -55,32 +55,32 @@ public class HadisService implements BaseService<Hadis,HadisModel> {
         };
     }
 
-    private void validateEntity(Hadis hadis) throws GeneralException {
+    private void validateEntity(HadisEntity hadis) throws GeneralException {
         if (hadis == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
     }
 
-    public Optional<Hadis> save(Hadis hadis) throws GeneralException {
+    public Optional<HadisEntity> save(HadisEntity hadis) throws GeneralException {
         validateEntity(hadis);
         hadis.setId(null);
         return Optional.of(repository.save(hadis));
     }
 
-    public Optional<Hadis> update(Hadis hadis) throws GeneralException {
+    public Optional<HadisEntity> update(HadisEntity hadis) throws GeneralException {
         validateEntity(hadis);
         if (hadis.getId() == null) {
             // TODO must fix message
             throw new GeneralException("not null id");
         }
         // TODO must fix message
-        Hadis loadedHadis = repository.findById(hadis.getId()).orElseThrow(() -> new GeneralException("not found"));
+        HadisEntity loadedHadis = repository.findById(hadis.getId()).orElseThrow(() -> new GeneralException("not found"));
 
         return Optional.of(repository.save(swap(hadis, loadedHadis)));
 
     }
 
-    public Optional<Hadis> saveOrUpdate(Hadis hadis) throws GeneralException {
+    public Optional<HadisEntity> saveOrUpdate(HadisEntity hadis) throws GeneralException {
         return hadis.getId() == null ? save(hadis) : update(hadis);
     }
 
@@ -94,11 +94,11 @@ public class HadisService implements BaseService<Hadis,HadisModel> {
         return Optional.of(id);
     }
 
-    public Hadis getRandomHadis() {
+    public HadisEntity getRandomHadis() {
         Long qty = repository.countAll();
         int idx = (int)(Math.random() * qty);
-        Page<Hadis> hadisPage = repository.findAll(PageRequest.of(idx, 1));
-        Hadis q = null;
+        Page<HadisEntity> hadisPage = repository.findAll(PageRequest.of(idx, 1));
+        HadisEntity q = null;
         if (hadisPage.hasContent()) {
             q = hadisPage.getContent().get(0);
         }
@@ -107,7 +107,7 @@ public class HadisService implements BaseService<Hadis,HadisModel> {
 
     @Override
     public Page<HadisModel> loadItem(HadisModel searchModel, PageRequest pageRequest) {
-        Page<Hadis> page;
+        Page<HadisEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {

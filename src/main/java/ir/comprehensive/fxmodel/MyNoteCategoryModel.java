@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.entity.MyNoteCategoryStatus;
+import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,7 +15,7 @@ public class MyNoteCategoryModel extends BaseModel {
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<Long> countOfActive = new SimpleObjectProperty<>();
     private ObjectProperty<Long> countOfInActive = new SimpleObjectProperty<>();
-    private ObjectProperty<MyNoteCategoryStatus> status = new SimpleObjectProperty<>();
+    private ObjectProperty<MyNoteCategoryStatusEnum> status = new SimpleObjectProperty<>();
     private ObjectProperty<List<MyNoteModel>> myNotes = new SimpleObjectProperty<>(new ArrayList<>());
 
 
@@ -67,15 +67,15 @@ public class MyNoteCategoryModel extends BaseModel {
         this.countOfInActive.set(countOfInActive);
     }
 
-    public final MyNoteCategoryStatus getStatus() {
+    public final MyNoteCategoryStatusEnum getStatus() {
         return status.get();
     }
 
-    public final ObjectProperty<MyNoteCategoryStatus> statusProperty() {
+    public final ObjectProperty<MyNoteCategoryStatusEnum> statusProperty() {
         return status;
     }
 
-    public final void setStatus(MyNoteCategoryStatus status) {
+    public final void setStatus(MyNoteCategoryStatusEnum status) {
         this.status.set(status);
     }
 

@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.MyNoteCategory;
-import ir.comprehensive.entity.MyNoteCategoryStatus;
+import ir.comprehensive.entity.MyNoteCategoryEntity;
+import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
 import ir.comprehensive.mapper.MyNoteCategoryMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
 import ir.comprehensive.fxmodel.MyNoteCategoryModel;
@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteCategoryModel> {
+public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity,MyNoteCategoryModel> {
     MyNoteCategoryRepository repository;
     MyNoteRepository myNoteRepository;
     MyNoteCategoryMapper mapper;
@@ -34,7 +34,7 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
         this.mapper = mapper;
     }
 
-    public Optional<MyNoteCategory> load(Long id) throws GeneralException {
+    public Optional<MyNoteCategoryEntity> load(Long id) throws GeneralException {
         if (id == null) {
             // TODO fix message
             throw new GeneralException("null id");
@@ -42,17 +42,17 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
         return repository.findById(id);
     }
 
-    public Optional<List<MyNoteCategory>> loadAll() {
+    public Optional<List<MyNoteCategoryEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
 
-    public Optional<List<MyNoteCategory>> search(MyNoteCategoryModel searchExample) {
-        Specification<MyNoteCategory> categorySpecification = getMyNoteCategorySpecification(searchExample);
+    public Optional<List<MyNoteCategoryEntity>> search(MyNoteCategoryModel searchExample) {
+        Specification<MyNoteCategoryEntity> categorySpecification = getMyNoteCategorySpecification(searchExample);
         return Optional.of(repository.findAll(categorySpecification));
     }
 
-    private Specification<MyNoteCategory> getMyNoteCategorySpecification(MyNoteCategoryModel searchExample) {
+    private Specification<MyNoteCategoryEntity> getMyNoteCategorySpecification(MyNoteCategoryModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -68,7 +68,7 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
         };
     }
 
-    private void validateEntity(MyNoteCategory category) throws GeneralException {
+    private void validateEntity(MyNoteCategoryEntity category) throws GeneralException {
         if (category == null) {
             throw new GeneralException(MessageUtils.Message.ERROR_IN_SAVE);
         }
@@ -77,20 +77,20 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
         }
     }
 
-    public Optional<MyNoteCategory> save(MyNoteCategory category) throws GeneralException {
+    public Optional<MyNoteCategoryEntity> save(MyNoteCategoryEntity category) throws GeneralException {
         validateEntity(category);
         category.setId(null);
         return Optional.of(repository.save(category));
     }
 
-    public Optional<MyNoteCategory> update(MyNoteCategory category) throws GeneralException {
+    public Optional<MyNoteCategoryEntity> update(MyNoteCategoryEntity category) throws GeneralException {
         validateEntity(category);
         if (category.getId() == null) {
             // TODO must fix message
             throw new GeneralException("not null id");
         }
         // TODO must fix message
-        MyNoteCategory loaMyNoteCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
+        MyNoteCategoryEntity loaMyNoteCategory = repository.findById(category.getId()).orElseThrow(() -> new GeneralException("not found"));
         loaMyNoteCategory.setId(category.getId());
         loaMyNoteCategory.setTitle(category.getTitle());
         loaMyNoteCategory.setDescription(category.getDescription());
@@ -99,7 +99,7 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
 
     }
 
-    public Optional<MyNoteCategory> saveOrUpdate(MyNoteCategory category) throws GeneralException {
+    public Optional<MyNoteCategoryEntity> saveOrUpdate(MyNoteCategoryEntity category) throws GeneralException {
         return category.getId() == null ? save(category) : update(category);
     }
 
@@ -117,15 +117,15 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategory,MyNoteC
     public MyNoteCategoryInfo getInfo() {
         MyNoteCategoryInfo info = new MyNoteCategoryInfo();
         info.setTotalCount(this.getNumberString(repository.totalCount()));
-        info.setDoneCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.DONE)));
-        info.setInProgressCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.IN_PROGRESS)));
-        info.setStoppedCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatus.STOPPED)));
+        info.setDoneCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatusEnum.DONE)));
+        info.setInProgressCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatusEnum.IN_PROGRESS)));
+        info.setStoppedCount(this.getNumberString(repository.countByStatus(MyNoteCategoryStatusEnum.STOPPED)));
         return info;
     }
 
     @Override
     public Page<MyNoteCategoryModel> loadItem(MyNoteCategoryModel searchModel, PageRequest pageRequest) {
-        Page<MyNoteCategory> page;
+        Page<MyNoteCategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
         } else {

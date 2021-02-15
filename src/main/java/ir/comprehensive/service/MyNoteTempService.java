@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.MyNote;
-import ir.comprehensive.entity.MyNoteTemp;
+import ir.comprehensive.entity.MyNoteEntity;
+import ir.comprehensive.entity.MyNoteTempEntity;
 import ir.comprehensive.mapper.MyNoteTempMapper;
 import ir.comprehensive.fxmodel.MyNoteTempModel;
 import ir.comprehensive.repository.MyNoteTempRepository;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class MyNoteTempService implements BaseService<MyNoteTemp, MyNoteTempModel> {
+public class MyNoteTempService implements BaseService<MyNoteTempEntity, MyNoteTempModel> {
 
     private MyNoteTempRepository repository;
     private MyNoteTempMapper mapper;
@@ -35,11 +35,11 @@ public class MyNoteTempService implements BaseService<MyNoteTemp, MyNoteTempMode
             // TODO fix message
             throw new GeneralException("not null id");
         }
-        List<MyNoteTemp> listForSave = new ArrayList<>();
+        List<MyNoteTempEntity> listForSave = new ArrayList<>();
 
         ids.forEach(myNoteId -> {
             if (!repository.isMyNoteExist(myNoteId)) {
-                listForSave.add(new MyNoteTemp(new MyNote(myNoteId)));
+                listForSave.add(new MyNoteTempEntity(new MyNoteEntity(myNoteId)));
             }
         });
         if (!listForSave.isEmpty()) {
@@ -47,7 +47,7 @@ public class MyNoteTempService implements BaseService<MyNoteTemp, MyNoteTempMode
         }
     }
 
-    public Optional<List<MyNoteTemp>> loadAll() {
+    public Optional<List<MyNoteTempEntity>> loadAll() {
         return Optional.of(repository.findAll());
     }
 
@@ -62,7 +62,7 @@ public class MyNoteTempService implements BaseService<MyNoteTemp, MyNoteTempMode
 
     @Override
     public Page<MyNoteTempModel> loadItem(MyNoteTempModel searchModel, PageRequest pageRequest) {
-        Page<MyNoteTemp> page;
+        Page<MyNoteTempEntity> page;
         page = repository.findAll(pageRequest);
         return page.map(mapper::entityToModel);
     }

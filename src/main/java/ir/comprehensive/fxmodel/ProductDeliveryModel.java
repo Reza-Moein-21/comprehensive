@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.entity.ProductStatus;
+import ir.comprehensive.entity.ProductStatusEnum;
 import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import javafx.beans.property.*;
 
@@ -18,7 +18,7 @@ public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<LocalDate> receivedDate = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> receivedDateFrom = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> receivedDateTo = new SimpleObjectProperty<>();
-    private ObjectProperty<ProductStatus> status = new SimpleObjectProperty<>();
+    private ObjectProperty<ProductStatusEnum> status = new SimpleObjectProperty<>();
 
     public final PersonModel getPerson() {
         return person.get();
@@ -152,15 +152,15 @@ public class ProductDeliveryModel extends BaseModel {
         this.receivedDateTo.set(receivedDateTo);
     }
 
-    public final ProductStatus getStatus() {
+    public final ProductStatusEnum getStatus() {
         return status.get();
     }
 
-    public final ObjectProperty<ProductStatus> statusProperty() {
+    public final ObjectProperty<ProductStatusEnum> statusProperty() {
         return status;
     }
 
-    public final void setStatus(ProductStatus status) {
+    public final void setStatus(ProductStatusEnum status) {
         this.status.set(status);
     }
 }

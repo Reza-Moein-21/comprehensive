@@ -36,9 +36,9 @@
                 <JFXComboBox fx:id="cmbStatusC" GridPane.columnIndex="1" prefWidth="Infinity" promptText="%productStatus" labelFloat="true">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <MyNoteCategoryStatus fx:value="DONE"/>
-                            <MyNoteCategoryStatus fx:value="IN_PROGRESS"/>
-                            <MyNoteCategoryStatus fx:value="STOPPED"/>
+                            <MyNoteCategoryStatusEnum fx:value="DONE"/>
+                            <MyNoteCategoryStatusEnum fx:value="IN_PROGRESS"/>
+                            <MyNoteCategoryStatusEnum fx:value="STOPPED"/>
                         </FXCollections>
                     </items>
                 </JFXComboBox>
@@ -96,9 +96,9 @@
                          GridPane.columnIndex="2">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <MyNoteCategoryStatus fx:value="DONE"/>
-                        <MyNoteCategoryStatus fx:value="IN_PROGRESS"/>
-                        <MyNoteCategoryStatus fx:value="STOPPED"/>
+                        <MyNoteCategoryStatusEnum fx:value="DONE"/>
+                        <MyNoteCategoryStatusEnum fx:value="IN_PROGRESS"/>
+                        <MyNoteCategoryStatusEnum fx:value="STOPPED"/>
                     </FXCollections>
                 </items>
             </JFXComboBox>

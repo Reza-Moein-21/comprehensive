@@ -1,6 +1,6 @@
 package ir.comprehensive.mapper;
 
-import ir.comprehensive.entity.Category;
+import ir.comprehensive.entity.CategoryEntity;
 import ir.comprehensive.fxmodel.CategoryReportBean;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface CategoryReportMapper extends BaseMapper<Category, CategoryReportBean> {
+public interface CategoryReportMapper extends BaseMapper<CategoryEntity, CategoryReportBean> {
 
     @Override
     @InheritInverseConfiguration
-    CategoryReportBean entityToModel(Category entity);
+    CategoryReportBean entityToModel(CategoryEntity entity);
 
     @Override
     @Mapping(target = "id", ignore = true)
-    Category modelToEntity(CategoryReportBean dto);
+    CategoryEntity modelToEntity(CategoryReportBean dto);
 }
