@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.model.CategoryModel?>
+<?import ir.comprehensive.fxmodel.CategoryModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>

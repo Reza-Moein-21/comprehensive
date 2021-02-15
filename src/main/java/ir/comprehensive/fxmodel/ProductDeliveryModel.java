@@ -1,7 +1,7 @@
-package ir.comprehensive.model;
+package ir.comprehensive.fxmodel;
 
 import ir.comprehensive.entity.ProductStatus;
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;

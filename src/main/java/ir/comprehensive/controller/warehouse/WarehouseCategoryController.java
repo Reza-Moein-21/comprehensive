@@ -7,7 +7,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.model.WarehouseCategoryModel;
+import ir.comprehensive.fxmodel.WarehouseCategoryModel;
 import ir.comprehensive.service.WarehouseCategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;

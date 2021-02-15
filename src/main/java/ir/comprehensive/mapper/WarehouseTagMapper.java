@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.WarehouseTag;
-import ir.comprehensive.model.WarehouseTagModel;
+import ir.comprehensive.fxmodel.WarehouseTagModel;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

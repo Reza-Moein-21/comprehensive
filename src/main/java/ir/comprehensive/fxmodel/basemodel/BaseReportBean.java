@@ -1,4 +1,4 @@
-package ir.comprehensive.model.basemodel;
+package ir.comprehensive.fxmodel.basemodel;
 
 import java.util.List;
 

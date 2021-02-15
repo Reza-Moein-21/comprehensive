@@ -1,7 +1,7 @@
-package ir.comprehensive.model;
+package ir.comprehensive.fxmodel;
 
 import ir.comprehensive.entity.MyNoteCategoryStatus;
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

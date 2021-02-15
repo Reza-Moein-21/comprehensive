@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.ProductDelivery;
-import ir.comprehensive.model.ProductDeliveryModel;
+import ir.comprehensive.fxmodel.ProductDeliveryModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

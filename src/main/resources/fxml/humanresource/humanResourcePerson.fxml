@@ -4,7 +4,7 @@
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.MultiSelectBox?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.model.PersonModel?>
+<?import ir.comprehensive.fxmodel.PersonModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>

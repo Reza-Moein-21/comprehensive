@@ -6,7 +6,7 @@
 <?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo?>
-<?import ir.comprehensive.model.MyNoteModel?>
+<?import ir.comprehensive.fxmodel.MyNoteModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import ir.comprehensive.service.extra.Swappable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

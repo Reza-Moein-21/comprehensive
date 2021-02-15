@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.Hadis;
-import ir.comprehensive.model.HadisModel;
+import ir.comprehensive.fxmodel.HadisModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;

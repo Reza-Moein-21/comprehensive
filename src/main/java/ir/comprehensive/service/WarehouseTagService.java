@@ -2,7 +2,7 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.WarehouseTag;
 import ir.comprehensive.mapper.WarehouseTagMapper;
-import ir.comprehensive.model.WarehouseTagModel;
+import ir.comprehensive.fxmodel.WarehouseTagModel;
 import ir.comprehensive.repository.WarehouseTagRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

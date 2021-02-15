@@ -1,6 +1,6 @@
-package ir.comprehensive.model;
+package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.model.basemodel.BaseReportBean;
+import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
 
 public class PersonReportBean extends BaseReportBean {
     private String firstName;

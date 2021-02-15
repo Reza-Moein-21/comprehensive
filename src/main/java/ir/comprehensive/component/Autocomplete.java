@@ -2,7 +2,7 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;

@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.MyNote;
 import ir.comprehensive.entity.MyNoteTemp;
 import ir.comprehensive.mapper.MyNoteTempMapper;
-import ir.comprehensive.model.MyNoteTempModel;
+import ir.comprehensive.fxmodel.MyNoteTempModel;
 import ir.comprehensive.repository.MyNoteTempRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;

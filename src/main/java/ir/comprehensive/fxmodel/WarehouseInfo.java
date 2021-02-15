@@ -1,4 +1,4 @@
-package ir.comprehensive.model;
+package ir.comprehensive.fxmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

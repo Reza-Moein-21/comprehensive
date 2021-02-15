@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.MyNote;
-import ir.comprehensive.model.MyNoteModel;
+import ir.comprehensive.fxmodel.MyNoteModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

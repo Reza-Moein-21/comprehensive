@@ -9,7 +9,7 @@ import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.entity.MyNoteCategoryStatus;
 import ir.comprehensive.mapper.MyNoteCategoryMapper;
-import ir.comprehensive.model.MyNoteCategoryModel;
+import ir.comprehensive.fxmodel.MyNoteCategoryModel;
 import ir.comprehensive.service.MyNoteCategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;

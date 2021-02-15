@@ -2,7 +2,7 @@ package ir.comprehensive.mapper;
 
 import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.entity.ProductDelivery;
-import ir.comprehensive.model.ProductDeliveryReportBean;
+import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import org.springframework.stereotype.Component;
 
 @Component

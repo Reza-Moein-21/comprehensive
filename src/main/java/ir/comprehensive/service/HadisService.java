@@ -2,7 +2,7 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.Hadis;
 import ir.comprehensive.mapper.HadisMapper;
-import ir.comprehensive.model.HadisModel;
+import ir.comprehensive.fxmodel.HadisModel;
 import ir.comprehensive.repository.HadisRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;

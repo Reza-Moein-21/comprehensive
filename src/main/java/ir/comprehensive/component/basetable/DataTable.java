@@ -3,7 +3,7 @@ package ir.comprehensive.component.basetable;
 import com.jfoenix.controls.JFXButton;
 import ir.comprehensive.component.basetable.pagination.PaginationModelAdapter;
 import ir.comprehensive.component.basetable.pagination.TablePagination;
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.InvalidationListener;

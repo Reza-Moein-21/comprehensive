@@ -1,6 +1,6 @@
-package ir.comprehensive.model;
+package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.model.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseModel;
 
 public class WarehouseTagModel extends BaseModel {
     public WarehouseTagModel() {

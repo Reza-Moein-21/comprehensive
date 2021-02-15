@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.WarehouseCategory;
-import ir.comprehensive.model.WarehouseCategoryModel;
+import ir.comprehensive.fxmodel.WarehouseCategoryModel;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

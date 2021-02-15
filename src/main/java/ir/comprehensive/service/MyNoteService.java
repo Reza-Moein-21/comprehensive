@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.MyNote;
 import ir.comprehensive.entity.MyNoteCategory;
 import ir.comprehensive.mapper.MyNoteMapper;
-import ir.comprehensive.model.MyNoteModel;
+import ir.comprehensive.fxmodel.MyNoteModel;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;

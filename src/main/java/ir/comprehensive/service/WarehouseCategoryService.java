@@ -2,7 +2,7 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.WarehouseCategory;
 import ir.comprehensive.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.model.WarehouseCategoryModel;
+import ir.comprehensive.fxmodel.WarehouseCategoryModel;
 import ir.comprehensive.repository.WarehouseCategoryRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;

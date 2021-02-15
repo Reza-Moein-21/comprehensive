@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.Category;
-import ir.comprehensive.model.CategoryReportBean;
+import ir.comprehensive.fxmodel.CategoryReportBean;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -2,7 +2,7 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.Product;
 import ir.comprehensive.mapper.ProductMapper;
-import ir.comprehensive.model.ProductModel;
+import ir.comprehensive.fxmodel.ProductModel;
 import ir.comprehensive.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

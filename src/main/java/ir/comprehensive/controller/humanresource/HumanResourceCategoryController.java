@@ -8,7 +8,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.mapper.CategoryMapper;
-import ir.comprehensive.model.CategoryModel;
+import ir.comprehensive.fxmodel.CategoryModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;

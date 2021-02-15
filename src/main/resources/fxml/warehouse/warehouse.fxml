@@ -4,7 +4,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.*?>
-<?import ir.comprehensive.model.WarehouseModel?>
+<?import ir.comprehensive.fxmodel.WarehouseModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>

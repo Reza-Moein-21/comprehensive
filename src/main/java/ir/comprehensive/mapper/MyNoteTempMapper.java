@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.MyNoteTemp;
-import ir.comprehensive.model.MyNoteTempModel;
+import ir.comprehensive.fxmodel.MyNoteTempModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;

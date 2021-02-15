@@ -5,7 +5,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.mapper.MyNoteTempMapper;
-import ir.comprehensive.model.MyNoteTempModel;
+import ir.comprehensive.fxmodel.MyNoteTempModel;
 import ir.comprehensive.service.MyNoteTempService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;

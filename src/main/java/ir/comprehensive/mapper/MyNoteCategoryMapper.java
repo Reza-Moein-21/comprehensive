@@ -1,7 +1,7 @@
 package ir.comprehensive.mapper;
 
 import ir.comprehensive.entity.MyNoteCategory;
-import ir.comprehensive.model.MyNoteCategoryModel;
+import ir.comprehensive.fxmodel.MyNoteCategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;

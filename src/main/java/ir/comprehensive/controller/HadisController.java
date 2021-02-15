@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.mapper.HadisMapper;
-import ir.comprehensive.model.HadisModel;
+import ir.comprehensive.fxmodel.HadisModel;
 import ir.comprehensive.service.HadisService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
