@@ -4,8 +4,8 @@ import ir.comprehensive.component.RatingExtra;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
-import ir.comprehensive.mapper.MyNoteTempMapper;
-import ir.comprehensive.fxmodel.MyNoteTempModel;
+import ir.comprehensive.fxmapper.MyNoteTempFxMapper;
+import ir.comprehensive.fxmodel.MyNoteTempFxModel;
 import ir.comprehensive.service.MyNoteTempService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
@@ -31,19 +31,19 @@ public class MyNoteTempController implements Initializable {
     @FXML
     public YesNoDialog dlgDelete;
     @FXML
-    public DataTable<MyNoteTempModel> tblMyNoteTemp;
+    public DataTable<MyNoteTempFxModel> tblMyNoteTemp;
     @FXML
-    public CustomTableColumn<MyNoteTempModel, RatingExtra> colPriority;
+    public CustomTableColumn<MyNoteTempFxModel, RatingExtra> colPriority;
     @FXML
     public VBox parent;
-    public CustomTableColumn<MyNoteTempModel, String> colDescription;
+    public CustomTableColumn<MyNoteTempFxModel, String> colDescription;
 
     @Autowired
     StartController startController;
     @Autowired
     private MyNoteTempService myNoteTempService;
     @Autowired
-    private MyNoteTempMapper mapper;
+    private MyNoteTempFxMapper mapper;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,7 +75,7 @@ public class MyNoteTempController implements Initializable {
         updateDataTable();
     }
 
-    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteTempModel, String> param) {
+    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteTempFxModel, String> param) {
         final int MAX_LENGTH = 50;
         String description = param.getValue().getDescription();
         if (description == null) {

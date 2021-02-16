@@ -2,7 +2,7 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,7 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
 
-public class MultiSelectBox<T extends BaseModel> extends GridPane {
+public class MultiSelectBox<T extends BaseFxModel> extends GridPane {
     private StringProperty promptText = new SimpleStringProperty();
     private SelectBoxEvent<T> onChange;
 

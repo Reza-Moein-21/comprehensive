@@ -2,7 +2,7 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.ObjectProperty;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Autocomplete<T extends BaseModel> extends JFXTextField {
+public class Autocomplete<T extends BaseFxModel> extends JFXTextField {
     public static final String CONTENT_STYLE = "content-style";
 
     private ObjectProperty<T> value = new SimpleObjectProperty<>();

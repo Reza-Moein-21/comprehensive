@@ -2,9 +2,9 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.MyNoteCategoryEntity;
 import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
-import ir.comprehensive.mapper.MyNoteCategoryMapper;
+import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
-import ir.comprehensive.fxmodel.MyNoteCategoryModel;
+import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
 import ir.comprehensive.repository.MyNoteCategoryRepository;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
@@ -23,12 +23,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity,MyNoteCategoryModel> {
+public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity, MyNoteCategoryFxModel> {
     MyNoteCategoryRepository repository;
     MyNoteRepository myNoteRepository;
-    MyNoteCategoryMapper mapper;
+    MyNoteCategoryFxMapper mapper;
 
-    public MyNoteCategoryService(MyNoteCategoryRepository repository, MyNoteRepository myNoteRepository,MyNoteCategoryMapper mapper) {
+    public MyNoteCategoryService(MyNoteCategoryRepository repository, MyNoteRepository myNoteRepository, MyNoteCategoryFxMapper mapper) {
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
         this.mapper = mapper;
@@ -47,12 +47,12 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity,M
     }
 
 
-    public Optional<List<MyNoteCategoryEntity>> search(MyNoteCategoryModel searchExample) {
+    public Optional<List<MyNoteCategoryEntity>> search(MyNoteCategoryFxModel searchExample) {
         Specification<MyNoteCategoryEntity> categorySpecification = getMyNoteCategorySpecification(searchExample);
         return Optional.of(repository.findAll(categorySpecification));
     }
 
-    private Specification<MyNoteCategoryEntity> getMyNoteCategorySpecification(MyNoteCategoryModel searchExample) {
+    private Specification<MyNoteCategoryEntity> getMyNoteCategorySpecification(MyNoteCategoryFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -124,7 +124,7 @@ public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity,M
     }
 
     @Override
-    public Page<MyNoteCategoryModel> loadItem(MyNoteCategoryModel searchModel, PageRequest pageRequest) {
+    public Page<MyNoteCategoryFxModel> loadItem(MyNoteCategoryFxModel searchModel, PageRequest pageRequest) {
         Page<MyNoteCategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);

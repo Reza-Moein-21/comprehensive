@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.fxmodel.CategoryModel?>
+<?import ir.comprehensive.fxmodel.CategoryFxModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
@@ -12,13 +12,13 @@
       xmlns="http://javafx.com/javafx"
       fx:controller="ir.comprehensive.controller.humanresource.HumanResourceCategoryController">
     <fx:define>
-        <CategoryModel fx:id="createModel" title="${txfTitleC.text}" phoneNumber="${txfPhoneNumberC.text}"
-                       fax="${txfFaxC.text}" email="${txfEmailC.text}" address="${txfAddressC.text}"
-                       description="${txfDescriptionC.text}"/>
+        <CategoryFxModel fx:id="createModel" title="${txfTitleC.text}" phoneNumber="${txfPhoneNumberC.text}"
+                         fax="${txfFaxC.text}" email="${txfEmailC.text}" address="${txfAddressC.text}"
+                         description="${txfDescriptionC.text}"/>
 
-        <CategoryModel fx:id="searchModel" title="${txfTitleS.text}" phoneNumber="${txfPhoneNumberS.text}"
-                       fax="${txfFaxS.text}" email="${txfEmailS.text}" address="${txfAddressS.text}"
-                       description="${txfDescriptionS.text}"/>
+        <CategoryFxModel fx:id="searchModel" title="${txfTitleS.text}" phoneNumber="${txfPhoneNumberS.text}"
+                         fax="${txfFaxS.text}" email="${txfEmailS.text}" address="${txfAddressS.text}"
+                         description="${txfDescriptionS.text}"/>
 
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">

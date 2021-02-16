@@ -1,20 +1,20 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarehouseModel extends BaseModel {
+public class WarehouseFxModel extends BaseFxModel {
 
     private StringProperty code = new SimpleStringProperty();
     private StringProperty companyName = new SimpleStringProperty();
     private StringProperty producerName = new SimpleStringProperty();
     private LongProperty count = new SimpleLongProperty();
     private StringProperty description = new SimpleStringProperty();
-    private ObjectProperty<WarehouseCategoryModel> category = new SimpleObjectProperty<>();
-    private ObjectProperty<List<WarehouseTagModel>> tagList = new SimpleObjectProperty<>(new ArrayList<>());
+    private ObjectProperty<WarehouseCategoryFxModel> category = new SimpleObjectProperty<>();
+    private ObjectProperty<List<WarehouseTagFxModel>> tagList = new SimpleObjectProperty<>(new ArrayList<>());
 
 
     public final String getCode() {
@@ -77,27 +77,27 @@ public class WarehouseModel extends BaseModel {
         this.description.set(description);
     }
 
-    public final WarehouseCategoryModel getCategory() {
+    public final WarehouseCategoryFxModel getCategory() {
         return category.get();
     }
 
-    public final void setCategory(WarehouseCategoryModel category) {
+    public final void setCategory(WarehouseCategoryFxModel category) {
         this.category.set(category);
     }
 
-    public final ObjectProperty<WarehouseCategoryModel> categoryProperty() {
+    public final ObjectProperty<WarehouseCategoryFxModel> categoryProperty() {
         return category;
     }
 
-    public final List<WarehouseTagModel> getTagList() {
+    public final List<WarehouseTagFxModel> getTagList() {
         return tagList.get();
     }
 
-    public final void setTagList(List<WarehouseTagModel> tagList) {
+    public final void setTagList(List<WarehouseTagFxModel> tagList) {
         this.tagList.set(tagList);
     }
 
-    public final ObjectProperty<List<WarehouseTagModel>> tagListProperty() {
+    public final ObjectProperty<List<WarehouseTagFxModel>> tagListProperty() {
         return tagList;
     }
 }

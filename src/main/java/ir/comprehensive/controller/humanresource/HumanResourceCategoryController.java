@@ -7,8 +7,8 @@ import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.mapper.CategoryMapper;
-import ir.comprehensive.fxmodel.CategoryModel;
+import ir.comprehensive.fxmapper.CategoryFxMapper;
+import ir.comprehensive.fxmodel.CategoryFxModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;
@@ -41,11 +41,11 @@ public class HumanResourceCategoryController implements Initializable {
     public YesNoDialog dlgDelete;
 
     @FXML
-    public DataTable<CategoryModel> tblCategory;
+    public DataTable<CategoryFxModel> tblCategory;
     @FXML
-    public CategoryModel createModel;
+    public CategoryFxModel createModel;
     @FXML
-    public CategoryModel searchModel;
+    public CategoryFxModel searchModel;
 
     @FXML
     public JFXTextField txfTitleS;
@@ -119,7 +119,7 @@ public class HumanResourceCategoryController implements Initializable {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private CategoryMapper mapper;
+    private CategoryFxMapper mapper;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {

@@ -7,16 +7,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
-<?import ir.comprehensive.fxmodel.HadisModel?>
+<?import ir.comprehensive.fxmodel.HadisFxModel?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="vbxHRCategory" nodeOrientation="RIGHT_TO_LEFT"
       xmlns="http://javafx.com/javafx"
       fx:controller="ir.comprehensive.controller.HadisController" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0"
       AnchorPane.bottomAnchor="0"
       AnchorPane.leftAnchor="0">
     <fx:define>
-        <HadisModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"/>
+        <HadisFxModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"/>
 
-        <HadisModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"/>
+        <HadisFxModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"/>
 
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">

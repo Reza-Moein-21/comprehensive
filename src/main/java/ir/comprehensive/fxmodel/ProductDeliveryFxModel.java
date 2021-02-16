@@ -1,14 +1,14 @@
 package ir.comprehensive.fxmodel;
 
 import ir.comprehensive.entity.ProductStatusEnum;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
-public class ProductDeliveryModel extends BaseModel {
-    private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
-    private ObjectProperty<WarehouseModel> product = new SimpleObjectProperty();
+public class ProductDeliveryFxModel extends BaseFxModel {
+    private ObjectProperty<PersonFxModel> person = new SimpleObjectProperty<>();
+    private ObjectProperty<WarehouseFxModel> product = new SimpleObjectProperty();
     private StringProperty description = new SimpleStringProperty();
     private LongProperty count = new SimpleLongProperty();
     private ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>();
@@ -20,27 +20,27 @@ public class ProductDeliveryModel extends BaseModel {
     private ObjectProperty<LocalDate> receivedDateTo = new SimpleObjectProperty<>();
     private ObjectProperty<ProductStatusEnum> status = new SimpleObjectProperty<>();
 
-    public final PersonModel getPerson() {
+    public final PersonFxModel getPerson() {
         return person.get();
     }
 
-    public final ObjectProperty<PersonModel> personProperty() {
+    public final ObjectProperty<PersonFxModel> personProperty() {
         return person;
     }
 
-    public final void setPerson(PersonModel person) {
+    public final void setPerson(PersonFxModel person) {
         this.person.set(person);
     }
 
-    public WarehouseModel getProduct() {
+    public WarehouseFxModel getProduct() {
         return product.get();
     }
 
-    public void setProduct(WarehouseModel product) {
+    public void setProduct(WarehouseFxModel product) {
         this.product.set(product);
     }
 
-    public ObjectProperty<WarehouseModel> productProperty() {
+    public ObjectProperty<WarehouseFxModel> productProperty() {
         return product;
     }
 

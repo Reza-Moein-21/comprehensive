@@ -2,8 +2,8 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.MyNoteEntity;
 import ir.comprehensive.entity.MyNoteTempEntity;
-import ir.comprehensive.mapper.MyNoteTempMapper;
-import ir.comprehensive.fxmodel.MyNoteTempModel;
+import ir.comprehensive.fxmapper.MyNoteTempFxMapper;
+import ir.comprehensive.fxmodel.MyNoteTempFxModel;
 import ir.comprehensive.repository.MyNoteTempRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class MyNoteTempService implements BaseService<MyNoteTempEntity, MyNoteTempModel> {
+public class MyNoteTempService implements BaseService<MyNoteTempEntity, MyNoteTempFxModel> {
 
     private MyNoteTempRepository repository;
-    private MyNoteTempMapper mapper;
+    private MyNoteTempFxMapper mapper;
 
     @Autowired
-    public MyNoteTempService(MyNoteTempRepository repository, MyNoteTempMapper mapper) {
+    public MyNoteTempService(MyNoteTempRepository repository, MyNoteTempFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -61,7 +61,7 @@ public class MyNoteTempService implements BaseService<MyNoteTempEntity, MyNoteTe
     }
 
     @Override
-    public Page<MyNoteTempModel> loadItem(MyNoteTempModel searchModel, PageRequest pageRequest) {
+    public Page<MyNoteTempFxModel> loadItem(MyNoteTempFxModel searchModel, PageRequest pageRequest) {
         Page<MyNoteTempEntity> page;
         page = repository.findAll(pageRequest);
         return page.map(mapper::entityToModel);

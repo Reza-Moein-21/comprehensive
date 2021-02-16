@@ -14,11 +14,11 @@ import ir.comprehensive.component.calenderwidget.CalenderWidget;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo;
 import ir.comprehensive.component.jfxactivecombo.JFXActiveValue;
-import ir.comprehensive.mapper.MyNoteMapper;
-import ir.comprehensive.mapper.PersonMapper;
-import ir.comprehensive.fxmodel.MyNoteCategoryModel;
-import ir.comprehensive.fxmodel.MyNoteModel;
-import ir.comprehensive.fxmodel.PersonModel;
+import ir.comprehensive.fxmapper.MyNoteFxMapper;
+import ir.comprehensive.fxmapper.PersonFxMapper;
+import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
+import ir.comprehensive.fxmodel.MyNoteFxModel;
+import ir.comprehensive.fxmodel.PersonFxModel;
 import ir.comprehensive.service.MyNoteService;
 import ir.comprehensive.service.MyNoteTempService;
 import ir.comprehensive.service.PersonService;
@@ -61,23 +61,23 @@ public class MyNoteController implements Initializable {
     @Autowired
     private PersonService personService;
     @Autowired
-    PersonMapper personMapper;
+    PersonFxMapper personMapper;
     @Autowired
-    MyNoteMapper mapper;
+    MyNoteFxMapper mapper;
 
 
     @FXML
-    public Autocomplete<PersonModel> autPersonS;
+    public Autocomplete<PersonFxModel> autPersonS;
     @FXML
-    public Autocomplete<PersonModel> autPersonC;
+    public Autocomplete<PersonFxModel> autPersonC;
     @FXML
     public JFXActiveCombo cmbIsActiveS;
     @FXML
     public JFXTextField txfDescriptionS;
     @FXML
-    MyNoteModel createModel;
+    MyNoteFxModel createModel;
     @FXML
-    MyNoteModel searchModel;
+    MyNoteFxModel searchModel;
     @FXML
     public JFXTextField txfTitleC;
     @FXML
@@ -146,19 +146,19 @@ public class MyNoteController implements Initializable {
     @FXML
     public HBox hbxShowDescriptionFooter;
     @FXML
-    public DataTable<MyNoteModel> tblMyNote;
+    public DataTable<MyNoteFxModel> tblMyNote;
     @FXML
-    public CustomTableColumn<MyNoteModel, String> colDescription;
+    public CustomTableColumn<MyNoteFxModel, String> colDescription;
     @FXML
-    public CustomTableColumn<MyNoteModel, PersianDate> colCreateDate;
+    public CustomTableColumn<MyNoteFxModel, PersianDate> colCreateDate;
     @FXML
-    public CustomTableColumn<MyNoteModel, PersianDate> colInActivationDate;
+    public CustomTableColumn<MyNoteFxModel, PersianDate> colInActivationDate;
     @FXML
-    public CustomTableColumn<MyNoteModel, RatingExtra> colPriority;
+    public CustomTableColumn<MyNoteFxModel, RatingExtra> colPriority;
     @FXML
-    public CustomTableColumn<MyNoteModel, String> colFullName;
+    public CustomTableColumn<MyNoteFxModel, String> colFullName;
     @FXML
-    public CustomTableColumn<MyNoteModel, String> colIsActive;
+    public CustomTableColumn<MyNoteFxModel, String> colIsActive;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -231,7 +231,7 @@ public class MyNoteController implements Initializable {
         autPersonC.getValidators().add(FormValidationUtils.getRequiredFieldValidator(MessageUtils.Message.PERSON));
 
         tblMyNote.setOnEdit(selectedItem -> {
-            MyNoteModel editModel = myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).get();
+            MyNoteFxModel editModel = myNoteService.load(selectedItem.getId(), MyNoteCategoryController.myNoteCategoryId).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
             autPersonC.setValue(editModel.getPerson());
@@ -359,7 +359,7 @@ public class MyNoteController implements Initializable {
 
     }
 
-    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteModel, String> param) {
+    private String getRightDescription(TableColumn.CellDataFeatures<MyNoteFxModel, String> param) {
         final int MAX_LENGTH = 50;
         String description = param.getValue().getDescription();
         if (description == null) {
@@ -407,7 +407,7 @@ public class MyNoteController implements Initializable {
     public void save(ActionEvent actionEvent) {
         if (validateBeforeSave()) {
             try {
-                createModel.setMyNoteCategory(new MyNoteCategoryModel(MyNoteCategoryController.myNoteCategoryId));
+                createModel.setMyNoteCategory(new MyNoteCategoryFxModel(MyNoteCategoryController.myNoteCategoryId));
                 myNoteService.saveOrUpdate(mapper.modelToEntity(createModel));
                 dlgCreate.close();
                 updateDataTable(true);

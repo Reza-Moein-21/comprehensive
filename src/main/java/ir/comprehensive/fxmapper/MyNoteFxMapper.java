@@ -1,7 +1,7 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.MyNoteEntity;
-import ir.comprehensive.fxmodel.MyNoteModel;
+import ir.comprehensive.fxmodel.MyNoteFxModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface MyNoteMapper extends BaseMapper<MyNoteEntity, MyNoteModel> {
+public interface MyNoteFxMapper extends BaseFxMapper<MyNoteEntity, MyNoteFxModel> {
 
     @Mapping(target = "creationDateFrom", ignore = true)
     @Mapping(target = "creationDateTo", ignore = true)
@@ -20,11 +20,11 @@ public interface MyNoteMapper extends BaseMapper<MyNoteEntity, MyNoteModel> {
     @Mapping(target = "inActivationDate", source = "inActivationDate")
     @Mapping(target = "person", source = "person")
     @Override
-    MyNoteModel entityToModel(MyNoteEntity entity);
+    MyNoteFxModel entityToModel(MyNoteEntity entity);
 
     @Override
     @InheritInverseConfiguration
-    MyNoteEntity modelToEntity(MyNoteModel dto);
+    MyNoteEntity modelToEntity(MyNoteFxModel dto);
 
 
 }

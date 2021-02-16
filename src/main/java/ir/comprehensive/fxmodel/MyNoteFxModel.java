@@ -1,11 +1,11 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
-public class MyNoteModel extends BaseModel {
+public class MyNoteFxModel extends BaseFxModel {
     // todo must fix later
     private Long myNoteCategoryId;
     private boolean allActive;
@@ -17,8 +17,8 @@ public class MyNoteModel extends BaseModel {
     private ObjectProperty<LocalDate> creationDateTo = new SimpleObjectProperty<>();
     private DoubleProperty priority = new SimpleDoubleProperty();
     private ObjectProperty<Boolean> isActive = new SimpleObjectProperty<>();
-    private ObjectProperty<MyNoteCategoryModel> myNoteCategory = new SimpleObjectProperty<>();
-    private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
+    private ObjectProperty<MyNoteCategoryFxModel> myNoteCategory = new SimpleObjectProperty<>();
+    private ObjectProperty<PersonFxModel> person = new SimpleObjectProperty<>();
 
     public final String getDescription() {
         return description.get();
@@ -104,27 +104,27 @@ public class MyNoteModel extends BaseModel {
         this.isActive.set(isActive);
     }
 
-    public final MyNoteCategoryModel getMyNoteCategory() {
+    public final MyNoteCategoryFxModel getMyNoteCategory() {
         return myNoteCategory.get();
     }
 
-    public final ObjectProperty<MyNoteCategoryModel> myNoteCategoryProperty() {
+    public final ObjectProperty<MyNoteCategoryFxModel> myNoteCategoryProperty() {
         return myNoteCategory;
     }
 
-    public final void setMyNoteCategory(MyNoteCategoryModel myNoteCategory) {
+    public final void setMyNoteCategory(MyNoteCategoryFxModel myNoteCategory) {
         this.myNoteCategory.set(myNoteCategory);
     }
 
-    public final PersonModel getPerson() {
+    public final PersonFxModel getPerson() {
         return person.get();
     }
 
-    public final ObjectProperty<PersonModel> personProperty() {
+    public final ObjectProperty<PersonFxModel> personProperty() {
         return person;
     }
 
-    public final void setPerson(PersonModel person) {
+    public final void setPerson(PersonFxModel person) {
         this.person.set(person);
     }
 

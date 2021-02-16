@@ -4,7 +4,7 @@
 <?import ir.comprehensive.component.basetable.CustomTableColumn?>
 <?import ir.comprehensive.component.basetable.DataTable?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.fxmodel.WarehouseCategoryModel?>
+<?import ir.comprehensive.fxmodel.WarehouseCategoryFxModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
@@ -13,9 +13,9 @@
       xmlns="http://javafx.com/javafx"
       fx:controller="ir.comprehensive.controller.warehouse.WarehouseCategoryController">
     <fx:define>
-        <WarehouseCategoryModel fx:id="createModel" title="${txfTitleC.text}"/>
+        <WarehouseCategoryFxModel fx:id="createModel" title="${txfTitleC.text}"/>
 
-        <WarehouseCategoryModel fx:id="searchModel" title="${txfTitleS.text}"/>
+        <WarehouseCategoryFxModel fx:id="searchModel" title="${txfTitleS.text}"/>
 
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">

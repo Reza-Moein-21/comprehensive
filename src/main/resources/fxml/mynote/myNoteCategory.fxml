@@ -4,7 +4,7 @@
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
 <?import ir.comprehensive.entity.*?>
-<?import ir.comprehensive.fxmodel.MyNoteCategoryModel?>
+<?import ir.comprehensive.fxmodel.MyNoteCategoryFxModel?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
@@ -16,10 +16,10 @@
       fx:controller="ir.comprehensive.controller.MyNoteCategoryController">
 
     <fx:define>
-        <MyNoteCategoryModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"
-                             status="${cmbStatusC.value}"/>
-        <MyNoteCategoryModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"
-                             status="${cmbStatusS.value}"/>
+        <MyNoteCategoryFxModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"
+                               status="${cmbStatusC.value}"/>
+        <MyNoteCategoryFxModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"
+                               status="${cmbStatusS.value}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <VBox fx:id="vbxCreateContent">

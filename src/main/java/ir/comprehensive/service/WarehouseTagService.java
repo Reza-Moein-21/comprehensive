@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.entity.WarehouseTagEntity;
-import ir.comprehensive.mapper.WarehouseTagMapper;
-import ir.comprehensive.fxmodel.WarehouseTagModel;
+import ir.comprehensive.fxmapper.WarehouseTagFxMapper;
+import ir.comprehensive.fxmodel.WarehouseTagFxModel;
 import ir.comprehensive.repository.WarehouseTagRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +14,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseTagService implements BaseService<WarehouseTagEntity, WarehouseTagModel> {
+public class WarehouseTagService implements BaseService<WarehouseTagEntity, WarehouseTagFxModel> {
     private WarehouseTagRepository repository;
-    private WarehouseTagMapper mapper;
+    private WarehouseTagFxMapper mapper;
 
-    public WarehouseTagService(WarehouseTagRepository repository, WarehouseTagMapper mapper) {
+    public WarehouseTagService(WarehouseTagRepository repository, WarehouseTagFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -29,7 +29,7 @@ public class WarehouseTagService implements BaseService<WarehouseTagEntity, Ware
     }
 
     @Override
-    public Page<WarehouseTagModel> loadItem(WarehouseTagModel searchModel, PageRequest pageRequest) {
+    public Page<WarehouseTagFxModel> loadItem(WarehouseTagFxModel searchModel, PageRequest pageRequest) {
         Page<WarehouseTagEntity> page;
         page = repository.findAll(pageRequest);
         return page.map(mapper::entityToModel);

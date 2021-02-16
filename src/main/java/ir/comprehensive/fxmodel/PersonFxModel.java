@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,13 +9,13 @@ import javafx.beans.property.StringProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonModel extends BaseModel {
+public class PersonFxModel extends BaseFxModel {
     private StringProperty firstName = new SimpleStringProperty();
     private StringProperty lastName = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
-    private ObjectProperty<List<CategoryModel>> categories = new SimpleObjectProperty<>(new ArrayList<>());
+    private ObjectProperty<List<CategoryFxModel>> categories = new SimpleObjectProperty<>(new ArrayList<>());
 
     public String getFirstName() {
         return firstName.get();
@@ -77,15 +77,15 @@ public class PersonModel extends BaseModel {
         this.description.set(description);
     }
 
-    public List<CategoryModel> getCategories() {
+    public List<CategoryFxModel> getCategories() {
         return categories.get();
     }
 
-    public void setCategories(List<CategoryModel> categories) {
+    public void setCategories(List<CategoryFxModel> categories) {
         this.categories.set(categories);
     }
 
-    public ObjectProperty<List<CategoryModel>> categoriesProperty() {
+    public ObjectProperty<List<CategoryFxModel>> categoriesProperty() {
         return categories;
     }
 

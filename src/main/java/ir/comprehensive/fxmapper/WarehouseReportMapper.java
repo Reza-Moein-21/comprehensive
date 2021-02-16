@@ -1,4 +1,4 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.WarehouseEntity;
 import ir.comprehensive.fxmodel.WarehouseReportBean;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface WarehouseReportMapper extends BaseMapper<WarehouseEntity, WarehouseReportBean> {
+public interface WarehouseReportMapper extends BaseFxMapper<WarehouseEntity, WarehouseReportBean> {
 
     @Override
     @Mapping(target = "tagList", ignore = true)

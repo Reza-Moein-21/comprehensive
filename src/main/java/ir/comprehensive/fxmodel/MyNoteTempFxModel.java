@@ -1,9 +1,9 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.*;
 
-public class MyNoteTempModel extends BaseModel {
+public class MyNoteTempFxModel extends BaseFxModel {
 
     private StringProperty description = new SimpleStringProperty();
 
@@ -11,7 +11,7 @@ public class MyNoteTempModel extends BaseModel {
 
     private StringProperty projectName = new SimpleStringProperty();
 
-    private ObjectProperty<PersonModel> person = new SimpleObjectProperty<>();
+    private ObjectProperty<PersonFxModel> person = new SimpleObjectProperty<>();
 
 
     public String getDescription() {
@@ -50,15 +50,15 @@ public class MyNoteTempModel extends BaseModel {
         return priority;
     }
 
-    public PersonModel getPerson() {
+    public PersonFxModel getPerson() {
         return person.get();
     }
 
-    public void setPerson(PersonModel person) {
+    public void setPerson(PersonFxModel person) {
         this.person.set(person);
     }
 
-    public ObjectProperty<PersonModel> personProperty() {
+    public ObjectProperty<PersonFxModel> personProperty() {
         return person;
     }
 }

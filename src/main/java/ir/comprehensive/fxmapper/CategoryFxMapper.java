@@ -1,17 +1,17 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.CategoryEntity;
-import ir.comprehensive.fxmodel.CategoryModel;
+import ir.comprehensive.fxmodel.CategoryFxModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface CategoryMapper extends BaseMapper<CategoryEntity, CategoryModel> {
+public interface CategoryFxMapper extends BaseFxMapper<CategoryEntity, CategoryFxModel> {
 
     @Override
-    CategoryModel entityToModel(CategoryEntity entity);
+    CategoryFxModel entityToModel(CategoryEntity entity);
 
     @Override
     @Mapping(target = "id", source = "id")
@@ -21,5 +21,5 @@ public interface CategoryMapper extends BaseMapper<CategoryEntity, CategoryModel
     @Mapping(target = "email", source = "email")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "description", source = "description")
-    CategoryEntity modelToEntity(CategoryModel dto);
+    CategoryEntity modelToEntity(CategoryFxModel dto);
 }

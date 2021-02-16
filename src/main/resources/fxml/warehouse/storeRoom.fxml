@@ -6,7 +6,7 @@
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.datepicker.*?>
 <?import ir.comprehensive.entity.*?>
-<?import ir.comprehensive.fxmodel.ProductDeliveryModel?>
+<?import ir.comprehensive.fxmodel.ProductDeliveryFxModel?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Label?>
@@ -17,18 +17,18 @@
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <fx:define>
-        <ProductDeliveryModel fx:id="createModel" product="${autProductNameC.value}" person="${autPersonC.value}"
-                              deliveryDate="${sdpDeliveryDateC.value}"
-                              desiredDate="${sdpDesiredDateC.value}" description="${txfDescriptionC.text}"
-                              receivedDate="${sdpReceivedDateC.value}"
-                              count="${txfCountC.text}"
-                              status="${cmbStatusC.value}"/>
-        <ProductDeliveryModel fx:id="searchModel" person="${autPersonS.value}" product="${autProductNameS.value}"
-                              deliveryDateFrom="${sdpDeliveryDateFromS.value}"
-                              deliveryDateTo="${sdpDeliveryDateToS.value}"
-                              receivedDateFrom="${sdpReceivedDateFromS.value}"
-                              receivedDateTo="${sdpReceivedDateToS.value}"
-                              status="${cmbStatusS.value}"/>
+        <ProductDeliveryFxModel fx:id="createModel" product="${autProductNameC.value}" person="${autPersonC.value}"
+                                deliveryDate="${sdpDeliveryDateC.value}"
+                                desiredDate="${sdpDesiredDateC.value}" description="${txfDescriptionC.text}"
+                                receivedDate="${sdpReceivedDateC.value}"
+                                count="${txfCountC.text}"
+                                status="${cmbStatusC.value}"/>
+        <ProductDeliveryFxModel fx:id="searchModel" person="${autPersonS.value}" product="${autProductNameS.value}"
+                                deliveryDateFrom="${sdpDeliveryDateFromS.value}"
+                                deliveryDateTo="${sdpDeliveryDateToS.value}"
+                                receivedDateFrom="${sdpReceivedDateFromS.value}"
+                                receivedDateTo="${sdpReceivedDateToS.value}"
+                                status="${cmbStatusS.value}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">

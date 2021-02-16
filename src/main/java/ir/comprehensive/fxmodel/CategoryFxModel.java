@@ -1,10 +1,10 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class CategoryModel extends BaseModel {
+public class CategoryFxModel extends BaseFxModel {
     private StringProperty title = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
     private StringProperty fax = new SimpleStringProperty();

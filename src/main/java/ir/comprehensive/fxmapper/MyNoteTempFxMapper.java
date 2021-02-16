@@ -1,14 +1,14 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.MyNoteTempEntity;
-import ir.comprehensive.fxmodel.MyNoteTempModel;
+import ir.comprehensive.fxmodel.MyNoteTempFxModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface MyNoteTempMapper extends BaseMapper<MyNoteTempEntity, MyNoteTempModel> {
+public interface MyNoteTempFxMapper extends BaseFxMapper<MyNoteTempEntity, MyNoteTempFxModel> {
 
     @Mapping(source = "myNote.title", target = "title")
     @Mapping(source = "myNote.description", target = "description")
@@ -16,8 +16,8 @@ public interface MyNoteTempMapper extends BaseMapper<MyNoteTempEntity, MyNoteTem
     @Mapping(source = "myNote.myNoteCategory.title", target = "projectName")
     @Mapping(source = "myNote.person", target = "person")
     @Override
-    MyNoteTempModel entityToModel(MyNoteTempEntity entity);
+    MyNoteTempFxModel entityToModel(MyNoteTempEntity entity);
 
     @Override
-    MyNoteTempEntity modelToEntity(MyNoteTempModel dto);
+    MyNoteTempEntity modelToEntity(MyNoteTempFxModel dto);
 }

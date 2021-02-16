@@ -6,8 +6,8 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.fxmodel.WarehouseCategoryModel;
+import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
+import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
 import ir.comprehensive.service.WarehouseCategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
@@ -39,9 +39,9 @@ public class WarehouseCategoryController implements Initializable {
 
 
     @FXML
-    public WarehouseCategoryModel createModel;
+    public WarehouseCategoryFxModel createModel;
     @FXML
-    public WarehouseCategoryModel searchModel;
+    public WarehouseCategoryFxModel searchModel;
 
     @FXML
     public JFXTextField txfTitleS;
@@ -88,7 +88,7 @@ public class WarehouseCategoryController implements Initializable {
     public HBox hbxDisplayFooter;
     @FXML
     public HBox hbxDisplayHeader;
-    public DataTable<WarehouseCategoryModel> tblWarehouseCategory;
+    public DataTable<WarehouseCategoryFxModel> tblWarehouseCategory;
     public BorderPane brdCreate;
 
 
@@ -97,7 +97,7 @@ public class WarehouseCategoryController implements Initializable {
     @Autowired
     private WarehouseCategoryService categoryService;
     @Autowired
-    private WarehouseCategoryMapper mapper;
+    private WarehouseCategoryFxMapper mapper;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {

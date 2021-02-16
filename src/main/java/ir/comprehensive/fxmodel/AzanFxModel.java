@@ -3,7 +3,7 @@ package ir.comprehensive.fxmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class AzanModel {
+public class AzanFxModel {
     private StringProperty sobh = new SimpleStringProperty();
     private StringProperty tolooAftab = new SimpleStringProperty();
     private StringProperty zohre = new SimpleStringProperty();

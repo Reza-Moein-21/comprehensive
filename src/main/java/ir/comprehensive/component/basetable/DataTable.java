@@ -3,7 +3,7 @@ package ir.comprehensive.component.basetable;
 import com.jfoenix.controls.JFXButton;
 import ir.comprehensive.component.basetable.pagination.PaginationModelAdapter;
 import ir.comprehensive.component.basetable.pagination.TablePagination;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.InvalidationListener;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static ir.comprehensive.component.basetable.pagination.TablePagination.DEFAULT_PAGE_SIZE;
 import static ir.comprehensive.component.basetable.pagination.TablePagination.DEFAULT_START_PAGE;
 
-public class DataTable<T extends BaseModel> extends VBox {
+public class DataTable<T extends BaseFxModel> extends VBox {
 
     private final ObservableList<TableColumn<T, ?>> columns = FXCollections.observableArrayList();
 
@@ -74,7 +74,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         btnDelete.setDisable(true);
         btnDelete.visibleProperty().bind(showDelete);
         btnDelete.setOnAction(event -> {
-            this.onDelete.delete(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
+            this.onDelete.delete(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseFxModel::getId).collect(Collectors.toSet()));
         });
 
 
@@ -83,7 +83,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         btnPrint.setPrefHeight(ScreenUtils.getActualSize(62));
         btnPrint.visibleProperty().bind(showPrintButton);
         btnPrint.setOnAction(event -> {
-            this.onPrint.print(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
+            this.onPrint.print(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseFxModel::getId).collect(Collectors.toSet()));
         });
 
         btnExtra.getStyleClass().addAll("table-row-button", "send-table-row-button");
@@ -92,7 +92,7 @@ public class DataTable<T extends BaseModel> extends VBox {
         btnExtra.disableProperty().bind(btnDelete.disableProperty());
         btnExtra.visibleProperty().bind(showExtraButton);
         btnExtra.setOnAction(event -> {
-            this.onExtra.acceptExtra(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseModel::getId).collect(Collectors.toSet()));
+            this.onExtra.acceptExtra(this.getItems().stream().filter(t -> t.getChb().isSelected()).map(BaseFxModel::getId).collect(Collectors.toSet()));
         });
 
 

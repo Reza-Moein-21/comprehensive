@@ -3,9 +3,9 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.ProductDeliveryEntity;
 import ir.comprehensive.entity.ProductStatusEnum;
 import ir.comprehensive.entity.WarehouseEntity;
-import ir.comprehensive.mapper.ProductDeliveryDetailReportMapper;
-import ir.comprehensive.mapper.ProductDeliveryMapper;
-import ir.comprehensive.fxmodel.ProductDeliveryModel;
+import ir.comprehensive.fxmapper.ProductDeliveryDetailReportMapper;
+import ir.comprehensive.fxmapper.ProductDeliveryFxMapper;
+import ir.comprehensive.fxmodel.ProductDeliveryFxModel;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
 import ir.comprehensive.repository.ProductDeliveryRepository;
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ProductDeliveryService implements BaseService<ProductDeliveryEntity, ProductDeliveryModel> {
+public class ProductDeliveryService implements BaseService<ProductDeliveryEntity, ProductDeliveryFxModel> {
     private ProductDeliveryRepository repository;
     private WarehouseService warehouseService;
     private PersonService personService;
-    private ProductDeliveryMapper mapper;
+    private ProductDeliveryFxMapper mapper;
     private ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper;
 
-    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, PersonService personService, ProductDeliveryMapper mapper, ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper) {
+    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, PersonService personService, ProductDeliveryFxMapper mapper, ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper) {
         this.repository = repository;
         this.warehouseService = warehouseService;
         this.personService = personService;
@@ -57,13 +57,13 @@ public class ProductDeliveryService implements BaseService<ProductDeliveryEntity
         return Optional.of(repository.findAll(Example.of(example)));
     }
 
-    public Optional<List<ProductDeliveryEntity>> search(ProductDeliveryModel searchExample) {
+    public Optional<List<ProductDeliveryEntity>> search(ProductDeliveryFxModel searchExample) {
         Specification<ProductDeliveryEntity> productDeliverySpecification = getProductDeliverySpecification(searchExample);
 
         return Optional.of(repository.findAll(productDeliverySpecification));
     }
 
-    private Specification<ProductDeliveryEntity> getProductDeliverySpecification(ProductDeliveryModel searchExample) {
+    private Specification<ProductDeliveryEntity> getProductDeliverySpecification(ProductDeliveryFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getPerson() != null && searchExample.getPerson().getId() != null) {
@@ -206,7 +206,7 @@ public class ProductDeliveryService implements BaseService<ProductDeliveryEntity
     }
 
     @Override
-    public Page<ProductDeliveryModel> loadItem(ProductDeliveryModel searchModel, PageRequest pageRequest) {
+    public Page<ProductDeliveryFxModel> loadItem(ProductDeliveryFxModel searchModel, PageRequest pageRequest) {
         Page<ProductDeliveryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
@@ -216,11 +216,11 @@ public class ProductDeliveryService implements BaseService<ProductDeliveryEntity
         return page.map(mapper::entityToModel);
     }
 
-    public ProductDeliveryReportBean getProductReport(ProductDeliveryModel searchModel) throws GeneralException {
+    public ProductDeliveryReportBean getProductReport(ProductDeliveryFxModel searchModel) throws GeneralException {
         return getProductReport(searchModel, null);
     }
 
-    public ProductDeliveryReportBean getProductReport(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+    public ProductDeliveryReportBean getProductReport(ProductDeliveryFxModel searchModel, Set<Long> ids) throws GeneralException {
         if (searchModel == null || searchModel.getProduct() == null) {
             throw new GeneralException("Product not found");
         }
@@ -253,11 +253,11 @@ public class ProductDeliveryService implements BaseService<ProductDeliveryEntity
         return bean;
     }
 
-    public ProductDeliveryReportBean getPersonReport(ProductDeliveryModel searchModel) throws GeneralException {
+    public ProductDeliveryReportBean getPersonReport(ProductDeliveryFxModel searchModel) throws GeneralException {
         return getPersonReport(searchModel, null);
     }
 
-    public ProductDeliveryReportBean getPersonReport(ProductDeliveryModel searchModel, Set<Long> ids) throws GeneralException {
+    public ProductDeliveryReportBean getPersonReport(ProductDeliveryFxModel searchModel, Set<Long> ids) throws GeneralException {
         if (searchModel == null || searchModel.getPerson() == null) {
             throw new GeneralException("Person not found");
         }

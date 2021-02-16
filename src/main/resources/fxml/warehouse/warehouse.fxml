@@ -4,7 +4,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.*?>
 <?import ir.comprehensive.component.basetable.*?>
-<?import ir.comprehensive.fxmodel.WarehouseModel?>
+<?import ir.comprehensive.fxmodel.WarehouseFxModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
@@ -14,15 +14,15 @@
 
       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <fx:define>
-        <WarehouseModel fx:id="createModel" title="${txfTitleC.text}" code="${txtCodeC.text}"
-                        companyName="${txtCompanyNameC.text}"
-                        count="${txtCountC.text}" description="${txfDescriptionC.text}"
-                        category="${autCategoryC.value}" tagList="${mauTagListC.valueList}"/>
+        <WarehouseFxModel fx:id="createModel" title="${txfTitleC.text}" code="${txtCodeC.text}"
+                          companyName="${txtCompanyNameC.text}"
+                          count="${txtCountC.text}" description="${txfDescriptionC.text}"
+                          category="${autCategoryC.value}" tagList="${mauTagListC.valueList}"/>
 
-        <WarehouseModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}"
-                        companyName="${txtCompanyNameS.text}"
-                        count="${txtCountS.text}" description="${txfDescriptionS.text}"
-                        category="${autCategoryS.value}" tagList="${mauTagListS.valueList}"/>
+        <WarehouseFxModel fx:id="searchModel" title="${txfTitleS.text}" code="${txtCodeS.text}"
+                          companyName="${txtCompanyNameS.text}"
+                          count="${txtCountS.text}" description="${txfDescriptionS.text}"
+                          category="${autCategoryS.value}" tagList="${mauTagListS.valueList}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP"
                style="-fx-background-color: rgba(33,33,33,0.51)" nodeOrientation="RIGHT_TO_LEFT">

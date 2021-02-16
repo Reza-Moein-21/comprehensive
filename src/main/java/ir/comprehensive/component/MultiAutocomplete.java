@@ -2,8 +2,8 @@ package ir.comprehensive.component;
 
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
-import ir.comprehensive.fxmodel.WarehouseTagModel;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.WarehouseTagFxModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.ScreenUtils;
 import javafx.beans.property.*;
@@ -24,7 +24,7 @@ import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MultiAutocomplete<T extends BaseModel> extends VBox {
+public class MultiAutocomplete<T extends BaseFxModel> extends VBox {
     public static final String CONTENT_STYLE = "content-style";
     private static final Double TOP_PADDING = ScreenUtils.getActualSize(80);
 
@@ -86,7 +86,7 @@ public class MultiAutocomplete<T extends BaseModel> extends VBox {
         this.setOnKeyPressed(event -> {
             if (KeyCode.ENTER.equals(event.getCode())) {
                 // TODO must fix this shite. Must use  Option model.
-                WarehouseTagModel model = new WarehouseTagModel();
+                WarehouseTagFxModel model = new WarehouseTagFxModel();
                 model.setId(-new Date().getTime());
                 model.setTitle(this.textField.getText() != null ? this.textField.getText().trim() : this.textField.getText());
                 setToValueListIfNotExist((T) model);

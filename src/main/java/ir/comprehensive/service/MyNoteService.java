@@ -2,8 +2,8 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.MyNoteEntity;
 import ir.comprehensive.entity.MyNoteCategoryEntity;
-import ir.comprehensive.mapper.MyNoteMapper;
-import ir.comprehensive.fxmodel.MyNoteModel;
+import ir.comprehensive.fxmapper.MyNoteFxMapper;
+import ir.comprehensive.fxmodel.MyNoteFxModel;
 import ir.comprehensive.repository.MyNoteRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
@@ -24,11 +24,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteService implements BaseService<MyNoteEntity,MyNoteModel> {
+public class MyNoteService implements BaseService<MyNoteEntity, MyNoteFxModel> {
     private MyNoteRepository repository;
-    private MyNoteMapper mapper;
+    private MyNoteFxMapper mapper;
 
-    public MyNoteService(MyNoteRepository repository, MyNoteMapper mapper) {
+    public MyNoteService(MyNoteRepository repository, MyNoteFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -62,13 +62,13 @@ public class MyNoteService implements BaseService<MyNoteEntity,MyNoteModel> {
     }
 
 
-    public Optional<List<MyNoteEntity>> search(MyNoteModel searchExample) {
+    public Optional<List<MyNoteEntity>> search(MyNoteFxModel searchExample) {
         Specification<MyNoteEntity> myNoteSpecification = getMyNoteSpecification(searchExample);
 
         return Optional.of(repository.findAll(myNoteSpecification, Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate"))));
     }
 
-    private Specification<MyNoteEntity> getMyNoteSpecification(MyNoteModel searchExample) {
+    private Specification<MyNoteEntity> getMyNoteSpecification(MyNoteFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
 
@@ -160,7 +160,7 @@ public class MyNoteService implements BaseService<MyNoteEntity,MyNoteModel> {
     }
 
     @Override
-    public Page<MyNoteModel> loadItem(MyNoteModel searchModel, PageRequest pageRequest) {
+    public Page<MyNoteFxModel> loadItem(MyNoteFxModel searchModel, PageRequest pageRequest) {
         pageRequest.getSort().and(Sort.by(Sort.Order.desc("priority"), Sort.Order.desc("creationDate")));
         Page<MyNoteEntity> page;
         if (searchModel == null) {

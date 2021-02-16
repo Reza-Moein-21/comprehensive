@@ -1,4 +1,4 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.entity.ProductDeliveryEntity;
@@ -6,7 +6,7 @@ import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductDeliveryDetailReportMapper implements BaseMapper<ProductDeliveryEntity, ProductDeliveryReportBean.ProductDeliveryDetailReport> {
+public class ProductDeliveryDetailReportMapper implements BaseFxMapper<ProductDeliveryEntity, ProductDeliveryReportBean.ProductDeliveryDetailReport> {
 
 
     @Override

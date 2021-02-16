@@ -1,7 +1,7 @@
 package ir.comprehensive.fxmodel;
 
 import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,23 +10,23 @@ import javafx.beans.property.StringProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyNoteCategoryModel extends BaseModel {
+public class MyNoteCategoryFxModel extends BaseFxModel {
 
     private StringProperty description = new SimpleStringProperty();
     private ObjectProperty<Long> countOfActive = new SimpleObjectProperty<>();
     private ObjectProperty<Long> countOfInActive = new SimpleObjectProperty<>();
     private ObjectProperty<MyNoteCategoryStatusEnum> status = new SimpleObjectProperty<>();
-    private ObjectProperty<List<MyNoteModel>> myNotes = new SimpleObjectProperty<>(new ArrayList<>());
+    private ObjectProperty<List<MyNoteFxModel>> myNotes = new SimpleObjectProperty<>(new ArrayList<>());
 
 
-    public MyNoteCategoryModel() {
+    public MyNoteCategoryFxModel() {
     }
 
-    public MyNoteCategoryModel(Long id) {
+    public MyNoteCategoryFxModel(Long id) {
         setId(id);
     }
 
-    public MyNoteCategoryModel(Long id, String title) {
+    public MyNoteCategoryFxModel(Long id, String title) {
         super(title);
         setId(id);
     }
@@ -79,16 +79,16 @@ public class MyNoteCategoryModel extends BaseModel {
         this.status.set(status);
     }
 
-    public final List<MyNoteModel> getMyNotes() {
+    public final List<MyNoteFxModel> getMyNotes() {
         return myNotes.get();
 
     }
 
-    public final ObjectProperty<List<MyNoteModel>> myNotesProperty() {
+    public final ObjectProperty<List<MyNoteFxModel>> myNotesProperty() {
         return myNotes;
     }
 
-    public final void setMyNotes(List<MyNoteModel> myNotes) {
+    public final void setMyNotes(List<MyNoteFxModel> myNotes) {
         this.myNotes.set(myNotes);
     }
 }

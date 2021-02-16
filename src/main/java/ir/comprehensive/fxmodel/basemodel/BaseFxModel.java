@@ -9,19 +9,19 @@ import javafx.scene.control.CheckBox;
 import java.util.function.Predicate;
 
 
-public abstract class BaseModel implements Comparable<BaseModel>, Predicate<BaseModel> {
+public abstract class BaseFxModel implements Comparable<BaseFxModel>, Predicate<BaseFxModel> {
     protected ObjectProperty<Long> id = new SimpleObjectProperty<>();
     protected StringProperty title = new SimpleStringProperty();
     protected ObjectProperty<CheckBox> chb = new SimpleObjectProperty<>(new CheckBox());
 
-    public BaseModel() {
+    public BaseFxModel() {
     }
 
-    public BaseModel(String title) {
+    public BaseFxModel(String title) {
         this.title.setValue(title);
     }
 
-    public BaseModel(Long id, String title) {
+    public BaseFxModel(Long id, String title) {
         this.id.setValue(id);
         this.title.setValue(title);
     }
@@ -63,12 +63,12 @@ public abstract class BaseModel implements Comparable<BaseModel>, Predicate<Base
     }
 
     @Override
-    public int compareTo(BaseModel o) {
+    public int compareTo(BaseFxModel o) {
         return this.getId().compareTo(o.getId());
     }
 
     @Override
-    public boolean test(BaseModel baseModel) {
+    public boolean test(BaseFxModel baseModel) {
         return this.getId().equals(baseModel.getId());
     }
 }

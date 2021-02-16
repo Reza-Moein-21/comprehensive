@@ -1,19 +1,19 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.ProductEntity;
-import ir.comprehensive.fxmodel.ProductModel;
+import ir.comprehensive.fxmodel.ProductFxModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface ProductMapper extends BaseMapper<ProductEntity, ProductModel> {
+public interface ProductFxMapper extends BaseFxMapper<ProductEntity, ProductFxModel> {
 
     @Override
-    ProductModel entityToModel(ProductEntity entity);
+    ProductFxModel entityToModel(ProductEntity entity);
 
     @Override
     @InheritInverseConfiguration
-    ProductEntity modelToEntity(ProductModel dto);
+    ProductEntity modelToEntity(ProductFxModel dto);
 }

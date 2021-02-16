@@ -6,7 +6,7 @@
 <?import ir.comprehensive.component.calenderwidget.CalenderWidget?>
 <?import ir.comprehensive.component.datepicker.SimpleDatePicker?>
 <?import ir.comprehensive.component.jfxactivecombo.JFXActiveCombo?>
-<?import ir.comprehensive.fxmodel.MyNoteModel?>
+<?import ir.comprehensive.fxmodel.MyNoteFxModel?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -16,13 +16,13 @@
       fx:controller="ir.comprehensive.controller.MyNoteController">
 
     <fx:define>
-        <MyNoteModel fx:id="createModel" title="${txfTitleC.text}" creationDate="${sdpCreationDateC.value}"
-                     description="${txaDescriptionC.text}" priority="${rtnPriorityC.rating}"
-                     person="${autPersonC.value}"
-                     isActive="${chbIsActiveC.selected}"/>
-        <MyNoteModel fx:id="searchModel" title="${txfTitleS.text}" creationDateFrom="${sdpCreationDateFromS.value}"
-                     creationDateTo="${sdpCreationDateToS.value}" person="${autPersonS.value}" description="${txfDescriptionS.text}"
-                     isActive="${cmbIsActiveS.isActive}" priority="${rtnPriorityS.rating}"/>
+        <MyNoteFxModel fx:id="createModel" title="${txfTitleC.text}" creationDate="${sdpCreationDateC.value}"
+                       description="${txaDescriptionC.text}" priority="${rtnPriorityC.rating}"
+                       person="${autPersonC.value}"
+                       isActive="${chbIsActiveC.selected}"/>
+        <MyNoteFxModel fx:id="searchModel" title="${txfTitleS.text}" creationDateFrom="${sdpCreationDateFromS.value}"
+                       creationDateTo="${sdpCreationDateToS.value}" person="${autPersonS.value}" description="${txfDescriptionS.text}"
+                       isActive="${cmbIsActiveS.isActive}" priority="${rtnPriorityS.rating}"/>
     </fx:define>
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
         <VBox fx:id="vbxCreateContent">

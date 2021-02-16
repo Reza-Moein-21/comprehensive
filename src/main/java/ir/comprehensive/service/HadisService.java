@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.entity.HadisEntity;
-import ir.comprehensive.mapper.HadisMapper;
-import ir.comprehensive.fxmodel.HadisModel;
+import ir.comprehensive.fxmapper.HadisFxMapper;
+import ir.comprehensive.fxmodel.HadisFxModel;
 import ir.comprehensive.repository.HadisRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
@@ -20,12 +20,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class HadisService implements BaseService<HadisEntity,HadisModel> {
+public class HadisService implements BaseService<HadisEntity, HadisFxModel> {
 
     private HadisRepository repository;
-    private HadisMapper mapper;
+    private HadisFxMapper mapper;
 
-    public HadisService(HadisRepository repository, HadisMapper mapper) {
+    public HadisService(HadisRepository repository, HadisFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -35,12 +35,12 @@ public class HadisService implements BaseService<HadisEntity,HadisModel> {
     }
 
 
-    public Optional<List<HadisEntity>> search(HadisModel searchExample) {
+    public Optional<List<HadisEntity>> search(HadisFxModel searchExample) {
         Specification<HadisEntity> hadisSpecification = getHadisSpecification(searchExample);
         return Optional.of(repository.findAll(hadisSpecification));
     }
 
-    private Specification<HadisEntity> getHadisSpecification(HadisModel searchExample) {
+    private Specification<HadisEntity> getHadisSpecification(HadisFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -106,7 +106,7 @@ public class HadisService implements BaseService<HadisEntity,HadisModel> {
     }
 
     @Override
-    public Page<HadisModel> loadItem(HadisModel searchModel, PageRequest pageRequest) {
+    public Page<HadisFxModel> loadItem(HadisFxModel searchModel, PageRequest pageRequest) {
         Page<HadisEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);

@@ -5,8 +5,8 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
-import ir.comprehensive.mapper.HadisMapper;
-import ir.comprehensive.fxmodel.HadisModel;
+import ir.comprehensive.fxmapper.HadisFxMapper;
+import ir.comprehensive.fxmodel.HadisFxModel;
 import ir.comprehensive.service.HadisService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
@@ -40,11 +40,11 @@ public class HadisController implements Initializable {
     public YesNoDialog dlgDelete;
 
     @FXML
-    public DataTable<HadisModel> tblHadis;
+    public DataTable<HadisFxModel> tblHadis;
     @FXML
-    public HadisModel createModel;
+    public HadisFxModel createModel;
     @FXML
-    public HadisModel searchModel;
+    public HadisFxModel searchModel;
 
     @FXML
     public JFXTextField txfTitleS;
@@ -94,7 +94,7 @@ public class HadisController implements Initializable {
     @Autowired
     private HadisService hadisService;
     @Autowired
-    private HadisMapper mapper;
+    private HadisFxMapper mapper;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {

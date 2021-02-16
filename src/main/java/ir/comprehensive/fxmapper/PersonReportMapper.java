@@ -1,4 +1,4 @@
-package ir.comprehensive.mapper;
+package ir.comprehensive.fxmapper;
 
 import ir.comprehensive.entity.PersonEntity;
 import ir.comprehensive.fxmodel.PersonReportBean;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface PersonReportMapper extends BaseMapper<PersonEntity, PersonReportBean> {
+public interface PersonReportMapper extends BaseFxMapper<PersonEntity, PersonReportBean> {
 
     @Override
     @InheritInverseConfiguration

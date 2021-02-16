@@ -4,7 +4,7 @@
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.MultiSelectBox?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.fxmodel.PersonModel?>
+<?import ir.comprehensive.fxmodel.PersonFxModel?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
@@ -13,12 +13,12 @@
       xmlns="http://javafx.com/javafx" fx:id="parent"
       fx:controller="ir.comprehensive.controller.humanresource.HumanResourcePersonController">
     <fx:define>
-        <PersonModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
-                     phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}" description="${txfDescriptionC.text}"
-                     categories="${slbCategoriesC.selectedItems}"/>
-        <PersonModel fx:id="searchModel" firstName="${txfFirstNameS.text}" lastName="${txfLastNameS.text}"
-                     phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}" description="${txfDescriptionS.text}"
-                     categories="${slbCategoriesS.selectedItems}"/>
+        <PersonFxModel fx:id="createModel" firstName="${txfFirstNameC.text}" lastName="${txfLastNameC.text}"
+                       phoneNumber="${txfPhoneNumberC.text}" email="${txfEmailC.text}" description="${txfDescriptionC.text}"
+                       categories="${slbCategoriesC.selectedItems}"/>
+        <PersonFxModel fx:id="searchModel" firstName="${txfFirstNameS.text}" lastName="${txfLastNameS.text}"
+                       phoneNumber="${txfPhoneNumberS.text}" email="${txfEmailS.text}" description="${txfDescriptionS.text}"
+                       categories="${slbCategoriesS.selectedItems}"/>
     </fx:define>
 
     <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">

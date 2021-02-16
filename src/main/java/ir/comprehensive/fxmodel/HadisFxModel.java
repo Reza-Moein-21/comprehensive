@@ -1,10 +1,10 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.fxmodel.basemodel.BaseModel;
+import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class HadisModel extends BaseModel {
+public class HadisFxModel extends BaseFxModel {
     private StringProperty description = new SimpleStringProperty();
 
     public String getDescription() {

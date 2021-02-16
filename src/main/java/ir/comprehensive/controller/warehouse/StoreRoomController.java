@@ -12,13 +12,13 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.entity.ProductStatusEnum;
-import ir.comprehensive.mapper.PersonMapper;
-import ir.comprehensive.mapper.ProductDeliveryMapper;
-import ir.comprehensive.mapper.WarehouseMapper;
-import ir.comprehensive.fxmodel.PersonModel;
-import ir.comprehensive.fxmodel.ProductDeliveryModel;
+import ir.comprehensive.fxmapper.PersonFxMapper;
+import ir.comprehensive.fxmapper.ProductDeliveryFxMapper;
+import ir.comprehensive.fxmapper.WarehouseFxMapper;
+import ir.comprehensive.fxmodel.PersonFxModel;
+import ir.comprehensive.fxmodel.ProductDeliveryFxModel;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
-import ir.comprehensive.fxmodel.WarehouseModel;
+import ir.comprehensive.fxmodel.WarehouseFxModel;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.ProductDeliveryService;
 import ir.comprehensive.service.WarehouseService;
@@ -51,7 +51,7 @@ public class StoreRoomController implements Initializable {
 
 
     private static Long currentCount;
-    private static WarehouseModel currentProduct;
+    private static WarehouseFxModel currentProduct;
     public JFXDialog dlgDisplay;
     public VBox vbxDisplayContent;
     public HBox hbxDisplayHeader;
@@ -70,13 +70,13 @@ public class StoreRoomController implements Initializable {
     @Autowired
     private StartController startController;
     @FXML
-    public Autocomplete<WarehouseModel> autProductNameS;
+    public Autocomplete<WarehouseFxModel> autProductNameS;
     @FXML
-    public Autocomplete<WarehouseModel> autProductNameC;
+    public Autocomplete<WarehouseFxModel> autProductNameC;
     @Autowired
     private WarehouseService warehouseService;
     @Autowired
-    private PersonMapper personMapper;
+    private PersonFxMapper personMapper;
     public JFXTextField txfDescriptionD;
     @FXML
     public JFXTextField txfCountC;
@@ -117,9 +117,9 @@ public class StoreRoomController implements Initializable {
     @FXML
     public SimpleDatePicker sdpReceivedDateToS;
     @Autowired
-    private WarehouseMapper warehouseMapper;
+    private WarehouseFxMapper warehouseMapper;
     @FXML
-    public Autocomplete<PersonModel> autPersonS;
+    public Autocomplete<PersonFxModel> autPersonS;
     @FXML
     public HBox receivedDateFromToHBox;
 
@@ -132,9 +132,9 @@ public class StoreRoomController implements Initializable {
     @FXML
     public SimpleDatePicker sdpDeliveryDateC;
     @Autowired
-    private ProductDeliveryMapper mapper;
+    private ProductDeliveryFxMapper mapper;
     @FXML
-    public Autocomplete<PersonModel> autPersonC;
+    public Autocomplete<PersonFxModel> autPersonC;
     @FXML
     public JFXComboBox<ProductStatusEnum> cmbStatusC;
 
@@ -143,19 +143,19 @@ public class StoreRoomController implements Initializable {
     @FXML
     public JFXDialog dlgCreate;
     @FXML
-    public DataTable<ProductDeliveryModel> tblProductDelivery;
+    public DataTable<ProductDeliveryFxModel> tblProductDelivery;
     @FXML
-    public TableColumn<ProductDeliveryModel, String> colProductName;
+    public TableColumn<ProductDeliveryFxModel, String> colProductName;
     @FXML
-    public TableColumn<ProductDeliveryModel, String> colFullName;
+    public TableColumn<ProductDeliveryFxModel, String> colFullName;
     @FXML
-    public TableColumn<ProductDeliveryModel, PersianDate> colDeliveryDate;
+    public TableColumn<ProductDeliveryFxModel, PersianDate> colDeliveryDate;
     @FXML
-    public TableColumn<ProductDeliveryModel, PersianDate> colDesiredDate;
+    public TableColumn<ProductDeliveryFxModel, PersianDate> colDesiredDate;
     @FXML
-    public TableColumn<ProductDeliveryModel, PersianDate> colReceivedDate;
+    public TableColumn<ProductDeliveryFxModel, PersianDate> colReceivedDate;
     @FXML
-    public TableColumn<ProductDeliveryModel, String> colDescription;
+    public TableColumn<ProductDeliveryFxModel, String> colDescription;
     public HBox hbxDisplayFooter;
 
     private void fillDataTable() {
@@ -164,9 +164,9 @@ public class StoreRoomController implements Initializable {
     }
 
     @FXML
-    private ProductDeliveryModel createModel;
+    private ProductDeliveryFxModel createModel;
     @FXML
-    private ProductDeliveryModel searchModel;
+    private ProductDeliveryFxModel searchModel;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -255,7 +255,7 @@ public class StoreRoomController implements Initializable {
 
         autProductNameC.setPrefWidth(ScreenUtils.getActualSize(500));
         tblProductDelivery.setOnEdit(selectedItem -> {
-            ProductDeliveryModel editModel = productDeliveryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
+            ProductDeliveryFxModel editModel = productDeliveryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             editModel.getPerson().getTitle();
             autPersonC.setValue(editModel.getPerson());

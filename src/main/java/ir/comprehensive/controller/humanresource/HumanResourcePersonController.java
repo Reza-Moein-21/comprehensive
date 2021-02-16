@@ -9,10 +9,10 @@ import ir.comprehensive.component.PrintDialog;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.mapper.CategoryMapper;
-import ir.comprehensive.mapper.PersonMapper;
-import ir.comprehensive.fxmodel.CategoryModel;
-import ir.comprehensive.fxmodel.PersonModel;
+import ir.comprehensive.fxmapper.CategoryFxMapper;
+import ir.comprehensive.fxmapper.PersonFxMapper;
+import ir.comprehensive.fxmodel.CategoryFxModel;
+import ir.comprehensive.fxmodel.PersonFxModel;
 import ir.comprehensive.service.CategoryService;
 import ir.comprehensive.service.PersonService;
 import ir.comprehensive.service.extra.GeneralException;
@@ -44,7 +44,7 @@ public class HumanResourcePersonController implements Initializable {
     public YesNoDialog dlgDelete;
 
     @FXML
-    public DataTable<PersonModel> tblPerson;
+    public DataTable<PersonFxModel> tblPerson;
 
     @FXML
     public JFXTextField txfFirstNameS;
@@ -57,15 +57,15 @@ public class HumanResourcePersonController implements Initializable {
     @FXML
     public JFXTextField txfDescriptionS;
     @FXML
-    public MultiSelectBox<CategoryModel> slbCategoriesS;
+    public MultiSelectBox<CategoryFxModel> slbCategoriesS;
 
     @FXML
-    public MultiSelectBox<CategoryModel> slbCategoriesC;
+    public MultiSelectBox<CategoryFxModel> slbCategoriesC;
 
     @FXML
-    public PersonModel createModel;
+    public PersonFxModel createModel;
     @FXML
-    public PersonModel searchModel;
+    public PersonFxModel searchModel;
     @FXML
     public JFXTextField txfFirstNameC;
     @FXML
@@ -114,9 +114,9 @@ public class HumanResourcePersonController implements Initializable {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private CategoryMapper categoryMapper;
+    private CategoryFxMapper categoryMapper;
     @Autowired
-    private PersonMapper mapper;
+    private PersonFxMapper mapper;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -263,7 +263,7 @@ public class HumanResourcePersonController implements Initializable {
         txfPhoneNumberC.getValidators().add(FormValidationUtils.getPhoneNumberValidator());
     }
 
-    private void initSelectBox(MultiSelectBox<CategoryModel> slbCategoriesS) {
+    private void initSelectBox(MultiSelectBox<CategoryFxModel> slbCategoriesS) {
         slbCategoriesS.cellFactoryProperty().setValue(param -> getListCell());
         slbCategoriesS.setOnChange((oldValue, newValue, suggestItems) -> {
             if (newValue.isEmpty()) {
@@ -330,10 +330,10 @@ public class HumanResourcePersonController implements Initializable {
         }
     }
 
-    private JFXListCell<CategoryModel> getListCell() {
-        return new JFXListCell<CategoryModel>() {
+    private JFXListCell<CategoryFxModel> getListCell() {
+        return new JFXListCell<CategoryFxModel>() {
             @Override
-            protected void updateItem(CategoryModel model, boolean empty) {
+            protected void updateItem(CategoryFxModel model, boolean empty) {
                 super.updateItem(model, empty);
 
                 if (empty || model == null || model.getTitle() == null) {

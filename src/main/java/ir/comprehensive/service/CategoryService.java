@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.entity.CategoryEntity;
-import ir.comprehensive.mapper.CategoryMapper;
-import ir.comprehensive.mapper.CategoryReportMapper;
+import ir.comprehensive.fxmapper.CategoryFxMapper;
+import ir.comprehensive.fxmapper.CategoryReportMapper;
 import ir.comprehensive.fxmodel.*;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
 import ir.comprehensive.repository.CategoryRepository;
@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CategoryService implements BaseService<CategoryEntity, CategoryModel> {
+public class CategoryService implements BaseService<CategoryEntity, CategoryFxModel> {
 
     private CategoryRepository repository;
     private PersonRepository personRepository;
-    private CategoryMapper mapper;
+    private CategoryFxMapper mapper;
     private CategoryReportMapper categoryReportMapper;
 
-    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryMapper mapper, CategoryReportMapper categoryReportMapper) {
+    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryFxMapper mapper, CategoryReportMapper categoryReportMapper) {
         this.repository = repository;
         this.personRepository = personRepository;
         this.mapper = mapper;
@@ -49,12 +49,12 @@ public class CategoryService implements BaseService<CategoryEntity, CategoryMode
     }
 
 
-    public Optional<List<CategoryEntity>> search(CategoryModel searchExample) {
+    public Optional<List<CategoryEntity>> search(CategoryFxModel searchExample) {
         Specification<CategoryEntity> categorySpecification = getCategorySpecification(searchExample);
         return Optional.of(repository.findAll(categorySpecification));
     }
 
-    private Specification<CategoryEntity> getCategorySpecification(CategoryModel searchExample) {
+    private Specification<CategoryEntity> getCategorySpecification(CategoryFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -134,7 +134,7 @@ public class CategoryService implements BaseService<CategoryEntity, CategoryMode
     }
 
     @Override
-    public Page<CategoryModel> loadItem(CategoryModel searchModel, PageRequest pageRequest) {
+    public Page<CategoryFxModel> loadItem(CategoryFxModel searchModel, PageRequest pageRequest) {
         Page<CategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
@@ -145,11 +145,11 @@ public class CategoryService implements BaseService<CategoryEntity, CategoryMode
 
     }
 
-    public List<CategoryReportBean> getReportBeanList(CategoryModel searchModel) throws GeneralException {
+    public List<CategoryReportBean> getReportBeanList(CategoryFxModel searchModel) throws GeneralException {
         return getReportBeanList(searchModel, null);
     }
 
-    public List<CategoryReportBean> getReportBeanList(CategoryModel searchModel, Set<Long> ids) throws GeneralException {
+    public List<CategoryReportBean> getReportBeanList(CategoryFxModel searchModel, Set<Long> ids) throws GeneralException {
         if (ids != null && !ids.isEmpty()) {
             List<CategoryReportBean> categoryReportBeans = repository.findAllById(ids).stream().map(categoryReportMapper::entityToModel).collect(Collectors.toList());
             return BaseReportBean.fillRowNumber(categoryReportBeans);

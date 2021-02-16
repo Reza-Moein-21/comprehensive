@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.entity.WarehouseCategoryEntity;
-import ir.comprehensive.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.fxmodel.WarehouseCategoryModel;
+import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
+import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
 import ir.comprehensive.repository.WarehouseCategoryRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
@@ -20,11 +20,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseCategoryService implements BaseService<WarehouseCategoryEntity, WarehouseCategoryModel> {
+public class WarehouseCategoryService implements BaseService<WarehouseCategoryEntity, WarehouseCategoryFxModel> {
     private WarehouseCategoryRepository repository;
-    private WarehouseCategoryMapper mapper;
+    private WarehouseCategoryFxMapper mapper;
 
-    public WarehouseCategoryService(WarehouseCategoryRepository repository, WarehouseCategoryMapper mapper) {
+    public WarehouseCategoryService(WarehouseCategoryRepository repository, WarehouseCategoryFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -47,13 +47,13 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategoryEn
     }
 
 
-    public Optional<List<WarehouseCategoryEntity>> search(WarehouseCategoryModel searchExample) {
+    public Optional<List<WarehouseCategoryEntity>> search(WarehouseCategoryFxModel searchExample) {
         Specification<WarehouseCategoryEntity> warehouseCategorySpecification = getWarehouseCategorySpecification(searchExample);
 
         return Optional.of(repository.findAll(warehouseCategorySpecification));
     }
 
-    private Specification<WarehouseCategoryEntity> getWarehouseCategorySpecification(WarehouseCategoryModel searchExample) {
+    private Specification<WarehouseCategoryEntity> getWarehouseCategorySpecification(WarehouseCategoryFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -105,7 +105,7 @@ public class WarehouseCategoryService implements BaseService<WarehouseCategoryEn
     }
 
     @Override
-    public Page<WarehouseCategoryModel> loadItem(WarehouseCategoryModel searchModel, PageRequest pageRequest) {
+    public Page<WarehouseCategoryFxModel> loadItem(WarehouseCategoryFxModel searchModel, PageRequest pageRequest) {
         Page<WarehouseCategoryEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);

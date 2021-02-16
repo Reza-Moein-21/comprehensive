@@ -8,8 +8,8 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
-import ir.comprehensive.mapper.MyNoteCategoryMapper;
-import ir.comprehensive.fxmodel.MyNoteCategoryModel;
+import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
+import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
 import ir.comprehensive.service.MyNoteCategoryService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
@@ -46,12 +46,12 @@ public class MyNoteCategoryController implements Initializable {
     @Autowired
     MyNoteCategoryService myNoteCategoryService;
     @Autowired
-    MyNoteCategoryMapper mapper;
+    MyNoteCategoryFxMapper mapper;
 
     @FXML
-    MyNoteCategoryModel createModel;
+    MyNoteCategoryFxModel createModel;
     @FXML
-    MyNoteCategoryModel searchModel;
+    MyNoteCategoryFxModel searchModel;
     @FXML
     public JFXTextField txfTitleC;
     @FXML
@@ -112,9 +112,9 @@ public class MyNoteCategoryController implements Initializable {
     @FXML
     public GridPane grdCreateCenter;
     @FXML
-    public CustomTableColumn<MyNoteCategoryModel, Void> colGoToMyNote;
+    public CustomTableColumn<MyNoteCategoryFxModel, Void> colGoToMyNote;
     @FXML
-    public DataTable<MyNoteCategoryModel> tblMyNoteCategory;
+    public DataTable<MyNoteCategoryFxModel> tblMyNoteCategory;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -146,7 +146,7 @@ public class MyNoteCategoryController implements Initializable {
 
 
         tblMyNoteCategory.setOnEdit(selectedItem -> {
-            MyNoteCategoryModel editModel = myNoteCategoryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
+            MyNoteCategoryFxModel editModel = myNoteCategoryService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
             txfDescriptionC.setText(editModel.getDescription());
@@ -263,16 +263,16 @@ public class MyNoteCategoryController implements Initializable {
 
     private void addButtonToTable() {
 
-        Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>> cellFactory = new Callback<TableColumn<MyNoteCategoryModel, Void>, TableCell<MyNoteCategoryModel, Void>>() {
+        Callback<TableColumn<MyNoteCategoryFxModel, Void>, TableCell<MyNoteCategoryFxModel, Void>> cellFactory = new Callback<TableColumn<MyNoteCategoryFxModel, Void>, TableCell<MyNoteCategoryFxModel, Void>>() {
             @Override
-            public TableCell<MyNoteCategoryModel, Void> call(final TableColumn<MyNoteCategoryModel, Void> param) {
-                TableCell<MyNoteCategoryModel, Void> tableCell = new TableCell<MyNoteCategoryModel, Void>() {
+            public TableCell<MyNoteCategoryFxModel, Void> call(final TableColumn<MyNoteCategoryFxModel, Void> param) {
+                TableCell<MyNoteCategoryFxModel, Void> tableCell = new TableCell<MyNoteCategoryFxModel, Void>() {
 
                     private final Button btn = new Button(MessageUtils.Message.ENTER);
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            MyNoteCategoryModel data = getTableView().getItems().get(getIndex());
+                            MyNoteCategoryFxModel data = getTableView().getItems().get(getIndex());
                             MyNoteCategoryController.myNoteCategoryId = data.getId();
                             startController.navigateToView(ViewName.MY_NOTEBOOK, MessageUtils.Message.MY_NOTE + ": (" + data.getTitle() + ")");
                         });

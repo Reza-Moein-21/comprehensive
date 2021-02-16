@@ -3,12 +3,12 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.ProductStatusEnum;
 import ir.comprehensive.entity.WarehouseEntity;
 import ir.comprehensive.entity.WarehouseTagEntity;
-import ir.comprehensive.mapper.WarehouseMapper;
-import ir.comprehensive.mapper.WarehouseReportMapper;
+import ir.comprehensive.fxmapper.WarehouseFxMapper;
+import ir.comprehensive.fxmapper.WarehouseReportMapper;
 import ir.comprehensive.fxmodel.WarehouseInfo;
-import ir.comprehensive.fxmodel.WarehouseModel;
+import ir.comprehensive.fxmodel.WarehouseFxModel;
 import ir.comprehensive.fxmodel.WarehouseReportBean;
-import ir.comprehensive.fxmodel.WarehouseTagModel;
+import ir.comprehensive.fxmodel.WarehouseTagFxModel;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
 import ir.comprehensive.repository.ProductDeliveryRepository;
 import ir.comprehensive.repository.WarehouseRepository;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class WarehouseService implements BaseService<WarehouseEntity, WarehouseModel> {
+public class WarehouseService implements BaseService<WarehouseEntity, WarehouseFxModel> {
     private WarehouseRepository repository;
-    private WarehouseMapper mapper;
+    private WarehouseFxMapper mapper;
     private ProductDeliveryRepository productDeliveryRepository;
     private WarehouseTagRepository warehouseTagRepository;
     private final WarehouseReportMapper warehouseReportMapper;
 
-    public WarehouseService(WarehouseRepository repository, WarehouseMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository, WarehouseReportMapper warehouseReportMapper) {
+    public WarehouseService(WarehouseRepository repository, WarehouseFxMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository, WarehouseReportMapper warehouseReportMapper) {
         this.repository = repository;
         this.mapper = mapper;
         this.productDeliveryRepository = productDeliveryRepository;
@@ -64,13 +64,13 @@ public class WarehouseService implements BaseService<WarehouseEntity, WarehouseM
     }
 
 
-    public Optional<List<WarehouseEntity>> search(WarehouseModel searchExample) {
+    public Optional<List<WarehouseEntity>> search(WarehouseFxModel searchExample) {
         Specification<WarehouseEntity> warehouseSpecification = getWarehouseSpecification(searchExample);
 
         return Optional.of(repository.findAll(warehouseSpecification).stream().distinct().collect(Collectors.toList()));
     }
 
-    private Specification<WarehouseEntity> getWarehouseSpecification(WarehouseModel searchExample) {
+    private Specification<WarehouseEntity> getWarehouseSpecification(WarehouseFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getTitle() != null && !searchExample.getTitle().isEmpty()) {
@@ -91,7 +91,7 @@ public class WarehouseService implements BaseService<WarehouseEntity, WarehouseM
                 searchExample
                         .getTagList()
                         .stream()
-                        .map(WarehouseTagModel::getId)
+                        .map(WarehouseTagFxModel::getId)
                         .map(tagId -> repository.warehouseByTag(tagId))
                         .map(bigIntegers -> bigIntegers
                                 .stream()
@@ -208,7 +208,7 @@ public class WarehouseService implements BaseService<WarehouseEntity, WarehouseM
     }
 
     @Override
-    public Page<WarehouseModel> loadItem(WarehouseModel searchModel, PageRequest pageRequest) {
+    public Page<WarehouseFxModel> loadItem(WarehouseFxModel searchModel, PageRequest pageRequest) {
         Page<WarehouseEntity> page;
         if (searchModel == null) {
             page = repository.findAll(pageRequest);
@@ -218,11 +218,11 @@ public class WarehouseService implements BaseService<WarehouseEntity, WarehouseM
         return page.map(mapper::entityToModel);
     }
 
-    public List<WarehouseReportBean> getReportBeanList(WarehouseModel searchModel) throws GeneralException {
+    public List<WarehouseReportBean> getReportBeanList(WarehouseFxModel searchModel) throws GeneralException {
         return getReportBeanList(searchModel, null);
     }
 
-    public List<WarehouseReportBean> getReportBeanList(WarehouseModel searchModel, Set<Long> ids) throws GeneralException {
+    public List<WarehouseReportBean> getReportBeanList(WarehouseFxModel searchModel, Set<Long> ids) throws GeneralException {
         Function<WarehouseEntity, WarehouseReportBean> customReportMapper = warehouse -> {
             WarehouseReportBean reportBean = warehouseReportMapper.entityToModel(warehouse);
             reportBean.setTagList(warehouse.getTagList() == null ? "" : warehouse.getTagList().stream().map(tagModel -> String.format("[ %s ] ", tagModel.getTitle())).collect(Collectors.joining()));

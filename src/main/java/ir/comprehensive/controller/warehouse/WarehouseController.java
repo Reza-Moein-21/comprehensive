@@ -10,12 +10,12 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.mapper.WarehouseMapper;
-import ir.comprehensive.mapper.WarehouseTagMapper;
-import ir.comprehensive.fxmodel.WarehouseCategoryModel;
-import ir.comprehensive.fxmodel.WarehouseModel;
-import ir.comprehensive.fxmodel.WarehouseTagModel;
+import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
+import ir.comprehensive.fxmapper.WarehouseFxMapper;
+import ir.comprehensive.fxmapper.WarehouseTagFxMapper;
+import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
+import ir.comprehensive.fxmodel.WarehouseFxModel;
+import ir.comprehensive.fxmodel.WarehouseTagFxModel;
 import ir.comprehensive.service.WarehouseCategoryService;
 import ir.comprehensive.service.WarehouseService;
 import ir.comprehensive.service.WarehouseTagService;
@@ -52,15 +52,15 @@ public class WarehouseController implements Initializable {
     @FXML
     public com.jfoenix.controls.JFXTextField txtCodeS;
     @FXML
-    public MultiAutocomplete<WarehouseTagModel> mauTagListS;
+    public MultiAutocomplete<WarehouseTagFxModel> mauTagListS;
     @Autowired
     private StartController startController;
     @Autowired
-    private WarehouseMapper mapper;
+    private WarehouseFxMapper mapper;
     @Autowired
     private WarehouseTagService warehouseTagService;
 
-    public CustomTableColumn<WarehouseModel, String> colTag;
+    public CustomTableColumn<WarehouseFxModel, String> colTag;
 
     @FXML
     public JFXTextField txfDescriptionD;
@@ -89,7 +89,7 @@ public class WarehouseController implements Initializable {
     @FXML
     public JFXButton btnCreate;
     @Autowired
-    private WarehouseTagMapper tagMapper;
+    private WarehouseTagFxMapper tagMapper;
     @FXML
     public JFXButton btnSearch;
     @FXML
@@ -99,7 +99,7 @@ public class WarehouseController implements Initializable {
     @FXML
     public com.jfoenix.controls.JFXTextField txtCompanyNameS;
     @FXML
-    public Autocomplete<WarehouseCategoryModel> autCategoryS;
+    public Autocomplete<WarehouseCategoryFxModel> autCategoryS;
     @FXML
     public VBox vbxDisplayContent;
     @FXML
@@ -109,9 +109,9 @@ public class WarehouseController implements Initializable {
     @FXML
     public com.jfoenix.controls.JFXTextField txfTitleC;
     @FXML
-    public Autocomplete<WarehouseCategoryModel> autCategoryC;
+    public Autocomplete<WarehouseCategoryFxModel> autCategoryC;
     @FXML
-    public MultiAutocomplete<WarehouseTagModel> mauTagListC;
+    public MultiAutocomplete<WarehouseTagFxModel> mauTagListC;
     @FXML
     public com.jfoenix.controls.JFXTextField txtCodeC;
     @FXML
@@ -123,7 +123,7 @@ public class WarehouseController implements Initializable {
     @Autowired
     private WarehouseCategoryService warehouseCategoryService;
     @Autowired
-    private WarehouseCategoryMapper warehouseCategoryMapper;
+    private WarehouseCategoryFxMapper warehouseCategoryMapper;
     @FXML
     public com.jfoenix.controls.JFXTextField txfDescriptionC;
     @FXML
@@ -133,12 +133,12 @@ public class WarehouseController implements Initializable {
     @FXML
     public HBox hbxDisplayFooter;
     @FXML
-    public DataTable<WarehouseModel> tblWarehouse;
+    public DataTable<WarehouseFxModel> tblWarehouse;
 
     @FXML
-    private WarehouseModel createModel;
+    private WarehouseFxModel createModel;
     @FXML
-    private WarehouseModel searchModel;
+    private WarehouseFxModel searchModel;
 
     private void applyFontStyle(Pane rootNode) {
         for (Node n : rootNode.getChildren()) {
@@ -202,7 +202,7 @@ public class WarehouseController implements Initializable {
         autCategoryS.setOnSearch(s -> warehouseCategoryService.findByTitle(s).map(warehouseCategories -> warehouseCategories.stream().map(warehouseCategoryMapper::entityToModel).collect(Collectors.toList())).get());
 
         tblWarehouse.setOnEdit(selectedItem -> {
-            WarehouseModel editModel = warehouseService.load(selectedItem.getId()).map(mapper::entityToModel).get();
+            WarehouseFxModel editModel = warehouseService.load(selectedItem.getId()).map(mapper::entityToModel).get();
             createModel.setId(editModel.getId());
             txfTitleC.setText(editModel.getTitle());
             autCategoryC.setValue(editModel.getCategory());
@@ -306,8 +306,8 @@ public class WarehouseController implements Initializable {
             return;
         }
         try {
-            List<WarehouseTagModel> collect = createModel.getTagList().stream().map(warehouseTag -> {
-                WarehouseTagModel myTag = new WarehouseTagModel();
+            List<WarehouseTagFxModel> collect = createModel.getTagList().stream().map(warehouseTag -> {
+                WarehouseTagFxModel myTag = new WarehouseTagFxModel();
                 if (warehouseTag.getId() != null && warehouseTag.getId() > 0) {
                     myTag.setId(warehouseTag.getId());
                 }

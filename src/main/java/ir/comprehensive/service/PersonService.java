@@ -2,10 +2,10 @@ package ir.comprehensive.service;
 
 import ir.comprehensive.entity.CategoryEntity;
 import ir.comprehensive.entity.PersonEntity;
-import ir.comprehensive.mapper.PersonMapper;
-import ir.comprehensive.mapper.PersonReportMapper;
-import ir.comprehensive.fxmodel.CategoryModel;
-import ir.comprehensive.fxmodel.PersonModel;
+import ir.comprehensive.fxmapper.PersonFxMapper;
+import ir.comprehensive.fxmapper.PersonReportMapper;
+import ir.comprehensive.fxmodel.CategoryFxModel;
+import ir.comprehensive.fxmodel.PersonFxModel;
 import ir.comprehensive.fxmodel.PersonReportBean;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
 import ir.comprehensive.repository.MyNoteRepository;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PersonService implements BaseService<PersonEntity, PersonModel> {
+public class PersonService implements BaseService<PersonEntity, PersonFxModel> {
     private ProductDeliveryRepository productDeliveryRepository;
     private PersonRepository repository;
     private MyNoteRepository myNoteRepository;
-    private PersonMapper mapper;
+    private PersonFxMapper mapper;
     private PersonReportMapper personReportMapper;
 
-    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonMapper mapper, PersonReportMapper personReportMapper) {
+    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonFxMapper mapper, PersonReportMapper personReportMapper) {
         this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
@@ -64,12 +64,12 @@ public class PersonService implements BaseService<PersonEntity, PersonModel> {
     }
 
 
-    public Optional<List<PersonEntity>> search(PersonModel searchExample) {
+    public Optional<List<PersonEntity>> search(PersonFxModel searchExample) {
         Specification<PersonEntity> personSpecification = getPersonSpecification(searchExample);
         return Optional.of(repository.findAll(personSpecification));
     }
 
-    private Specification<PersonEntity> getPersonSpecification(PersonModel searchExample) {
+    private Specification<PersonEntity> getPersonSpecification(PersonFxModel searchExample) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (searchExample.getFirstName() != null && !searchExample.getFirstName().isEmpty()) {
@@ -89,7 +89,7 @@ public class PersonService implements BaseService<PersonEntity, PersonModel> {
             }
             if (searchExample.getCategories() != null && !searchExample.getCategories().isEmpty()) {
                 Join<PersonEntity, CategoryEntity> categories = root.join("categories");
-                predicateList.add(categories.in(searchExample.getCategories().stream().map(CategoryModel::getId).collect(Collectors.toSet())));
+                predicateList.add(categories.in(searchExample.getCategories().stream().map(CategoryFxModel::getId).collect(Collectors.toSet())));
             }
             query.distinct(true);
             query.orderBy(criteriaBuilder.asc(root.get("firstName")));
@@ -146,7 +146,7 @@ public class PersonService implements BaseService<PersonEntity, PersonModel> {
     }
 
     @Override
-    public Page<PersonModel> loadItem(PersonModel searchModel, PageRequest pageRequest) {
+    public Page<PersonFxModel> loadItem(PersonFxModel searchModel, PageRequest pageRequest) {
         Page<PersonEntity> personPage;
         if (searchModel == null) {
             personPage = repository.findAll(pageRequest);
@@ -156,11 +156,11 @@ public class PersonService implements BaseService<PersonEntity, PersonModel> {
         return personPage.map(mapper::entityToModel);
     }
 
-    public List<PersonReportBean> getReportBeanList(PersonModel searchModel) throws GeneralException {
+    public List<PersonReportBean> getReportBeanList(PersonFxModel searchModel) throws GeneralException {
         return getReportBeanList(searchModel, null);
     }
 
-    public List<PersonReportBean> getReportBeanList(PersonModel searchModel, Set<Long> ids) throws GeneralException {
+    public List<PersonReportBean> getReportBeanList(PersonFxModel searchModel, Set<Long> ids) throws GeneralException {
         if (ids != null && !ids.isEmpty()) {
             List<PersonReportBean> personReportBeans = repository.findAllById(ids).stream().map(personReportMapper::entityToModel).collect(Collectors.toList());
             return BaseReportBean.fillRowNumber(personReportBeans);
