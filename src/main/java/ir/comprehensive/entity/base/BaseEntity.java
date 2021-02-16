@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 @Data
 @MappedSuperclass
-public abstract class BaseEntity<T extends Serializable> implements Serializable {
+public abstract class BaseEntity<I extends Serializable> implements Serializable {
 
     @Id
     @GeneratedValue
     @Column(name = "ID")
-    protected T id;
+    protected I id;
 }
