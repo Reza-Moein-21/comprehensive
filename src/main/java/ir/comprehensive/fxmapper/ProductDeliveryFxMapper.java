@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.entity.ProductDeliveryEntity;
 import ir.comprehensive.fxmodel.ProductDeliveryFxModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

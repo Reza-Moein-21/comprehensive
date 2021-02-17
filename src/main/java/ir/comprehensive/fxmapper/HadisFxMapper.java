@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.database.HadisEntity;
+import ir.comprehensive.database.entity.HadisEntity;
 import ir.comprehensive.fxmodel.HadisFxModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

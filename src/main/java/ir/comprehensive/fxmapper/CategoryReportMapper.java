@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.database.CategoryEntity;
+import ir.comprehensive.database.entity.CategoryEntity;
 import ir.comprehensive.fxmodel.CategoryReportBean;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

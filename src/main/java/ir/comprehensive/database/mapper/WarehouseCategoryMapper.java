@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.WarehouseCategoryEntity;
+import ir.comprehensive.database.entity.WarehouseCategoryEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.WarehouseCategoryModel;
 import org.mapstruct.Mapper;

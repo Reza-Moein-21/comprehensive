@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.database.MyNoteTempEntity;
+import ir.comprehensive.database.entity.MyNoteTempEntity;
 import ir.comprehensive.fxmodel.MyNoteTempFxModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

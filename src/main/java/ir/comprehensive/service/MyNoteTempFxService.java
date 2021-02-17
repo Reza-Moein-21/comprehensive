@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.database.MyNoteEntity;
-import ir.comprehensive.database.MyNoteTempEntity;
+import ir.comprehensive.database.entity.MyNoteEntity;
+import ir.comprehensive.database.entity.MyNoteTempEntity;
 import ir.comprehensive.fxmapper.MyNoteTempFxMapper;
 import ir.comprehensive.fxmodel.MyNoteTempFxModel;
 import ir.comprehensive.repository.MyNoteTempFxRepository;

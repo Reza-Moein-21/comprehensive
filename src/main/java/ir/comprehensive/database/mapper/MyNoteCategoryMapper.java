@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.MyNoteCategoryEntity;
+import ir.comprehensive.database.entity.MyNoteCategoryEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.MyNoteCategoryModel;
 import org.mapstruct.Mapper;

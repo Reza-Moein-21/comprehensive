@@ -1,6 +1,6 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.database.WarehouseCategoryEntity;
+import ir.comprehensive.database.entity.WarehouseCategoryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

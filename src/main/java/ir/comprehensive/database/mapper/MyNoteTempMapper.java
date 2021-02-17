@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.MyNoteTempEntity;
+import ir.comprehensive.database.entity.MyNoteTempEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.MyNoteTempModel;
 import org.mapstruct.Mapper;

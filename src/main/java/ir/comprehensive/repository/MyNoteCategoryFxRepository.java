@@ -1,6 +1,6 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.database.MyNoteCategoryEntity;
+import ir.comprehensive.database.entity.MyNoteCategoryEntity;
 import ir.comprehensive.database.enums.MyNoteCategoryStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.database.WarehouseCategoryEntity;
+import ir.comprehensive.database.entity.WarehouseCategoryEntity;
 import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
 import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
 import ir.comprehensive.repository.WarehouseCategoryFxRepository;

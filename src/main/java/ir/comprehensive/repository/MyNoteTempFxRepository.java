@@ -1,6 +1,6 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.database.MyNoteTempEntity;
+import ir.comprehensive.database.entity.MyNoteTempEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

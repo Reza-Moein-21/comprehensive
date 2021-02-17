@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.PersonEntity;
+import ir.comprehensive.database.entity.PersonEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.PersonModel;
 import org.mapstruct.Mapper;

@@ -1,6 +1,7 @@
-package ir.comprehensive.database;
+package ir.comprehensive.database.entity;
 
 import ir.comprehensive.database.base.BaseEntity;
+import ir.comprehensive.database.entity.CategoryEntity;
 import lombok.*;
 
 import javax.persistence.*;

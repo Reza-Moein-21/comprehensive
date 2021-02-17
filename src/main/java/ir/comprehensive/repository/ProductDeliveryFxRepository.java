@@ -1,6 +1,6 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.entity.ProductDeliveryEntity;
 import ir.comprehensive.database.enums.ProductStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

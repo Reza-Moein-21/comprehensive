@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.WarehouseTagEntity;
+import ir.comprehensive.database.entity.WarehouseTagEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.WarehouseTagModel;
 import org.mapstruct.Mapper;

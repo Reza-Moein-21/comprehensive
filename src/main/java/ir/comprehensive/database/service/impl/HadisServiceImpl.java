@@ -1,6 +1,6 @@
 package ir.comprehensive.database.service.impl;
 
-import ir.comprehensive.database.HadisEntity;
+import ir.comprehensive.database.entity.HadisEntity;
 import ir.comprehensive.database.base.BaseServiceImpl;
 import ir.comprehensive.database.mapper.HadisMapper;
 import ir.comprehensive.database.model.HadisModel;

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.database.CategoryEntity;
+import ir.comprehensive.database.entity.CategoryEntity;
 import ir.comprehensive.fxmapper.CategoryFxMapper;
 import ir.comprehensive.fxmapper.CategoryReportMapper;
 import ir.comprehensive.fxmodel.*;

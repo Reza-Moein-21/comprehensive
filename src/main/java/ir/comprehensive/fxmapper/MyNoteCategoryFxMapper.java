@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.database.MyNoteCategoryEntity;
+import ir.comprehensive.database.entity.MyNoteCategoryEntity;
 import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

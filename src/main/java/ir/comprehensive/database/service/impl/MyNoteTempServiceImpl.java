@@ -1,6 +1,6 @@
 package ir.comprehensive.database.service.impl;
 
-import ir.comprehensive.database.MyNoteTempEntity;
+import ir.comprehensive.database.entity.MyNoteTempEntity;
 import ir.comprehensive.database.base.BaseServiceImpl;
 import ir.comprehensive.database.mapper.MyNoteTempMapper;
 import ir.comprehensive.database.model.MyNoteTempModel;

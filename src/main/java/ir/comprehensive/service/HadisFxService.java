@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.database.HadisEntity;
+import ir.comprehensive.database.entity.HadisEntity;
 import ir.comprehensive.fxmapper.HadisFxMapper;
 import ir.comprehensive.fxmodel.HadisFxModel;
 import ir.comprehensive.repository.HadisFxRepository;

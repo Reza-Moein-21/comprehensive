@@ -4,7 +4,7 @@ import com.github.mfathi91.time.PersianDate;
 import ir.comprehensive.component.Card;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.component.hadis.HadisComponent;
-import ir.comprehensive.database.HadisEntity;
+import ir.comprehensive.database.entity.HadisEntity;
 import ir.comprehensive.fxmodel.HumanResourceInfo;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
 import ir.comprehensive.fxmodel.WarehouseInfo;

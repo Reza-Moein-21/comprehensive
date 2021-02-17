@@ -1,4 +1,4 @@
-package ir.comprehensive.database;
+package ir.comprehensive.database.entity;
 
 import ir.comprehensive.database.base.BaseEntity;
 import lombok.AllArgsConstructor;

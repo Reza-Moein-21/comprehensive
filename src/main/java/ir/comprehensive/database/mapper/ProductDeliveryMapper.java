@@ -1,6 +1,6 @@
 package ir.comprehensive.database.mapper;
 
-import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.entity.ProductDeliveryEntity;
 import ir.comprehensive.database.base.BaseMapper;
 import ir.comprehensive.database.model.ProductDeliveryModel;
 import org.mapstruct.Mapper;

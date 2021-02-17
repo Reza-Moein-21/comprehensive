@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.database.MyNoteCategoryEntity;
+import ir.comprehensive.database.entity.MyNoteCategoryEntity;
 import ir.comprehensive.database.enums.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;

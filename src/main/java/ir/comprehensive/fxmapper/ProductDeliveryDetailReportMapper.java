@@ -1,7 +1,7 @@
 package ir.comprehensive.fxmapper;
 
 import com.github.mfathi91.time.PersianDate;
-import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.entity.ProductDeliveryEntity;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import org.springframework.stereotype.Component;
 

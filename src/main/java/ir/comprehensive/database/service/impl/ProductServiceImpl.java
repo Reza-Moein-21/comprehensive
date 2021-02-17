@@ -1,6 +1,6 @@
 package ir.comprehensive.database.service.impl;
 
-import ir.comprehensive.database.ProductEntity;
+import ir.comprehensive.database.entity.ProductEntity;
 import ir.comprehensive.database.base.BaseServiceImpl;
 import ir.comprehensive.database.mapper.ProductMapper;
 import ir.comprehensive.database.model.ProductModel;

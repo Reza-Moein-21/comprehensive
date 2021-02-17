@@ -1,6 +1,6 @@
 package ir.comprehensive.database.service.impl;
 
-import ir.comprehensive.database.WarehouseTagEntity;
+import ir.comprehensive.database.entity.WarehouseTagEntity;
 import ir.comprehensive.database.base.BaseServiceImpl;
 import ir.comprehensive.database.mapper.WarehouseTagMapper;
 import ir.comprehensive.database.model.WarehouseTagModel;

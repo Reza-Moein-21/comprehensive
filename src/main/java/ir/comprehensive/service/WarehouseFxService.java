@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
 import ir.comprehensive.database.enums.ProductStatusEnum;
-import ir.comprehensive.database.WarehouseEntity;
-import ir.comprehensive.database.WarehouseTagEntity;
+import ir.comprehensive.database.entity.WarehouseEntity;
+import ir.comprehensive.database.entity.WarehouseTagEntity;
 import ir.comprehensive.fxmapper.WarehouseFxMapper;
 import ir.comprehensive.fxmapper.WarehouseReportMapper;
 import ir.comprehensive.fxmodel.WarehouseInfo;

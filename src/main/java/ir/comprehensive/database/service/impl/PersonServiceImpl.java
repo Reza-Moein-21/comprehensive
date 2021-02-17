@@ -1,6 +1,6 @@
 package ir.comprehensive.database.service.impl;
 
-import ir.comprehensive.database.PersonEntity;
+import ir.comprehensive.database.entity.PersonEntity;
 import ir.comprehensive.database.base.BaseServiceImpl;
 import ir.comprehensive.database.mapper.PersonMapper;
 import ir.comprehensive.database.model.PersonModel;
