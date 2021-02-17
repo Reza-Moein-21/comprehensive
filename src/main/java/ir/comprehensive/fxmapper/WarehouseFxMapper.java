@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.entity.WarehouseEntity;
+import ir.comprehensive.database.WarehouseEntity;
 import ir.comprehensive.fxmodel.WarehouseFxModel;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;

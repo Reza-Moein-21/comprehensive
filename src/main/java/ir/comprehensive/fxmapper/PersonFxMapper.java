@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.entity.PersonEntity;
+import ir.comprehensive.database.PersonEntity;
 import ir.comprehensive.fxmodel.PersonFxModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

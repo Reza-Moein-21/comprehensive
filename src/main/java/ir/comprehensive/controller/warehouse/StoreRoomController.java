@@ -11,7 +11,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.component.datepicker.SimpleDatePicker;
 import ir.comprehensive.controller.StartController;
-import ir.comprehensive.entity.enums.ProductStatusEnum;
+import ir.comprehensive.database.enums.ProductStatusEnum;
 import ir.comprehensive.fxmapper.PersonFxMapper;
 import ir.comprehensive.fxmapper.ProductDeliveryFxMapper;
 import ir.comprehensive.fxmapper.WarehouseFxMapper;

@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.WarehouseTagEntity;
+import ir.comprehensive.database.WarehouseTagEntity;
 import ir.comprehensive.fxmapper.WarehouseTagFxMapper;
 import ir.comprehensive.fxmodel.WarehouseTagFxModel;
 import ir.comprehensive.repository.WarehouseTagFxRepository;

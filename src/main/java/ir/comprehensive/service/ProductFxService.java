@@ -1,6 +1,6 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.ProductEntity;
+import ir.comprehensive.database.ProductEntity;
 import ir.comprehensive.fxmapper.ProductFxMapper;
 import ir.comprehensive.fxmodel.ProductFxModel;
 import ir.comprehensive.repository.ProductFxRepository;

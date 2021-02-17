@@ -1,6 +1,6 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.entity.MyNoteEntity;
+import ir.comprehensive.database.MyNoteEntity;
 import ir.comprehensive.service.CalenderNoteStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

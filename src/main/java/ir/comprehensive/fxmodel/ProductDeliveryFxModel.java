@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.entity.enums.ProductStatusEnum;
+import ir.comprehensive.database.enums.ProductStatusEnum;
 import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.*;
 

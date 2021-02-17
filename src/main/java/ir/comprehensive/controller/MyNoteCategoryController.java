@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
-import ir.comprehensive.entity.enums.MyNoteCategoryStatusEnum;
+import ir.comprehensive.database.enums.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
 import ir.comprehensive.service.MyNoteCategoryFxService;

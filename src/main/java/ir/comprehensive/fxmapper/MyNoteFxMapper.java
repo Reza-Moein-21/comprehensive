@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.entity.MyNoteEntity;
+import ir.comprehensive.database.MyNoteEntity;
 import ir.comprehensive.fxmodel.MyNoteFxModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

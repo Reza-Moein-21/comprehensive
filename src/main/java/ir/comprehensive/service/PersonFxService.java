@@ -1,7 +1,7 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.CategoryEntity;
-import ir.comprehensive.entity.PersonEntity;
+import ir.comprehensive.database.CategoryEntity;
+import ir.comprehensive.database.PersonEntity;
 import ir.comprehensive.fxmapper.PersonFxMapper;
 import ir.comprehensive.fxmapper.PersonReportMapper;
 import ir.comprehensive.fxmodel.CategoryFxModel;

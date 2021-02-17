@@ -1,7 +1,7 @@
 package ir.comprehensive.repository;
 
-import ir.comprehensive.entity.ProductDeliveryEntity;
-import ir.comprehensive.entity.enums.ProductStatusEnum;
+import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.enums.ProductStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +17,7 @@ public interface ProductDeliveryFxRepository extends JpaRepository<ProductDelive
 
     long countByStatus(ProductStatusEnum status);
 
-    @Query("select sum(pd.count) from ProductDeliveryEntity pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.entity.enums.ProductStatusEnum).RECEIVED} ")
+    @Query("select sum(pd.count) from ProductDeliveryEntity pd where pd.product.id = ?1 and pd.status <> :#{T(ir.comprehensive.database.enums.ProductStatusEnum).RECEIVED} ")
     Long consumptionCountForPrint(Long WarehouseId);
 
     Long countByStatusAndPersonId(ProductStatusEnum status, Long personId);

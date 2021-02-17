@@ -1,8 +1,8 @@
 package ir.comprehensive.service;
 
-import ir.comprehensive.entity.ProductDeliveryEntity;
-import ir.comprehensive.entity.enums.ProductStatusEnum;
-import ir.comprehensive.entity.WarehouseEntity;
+import ir.comprehensive.database.ProductDeliveryEntity;
+import ir.comprehensive.database.enums.ProductStatusEnum;
+import ir.comprehensive.database.WarehouseEntity;
 import ir.comprehensive.fxmapper.ProductDeliveryDetailReportMapper;
 import ir.comprehensive.fxmapper.ProductDeliveryFxMapper;
 import ir.comprehensive.fxmodel.ProductDeliveryFxModel;

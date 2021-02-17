@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmapper;
 
-import ir.comprehensive.entity.WarehouseEntity;
+import ir.comprehensive.database.WarehouseEntity;
 import ir.comprehensive.fxmodel.WarehouseReportBean;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

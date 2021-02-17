@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import ir.comprehensive.component.basetable.*?>
 <?import ir.comprehensive.component.YesNoDialog?>
-<?import ir.comprehensive.entity.enums.*?>
+<?import ir.comprehensive.database.enums.*?>
 <?import ir.comprehensive.fxmodel.MyNoteCategoryFxModel?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.*?>
@@ -33,7 +33,8 @@
                     <ColumnConstraints percentWidth="50"/>
                 </columnConstraints>
                 <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
-                <JFXComboBox fx:id="cmbStatusC" GridPane.columnIndex="1" prefWidth="Infinity" promptText="%productStatus" labelFloat="true">
+                <JFXComboBox fx:id="cmbStatusC" GridPane.columnIndex="1" prefWidth="Infinity"
+                             promptText="%productStatus" labelFloat="true">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <MyNoteCategoryStatusEnum fx:value="DONE"/>
@@ -42,7 +43,8 @@
                         </FXCollections>
                     </items>
                 </JFXComboBox>
-                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true" GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"
+                              GridPane.columnSpan="2" GridPane.rowIndex="1"/>
             </GridPane>
             <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right" GridPane.columnIndex="1">
                 <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
