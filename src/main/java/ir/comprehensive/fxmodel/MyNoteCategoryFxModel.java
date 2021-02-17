@@ -1,6 +1,6 @@
 package ir.comprehensive.fxmodel;
 
-import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
+import ir.comprehensive.entity.enums.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmodel.basemodel.BaseFxModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

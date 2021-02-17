@@ -1,6 +1,7 @@
 package ir.comprehensive.entity;
 
 import ir.comprehensive.entity.base.BaseEntity;
+import ir.comprehensive.entity.enums.ProductStatusEnum;
 import lombok.*;
 
 import javax.persistence.*;

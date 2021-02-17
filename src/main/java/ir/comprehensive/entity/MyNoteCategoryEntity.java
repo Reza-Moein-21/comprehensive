@@ -1,6 +1,7 @@
 package ir.comprehensive.entity;
 
 import ir.comprehensive.entity.base.BaseEntity;
+import ir.comprehensive.entity.enums.MyNoteCategoryStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;

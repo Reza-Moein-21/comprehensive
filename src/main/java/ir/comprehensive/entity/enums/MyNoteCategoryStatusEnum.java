@@ -1,4 +1,4 @@
-package ir.comprehensive.entity;
+package ir.comprehensive.entity.enums;
 
 import ir.comprehensive.entity.base.BaseEnum;
 import ir.comprehensive.utils.MessageUtils;

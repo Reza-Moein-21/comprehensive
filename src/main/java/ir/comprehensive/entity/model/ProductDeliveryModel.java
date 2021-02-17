@@ -1,6 +1,6 @@
 package ir.comprehensive.entity.model;
 
-import ir.comprehensive.entity.ProductStatusEnum;
+import ir.comprehensive.entity.enums.ProductStatusEnum;
 import ir.comprehensive.entity.base.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
