@@ -10,9 +10,9 @@ import ir.comprehensive.fxmodel.WarehouseFxModel;
 import ir.comprehensive.fxmodel.WarehouseReportBean;
 import ir.comprehensive.fxmodel.WarehouseTagFxModel;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
-import ir.comprehensive.repository.ProductDeliveryRepository;
-import ir.comprehensive.repository.WarehouseRepository;
-import ir.comprehensive.repository.WarehouseTagRepository;
+import ir.comprehensive.repository.ProductDeliveryFxRepository;
+import ir.comprehensive.repository.WarehouseFxRepository;
+import ir.comprehensive.repository.WarehouseTagFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class WarehouseService implements BaseService<WarehouseEntity, WarehouseFxModel> {
-    private WarehouseRepository repository;
+public class WarehouseFxService implements BaseFxService<WarehouseEntity, WarehouseFxModel> {
+    private WarehouseFxRepository repository;
     private WarehouseFxMapper mapper;
-    private ProductDeliveryRepository productDeliveryRepository;
-    private WarehouseTagRepository warehouseTagRepository;
+    private ProductDeliveryFxRepository productDeliveryRepository;
+    private WarehouseTagFxRepository warehouseTagRepository;
     private final WarehouseReportMapper warehouseReportMapper;
 
-    public WarehouseService(WarehouseRepository repository, WarehouseFxMapper mapper, ProductDeliveryRepository productDeliveryRepository, WarehouseTagRepository warehouseTagRepository, WarehouseReportMapper warehouseReportMapper) {
+    public WarehouseFxService(WarehouseFxRepository repository, WarehouseFxMapper mapper, ProductDeliveryFxRepository productDeliveryRepository, WarehouseTagFxRepository warehouseTagRepository, WarehouseReportMapper warehouseReportMapper) {
         this.repository = repository;
         this.mapper = mapper;
         this.productDeliveryRepository = productDeliveryRepository;

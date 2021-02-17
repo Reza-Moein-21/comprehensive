@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.HadisEntity;
 import ir.comprehensive.fxmapper.HadisFxMapper;
 import ir.comprehensive.fxmodel.HadisFxModel;
-import ir.comprehensive.repository.HadisRepository;
+import ir.comprehensive.repository.HadisFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -20,12 +20,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class HadisService implements BaseService<HadisEntity, HadisFxModel> {
+public class HadisFxService implements BaseFxService<HadisEntity, HadisFxModel> {
 
-    private HadisRepository repository;
+    private HadisFxRepository repository;
     private HadisFxMapper mapper;
 
-    public HadisService(HadisRepository repository, HadisFxMapper mapper) {
+    public HadisFxService(HadisFxRepository repository, HadisFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

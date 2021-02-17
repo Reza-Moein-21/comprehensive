@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WarehouseCategoryRepository extends JpaRepository<WarehouseCategoryEntity, Long>, JpaSpecificationExecutor<WarehouseCategoryEntity> {
+public interface WarehouseCategoryFxRepository extends JpaRepository<WarehouseCategoryEntity, Long>, JpaSpecificationExecutor<WarehouseCategoryEntity> {
     @Query("select wCat from WarehouseCategoryEntity wCat where lower(wCat.title) like concat('%',lower(trim(?1)),'%') order by wCat.title")
     Page<WarehouseCategoryEntity> findByTitle(String title, Pageable pageable);
 }

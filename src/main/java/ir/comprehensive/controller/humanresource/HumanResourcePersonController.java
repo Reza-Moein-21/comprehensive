@@ -13,8 +13,8 @@ import ir.comprehensive.fxmapper.CategoryFxMapper;
 import ir.comprehensive.fxmapper.PersonFxMapper;
 import ir.comprehensive.fxmodel.CategoryFxModel;
 import ir.comprehensive.fxmodel.PersonFxModel;
-import ir.comprehensive.service.CategoryService;
-import ir.comprehensive.service.PersonService;
+import ir.comprehensive.service.CategoryFxService;
+import ir.comprehensive.service.PersonFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;
 import javafx.collections.FXCollections;
@@ -110,9 +110,9 @@ public class HumanResourcePersonController implements Initializable {
     @Autowired
     private StartController startController;
     @Autowired
-    private PersonService personService;
+    private PersonFxService personService;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryFxService categoryService;
     @Autowired
     private CategoryFxMapper categoryMapper;
     @Autowired

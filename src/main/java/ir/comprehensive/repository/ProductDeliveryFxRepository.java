@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductDeliveryRepository extends JpaRepository<ProductDeliveryEntity, Long>, JpaSpecificationExecutor<ProductDeliveryEntity> {
+public interface ProductDeliveryFxRepository extends JpaRepository<ProductDeliveryEntity, Long>, JpaSpecificationExecutor<ProductDeliveryEntity> {
     @Query("select case when count(pd) > 0 then true else false end from ProductDeliveryEntity pd  where pd.person.id = ?1")
     Boolean isPersonExist(Long personId);
 

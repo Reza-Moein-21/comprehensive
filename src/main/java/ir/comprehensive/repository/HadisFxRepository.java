@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HadisRepository extends JpaRepository<HadisEntity, Long>, JpaSpecificationExecutor<HadisEntity> {
+public interface HadisFxRepository extends JpaRepository<HadisEntity, Long>, JpaSpecificationExecutor<HadisEntity> {
     @Query("select count(h) from HadisEntity h")
     Long countAll();
 }

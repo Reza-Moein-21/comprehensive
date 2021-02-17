@@ -8,9 +8,9 @@ import ir.comprehensive.fxmodel.CategoryFxModel;
 import ir.comprehensive.fxmodel.PersonFxModel;
 import ir.comprehensive.fxmodel.PersonReportBean;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
-import ir.comprehensive.repository.MyNoteRepository;
-import ir.comprehensive.repository.PersonRepository;
-import ir.comprehensive.repository.ProductDeliveryRepository;
+import ir.comprehensive.repository.MyNoteFxRepository;
+import ir.comprehensive.repository.PersonFxRepository;
+import ir.comprehensive.repository.ProductDeliveryFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PersonService implements BaseService<PersonEntity, PersonFxModel> {
-    private ProductDeliveryRepository productDeliveryRepository;
-    private PersonRepository repository;
-    private MyNoteRepository myNoteRepository;
+public class PersonFxService implements BaseFxService<PersonEntity, PersonFxModel> {
+    private ProductDeliveryFxRepository productDeliveryRepository;
+    private PersonFxRepository repository;
+    private MyNoteFxRepository myNoteRepository;
     private PersonFxMapper mapper;
     private PersonReportMapper personReportMapper;
 
-    public PersonService(ProductDeliveryRepository productDeliveryRepository, PersonRepository repository, MyNoteRepository myNoteRepository, PersonFxMapper mapper, PersonReportMapper personReportMapper) {
+    public PersonFxService(ProductDeliveryFxRepository productDeliveryRepository, PersonFxRepository repository, MyNoteFxRepository myNoteRepository, PersonFxMapper mapper, PersonReportMapper personReportMapper) {
         this.productDeliveryRepository = productDeliveryRepository;
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;

@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.WarehouseCategoryEntity;
 import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
 import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
-import ir.comprehensive.repository.WarehouseCategoryRepository;
+import ir.comprehensive.repository.WarehouseCategoryFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -20,11 +20,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseCategoryService implements BaseService<WarehouseCategoryEntity, WarehouseCategoryFxModel> {
-    private WarehouseCategoryRepository repository;
+public class WarehouseCategoryFxService implements BaseFxService<WarehouseCategoryEntity, WarehouseCategoryFxModel> {
+    private WarehouseCategoryFxRepository repository;
     private WarehouseCategoryFxMapper mapper;
 
-    public WarehouseCategoryService(WarehouseCategoryRepository repository, WarehouseCategoryFxMapper mapper) {
+    public WarehouseCategoryFxService(WarehouseCategoryFxRepository repository, WarehouseCategoryFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

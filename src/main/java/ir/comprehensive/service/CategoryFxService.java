@@ -5,8 +5,8 @@ import ir.comprehensive.fxmapper.CategoryFxMapper;
 import ir.comprehensive.fxmapper.CategoryReportMapper;
 import ir.comprehensive.fxmodel.*;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
-import ir.comprehensive.repository.CategoryRepository;
-import ir.comprehensive.repository.PersonRepository;
+import ir.comprehensive.repository.CategoryFxRepository;
+import ir.comprehensive.repository.PersonFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CategoryService implements BaseService<CategoryEntity, CategoryFxModel> {
+public class CategoryFxService implements BaseFxService<CategoryEntity, CategoryFxModel> {
 
-    private CategoryRepository repository;
-    private PersonRepository personRepository;
+    private CategoryFxRepository repository;
+    private PersonFxRepository personRepository;
     private CategoryFxMapper mapper;
     private CategoryReportMapper categoryReportMapper;
 
-    public CategoryService(CategoryRepository repository, PersonRepository personRepository, CategoryFxMapper mapper, CategoryReportMapper categoryReportMapper) {
+    public CategoryFxService(CategoryFxRepository repository, PersonFxRepository personRepository, CategoryFxMapper mapper, CategoryReportMapper categoryReportMapper) {
         this.repository = repository;
         this.personRepository = personRepository;
         this.mapper = mapper;

@@ -8,7 +8,7 @@ import ir.comprehensive.fxmapper.ProductDeliveryFxMapper;
 import ir.comprehensive.fxmodel.ProductDeliveryFxModel;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import ir.comprehensive.fxmodel.basemodel.BaseReportBean;
-import ir.comprehensive.repository.ProductDeliveryRepository;
+import ir.comprehensive.repository.ProductDeliveryFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import org.springframework.data.domain.Example;
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ProductDeliveryService implements BaseService<ProductDeliveryEntity, ProductDeliveryFxModel> {
-    private ProductDeliveryRepository repository;
-    private WarehouseService warehouseService;
-    private PersonService personService;
+public class ProductDeliveryFxService implements BaseFxService<ProductDeliveryEntity, ProductDeliveryFxModel> {
+    private ProductDeliveryFxRepository repository;
+    private WarehouseFxService warehouseService;
+    private PersonFxService personService;
     private ProductDeliveryFxMapper mapper;
     private ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper;
 
-    public ProductDeliveryService(ProductDeliveryRepository repository, WarehouseService warehouseService, PersonService personService, ProductDeliveryFxMapper mapper, ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper) {
+    public ProductDeliveryFxService(ProductDeliveryFxRepository repository, WarehouseFxService warehouseService, PersonFxService personService, ProductDeliveryFxMapper mapper, ProductDeliveryDetailReportMapper productDeliveryDetailReportMapper) {
         this.repository = repository;
         this.warehouseService = warehouseService;
         this.personService = personService;

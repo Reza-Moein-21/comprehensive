@@ -9,7 +9,7 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.fxmapper.CategoryFxMapper;
 import ir.comprehensive.fxmodel.CategoryFxModel;
-import ir.comprehensive.service.CategoryService;
+import ir.comprehensive.service.CategoryFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;
 import javafx.beans.value.ChangeListener;
@@ -117,7 +117,7 @@ public class HumanResourceCategoryController implements Initializable {
     @Autowired
     private StartController startController;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryFxService categoryService;
     @Autowired
     private CategoryFxMapper mapper;
 

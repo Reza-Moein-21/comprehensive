@@ -7,7 +7,7 @@ import ir.comprehensive.component.YesNoDialog;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.fxmapper.HadisFxMapper;
 import ir.comprehensive.fxmodel.HadisFxModel;
-import ir.comprehensive.service.HadisService;
+import ir.comprehensive.service.HadisFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
@@ -92,7 +92,7 @@ public class HadisController implements Initializable {
     @Autowired
     private StartController startController;
     @Autowired
-    private HadisService hadisService;
+    private HadisFxService hadisService;
     @Autowired
     private HadisFxMapper mapper;
 

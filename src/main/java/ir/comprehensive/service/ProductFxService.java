@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.ProductEntity;
 import ir.comprehensive.fxmapper.ProductFxMapper;
 import ir.comprehensive.fxmodel.ProductFxModel;
-import ir.comprehensive.repository.ProductRepository;
+import ir.comprehensive.repository.ProductFxRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ProductService implements BaseService<ProductEntity, ProductFxModel> {
-    private ProductRepository repository;
+public class ProductFxService implements BaseFxService<ProductEntity, ProductFxModel> {
+    private ProductFxRepository repository;
     private ProductFxMapper mapper;
 
-    public ProductService(ProductRepository repository, ProductFxMapper mapper) {
+    public ProductFxService(ProductFxRepository repository, ProductFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

@@ -19,9 +19,9 @@ import ir.comprehensive.fxmodel.PersonFxModel;
 import ir.comprehensive.fxmodel.ProductDeliveryFxModel;
 import ir.comprehensive.fxmodel.ProductDeliveryReportBean;
 import ir.comprehensive.fxmodel.WarehouseFxModel;
-import ir.comprehensive.service.PersonService;
-import ir.comprehensive.service.ProductDeliveryService;
-import ir.comprehensive.service.WarehouseService;
+import ir.comprehensive.service.PersonFxService;
+import ir.comprehensive.service.ProductDeliveryFxService;
+import ir.comprehensive.service.WarehouseFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -64,9 +64,9 @@ public class StoreRoomController implements Initializable {
     public JFXTextField txfDesiredDateD;
     public JFXTextField txfReceivedDateD;
     @Autowired
-    private ProductDeliveryService productDeliveryService;
+    private ProductDeliveryFxService productDeliveryService;
     @Autowired
-    private PersonService personService;
+    private PersonFxService personService;
     @Autowired
     private StartController startController;
     @FXML
@@ -74,7 +74,7 @@ public class StoreRoomController implements Initializable {
     @FXML
     public Autocomplete<WarehouseFxModel> autProductNameC;
     @Autowired
-    private WarehouseService warehouseService;
+    private WarehouseFxService warehouseService;
     @Autowired
     private PersonFxMapper personMapper;
     public JFXTextField txfDescriptionD;

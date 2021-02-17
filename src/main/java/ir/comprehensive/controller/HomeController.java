@@ -8,10 +8,10 @@ import ir.comprehensive.entity.HadisEntity;
 import ir.comprehensive.fxmodel.HumanResourceInfo;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
 import ir.comprehensive.fxmodel.WarehouseInfo;
-import ir.comprehensive.service.CategoryService;
-import ir.comprehensive.service.HadisService;
-import ir.comprehensive.service.MyNoteCategoryService;
-import ir.comprehensive.service.WarehouseService;
+import ir.comprehensive.service.CategoryFxService;
+import ir.comprehensive.service.HadisFxService;
+import ir.comprehensive.service.MyNoteCategoryFxService;
+import ir.comprehensive.service.WarehouseFxService;
 import ir.comprehensive.utils.AzanType;
 import ir.comprehensive.utils.Notify;
 import ir.comprehensive.utils.ScreenUtils;
@@ -110,17 +110,17 @@ public class HomeController implements Initializable {
     @FXML
     VBox homePage;
     private StartController startController;
-    private MyNoteCategoryService myNoteCategoryService;
-    private CategoryService categoryService;
-    private WarehouseService warehouseService;
-    private HadisService hadisService;
+    private MyNoteCategoryFxService myNoteCategoryService;
+    private CategoryFxService categoryService;
+    private WarehouseFxService warehouseService;
+    private HadisFxService hadisService;
 
     @Value("${hadis.change.time}")
     private int hadisChangeTime;
     @Value("${azan.remaining.time}")
     private long azanRemainingTime;
 
-    public HomeController(StartController startController, MyNoteCategoryService myNoteCategoryService, CategoryService categoryService, WarehouseService warehouseService, HadisService hadisService) {
+    public HomeController(StartController startController, MyNoteCategoryFxService myNoteCategoryService, CategoryFxService categoryService, WarehouseFxService warehouseService, HadisFxService hadisService) {
         this.startController = startController;
         this.myNoteCategoryService = myNoteCategoryService;
         this.categoryService = categoryService;

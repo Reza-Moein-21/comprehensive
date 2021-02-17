@@ -3,7 +3,7 @@ package ir.comprehensive.service;
 import ir.comprehensive.entity.WarehouseTagEntity;
 import ir.comprehensive.fxmapper.WarehouseTagFxMapper;
 import ir.comprehensive.fxmodel.WarehouseTagFxModel;
-import ir.comprehensive.repository.WarehouseTagRepository;
+import ir.comprehensive.repository.WarehouseTagFxRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WarehouseTagService implements BaseService<WarehouseTagEntity, WarehouseTagFxModel> {
-    private WarehouseTagRepository repository;
+public class WarehouseTagFxService implements BaseFxService<WarehouseTagEntity, WarehouseTagFxModel> {
+    private WarehouseTagFxRepository repository;
     private WarehouseTagFxMapper mapper;
 
-    public WarehouseTagService(WarehouseTagRepository repository, WarehouseTagFxMapper mapper) {
+    public WarehouseTagFxService(WarehouseTagFxRepository repository, WarehouseTagFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

@@ -4,7 +4,7 @@ import ir.comprehensive.entity.MyNoteEntity;
 import ir.comprehensive.entity.MyNoteTempEntity;
 import ir.comprehensive.fxmapper.MyNoteTempFxMapper;
 import ir.comprehensive.fxmodel.MyNoteTempFxModel;
-import ir.comprehensive.repository.MyNoteTempRepository;
+import ir.comprehensive.repository.MyNoteTempFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,13 +19,13 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class MyNoteTempService implements BaseService<MyNoteTempEntity, MyNoteTempFxModel> {
+public class MyNoteTempFxService implements BaseFxService<MyNoteTempEntity, MyNoteTempFxModel> {
 
-    private MyNoteTempRepository repository;
+    private MyNoteTempFxRepository repository;
     private MyNoteTempFxMapper mapper;
 
     @Autowired
-    public MyNoteTempService(MyNoteTempRepository repository, MyNoteTempFxMapper mapper) {
+    public MyNoteTempFxService(MyNoteTempFxRepository repository, MyNoteTempFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface MyNoteTempRepository extends JpaRepository<MyNoteTempEntity, Long>, JpaSpecificationExecutor<MyNoteTempEntity> {
+public interface MyNoteTempFxRepository extends JpaRepository<MyNoteTempEntity, Long>, JpaSpecificationExecutor<MyNoteTempEntity> {
 
     @Modifying
     @Query("delete from MyNoteTempEntity t where t.id in ?1")

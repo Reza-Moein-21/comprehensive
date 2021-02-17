@@ -19,9 +19,9 @@ import ir.comprehensive.fxmapper.PersonFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
 import ir.comprehensive.fxmodel.MyNoteFxModel;
 import ir.comprehensive.fxmodel.PersonFxModel;
-import ir.comprehensive.service.MyNoteService;
-import ir.comprehensive.service.MyNoteTempService;
-import ir.comprehensive.service.PersonService;
+import ir.comprehensive.service.MyNoteFxService;
+import ir.comprehensive.service.MyNoteTempFxService;
+import ir.comprehensive.service.PersonFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
@@ -55,11 +55,11 @@ public class MyNoteController implements Initializable {
     @Autowired
     StartController startController;
     @Autowired
-    MyNoteService myNoteService;
+    MyNoteFxService myNoteService;
     @Autowired
-    MyNoteTempService myNoteTempService;
+    MyNoteTempFxService myNoteTempService;
     @Autowired
-    private PersonService personService;
+    private PersonFxService personService;
     @Autowired
     PersonFxMapper personMapper;
     @Autowired

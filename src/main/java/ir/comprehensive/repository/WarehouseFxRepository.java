@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Repository
-public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Long>, JpaSpecificationExecutor<WarehouseEntity> {
+public interface WarehouseFxRepository extends JpaRepository<WarehouseEntity, Long>, JpaSpecificationExecutor<WarehouseEntity> {
     @Query("select w from WarehouseEntity w where concat(lower(w.title),' ',lower(w.code) ) like concat('%',lower(trim(?1)),'%') order by w.title")
     Page<WarehouseEntity> findByName(String name, Pageable pageable);
 

@@ -16,9 +16,9 @@ import ir.comprehensive.fxmapper.WarehouseTagFxMapper;
 import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
 import ir.comprehensive.fxmodel.WarehouseFxModel;
 import ir.comprehensive.fxmodel.WarehouseTagFxModel;
-import ir.comprehensive.service.WarehouseCategoryService;
-import ir.comprehensive.service.WarehouseService;
-import ir.comprehensive.service.WarehouseTagService;
+import ir.comprehensive.service.WarehouseCategoryFxService;
+import ir.comprehensive.service.WarehouseFxService;
+import ir.comprehensive.service.WarehouseTagFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 public class WarehouseController implements Initializable {
 
     @Autowired
-    private WarehouseService warehouseService;
+    private WarehouseFxService warehouseService;
     @FXML
     public com.jfoenix.controls.JFXTextField txfTitleS;
     @FXML
@@ -58,7 +58,7 @@ public class WarehouseController implements Initializable {
     @Autowired
     private WarehouseFxMapper mapper;
     @Autowired
-    private WarehouseTagService warehouseTagService;
+    private WarehouseTagFxService warehouseTagService;
 
     public CustomTableColumn<WarehouseFxModel, String> colTag;
 
@@ -121,7 +121,7 @@ public class WarehouseController implements Initializable {
     @FXML
     public JFXTextField txtCountC;
     @Autowired
-    private WarehouseCategoryService warehouseCategoryService;
+    private WarehouseCategoryFxService warehouseCategoryService;
     @Autowired
     private WarehouseCategoryFxMapper warehouseCategoryMapper;
     @FXML

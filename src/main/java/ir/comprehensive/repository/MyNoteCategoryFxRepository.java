@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MyNoteCategoryRepository extends JpaRepository<MyNoteCategoryEntity, Long>, JpaSpecificationExecutor<MyNoteCategoryEntity> {
+public interface MyNoteCategoryFxRepository extends JpaRepository<MyNoteCategoryEntity, Long>, JpaSpecificationExecutor<MyNoteCategoryEntity> {
     @Query("select case when count(c) > 0 then true else false end from MyNoteCategoryEntity c where c.title = :title")
     Boolean isNotUnique(@Param("title") String title);
 

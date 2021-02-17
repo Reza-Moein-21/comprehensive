@@ -6,7 +6,7 @@ import ir.comprehensive.component.basetable.CustomTableColumn;
 import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.fxmapper.MyNoteTempFxMapper;
 import ir.comprehensive.fxmodel.MyNoteTempFxModel;
-import ir.comprehensive.service.MyNoteTempService;
+import ir.comprehensive.service.MyNoteTempFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.Notify;
@@ -41,7 +41,7 @@ public class MyNoteTempController implements Initializable {
     @Autowired
     StartController startController;
     @Autowired
-    private MyNoteTempService myNoteTempService;
+    private MyNoteTempFxService myNoteTempService;
     @Autowired
     private MyNoteTempFxMapper mapper;
 

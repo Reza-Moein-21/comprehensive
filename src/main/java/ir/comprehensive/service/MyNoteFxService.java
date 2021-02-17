@@ -4,7 +4,7 @@ import ir.comprehensive.entity.MyNoteEntity;
 import ir.comprehensive.entity.MyNoteCategoryEntity;
 import ir.comprehensive.fxmapper.MyNoteFxMapper;
 import ir.comprehensive.fxmodel.MyNoteFxModel;
-import ir.comprehensive.repository.MyNoteRepository;
+import ir.comprehensive.repository.MyNoteFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -24,11 +24,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteService implements BaseService<MyNoteEntity, MyNoteFxModel> {
-    private MyNoteRepository repository;
+public class MyNoteFxService implements BaseFxService<MyNoteEntity, MyNoteFxModel> {
+    private MyNoteFxRepository repository;
     private MyNoteFxMapper mapper;
 
-    public MyNoteService(MyNoteRepository repository, MyNoteFxMapper mapper) {
+    public MyNoteFxService(MyNoteFxRepository repository, MyNoteFxMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

@@ -10,7 +10,7 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
-import ir.comprehensive.service.MyNoteCategoryService;
+import ir.comprehensive.service.MyNoteCategoryFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
@@ -44,7 +44,7 @@ public class MyNoteCategoryController implements Initializable {
     @Autowired
     StartController startController;
     @Autowired
-    MyNoteCategoryService myNoteCategoryService;
+    MyNoteCategoryFxService myNoteCategoryService;
     @Autowired
     MyNoteCategoryFxMapper mapper;
 

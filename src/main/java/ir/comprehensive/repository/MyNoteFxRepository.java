@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface MyNoteRepository extends JpaRepository<MyNoteEntity, Long>, JpaSpecificationExecutor<MyNoteEntity> {
+public interface MyNoteFxRepository extends JpaRepository<MyNoteEntity, Long>, JpaSpecificationExecutor<MyNoteEntity> {
 
     @Query(value = "select new ir.comprehensive.service.CalenderNoteStatus(note.creationDate,(select count(note1) from MyNoteEntity note1 where note1.creationDate = note.creationDate and note1.isActive = true and note1.myNoteCategory.id = :myNoteCategoryId),(select count(note1) from MyNoteEntity note1 where note1.creationDate = note.creationDate and note1.isActive = false and note1.myNoteCategory.id = :myNoteCategoryId)) from MyNoteEntity  note where (note.creationDate between :startDate and :endDate ) and note.myNoteCategory.id = :myNoteCategoryId  group by note.creationDate")
     List<CalenderNoteStatus> findNumberOfByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("myNoteCategoryId") Long myNoteCategoryId);

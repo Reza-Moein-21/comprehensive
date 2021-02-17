@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Long>, JpaSpecificationExecutor<CategoryEntity> {
+public interface CategoryFxRepository extends JpaRepository<CategoryEntity, Long>, JpaSpecificationExecutor<CategoryEntity> {
     @Query("select c from CategoryEntity c where lower(c.title) like concat('%',lower(trim(?1)),'%') order by c.title")
     Page<CategoryEntity> findByTitle(String title, Pageable pageable);
 

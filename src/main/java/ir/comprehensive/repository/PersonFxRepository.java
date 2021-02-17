@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<PersonEntity, Long>, JpaSpecificationExecutor<PersonEntity> {
+public interface PersonFxRepository extends JpaRepository<PersonEntity, Long>, JpaSpecificationExecutor<PersonEntity> {
     @Query("select p from PersonEntity p where concat(lower(p.firstName),' ',lower(p.lastName) ) like concat('%',lower(trim(?1)),'%') order by p.firstName")
     Page<PersonEntity> findByName(String name, Pageable pageable);
 

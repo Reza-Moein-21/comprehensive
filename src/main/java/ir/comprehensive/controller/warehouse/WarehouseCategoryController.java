@@ -8,7 +8,7 @@ import ir.comprehensive.component.basetable.DataTable;
 import ir.comprehensive.controller.StartController;
 import ir.comprehensive.fxmapper.WarehouseCategoryFxMapper;
 import ir.comprehensive.fxmodel.WarehouseCategoryFxModel;
-import ir.comprehensive.service.WarehouseCategoryService;
+import ir.comprehensive.service.WarehouseCategoryFxService;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.FormValidationUtils;
 import ir.comprehensive.utils.MessageUtils;
@@ -95,7 +95,7 @@ public class WarehouseCategoryController implements Initializable {
     @Autowired
     private StartController startController;
     @Autowired
-    private WarehouseCategoryService categoryService;
+    private WarehouseCategoryFxService categoryService;
     @Autowired
     private WarehouseCategoryFxMapper mapper;
 

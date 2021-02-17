@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface WarehouseTagRepository extends JpaRepository<WarehouseTagEntity, Long> {
+public interface WarehouseTagFxRepository extends JpaRepository<WarehouseTagEntity, Long> {
 
     @Query("select tag from WarehouseTagEntity tag where lower(tag.title) like concat('%',lower(trim(?1)),'%') order by tag.title")
     Page<WarehouseTagEntity> findByTitle(String title, Pageable pageable);

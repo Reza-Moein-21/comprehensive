@@ -5,8 +5,8 @@ import ir.comprehensive.entity.MyNoteCategoryStatusEnum;
 import ir.comprehensive.fxmapper.MyNoteCategoryFxMapper;
 import ir.comprehensive.fxmodel.MyNoteCategoryInfo;
 import ir.comprehensive.fxmodel.MyNoteCategoryFxModel;
-import ir.comprehensive.repository.MyNoteCategoryRepository;
-import ir.comprehensive.repository.MyNoteRepository;
+import ir.comprehensive.repository.MyNoteCategoryFxRepository;
+import ir.comprehensive.repository.MyNoteFxRepository;
 import ir.comprehensive.service.extra.GeneralException;
 import ir.comprehensive.utils.MessageUtils;
 import ir.comprehensive.utils.StringUtils;
@@ -23,12 +23,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MyNoteCategoryService implements BaseService<MyNoteCategoryEntity, MyNoteCategoryFxModel> {
-    MyNoteCategoryRepository repository;
-    MyNoteRepository myNoteRepository;
+public class MyNoteCategoryFxService implements BaseFxService<MyNoteCategoryEntity, MyNoteCategoryFxModel> {
+    MyNoteCategoryFxRepository repository;
+    MyNoteFxRepository myNoteRepository;
     MyNoteCategoryFxMapper mapper;
 
-    public MyNoteCategoryService(MyNoteCategoryRepository repository, MyNoteRepository myNoteRepository, MyNoteCategoryFxMapper mapper) {
+    public MyNoteCategoryFxService(MyNoteCategoryFxRepository repository, MyNoteFxRepository myNoteRepository, MyNoteCategoryFxMapper mapper) {
         this.repository = repository;
         this.myNoteRepository = myNoteRepository;
         this.mapper = mapper;
