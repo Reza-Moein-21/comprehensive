@@ -210,7 +210,7 @@ public class DataTable<T extends BaseFxModel> extends VBox {
 //    }
 
     public final void refresh() {
-        Page<T> page = getItemPage().apply(PageRequest.of(DEFAULT_START_PAGE, DEFAULT_PAGE_SIZE));
+        Page<T> page = getItemPage().apply(tablePagination.getPageRequest());
         tablePagination.update(new PaginationModelAdapter(page));
         itemsProperty().set(FXCollections.observableArrayList(page.getContent()));
     }
