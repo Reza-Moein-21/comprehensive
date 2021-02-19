@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 public class TablePagination extends HBox implements Updater {
     public static final Integer DEFAULT_START_PAGE = 0;
     public static final Integer DEFAULT_PAGE_SIZE = 10;
+    private static final String ALL_ITEMS = "همه موارد";
 
     private PaginationModel paginationModel = new PaginationModel();
     private PageRequest pageRequest;
@@ -28,7 +29,11 @@ public class TablePagination extends HBox implements Updater {
     private JFXButton btnFirst = new JFXButton();
     private JFXButton btnEnd = new JFXButton();
     private Label lblPageNumber = new Label("");
-    private JFXComboBox<Integer> cmbPageCount = new JFXComboBox<>(FXCollections.observableArrayList(Stream.of(10, 20, 50).collect(Collectors.toList())));
+    private final JFXComboBox<String> cmbPageCount;
+
+    {
+        cmbPageCount = new JFXComboBox<>(FXCollections.observableArrayList(Stream.of("10", "20", "50", ALL_ITEMS).collect(Collectors.toList())));
+    }
 
     public TablePagination() {
         pageRequest = PageRequest.of(DEFAULT_START_PAGE, DEFAULT_PAGE_SIZE);
@@ -51,27 +56,27 @@ public class TablePagination extends HBox implements Updater {
 
         btnNext.setOnAction(event -> {
             Integer nextPage = paginationModel.getCurrentPage() + 1;
-            pageRequest = PageRequest.of(nextPage, cmbPageCount.getValue());
+            pageRequest = PageRequest.of(nextPage, getPageCountNumber(cmbPageCount));
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
         });
 
         btnPrevious.setOnAction(event -> {
             Integer previousPage = paginationModel.getCurrentPage() - 1;
-            pageRequest = PageRequest.of(previousPage, cmbPageCount.getValue());
+            pageRequest = PageRequest.of(previousPage, getPageCountNumber(cmbPageCount));
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
 
         });
 
         btnFirst.setOnAction(event -> {
-            pageRequest = PageRequest.of(DEFAULT_START_PAGE, cmbPageCount.getValue());
+            pageRequest = PageRequest.of(DEFAULT_START_PAGE, getPageCountNumber(cmbPageCount));
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
         });
 
         btnEnd.setOnAction(event -> {
-            pageRequest = PageRequest.of(paginationModel.getTotalPages() - 1, cmbPageCount.getValue());
+            pageRequest = PageRequest.of(paginationModel.getTotalPages() - 1, getPageCountNumber(cmbPageCount));
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
         });
@@ -84,25 +89,41 @@ public class TablePagination extends HBox implements Updater {
             paginationModel = new PaginationModel();
 
             Integer currentPage = paginationModel.getCurrentPage();
-            pageRequest = PageRequest.of(currentPage, newValue);
+            if (newValue.equals(ALL_ITEMS)) {
+                pageRequest = PageRequest.of(currentPage, Integer.MAX_VALUE);
+            } else {
+                pageRequest = PageRequest.of(currentPage, Integer.parseInt(newValue));
+            }
+
             Page page = onPaginationChange.paginationChange(pageRequest);
             update(new PaginationModelAdapter(page));
         });
 
-        cmbPageCount.setValue(DEFAULT_PAGE_SIZE);
+        cmbPageCount.setValue(DEFAULT_PAGE_SIZE.toString());
         this.setSpacing(ScreenUtils.getActualSize(100));
         this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(new CenterHBox(btnEnd,btnNext, lblPageNumber, btnPrevious,btnFirst), new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
+        this.getChildren().addAll(new CenterHBox(btnEnd, btnNext, lblPageNumber, btnPrevious, btnFirst), new CenterHBox(new Label(MessageUtils.Message.COUNT_PER_PAGE), cmbPageCount));
+    }
+
+    private int getPageCountNumber(JFXComboBox<String> cmbPageCount) {
+        return Integer.parseInt(cmbPageCount.getValue());
     }
 
     @Override
     public void update(PaginationModelAdapter modelAdapter) {
         paginationModel = modelAdapter;
 
-        int fromNumber = 1 + (cmbPageCount.getValue() * (paginationModel.getCurrentPage()));
-        long toNumber = cmbPageCount.getValue() * (paginationModel.getCurrentPage() + 1);
-
+        int fromNumber;
+        long toNumber;
         long totalNumber = paginationModel.getTotalItems();
+        if (cmbPageCount.getValue().equals(ALL_ITEMS)) {
+            fromNumber = 1;
+            toNumber = totalNumber;
+        } else {
+            fromNumber = 1 + (getPageCountNumber(cmbPageCount) * (paginationModel.getCurrentPage()));
+            toNumber = getPageCountNumber(cmbPageCount) * (paginationModel.getCurrentPage() + 1);
+        }
+
 
         if (toNumber > totalNumber) {
             toNumber = totalNumber;
