@@ -9,7 +9,7 @@
     </parent>
     <groupId>ir.comprehensive</groupId>
     <artifactId>comprehensive</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
     <name>comprehensive-root</name>
     <description>This is comprehensive project</description>
