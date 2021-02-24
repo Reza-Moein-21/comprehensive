@@ -11,8 +11,8 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<style name="Parent" fontName="ShabnamFamily" isPdfEmbedded="true"/>
-	<style name="table_body" style="Parent">
+	<style name="Parent" fontName="ShabnamFamily" fontSize="10" isPdfEmbedded="true"/>
+	<style name="table_body" style="Parent" fontSize="8">
 		<box>
 			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -24,7 +24,7 @@
 			<style mode="Opaque" backcolor="#F2F2F2"/>
 		</conditionalStyle>
 	</style>
-	<style name="table_head" style="Parent" mode="Opaque" backcolor="#B5B5B5" fontSize="10" isBold="true">
+	<style name="table_head" style="Parent" mode="Opaque" backcolor="#B5B5B5" fontSize="9" isBold="true">
 		<box>
 			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
