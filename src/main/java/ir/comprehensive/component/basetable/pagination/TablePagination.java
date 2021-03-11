@@ -121,7 +121,7 @@ public class TablePagination extends HBox implements Updater {
             toNumber = totalNumber;
         } else {
             fromNumber = 1 + (getPageCountNumber(cmbPageCount) * (paginationModel.getCurrentPage()));
-            toNumber = getPageCountNumber(cmbPageCount) * (paginationModel.getCurrentPage() + 1);
+            toNumber = getPageCountNumber(cmbPageCount) * (paginationModel.getCurrentPage() + 1L);
         }
 
 
