@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="${screenUtils.scaleFactor * 100}"
+      xmlns="http://javafx.com/javafx" fx:id="homePage"
+      fx:controller="ir.comprehensive.controller.HomeController"
+      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+    <fx:define>
+        <ScreenUtils fx:id="screenUtils"/>
+    </fx:define>
+    <StackPane>
+        <HBox fx:id="hbxHadis" VBox.vgrow="ALWAYS" alignment="CENTER">
+            <HadisComponent fx:id="hadisComponent" alignment="CENTER" title="حکمت 19 نهج البلاغه"
+                            content="آن کس که در پی آرزوی خویش باشد، مرگ او را از پای در آورد."/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT">
+            <ImageView fitHeight="${screenUtils.scaleFactor * 467}" fitWidth="${screenUtils.scaleFactor * 216}"
+                       pickOnBounds="true" preserveRatio="true">
+
+                <image>
+                    <Image url="@/image/Picture5.png"/>
+                </image>
+            </ImageView>
+        </HBox>
+
+    </StackPane>
+    <FlowPane fx:id="masonry" alignment="CENTER">
+        <Card fx:id="crdWarehouseHome" styleClass="warehouse-manage" title="%warehouse"
+              onClick="#goToWarehouseHome">
+            <icon>
+                <Image url="@../image/warehouse-management.png"/>
+            </icon>
+            <content>
+                <GridPane fx:id="grdWarehouseHomeContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalWarehouse"/>
+                        <Label fx:id="lblTotalWarehouse">22K</Label>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%unknownCount"/>
+                        <Label fx:id="lblUnknownCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%receivedCount"/>
+                        <Label fx:id="lblReceivedCount"/>
+
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%rejectedCount"/>
+                        <Label fx:id="lblRejectedCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="1">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%lostCount"/>
+                        <Label fx:id="lblLostCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
+        </Card>
+        <Card fx:id="crdHumanResource" styleClass="human-resource-card" title="%humanResource"
+              onClick="#goToHumanResource">
+            <icon>
+                <Image url="@../image/person-man.png"/>
+            </icon>
+            <content>
+                <GridPane fx:id="grdHumanResourceContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalPerson"/>
+                        <Label fx:id="lblPersonCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label minWidth="${230 * screenUtils.scaleFactor}" text="%totalCategory"/>
+                        <Label fx:id="lblCategoryCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
+        </Card>
+        <Card fx:id="crdMyNoteCategory" styleClass="my-note-category-card" title="%project"
+              onClick="#goToMyNoteCategory">
+            <icon>
+                <Image url="@../image/my-note.png"/>
+            </icon>
+            <content>
+                <GridPane fx:id="grdMyNoteCategoryContent" nodeOrientation="RIGHT_TO_LEFT">
+                    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%totalMyNoteCategory"/>
+                        <Label fx:id="lblTotalMyNoteCategory"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%inProgressCount"/>
+                        <Label fx:id="lblInProgressCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%doneCount"/>
+                        <Label fx:id="lblDoneCount"/>
+                    </HBox>
+
+                    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0">
+                        <Label minWidth="${210 * screenUtils.scaleFactor}" text="%stoppedCount"/>
+                        <Label fx:id="lblStoppedCount"/>
+                    </HBox>
+                </GridPane>
+            </content>
+        </Card>
+    </FlowPane>
+    <HBox fx:id="hbxAzan" VBox.vgrow="ALWAYS" alignment="CENTER">
+        <AnchorPane fx:id="ancAzan">
+
+            <VBox fx:id="vbxAzan" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+                  AnchorPane.leftAnchor="0" nodeOrientation="RIGHT_TO_LEFT">
+                <TilePane fx:id="tlpClaAndClock" alignment="CENTER">
+                    <SimpleDatePicker fx:id="sdpAzan" isAzan="true" nodeOrientation="LEFT_TO_RIGHT"/>
+                    <HBox fx:id="hbxClock" alignment="CENTER">
+                        <ImageView fx:id="imgTime" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/clock.png"/>
+                            </image>
+                        </ImageView>
+                        <Label fx:id="lblTime">22:00</Label>
+                    </HBox>
+
+                </TilePane>
+                <GridPane fx:id="grdAzan" alignment="CENTER">
+                    <HBox fx:id="hbxSobh" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <ImageView fx:id="imgSobh" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/zohre.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان صبح:</Label>
+                        <Label fx:id="lblSobh">22:33</Label>
+                    </HBox>
+                    <HBox fx:id="hbxTolooAftab" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <ImageView fx:id="imgTolooAftab" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/zohre.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">طلوع آفتاب:</Label>
+                        <Label fx:id="lblTolooAftab">22:33</Label>
+                    </HBox>
+                    <HBox fx:id="hbxZohre" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <ImageView fx:id="imgZohre" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/zohre.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان ظهر:</Label>
+                        <Label fx:id="lblZohre">22:33</Label>
+                    </HBox>
+                    <HBox fx:id="hbxGhroobAftab" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <ImageView fx:id="imgGhroobAftab" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/ghoroob.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">غروب آفتاب:</Label>
+                        <Label fx:id="lblGhroobAftab">22:33</Label>
+                    </HBox>
+                    <HBox fx:id="hbxMaghreb" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <ImageView fx:id="imgMaghreb" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/ghoroob.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">اذان مغرب:</Label>
+                        <Label fx:id="lblMaghreb">22:33</Label>
+                    </HBox>
+                    <HBox fx:id="hbxNemehShab" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <ImageView fx:id="imgNemehShab" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/image/ghoroob.png"/>
+                            </image>
+                        </ImageView>
+                        <Label minWidth="${170 * screenUtils.scaleFactor}">نیمه شب:</Label>
+                        <Label fx:id="lblNemehShab">22:33</Label>
+                    </HBox>
+
+                </GridPane>
+
+            </VBox>
+            <ImageView fx:id="imgAzan" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@/image/azaan.png"/>
+                </image>
+            </ImageView>
+            <Label fx:id="lblOwghatTitle" text="اوقات شرعی"/>
+        </AnchorPane>
+    </HBox>
+</VBox>

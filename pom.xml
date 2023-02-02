@@ -1,187 +1,170 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.2</version>
-        <relativePath/>
-    </parent>
+    <!--    <parent>-->
+    <!--        <groupId>org.springframework.boot</groupId>-->
+    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+    <!--        <version>3.0.1</version>-->
+    <!--        <relativePath/>-->
+    <!--    </parent>-->
     <groupId>ir.comprehensive</groupId>
     <artifactId>comprehensive</artifactId>
     <version>2.0.0</version>
-    <packaging>jar</packaging>
-    <name>comprehensive-root</name>
+    <packaging>pom</packaging>
+    <name>Comprehensive Root</name>
     <description>This is comprehensive project</description>
     <properties>
-        <java.version>1.8</java.version>
-        <h2.version>1.4.197</h2.version> <!-- should use this version because of compatibility with mv.db file-->
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
-        <start-class>ir.comprehensive.Start</start-class>
+        <java.version>17</java.version>
+        <junit5.version>5.9.1</junit5.version>
+        <assertj.version>3.23.1</assertj.version>
+        <lombok.version>1.18.24</lombok.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <maven.compiler.version>3.10.1</maven.compiler.version>
+        <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <slf4j.version>2.0.6</slf4j.version>
+        <logback.version>1.4.5</logback.version>
     </properties>
+    <modules>
+        <module>model</module>
+        <module>database</module>
+        <!--        <module>jdbc-provider</module>-->
+        <!--        <module>jfx-app</module>-->
+        <!--        <module>service</module>-->
+        <!--        <module>reporting</module>-->
+        <!--        <module>rest-app</module>-->
+    </modules>
 
-    <repositories>
-        <repository>
-            <id>jaspersoft-third-party</id>
-            <url>https://jasperreports.sourceforge.net/maven2/</url>
-        </repository>
-    </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.22</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.3.22</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.github.mfathi91</groupId>
-            <artifactId>persian-date-time</artifactId>
-            <version>4.2.1</version>
-        </dependency>
-<!--        should upgrade after move to jdk 17-->
-        <dependency>
-            <groupId>com.jfoenix</groupId>
-            <artifactId>jfoenix</artifactId>
-            <version>8.0.7</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.typhon0</groupId>
-            <artifactId>AnimateFX</artifactId>
-            <version>1.2.3</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+            <version>${logback.version}</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
-            <version>8.40.14</version>
-        </dependency>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.9</version>
-        </dependency>
 
         <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>2.3.0</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-            <version>6.15.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.lowagie</groupId>
-                    <artifactId>itext</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.7.js4</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>ir.comprehensive</groupId>
-            <artifactId>jasper-shabnam</artifactId>
-            <version>1.0</version>
-        </dependency>
-
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>jfx-app</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>reporting</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>service</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>database</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>jdbc-provider</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ir.comprehensive</groupId>
+                <artifactId>model</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.mfathi91</groupId>
+                <artifactId>persian-date-time</artifactId>
+                <version>4.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.24</version>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.10.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.6</version>
-                        </path>
-                    </annotationProcessorPaths>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <groupId>ir.comprehensive</groupId>
-                    <artifactId>jasper-shabnam</artifactId>
-                    <version>1.0</version>
-                    <packaging>jar</packaging>
-                    <file>src/main/resources/fonts/shabnam.jar</file>
-                    <generatePom>true</generatePom>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install-jar-lib</id>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
-
 </project>

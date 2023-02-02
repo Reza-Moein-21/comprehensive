@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:id="parent" nodeOrientation="RIGHT_TO_LEFT"
+      AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+      fx:controller="ir.comprehensive.controller.MyNoteTempController">
+
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+
+    <DataTable fx:id="tblMyNoteTemp" VBox.vgrow="ALWAYS" showVisit="false" showEdit="false">
+        <columns>
+            <CustomTableColumn text="%priority" fx:id="colPriority" resizable="false" percentageWidth="6"/>
+
+            <CustomTableColumn text="%taskTitle" percentageWidth="15" percentageMinWidth="10">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%myNoteCategoryTitle" percentageWidth="15" percentageMinWidth="10">
+                <cellValueFactory>
+                    <PropertyValueFactory property="projectName"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%fullName" percentageWidth="15" percentageMinWidth="10">
+                <cellValueFactory>
+                    <PropertyValueFactory property="person"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn fx:id="colDescription" text="%description" sortable="false" percentageWidth="40.8"
+                               percentageMinWidth="24"/>
+        </columns>
+    </DataTable>
+
+</VBox>

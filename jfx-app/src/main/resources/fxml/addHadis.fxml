@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:id="vbxHRCategory" nodeOrientation="RIGHT_TO_LEFT"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ir.comprehensive.controller.HadisController" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0"
+      AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0">
+    <fx:define>
+        <HadisFxModel fx:id="createModel" title="${txfTitleC.text}" description="${txfDescriptionC.text}"/>
+
+        <HadisFxModel fx:id="searchModel" title="${txfTitleS.text}" description="${txfDescriptionS.text}"/>
+
+    </fx:define>
+    <JFXDialog fx:id="dlgCreate" overlayClose="false" transitionType="TOP" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxCreateContent">
+            <HBox alignment="CENTER" fx:id="hbxCreateHeader"
+                  style="-fx-alignment: center;-fx-border-width: 0 0 1 0;-fx-border-color: #9E9E9E;">
+                <Label text="%createHadis"/>
+            </HBox>
+            <GridPane fx:id="grdCreateContent">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <JFXTextField fx:id="txfTitleC" promptText="%title" labelFloat="true"/>
+                <JFXTextField fx:id="txfDescriptionC" promptText="%description" labelFloat="true"
+                              GridPane.rowIndex="1" GridPane.columnSpan="2"/>
+            </GridPane>
+            <HBox fx:id="hbxCreateFooter" style="-fx-alignment: top-right;">
+                <JFXButton text="%cancel" onAction="#closeCreateDialog" styleClass="default-button"
+                           buttonType="RAISED"/>
+                <JFXButton text="%save" onAction="#save" styleClass="primary-button"
+                           buttonType="RAISED"/>
+            </HBox>
+
+        </VBox>
+    </JFXDialog>
+    <JFXDialog fx:id="dlgDisplay" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT">
+        <VBox fx:id="vbxDisplayContent">
+            <HBox alignment="CENTER" fx:id="hbxDisplayHeader"
+                  style="-fx-border-width: 0 0 1 0;-fx-border-color: #223322;-fx-background-color: #66bb6a;">
+                <Label text="%showCategory"/>
+            </HBox>
+            <GridPane fx:id="grdDisplayMain">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+                <JFXTextField fx:id="txfTitleD" editable="false" labelFloat="true" promptText="%title"/>
+                <JFXTextField fx:id="txfDescriptionD" GridPane.rowIndex="1" GridPane.columnSpan="2" editable="false"
+                              labelFloat="true" promptText="%description"/>
+
+            </GridPane>
+            <HBox fx:id="hbxDisplayFooter">
+                <JFXButton text="%cancel" styleClass="default-button" buttonType="RAISED"
+                           onAction="#closeDisplayDialog"/>
+            </HBox>
+        </VBox>
+    </JFXDialog>
+    <YesNoDialog fx:id="dlgDelete" overlayClose="false" transitionType="CENTER" nodeOrientation="RIGHT_TO_LEFT"/>
+    <TitledPane text="%search" expanded="false">
+        <GridPane fx:id="grdSearchContent">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="32"/>
+                <RowConstraints percentHeight="32"/>
+                <RowConstraints percentHeight="10"/>
+            </rowConstraints>
+            <JFXTextField fx:id="txfTitleS" labelFloat="true" promptText="%title"/>
+            <JFXTextField fx:id="txfDescriptionS" labelFloat="true" promptText="%description"
+                          GridPane.rowIndex="1" GridPane.columnSpan="2"/>
+
+            <GridPane fx:id="grdSearchFooter" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="35"/>
+                </columnConstraints>
+                <JFXButton fx:id="btnSearch" text="%search" styleClass="primary-button" buttonType="RAISED"
+                           onAction="#search" prefWidth="Infinity"/>
+                <JFXButton fx:id="btnShowAll" text="%showAll" styleClass="default-button" buttonType="RAISED"
+                           onAction="#showAll" prefWidth="Infinity" GridPane.columnIndex="1"/>
+            </GridPane>
+        </GridPane>
+
+
+    </TitledPane>
+    <BorderPane>
+        <right>
+            <JFXButton fx:id="btnCreate" text="%create" styleClass="primary-button,green-background" buttonType="RAISED"
+                       onAction="#openCreateDialog"/>
+        </right>
+    </BorderPane>
+    <DataTable fx:id="tblHadis" VBox.vgrow="ALWAYS" showVisit="true">
+        <columns>
+            <CustomTableColumn text="%title" percentageWidth="13" percentageMinWidth="8">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+
+            <CustomTableColumn text="%description" percentageWidth="70.9" percentageMinWidth="50">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description"/>
+                </cellValueFactory>
+            </CustomTableColumn>
+        </columns>
+    </DataTable>
+
+</VBox>
+
