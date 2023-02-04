@@ -10,18 +10,12 @@ import ir.comprehensive.database.service.PersonDao;
 import ir.comprehensive.domain.exception.ExceptionTemplate;
 import ir.comprehensive.domain.model.PersonModel;
 import org.apache.commons.lang3.StringUtils;
-import org.jooq.DSLContext;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,30 +23,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
+@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
 @SpringJUnitConfig({PersonDaoImpl.class, PersonMapperImpl.class, JooqConfig.class})
 class PersonDaoImplTest {
 
     @Autowired
     PersonDao personDao;
 
-    @BeforeAll
-    static void setup(@Autowired DSLContext dslContext) throws IOException {
-        dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-drop.sql").getURI())));
-        dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-create.sql").getURI())));
-        dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-init.sql").getURI())));
-    }
-
     @Nested
     class PersonDaoImplDMLTest {
-        @Autowired
-        DSLContext dslContext;
-
-        @BeforeEach
-        void setUp() throws IOException {
-            dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-drop.sql").getURI())));
-            dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-create.sql").getURI())));
-            dslContext.execute(Files.readString(Path.of(new ClassPathResource("schema-init.sql").getURI())));
-        }
 
         @Test
         void givingTwoPersonRecordWithNoRelation_deleteAll_shouldDeleteTowRecord() {

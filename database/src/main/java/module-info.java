@@ -9,6 +9,8 @@ open module ir.comprehensive.database {
     requires lombok;
     requires com.zaxxer.hikari;
     requires org.mapstruct;
+    requires spring.tx;
+    requires spring.jdbc;
 
     exports ir.comprehensive.database.service;
     exports ir.comprehensive.database.service.base;
