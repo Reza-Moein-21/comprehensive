@@ -1,6 +1,5 @@
 package ir.comprehensive.database.provider.service;
 
-import ir.comprehensive.database.exception.DeletingException;
 import ir.comprehensive.database.exception.PersistingException;
 import ir.comprehensive.database.exception.SearchingException;
 import ir.comprehensive.database.model.PageModel;
@@ -15,8 +14,6 @@ import org.jooq.generated.tables.records.PersonRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.jooq.generated.tables.Person.PERSON;
@@ -28,7 +25,7 @@ public class PersonDaoImpl extends AbstractDomainDao<PersonModel, PersonRecord, 
     private final PersonMapper mapper;
 
     public PersonDaoImpl(DSLContext context, PersonMapper mapper) {
-        super(context, mapper, PERSON);
+        super(context, mapper, PERSON, PERSON.ID);
         this.context = context;
         this.mapper = mapper;
     }
@@ -54,28 +51,6 @@ public class PersonDaoImpl extends AbstractDomainDao<PersonModel, PersonRecord, 
         return null;
     }
 
-
-    @Override
-    public Optional<PersonModel> findById(Long id) throws SearchingException {
-        return Optional.ofNullable(context.fetchOne(PERSON, PERSON.ID.eq(id))).map(this.mapper::recordToModel);
-    }
-
-    @Override
-    public int delete(PersonModel model) throws DeletingException {
-        return deleteExecutionWrapper(() -> context.deleteFrom(PERSON).where(PERSON.ID.eq(model.getId())));
-
-    }
-
-    @Override
-    public int deleteAll(Set<Long> ids) throws DeletingException {
-        return deleteExecutionWrapper(() -> context.deleteFrom(PERSON).where(PERSON.ID.in(ids)));
-
-    }
-
-    @Override
-    public int deleteById(Long id) throws DeletingException {
-        return deleteExecutionWrapper(() -> context.deleteFrom(PERSON).where(PERSON.ID.in(id)));
-    }
 
     @Override
     public PersonModel save(PersonModel model) throws PersistingException {
