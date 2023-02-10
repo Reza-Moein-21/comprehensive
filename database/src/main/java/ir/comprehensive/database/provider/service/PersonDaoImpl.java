@@ -1,11 +1,7 @@
 package ir.comprehensive.database.provider.service;
 
 import ir.comprehensive.database.exception.PersistingException;
-import ir.comprehensive.database.exception.SearchingException;
-import ir.comprehensive.database.model.PageModel;
-import ir.comprehensive.database.model.PageRequestModel;
 import ir.comprehensive.database.model.SaveStrategy;
-import ir.comprehensive.database.model.SearchCriteria;
 import ir.comprehensive.database.provider.mapper.PersonMapper;
 import ir.comprehensive.database.service.PersonDao;
 import ir.comprehensive.domain.model.PersonModel;
@@ -40,17 +36,6 @@ public class PersonDaoImpl extends AbstractDomainDao<PersonModel, PersonRecord, 
                 .map(mapper::recordToModel)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public List<PersonModel> search(List<SearchCriteria> criteriaList) throws SearchingException {
-        return null;
-    }
-
-    @Override
-    public PageModel<PersonModel> search(PageRequestModel pageRequest, List<SearchCriteria> criteriaList) throws SearchingException {
-        return null;
-    }
-
 
     @Override
     public PersonModel save(PersonModel model) throws PersistingException {

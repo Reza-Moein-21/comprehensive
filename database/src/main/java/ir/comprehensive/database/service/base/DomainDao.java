@@ -16,9 +16,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface DomainDao<M extends DomainModel<I>, I extends Serializable> {
-    List<M> search(List<SearchCriteria> criteriaList) throws SearchingException;
+    List<M> search(SearchCriteria... searchCriteria) throws SearchingException;
 
-    PageModel<M> search(PageRequestModel pageRequest, List<SearchCriteria> criteriaList) throws SearchingException;
+    PageModel<M> search(PageRequestModel pageRequest, SearchCriteria... searchCriteria) throws SearchingException;
 
     PageModel<M> findAll(PageRequestModel pageRequest) throws SearchingException;
 

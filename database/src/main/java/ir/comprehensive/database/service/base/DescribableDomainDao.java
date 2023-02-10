@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface DescribableDomainDao<M extends DescribableDomainModel<I>, I extends Serializable> extends DomainDao<M, I> {
     default List<M> findAllByTitle(String title) {
-        return search(List.of(SearchCriteria.ofIgnoreNull("title", SearchCriteria.Type.LIKE, title)));
+        return search(SearchCriteria.ofIgnoreNull("title", SearchCriteria.Type.LIKE, title));
     }
 }

@@ -11,6 +11,8 @@ open module ir.comprehensive.database {
     requires org.mapstruct;
     requires spring.tx;
     requires spring.jdbc;
+    requires org.slf4j;
+    requires org.apache.commons.lang3;
 
     exports ir.comprehensive.database.service;
     exports ir.comprehensive.database.service.base;

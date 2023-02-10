@@ -12,6 +12,6 @@ public record PageModel<M extends DomainModel<?>>(
         int numberOfElements,
         List<M> content) {
     public static <M extends DomainModel<?>> PageModel<M> ofEmpty() {
-        return new PageModel<M>(0, 0, 0, 0, Collections.emptyList());
+        return new PageModel<>(0, 0, 0, 0, Collections.emptyList());
     }
 }

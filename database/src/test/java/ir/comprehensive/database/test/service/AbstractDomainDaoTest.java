@@ -1,8 +1,10 @@
 package ir.comprehensive.database.test.service;
 
 import ir.comprehensive.database.exception.DeletingException;
+import ir.comprehensive.database.exception.SearchingException;
 import ir.comprehensive.database.model.PageModel;
 import ir.comprehensive.database.model.PageRequestModel;
+import ir.comprehensive.database.model.SearchCriteria;
 import ir.comprehensive.database.provider.config.JooqConfig;
 import ir.comprehensive.database.provider.mapper.PersonMapper;
 import ir.comprehensive.database.provider.mapper.PersonMapperImpl;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,7 +46,7 @@ class AbstractDomainDaoTest {
     }
 
     @Nested
-    class PersonDaoImplDMLTest {
+    class DMLTest {
 
         @Test
         void givingTwoPersonRecordWithNoRelation_deleteAll_shouldDeleteTowRecord() {
@@ -109,53 +112,97 @@ class AbstractDomainDaoTest {
         assertThat(abstractDomainDao.totalCount()).isEqualTo(10);
     }
 
-    @Test
-    void givingValidPersonRecord_findById_ShouldGetExpectedRecord() {
-        var expectedId = 987654321L;
-        var personOptional = abstractDomainDao.findById(expectedId);
-        assertThat(personOptional)
-                .isPresent()
-                .get()
-                .matches(p -> p.getId().equals(expectedId));
+    @Nested
+    class FindQueryTest{
+        @Test
+        void givingValidPersonRecord_findById_ShouldGetExpectedRecord() {
+            var expectedId = 987654321L;
+            var personOptional = abstractDomainDao.findById(expectedId);
+            assertThat(personOptional)
+                    .isPresent()
+                    .get()
+                    .matches(p -> p.getId().equals(expectedId));
+        }
+
+        @Test
+        void givingPageSizeMoreThenTotalRecord_findAll_totalPageShouldBeOne() {
+            var totalRecords = (int) abstractDomainDao.totalCount();
+            var pageSizeMoreThenTotalRecords = (totalRecords * 10);
+            PageModel<PersonModel> pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(pageSizeMoreThenTotalRecords));
+            assertThat(pageModel.totalPages()).isEqualTo(1);
+            assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
+            assertThat(pageModel.content()).hasSize(totalRecords);
+        }
+
+        @Test
+        void givingPageSizeEqualsToTotalRecord_findAll_totalPageShouldBeOne() {
+            var totalRecords = (int) abstractDomainDao.totalCount();
+            var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords));
+            assertThat(pageModel.totalPages()).isEqualTo(1);
+            assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
+            assertThat(pageModel.content()).hasSize(totalRecords);
+        }
+
+        @Test
+        void givingPageSizeLessThenTotalRecord_findAll_totalPageShouldBeOne() {
+            var totalRecords = (int) abstractDomainDao.totalCount();
+            var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords - 1));
+            assertThat(pageModel.totalPages()).isEqualTo(2);
+            assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
+            assertThat(pageModel.content()).hasSize(totalRecords - 1);
+        }
+
+        @Test
+        void givingCurrentPageLessThen1_findAll_shouldGetEmptyPageModel() {
+            int currentPage = -1;
+            var pageModel = abstractDomainDao.findAll(PageRequestModel.of(currentPage, 10));
+            assertThat(pageModel).isNotNull();
+            assertThat(pageModel.currentPage()).isEqualTo(0);
+            assertThat(pageModel.totalItems()).isEqualTo(0);
+            assertThat(pageModel.totalPages()).isEqualTo(0);
+            assertThat(pageModel.numberOfElements()).isEqualTo(0);
+            assertThat(pageModel.content()).isEmpty();
+        }
+
     }
 
-    @Test
-    void givingPageSizeMoreThenTotalRecord_findAll_totalPageShouldBeOne() {
-        var totalRecords = (int) abstractDomainDao.totalCount();
-        var pageSizeMoreThenTotalRecords = (totalRecords * 10);
-        PageModel<PersonModel> pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(pageSizeMoreThenTotalRecords));
-        assertThat(pageModel.totalPages()).isEqualTo(1);
-        assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
-        assertThat(pageModel.content()).hasSize(totalRecords);
+    @Nested
+    class SearchQueryTest {
+        @Test
+        void givingValidPersons_search_shouldGetListOfFilteredItems() {
+            List<PersonModel> searchResult = abstractDomainDao
+                    .search(
+                            SearchCriteria.ofIgnoreNull("id", SearchCriteria.Type.EQUALS, 934543526L),
+                            SearchCriteria.ofIgnoreNull("email", SearchCriteria.Type.LIKE, "hashem")
+                    );
+            assertThat(searchResult)
+                    .isNotNull()
+                    .isNotEmpty()
+                    .hasSize(1);
+
+            assertThat(searchResult.get(0).getId()).isEqualTo(934543526L);
+        }
+
+        @Test
+        void givingNoSearchCriteria_search_shouldGetEmpty() {
+            var searchResult = abstractDomainDao.search();
+            assertThat(searchResult).isNotNull().isEmpty();
+            searchResult = abstractDomainDao.search(null);
+            assertThat(searchResult).isNotNull().isEmpty();
+        }
+
+        @Test
+        void givingInvalidPropertyPath_search_shouldThrowSearchException() {
+            assertThatThrownBy(() -> abstractDomainDao.search(SearchCriteria.ofIgnoreNull("??", SearchCriteria.Type.EQUALS, 934543526L)))
+                    .isInstanceOf(SearchingException.class)
+                    .matches(i -> ((SearchingException) i).getCode().equals("100"));
+            assertThatThrownBy(() -> abstractDomainDao.search(
+                    SearchCriteria.ofIgnoreNull("id", SearchCriteria.Type.EQUALS, 934543526L),
+                    SearchCriteria.ofIgnoreNull(null, SearchCriteria.Type.EQUALS, 934543526L)
+            ))
+                    .isInstanceOf(SearchingException.class)
+                    .matches(i -> ((SearchingException) i).getCode().equals("100"));
+        }
     }
 
-    @Test
-    void givingPageSizeEqualsToTotalRecord_findAll_totalPageShouldBeOne() {
-        var totalRecords = (int) abstractDomainDao.totalCount();
-        var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords));
-        assertThat(pageModel.totalPages()).isEqualTo(1);
-        assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
-        assertThat(pageModel.content()).hasSize(totalRecords);
-    }
-
-    @Test
-    void givingPageSizeLessThenTotalRecord_findAll_totalPageShouldBeOne() {
-        var totalRecords = (int) abstractDomainDao.totalCount();
-        var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords - 1));
-        assertThat(pageModel.totalPages()).isEqualTo(2);
-        assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
-        assertThat(pageModel.content()).hasSize(totalRecords - 1);
-    }
-
-    @Test
-    void givingCurrentPageLessThen1_findAll_shouldGetEmptyPageModel() {
-        int currentPage = -1;
-        var pageModel = abstractDomainDao.findAll(PageRequestModel.of(currentPage, 10));
-        assertThat(pageModel).isNotNull();
-        assertThat(pageModel.currentPage()).isEqualTo(0);
-        assertThat(pageModel.totalItems()).isEqualTo(0);
-        assertThat(pageModel.totalPages()).isEqualTo(0);
-        assertThat(pageModel.numberOfElements()).isEqualTo(0);
-        assertThat(pageModel.content()).isEmpty();
-    }
 }
