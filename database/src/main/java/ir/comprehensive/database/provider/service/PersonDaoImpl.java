@@ -1,7 +1,5 @@
 package ir.comprehensive.database.provider.service;
 
-import ir.comprehensive.database.exception.PersistingException;
-import ir.comprehensive.database.model.SaveStrategy;
 import ir.comprehensive.database.provider.mapper.PersonMapper;
 import ir.comprehensive.database.service.PersonDao;
 import ir.comprehensive.domain.model.PersonModel;
@@ -37,13 +35,4 @@ public class PersonDaoImpl extends AbstractDomainDao<PersonModel, PersonRecord, 
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public PersonModel save(PersonModel model) throws PersistingException {
-        return null;
-    }
-
-    @Override
-    public PersonModel save(PersonModel model, SaveStrategy strategy) throws PersistingException {
-        return null;
-    }
 }

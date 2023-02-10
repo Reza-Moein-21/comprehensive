@@ -1,9 +1,11 @@
 package ir.comprehensive.database.provider.service;
 
 import ir.comprehensive.database.exception.DeletingException;
+import ir.comprehensive.database.exception.PersistingException;
 import ir.comprehensive.database.exception.SearchingException;
 import ir.comprehensive.database.model.PageModel;
 import ir.comprehensive.database.model.PageRequestModel;
+import ir.comprehensive.database.model.SaveStrategy;
 import ir.comprehensive.database.model.SearchCriteria;
 import ir.comprehensive.database.provider.mapper.BaseMapper;
 import ir.comprehensive.database.service.base.DomainDao;
@@ -131,6 +133,15 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
         return deleteExecutionWrapper(() -> context.deleteFrom(this.table).where(this.idField.equal(id)));
     }
 
+    @Override
+    public M save(M model) throws PersistingException {
+        return null;
+    }
+
+    @Override
+    public M save(M model, SaveStrategy strategy) throws PersistingException {
+        return null;
+    }
 
     protected int deleteExecutionWrapper(Supplier<Query> deletingQuerySupplier) throws DeletingException {
         try {
