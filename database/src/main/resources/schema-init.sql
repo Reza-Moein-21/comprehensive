@@ -29,6 +29,10 @@ delete
 FROM WAREHOUSE_CATEGORY
 where 1 = 1;
 
+delete
+FROM MY_NOTE_CATEGORY
+where 1 = 1;
+
 insert into PERSON
 values (987654321, '', 'alializadeh@gmail.com', 'علی', 'علی زاده', '09118445768');
 insert into PERSON
@@ -79,5 +83,7 @@ values (8793452, 'دست افزار');
 insert into WAREHOUSE_CATEGORY
 values (98342565, 'الکترونیک');
 insert into WAREHOUSE_CATEGORY
-values (79438294, 'متفرقه')
+values (79438294, 'متفرقه');
 
+insert into MY_NOTE_CATEGORY
+values(987654321,'Category 1','DONE','PROJECT_1');
