@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.h2.api.ErrorCode;
 import org.jooq.Record;
 import org.jooq.*;
-import org.jooq.conf.ParamType;
 import org.jooq.exception.DataAccessException;
 
 import java.io.Serializable;
@@ -43,8 +42,8 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
 
         if (conditions.isEmpty()) return Collections.emptyList();
 
-        return logQuery(context.selectFrom(this.table)
-                .where(conditions))
+        return context.selectFrom(this.table)
+                .where(conditions)
                 .fetch()
                 .stream()
                 .map(this.mapper::recordToModel)
@@ -62,10 +61,10 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
         var totalRecords = this.totalCount();
         int totalPage = (int) Math.ceil(((double) totalRecords / (double) pageRequest.size()));
 
-        var limitedSelectQuery = logQuery(context.selectFrom(this.table)
+        var limitedSelectQuery = context.selectFrom(this.table)
                 .where(getConditions(searchCriteria))
                 .offset(offset)
-                .limit(limit))
+                .limit(limit)
                 .fetch()
                 .stream()
                 .map(this.mapper::recordToModel)
@@ -74,11 +73,6 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
         int numberOfElements = limitedSelectQuery.size();
 
         return new PageModel<>(currentPage, totalRecords, totalPage, numberOfElements, limitedSelectQuery);
-    }
-
-    private ResultQuery<R> logQuery(ResultQuery<R> queryPart) {
-        log.info("\n###SEARCH QUERY###\n{}\n", queryPart.getSQL(ParamType.NAMED_OR_INLINED));
-        return queryPart;
     }
 
     private List<Condition> getConditions(SearchCriteria... searchCriteria) {
