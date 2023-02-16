@@ -22,7 +22,7 @@ public interface DomainDao<M extends DomainModel<I>, I extends Serializable> {
 
     PageModel<M> findAll(PageRequestModel pageRequest) throws SearchingException;
 
-    long totalCount() throws SearchingException;
+    int totalCount() throws SearchingException;
 
     Optional<M> findById(I id) throws SearchingException;
 

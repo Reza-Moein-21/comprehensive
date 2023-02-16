@@ -6,6 +6,4 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MyNoteMapper extends BaseMapper<MyNoteModel, MyNoteRecord> {
-    @Override
-    MyNoteModel recordToModel(MyNoteRecord record);
 }

@@ -6,6 +6,4 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface HadisMapper extends BaseMapper<HadisModel, HadisRecord> {
-    @Override
-    HadisModel recordToModel(HadisRecord record);
 }

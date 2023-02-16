@@ -101,7 +101,7 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
     }
 
     @Override
-    public long totalCount() throws SearchingException {
+    public int totalCount() throws SearchingException {
         return context.fetchCount(this.table);
     }
 
