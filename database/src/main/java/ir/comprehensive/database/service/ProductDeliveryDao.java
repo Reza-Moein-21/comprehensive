@@ -4,8 +4,11 @@ import ir.comprehensive.database.service.base.DomainDao;
 import ir.comprehensive.domain.enums.ProductStatusEnum;
 import ir.comprehensive.domain.model.ProductDeliveryModel;
 
-import java.util.List;
-
 public interface ProductDeliveryDao extends DomainDao<ProductDeliveryModel, Long> {
-    List<ProductDeliveryModel> findAllByStatus(ProductStatusEnum status);
+    int countByStatus(ProductStatusEnum status);
+
+    int countOfNoneReceivedByProductId(Long warehouseId);
+
+    int countByStatusAndPersonId(ProductStatusEnum status, Long personId);
+
 }
