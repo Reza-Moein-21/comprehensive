@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:warehouse-tag-init.sql"})
+@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:warehouse-init.sql"})
 @SpringJUnitConfig({WarehouseTagDaoImpl.class, WarehouseTagMapperImpl.class, JooqConfig.class})
 public class WarehouseTagDaoImplTest {
     @Autowired

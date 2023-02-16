@@ -52,6 +52,13 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
 
     @Override
     public PageModel<M> search(PageRequestModel pageRequest, SearchCriteria... searchCriteria) throws SearchingException {
+        final var select = context.selectFrom(this.table)
+                .where(getConditions(searchCriteria));
+
+        return toPageModel(pageRequest, select);
+    }
+
+    protected PageModel<M> toPageModel(PageRequestModel pageRequest, SelectLimitStep<R> select) {
         if (pageRequest == null)
             throw new SearchingException("101", "PageRequest required in paging search");
 
@@ -64,8 +71,7 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
         var totalRecords = this.totalCount();
         int totalPage = (int) Math.ceil(((double) totalRecords / (double) pageRequest.size()));
 
-        var limitedSelectQuery = context.selectFrom(this.table)
-                .where(getConditions(searchCriteria))
+        var limitedSelectQuery = select
                 .offset(offset)
                 .limit(limit)
                 .fetch()
