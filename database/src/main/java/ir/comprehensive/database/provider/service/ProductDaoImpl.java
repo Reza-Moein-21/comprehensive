@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import static org.jooq.generated.tables.Product.PRODUCT;
 
 @Service
-public class ProductDaoImpl extends AbstractDomainDao<ProductModel, ProductRecord, Long> implements ProductDao {
+public class ProductDaoImpl extends AbstractDescribableDomainDao<ProductModel, ProductRecord, Long> implements ProductDao {
     public ProductDaoImpl(DSLContext context, ProductMapper mapper) {
         super(context, mapper, PRODUCT, PRODUCT.ID);
     }

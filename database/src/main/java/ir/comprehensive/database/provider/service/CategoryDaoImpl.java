@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import static org.jooq.generated.tables.Category.CATEGORY;
 
 @Service
-public class CategoryDaoImpl extends AbstractDomainDao<CategoryModel, CategoryRecord, Long> implements CategoryDao {
+public class CategoryDaoImpl extends AbstractDescribableDomainDao<CategoryModel, CategoryRecord, Long> implements CategoryDao {
 
     public CategoryDaoImpl(DSLContext context, CategoryMapper mapper) {
         super(context, mapper, CATEGORY, CATEGORY.ID);

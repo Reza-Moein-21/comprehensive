@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static org.jooq.generated.tables.Person.PERSON;
 
 @Service
-public class PersonDaoImpl extends AbstractDomainDao<PersonModel, PersonRecord, Long> implements PersonDao {
+public class PersonDaoImpl extends AbstractDescribableDomainDao<PersonModel, PersonRecord, Long> implements PersonDao {
 
     private final DSLContext context;
     private final PersonMapper mapper;

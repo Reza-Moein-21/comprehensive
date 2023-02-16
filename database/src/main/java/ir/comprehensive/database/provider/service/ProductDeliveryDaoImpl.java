@@ -13,7 +13,7 @@ import static org.jooq.generated.tables.ProductDelivery.PRODUCT_DELIVERY;
 
 @Slf4j
 @Service
-public class ProductDeliveryDaoImpl extends AbstractDomainDao<ProductDeliveryModel, ProductDeliveryRecord, Long> implements ProductDeliveryDao {
+public class ProductDeliveryDaoImpl extends AbstractDescribableDomainDao<ProductDeliveryModel, ProductDeliveryRecord, Long> implements ProductDeliveryDao {
     private final DSLContext context;
 
     public ProductDeliveryDaoImpl(DSLContext context, ProductDeliveryMapper mapper) {

@@ -52,6 +52,9 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
 
     @Override
     public PageModel<M> search(PageRequestModel pageRequest, SearchCriteria... searchCriteria) throws SearchingException {
+        if (pageRequest == null)
+            throw new SearchingException("101", "PageRequest required in paging search");
+
         if (pageRequest.page() < 1) return PageModel.ofEmpty();
 
         var offset = (pageRequest.page() - 1) * pageRequest.size();
@@ -87,7 +90,9 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
             if (field == null)
                 throw new SearchingException("100", String.format("Invalid Property path: %s", sc.propertyPath()));
 
-            Condition condition = switch (sc.type()) {
+            Condition condition = Objects.isNull(sc.value())
+                    ? field.isNull()
+                    : switch (sc.type()) {
                 case LIKE -> field.likeIgnoreCase("%" + sc.value() + "%");
                 case LIKE_FIRST -> field.likeIgnoreCase(sc.value() + "%");
                 case LIKE_END -> field.likeIgnoreCase("%" + sc.value());

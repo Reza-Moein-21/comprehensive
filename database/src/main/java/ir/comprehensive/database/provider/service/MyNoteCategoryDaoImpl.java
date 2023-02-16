@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import static org.jooq.generated.tables.MyNoteCategory.MY_NOTE_CATEGORY;
 
 @Service
-public class MyNoteCategoryDaoImpl extends AbstractDomainDao<MyNoteCategoryModel, MyNoteCategoryRecord, Long> implements MyNoteCategoryDao {
+public class MyNoteCategoryDaoImpl extends AbstractDescribableDomainDao<MyNoteCategoryModel, MyNoteCategoryRecord, Long> implements MyNoteCategoryDao {
     private final DSLContext context;
 
     public MyNoteCategoryDaoImpl(DSLContext context, MyNoteCategoryMapper mapper) {

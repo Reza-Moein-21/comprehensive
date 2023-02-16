@@ -6,6 +6,10 @@ public record SearchCriteria(String propertyPath, boolean ignoreNull, Type type,
         return new SearchCriteria(propertyPath, true, criteriaType, value);
     }
 
+    public static SearchCriteria of(String propertyPath, Type criteriaType, Object value) {
+        return new SearchCriteria(propertyPath, false, criteriaType, value);
+    }
+
     public enum Type {
         LIKE, LIKE_FIRST, LIKE_END, EQUALS
     }

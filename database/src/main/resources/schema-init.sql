@@ -79,11 +79,19 @@ insert into PERSON_CATEGORY
 values (987654332, 987234764);
 
 insert into WAREHOUSE_CATEGORY
-values (8793452, 'دست افزار');
+values (8793452,
+ 'دست افزار'
+ ,'دست افزار مخصوص'
+);
 insert into WAREHOUSE_CATEGORY
-values (98342565, 'الکترونیک');
+values (98342565,
+ 'الکترونیک'
+,'گروه الکترونیک منهتن'
+);
 insert into WAREHOUSE_CATEGORY
-values (79438294, 'متفرقه');
+values (79438294, 'متفرقه','');
+insert into WAREHOUSE_CATEGORY(id, title)
+values (79438295, 'Other');
 
 insert into MY_NOTE_CATEGORY
 values(987654321,'Category 1','DONE','PROJECT_1');

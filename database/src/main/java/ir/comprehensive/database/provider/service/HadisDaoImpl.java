@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import static org.jooq.generated.tables.Hadis.HADIS;
 
 @Service
-public class HadisDaoImpl extends AbstractDomainDao<HadisModel, HadisRecord, Long> implements HadisDao {
+public class HadisDaoImpl extends AbstractDescribableDomainDao<HadisModel, HadisRecord, Long> implements HadisDao {
 
     public HadisDaoImpl(DSLContext context, HadisMapper mapper) {
         super(context, mapper, HADIS, HADIS.ID);

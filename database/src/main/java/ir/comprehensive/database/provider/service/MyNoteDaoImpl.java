@@ -19,7 +19,7 @@ import static org.jooq.impl.DSL.selectCount;
 
 @Slf4j
 @Service
-public class MyNoteDaoImpl extends AbstractDomainDao<MyNoteModel, MyNoteRecord, Long> implements MyNoteDao {
+public class MyNoteDaoImpl extends AbstractDescribableDomainDao<MyNoteModel, MyNoteRecord, Long> implements MyNoteDao {
     private final DSLContext context;
 
     public MyNoteDaoImpl(DSLContext context, MyNoteMapper mapper) {
