@@ -1,7 +1,7 @@
-package ir.comprehensive.service;
+package ir.comprehensive.service.project;
 
+import ir.comprehensive.domain.model.dto.MyNoteCategoryInfo;
 import ir.comprehensive.service.base.Statistical;
-import ir.comprehensive.service.dto.MyNoteCategoryInfo;
 
 public interface MyNoteCategoryService extends Statistical<MyNoteCategoryInfo> {
 }

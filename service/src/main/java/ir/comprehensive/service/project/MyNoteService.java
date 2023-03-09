@@ -1,6 +1,7 @@
-package ir.comprehensive.service;
+package ir.comprehensive.service.project;
 
-import ir.comprehensive.service.dto.CalenderNoteStatus;
+
+import ir.comprehensive.domain.model.dto.CalenderNoteStatus;
 
 import java.time.LocalDate;
 import java.util.List;

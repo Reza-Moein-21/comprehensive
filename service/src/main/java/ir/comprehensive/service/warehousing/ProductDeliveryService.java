@@ -1,4 +1,4 @@
-package ir.comprehensive.service;
+package ir.comprehensive.service.warehousing;
 
 import ir.comprehensive.domain.model.ProductDeliveryModel;
 
