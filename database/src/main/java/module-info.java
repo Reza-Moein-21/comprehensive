@@ -1,16 +1,10 @@
 open module ir.comprehensive.database {
     requires ir.comprehensive.model;
-    requires spring.context;
-    requires spring.core;
-    requires spring.beans;
     requires java.sql;
     requires h2;
     requires org.jooq;
-    requires lombok;
     requires com.zaxxer.hikari;
     requires org.mapstruct;
-    requires spring.tx;
-    requires spring.jdbc;
     requires org.slf4j;
     requires org.apache.commons.lang3;
 
@@ -18,6 +12,7 @@ open module ir.comprehensive.database {
     exports ir.comprehensive.database.service.base;
     exports ir.comprehensive.database.exception;
     exports ir.comprehensive.database.model;
+    exports ir.comprehensive.database.factory;
 
 
 }

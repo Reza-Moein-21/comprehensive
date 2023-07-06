@@ -10,8 +10,6 @@ import ir.comprehensive.database.model.SearchCriteria;
 import ir.comprehensive.database.provider.mapper.BaseMapper;
 import ir.comprehensive.database.service.base.DomainDao;
 import ir.comprehensive.domain.model.base.DomainModel;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.h2.api.ErrorCode;
 import org.jooq.Record;
@@ -23,13 +21,18 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-@Slf4j
-@RequiredArgsConstructor
 public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Record, I extends Serializable> implements DomainDao<M, I> {
     private final DSLContext context;
     private final BaseMapper<M, R> mapper;
     private final Table<R> table;
     private final TableField<R, I> idField;
+
+    public AbstractDomainDao(DSLContext context, BaseMapper<M, R> mapper, Table<R> table, TableField<R, I> idField) {
+        this.context = context;
+        this.mapper = mapper;
+        this.table = table;
+        this.idField = idField;
+    }
 
     @Override
     public PageModel<M> findAll(PageRequestModel pageRequest) throws SearchingException {
@@ -123,7 +126,7 @@ public abstract class AbstractDomainDao<M extends DomainModel<I>, R extends Reco
 
     @Override
     public int delete(M model) throws DeletingException {
-        return deleteExecutionWrapper(() -> context.deleteFrom(this.table).where(this.idField.eq(model.getId())));
+        return deleteExecutionWrapper(() -> context.deleteFrom(this.table).where(this.idField.eq(model.id())));
 
     }
 

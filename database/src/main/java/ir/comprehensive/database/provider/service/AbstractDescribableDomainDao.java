@@ -7,7 +7,6 @@ import ir.comprehensive.database.model.SearchCriteria;
 import ir.comprehensive.database.provider.mapper.BaseMapper;
 import ir.comprehensive.database.service.base.DescribableDomainDao;
 import ir.comprehensive.domain.model.base.DescribableDomainModel;
-import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Table;
@@ -17,7 +16,6 @@ import java.io.Serializable;
 
 import static ir.comprehensive.database.model.SearchCriteria.Type.LIKE;
 
-@Slf4j
 public abstract class AbstractDescribableDomainDao<M extends DescribableDomainModel<I>, R extends Record, I extends Serializable>
         extends AbstractDomainDao<M, R, I>
         implements DescribableDomainDao<M, I> {

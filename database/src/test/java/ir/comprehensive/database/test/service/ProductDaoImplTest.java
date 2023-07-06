@@ -1,21 +1,24 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.ProductMapperImpl;
+import ir.comprehensive.database.provider.mapper.ProductMapper;
 import ir.comprehensive.database.provider.service.ProductDaoImpl;
 import ir.comprehensive.database.service.ProductDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({ProductDaoImpl.class, ProductMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 public class ProductDaoImplTest {
-    @Autowired
-    ProductDao productDao;
+
+    private final ProductDao productDao;
+
+    public ProductDaoImplTest(DSLContext context, ProductMapper mapper) {
+        this.productDao = new ProductDaoImpl(context, mapper);
+    }
 
     @Test
     void initiationTest() {

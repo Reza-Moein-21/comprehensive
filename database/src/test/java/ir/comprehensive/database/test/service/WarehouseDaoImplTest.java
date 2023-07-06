@@ -1,23 +1,27 @@
 package ir.comprehensive.database.test.service;
 
 import ir.comprehensive.database.model.PageRequestModel;
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.WarehouseMapperImpl;
+import ir.comprehensive.database.provider.mapper.WarehouseMapper;
 import ir.comprehensive.database.provider.service.WarehouseDaoImpl;
 import ir.comprehensive.database.service.WarehouseDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
 import ir.comprehensive.domain.model.base.DomainModel;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:warehouse-init.sql"})
-@SpringJUnitConfig({WarehouseDaoImpl.class, WarehouseMapperImpl.class, JooqConfig.class})
+@Sql("/warehouse-init.sql")
+@ExtendWith(DBExtension.class)
 public class WarehouseDaoImplTest {
-    @Autowired
-    WarehouseDao warehouseDao;
+
+    private final WarehouseDao warehouseDao;
+
+    public WarehouseDaoImplTest(DSLContext context, WarehouseMapper mapper) {
+        this.warehouseDao = new WarehouseDaoImpl(context, mapper);
+    }
 
     @Test
     void givingNullCodeTitle_findAllByCodeOrTitle_shouldReturnEmptyPage() {
@@ -45,7 +49,7 @@ public class WarehouseDaoImplTest {
         assertThat(result.currentPage()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(115L);
     }
 
@@ -57,7 +61,7 @@ public class WarehouseDaoImplTest {
         assertThat(result.currentPage()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(115L);
     }
 
@@ -69,7 +73,7 @@ public class WarehouseDaoImplTest {
         assertThat(result.currentPage()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(114L);
     }
 
@@ -81,7 +85,7 @@ public class WarehouseDaoImplTest {
         assertThat(result.currentPage()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(113L);
     }
 

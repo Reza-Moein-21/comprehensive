@@ -1,4 +1,4 @@
-package ir.comprehensive.domain.exception;
+package ir.comprehensive.common.exception;
 
 public interface ExceptionTemplate {
     String getCode();

@@ -1,22 +1,26 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.ProductDeliveryMapperImpl;
+import ir.comprehensive.database.provider.mapper.ProductDeliveryMapper;
 import ir.comprehensive.database.provider.service.ProductDeliveryDaoImpl;
 import ir.comprehensive.database.service.ProductDeliveryDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static ir.comprehensive.domain.enums.ProductStatusEnum.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:product-delivery-init.sql"})
-@SpringJUnitConfig({ProductDeliveryDaoImpl.class, ProductDeliveryMapperImpl.class, JooqConfig.class})
+@Sql("/product-delivery-init.sql")
+@ExtendWith(DBExtension.class)
 public class ProductDeliveryDaoImplTest {
-    @Autowired
-    ProductDeliveryDao productDeliveryDao;
+
+    private final ProductDeliveryDao productDeliveryDao;
+
+    public ProductDeliveryDaoImplTest(DSLContext context, ProductDeliveryMapper mapper) {
+        this.productDeliveryDao = new ProductDeliveryDaoImpl(context, mapper);
+    }
 
     @Test
     void givingNull_countByStatus_shouldReturnZero() {
@@ -63,14 +67,17 @@ public class ProductDeliveryDaoImplTest {
     void givingNullPersonId_countByStatusAndPersonId_shouldReturnZero() {
         assertThat(productDeliveryDao.countByStatusAndPersonId(RECEIVED, null)).isZero();
     }
+
     @Test
     void givingNoneExistPersonId_countByStatusAndPersonId_shouldReturnZero() {
         assertThat(productDeliveryDao.countByStatusAndPersonId(RECEIVED, -1L)).isZero();
     }
+
     @Test
     void givingNoneExistStatusValidPersonId_countByStatusAndPersonId_shouldReturnZero() {
         assertThat(productDeliveryDao.countByStatusAndPersonId(REJECTED, 987654321L)).isZero();
     }
+
     @Test
     void givingExistStatusValidPersonId_countByStatusAndPersonId_shouldReturnOne() {
         assertThat(productDeliveryDao.countByStatusAndPersonId(UNKNOWN, 987654321L)).isOne();

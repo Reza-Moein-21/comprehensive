@@ -2,38 +2,28 @@ package ir.comprehensive.database.test.service;
 
 import ir.comprehensive.database.exception.SearchingException;
 import ir.comprehensive.database.model.PageRequestModel;
-import ir.comprehensive.database.provider.config.JooqConfig;
 import ir.comprehensive.database.provider.mapper.WarehouseCategoryMapper;
-import ir.comprehensive.database.provider.mapper.WarehouseCategoryMapperImpl;
 import ir.comprehensive.database.provider.service.AbstractDescribableDomainDao;
 import ir.comprehensive.database.service.base.DescribableDomainDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
 import ir.comprehensive.domain.model.WarehouseCategoryModel;
 import ir.comprehensive.domain.model.base.DomainModel;
 import org.jooq.DSLContext;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.jooq.generated.tables.WarehouseCategory.WAREHOUSE_CATEGORY;
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({WarehouseCategoryMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 public class DescribableDomainDaoTest {
 
-    DescribableDomainDao<WarehouseCategoryModel, Long> describableDomainDao;
+    private final DescribableDomainDao<WarehouseCategoryModel, Long> describableDomainDao;
 
-    @Autowired
-    private DSLContext context;
-    @Autowired
-    private WarehouseCategoryMapper mapper;
-
-    @BeforeEach
-    void setUp() {
-        describableDomainDao = new AbstractDescribableDomainDao<>(context,
+    DescribableDomainDaoTest(DSLContext context, WarehouseCategoryMapper mapper) {
+        this.describableDomainDao = new AbstractDescribableDomainDao<>(context,
                 mapper,
                 WAREHOUSE_CATEGORY,
                 WAREHOUSE_CATEGORY.ID) {
@@ -68,7 +58,7 @@ public class DescribableDomainDaoTest {
         assertThat(result.totalPages()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content()).hasSize(1);
-        assertThat(result.content().get(0).getId()).isEqualTo(79438295L);
+        assertThat(result.content().get(0).id()).isEqualTo(79438295L);
     }
 
     @Test
@@ -82,7 +72,7 @@ public class DescribableDomainDaoTest {
         assertThat(result.numberOfElements()).isEqualTo(2);
         assertThat(result.content()).hasSize(2);
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(8793452L, 98342565L);
 
     }
@@ -97,7 +87,7 @@ public class DescribableDomainDaoTest {
         assertThat(result.totalPages()).isOne();
         assertThat(result.numberOfElements()).isOne();
         assertThat(result.content()).hasSize(1);
-        assertThat(result.content().get(0).getId()).isEqualTo(79438295L);
+        assertThat(result.content().get(0).id()).isEqualTo(79438295L);
     }
 
     @Test
@@ -125,7 +115,7 @@ public class DescribableDomainDaoTest {
         assertThat(result.numberOfElements()).isEqualTo(2);
         assertThat(result.content()).hasSize(2);
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(8793452L, 98342565L);
     }
 
@@ -139,7 +129,7 @@ public class DescribableDomainDaoTest {
         assertThat(result.numberOfElements()).isEqualTo(3);
         assertThat(result.content()).hasSize(3);
         assertThat(result.content())
-                .map(DomainModel::getId)
+                .map(DomainModel::id)
                 .contains(8793452L, 98342565L, 79438294L);
     }
 }

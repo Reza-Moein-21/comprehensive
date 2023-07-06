@@ -4,6 +4,6 @@ import ir.comprehensive.domain.model.MyNoteTempModel;
 import org.jooq.generated.tables.records.MyNoteTempRecord;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface MyNoteTempMapper extends BaseMapper<MyNoteTempModel, MyNoteTempRecord> {
 }

@@ -1,27 +1,20 @@
 package ir.comprehensive.domain.model;
 
 import ir.comprehensive.domain.model.base.DescribableDomainModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class MyNoteModel extends DescribableDomainModel<Long> {
+public record MyNoteModel(
+        Long id,
+        String title,
+        String description,
+        LocalDate creationDate,
+        LocalDate inActivationDate,
+        Double priority,
+        Boolean isActive,
+        MyNoteCategoryModel myNoteCategory,
+        PersonModel person,
+        MyNoteTempModel myNoteTemp
 
-    private LocalDate creationDate;
-
-    private LocalDate inActivationDate;
-
-    private Double priority;
-
-    private Boolean isActive;
-
-    private MyNoteCategoryModel myNoteCategory;
-
-    private PersonModel person;
-
-    private MyNoteTempModel myNoteTemp;
-
+) implements DescribableDomainModel<Long> {
 }

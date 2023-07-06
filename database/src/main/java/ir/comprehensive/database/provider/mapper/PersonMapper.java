@@ -5,7 +5,7 @@ import org.jooq.generated.tables.records.PersonRecord;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface PersonMapper extends BaseMapper<PersonModel, PersonRecord> {
     @Override
     @Mapping(target = "title", expression = "java(record.getFirstName() + \" \" + record.getLastName())")

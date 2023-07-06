@@ -6,11 +6,9 @@ import ir.comprehensive.domain.enums.MyNoteCategoryStatusEnum;
 import ir.comprehensive.domain.model.MyNoteCategoryModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.MyNoteCategoryRecord;
-import org.springframework.stereotype.Service;
 
 import static org.jooq.generated.tables.MyNoteCategory.MY_NOTE_CATEGORY;
 
-@Service
 public class MyNoteCategoryDaoImpl extends AbstractDescribableDomainDao<MyNoteCategoryModel, MyNoteCategoryRecord, Long> implements MyNoteCategoryDao {
     private final DSLContext context;
 

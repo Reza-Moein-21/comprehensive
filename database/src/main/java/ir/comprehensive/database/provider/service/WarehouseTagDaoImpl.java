@@ -5,11 +5,9 @@ import ir.comprehensive.database.service.WarehouseTagDao;
 import ir.comprehensive.domain.model.WarehouseTagModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.WarehouseTagRecord;
-import org.springframework.stereotype.Service;
 
 import static org.jooq.generated.tables.WarehouseTag.WAREHOUSE_TAG;
 
-@Service
 public class WarehouseTagDaoImpl extends AbstractDescribableDomainDao<WarehouseTagModel, WarehouseTagRecord, Long> implements WarehouseTagDao {
 
     public WarehouseTagDaoImpl(DSLContext context, WarehouseTagMapper mapper) {

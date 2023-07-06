@@ -9,7 +9,6 @@ import ir.comprehensive.domain.model.WarehouseModel;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.generated.tables.records.WarehouseRecord;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import static org.jooq.generated.tables.Warehouse.WAREHOUSE;
 import static org.jooq.generated.tables.WarehouseWarehouseTag.WAREHOUSE_WAREHOUSE_TAG;
 import static org.jooq.impl.DSL.lower;
 
-@Service
 public class WarehouseDaoImpl extends AbstractDescribableDomainDao<WarehouseModel, WarehouseRecord, Long> implements WarehouseDao {
 
     private final DSLContext context;

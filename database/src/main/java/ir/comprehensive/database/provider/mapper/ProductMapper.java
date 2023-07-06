@@ -4,6 +4,6 @@ import ir.comprehensive.domain.model.ProductModel;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ProductMapper extends BaseMapper<ProductModel, ProductRecord> {
 }

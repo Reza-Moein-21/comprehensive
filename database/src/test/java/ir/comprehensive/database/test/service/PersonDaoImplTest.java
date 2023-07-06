@@ -1,24 +1,26 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.PersonMapperImpl;
+import ir.comprehensive.database.provider.mapper.PersonMapper;
 import ir.comprehensive.database.provider.service.PersonDaoImpl;
 import ir.comprehensive.database.service.PersonDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
 import org.apache.commons.lang3.StringUtils;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({PersonDaoImpl.class, PersonMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 class PersonDaoImplTest {
 
-    @Autowired
-    PersonDao personDao;
+    private final PersonDao personDao;
+
+    public PersonDaoImplTest(DSLContext context, PersonMapper mapper) {
+        this.personDao = new PersonDaoImpl(context, mapper);
+    }
 
     @Test
     void givingValidPersonRecord_findAllByName_shouldGetOneExpectedResult() {
@@ -27,8 +29,8 @@ class PersonDaoImplTest {
 
         assertThat(persons).hasSize(1);
         assertThat(persons.get(0))
-                .matches(p -> StringUtils.containsAny(p.getFirstName(), searchQuery) ||
-                        StringUtils.containsAny(p.getLastName(), searchQuery));
+                .matches(p -> StringUtils.containsAny(p.firstName(), searchQuery) ||
+                        StringUtils.containsAny(p.lastName(), searchQuery));
 
     }
 

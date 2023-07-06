@@ -1,26 +1,27 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.MyNoteMapperImpl;
+import ir.comprehensive.database.provider.mapper.MyNoteMapper;
 import ir.comprehensive.database.provider.service.MyNoteDaoImpl;
 import ir.comprehensive.database.service.MyNoteDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDate;
 import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:my-note-init.sql"})
-@SpringJUnitConfig({MyNoteDaoImpl.class, MyNoteMapperImpl.class, JooqConfig.class})
+@Sql("/my-note-init.sql")
+@ExtendWith(DBExtension.class)
 class MyNoteDaoImplTest {
 
-    @Autowired
-    MyNoteDao myNoteDao;
+    private final MyNoteDao myNoteDao;
+
+    public MyNoteDaoImplTest(DSLContext context, MyNoteMapper mapper) {
+        this.myNoteDao = new MyNoteDaoImpl(context, mapper);
+    }
 
     @Test
     void givingMyNoteCategoryIdAsNull_findNumberOfByDate_shouldReturnEmpty() {

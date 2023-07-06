@@ -5,11 +5,9 @@ import ir.comprehensive.database.service.WarehouseCategoryDao;
 import ir.comprehensive.domain.model.WarehouseCategoryModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.WarehouseCategoryRecord;
-import org.springframework.stereotype.Service;
 
 import static org.jooq.generated.tables.WarehouseCategory.WAREHOUSE_CATEGORY;
 
-@Service
 public class WarehouseCategoryDaoImpl extends AbstractDescribableDomainDao<WarehouseCategoryModel, WarehouseCategoryRecord, Long> implements WarehouseCategoryDao {
 
     public WarehouseCategoryDaoImpl(DSLContext context, WarehouseCategoryMapper mapper) {

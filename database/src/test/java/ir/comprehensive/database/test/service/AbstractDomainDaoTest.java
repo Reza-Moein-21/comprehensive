@@ -1,25 +1,22 @@
 package ir.comprehensive.database.test.service;
 
+import ir.comprehensive.common.exception.ExceptionTemplate;
 import ir.comprehensive.database.exception.DeletingException;
 import ir.comprehensive.database.exception.SearchingException;
 import ir.comprehensive.database.model.PageModel;
 import ir.comprehensive.database.model.PageRequestModel;
 import ir.comprehensive.database.model.SearchCriteria;
-import ir.comprehensive.database.provider.config.JooqConfig;
 import ir.comprehensive.database.provider.mapper.PersonMapper;
-import ir.comprehensive.database.provider.mapper.PersonMapperImpl;
 import ir.comprehensive.database.provider.service.AbstractDomainDao;
 import ir.comprehensive.database.provider.service.PersonDaoImpl;
-import ir.comprehensive.domain.exception.ExceptionTemplate;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
 import ir.comprehensive.domain.model.PersonModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.PersonRecord;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,24 +25,18 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({PersonMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 class AbstractDomainDaoTest {
 
-    @Autowired
-    DSLContext context;
-    @Autowired
-    PersonMapper mapper;
+    private final AbstractDomainDao<PersonModel, PersonRecord, Long> abstractDomainDao;
 
-    AbstractDomainDao<PersonModel, PersonRecord, Long> abstractDomainDao;
-
-    @BeforeEach
-    void setUp() {
-        abstractDomainDao = new PersonDaoImpl(context, mapper);
+    AbstractDomainDaoTest(DSLContext context, PersonMapper mapper) {
+        this.abstractDomainDao = new PersonDaoImpl(context, mapper);
     }
 
     @Nested
+    @Sql("/schema-init.sql")
     class DMLTest {
 
         @Test
@@ -79,8 +70,7 @@ class AbstractDomainDaoTest {
         @Test
         void givingPersonModelWithRelation_deleteOne_shouldTrowDeletingException() {
             var expectedId = 987654321L;
-            var model = new PersonModel();
-            model.setId(expectedId);
+            var model = new PersonModel(expectedId, null, null, null, null, null, null, null, null);
             assertThatThrownBy(() -> abstractDomainDao.delete(model))
                     .isInstanceOf(ExceptionTemplate.class)
                     .isInstanceOf(DeletingException.class)
@@ -113,7 +103,8 @@ class AbstractDomainDaoTest {
     }
 
     @Nested
-    class FindQueryTest{
+    @Sql("/schema-init.sql")
+    class FindQueryTest {
         @Test
         void givingValidPersonRecord_findById_ShouldGetExpectedRecord() {
             var expectedId = 987654321L;
@@ -121,12 +112,12 @@ class AbstractDomainDaoTest {
             assertThat(personOptional)
                     .isPresent()
                     .get()
-                    .matches(p -> p.getId().equals(expectedId));
+                    .matches(p -> p.id().equals(expectedId));
         }
 
         @Test
         void givingPageSizeMoreThenTotalRecord_findAll_totalPageShouldBeOne() {
-            var totalRecords = (int) abstractDomainDao.totalCount();
+            var totalRecords = abstractDomainDao.totalCount();
             var pageSizeMoreThenTotalRecords = (totalRecords * 10);
             PageModel<PersonModel> pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(pageSizeMoreThenTotalRecords));
             assertThat(pageModel.totalPages()).isEqualTo(1);
@@ -136,7 +127,7 @@ class AbstractDomainDaoTest {
 
         @Test
         void givingPageSizeEqualsToTotalRecord_findAll_totalPageShouldBeOne() {
-            var totalRecords = (int) abstractDomainDao.totalCount();
+            var totalRecords = abstractDomainDao.totalCount();
             var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords));
             assertThat(pageModel.totalPages()).isEqualTo(1);
             assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
@@ -145,7 +136,7 @@ class AbstractDomainDaoTest {
 
         @Test
         void givingPageSizeLessThenTotalRecord_findAll_totalPageShouldBeOne() {
-            var totalRecords = (int) abstractDomainDao.totalCount();
+            var totalRecords = abstractDomainDao.totalCount();
             var pageModel = abstractDomainDao.findAll(PageRequestModel.ofSize(totalRecords - 1));
             assertThat(pageModel.totalPages()).isEqualTo(2);
             assertThat(pageModel.totalItems()).isEqualTo(totalRecords);
@@ -167,6 +158,7 @@ class AbstractDomainDaoTest {
     }
 
     @Nested
+    @Sql("/schema-init.sql")
     class SearchQueryTest {
         @Test
         void givingValidPersons_search_shouldGetListOfFilteredItems() {
@@ -180,7 +172,7 @@ class AbstractDomainDaoTest {
                     .isNotEmpty()
                     .hasSize(1);
 
-            assertThat(searchResult.get(0).getId()).isEqualTo(934543526L);
+            assertThat(searchResult.get(0).id()).isEqualTo(934543526L);
         }
 
         @Test

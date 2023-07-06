@@ -5,14 +5,12 @@ import ir.comprehensive.database.service.PersonDao;
 import ir.comprehensive.domain.model.PersonModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.PersonRecord;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.jooq.generated.tables.Person.PERSON;
 
-@Service
 public class PersonDaoImpl extends AbstractDescribableDomainDao<PersonModel, PersonRecord, Long> implements PersonDao {
 
     private final DSLContext context;

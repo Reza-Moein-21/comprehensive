@@ -1,23 +1,24 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.MyNoteTempMapperImpl;
+import ir.comprehensive.database.provider.mapper.MyNoteTempMapper;
 import ir.comprehensive.database.provider.service.MyNoteTempDaoImpl;
 import ir.comprehensive.database.service.MyNoteTempDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({MyNoteTempDaoImpl.class, MyNoteTempMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 class MyNoteTempImplTest {
 
-    @Autowired
-    MyNoteTempDao myNoteTempDao;
+    private final MyNoteTempDao myNoteTempDao;
+
+    public MyNoteTempImplTest(DSLContext context, MyNoteTempMapper mapper) {
+        this.myNoteTempDao = new MyNoteTempDaoImpl(context, mapper);
+    }
 
     @Test
     void initiationTest() {

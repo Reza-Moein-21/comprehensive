@@ -4,10 +4,8 @@ import ir.comprehensive.database.provider.mapper.MyNoteMapper;
 import ir.comprehensive.database.service.MyNoteDao;
 import ir.comprehensive.domain.model.MyNoteModel;
 import ir.comprehensive.domain.model.dto.CalenderNoteStatus;
-import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.MyNoteRecord;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -17,8 +15,6 @@ import static org.jooq.generated.tables.MyNote.MY_NOTE;
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.selectCount;
 
-@Slf4j
-@Service
 public class MyNoteDaoImpl extends AbstractDescribableDomainDao<MyNoteModel, MyNoteRecord, Long> implements MyNoteDao {
     private final DSLContext context;
 

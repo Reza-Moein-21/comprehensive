@@ -1,21 +1,24 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.WarehouseCategoryMapperImpl;
+import ir.comprehensive.database.provider.mapper.WarehouseCategoryMapper;
 import ir.comprehensive.database.provider.service.WarehouseCategoryDaoImpl;
 import ir.comprehensive.database.service.WarehouseCategoryDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({WarehouseCategoryDaoImpl.class, WarehouseCategoryMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 public class WarehouseCategoryDaoImplTest {
-    @Autowired
-    WarehouseCategoryDao warehouseCategoryDao;
+
+    private final WarehouseCategoryDao warehouseCategoryDao;
+
+    public WarehouseCategoryDaoImplTest(DSLContext context, WarehouseCategoryMapper mapper) {
+        this.warehouseCategoryDao = new WarehouseCategoryDaoImpl(context, mapper);
+    }
 
     @Test
     void initiationTest() {

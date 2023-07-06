@@ -1,18 +1,15 @@
 package ir.comprehensive.domain.model;
 
 import ir.comprehensive.domain.model.base.DescribableDomainModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class CategoryModel extends DescribableDomainModel<Long> {
-    private String phoneNumber;
+public record CategoryModel(
+        Long id,
+        String title,
+        String description,
+        String phoneNumber,
+        String fax,
+        String email,
+        String address
 
-    private String fax;
-
-    private String email;
-
-    private String address;
-
+) implements DescribableDomainModel<Long> {
 }

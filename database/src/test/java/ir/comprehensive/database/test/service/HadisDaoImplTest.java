@@ -1,23 +1,24 @@
 package ir.comprehensive.database.test.service;
 
-import ir.comprehensive.database.provider.config.JooqConfig;
-import ir.comprehensive.database.provider.mapper.HadisMapperImpl;
+import ir.comprehensive.database.provider.mapper.HadisMapper;
 import ir.comprehensive.database.provider.service.HadisDaoImpl;
 import ir.comprehensive.database.service.HadisDao;
+import ir.comprehensive.database.test.utils.DBExtension;
+import ir.comprehensive.database.test.utils.Sql;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-
-@Sql(scripts = {"classpath:schema-drop.sql", "classpath:schema-create.sql", "classpath:schema-init.sql"})
-@SpringJUnitConfig({HadisDaoImpl.class, HadisMapperImpl.class, JooqConfig.class})
+@Sql("/schema-init.sql")
+@ExtendWith(DBExtension.class)
 class HadisDaoImplTest {
 
-    @Autowired
-    HadisDao categoryDao;
+    private final HadisDao categoryDao;
+
+    HadisDaoImplTest(DSLContext context, HadisMapper mapper) {
+        this.categoryDao = new HadisDaoImpl(context, mapper);
+    }
 
     @Test
     void initiationTest() {

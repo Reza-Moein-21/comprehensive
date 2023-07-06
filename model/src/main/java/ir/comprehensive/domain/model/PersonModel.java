@@ -1,34 +1,25 @@
 package ir.comprehensive.domain.model;
 
 import ir.comprehensive.domain.model.base.DescribableDomainModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class PersonModel extends DescribableDomainModel<Long> {
 
-    private String firstName;
+public record PersonModel(
+        Long id,
+        String title,
+        String description,
+        String firstName,
+        String lastName,
+        String email,
+        String phoneNumber,
+        String fullName,
+        Set<CategoryModel> categories
 
-    private String lastName;
-
-    private String email;
-
-    private String phoneNumber;
-
+) implements DescribableDomainModel<Long> {
     // TODO Consider to remove this and use title filed instead
-    private String fullName;
-
-    public String getFullName() {
-        return this.getTitle();
+    @Override
+    public String fullName() {
+        return this.title;
     }
-
-    private Set<CategoryModel> categories;
-
 }

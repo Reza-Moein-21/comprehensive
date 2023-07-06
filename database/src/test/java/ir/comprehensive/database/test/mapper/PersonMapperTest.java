@@ -28,7 +28,7 @@ public class PersonMapperTest {
         sampleRecord.setLastName("LN");
 
         var model = mapper.recordToModel(sampleRecord);
-        assertThat(model.getTitle()).isEqualTo(sampleRecord.getFirstName() + " " + sampleRecord.getLastName());
-        assertThat(model.getFullName()).isEqualTo(model.getTitle());
+        assertThat(model.title()).isEqualTo(sampleRecord.getFirstName() + " " + sampleRecord.getLastName());
+        assertThat(model.fullName()).isEqualTo(model.title());
     }
 }

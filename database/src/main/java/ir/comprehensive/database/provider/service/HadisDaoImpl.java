@@ -5,11 +5,9 @@ import ir.comprehensive.database.service.HadisDao;
 import ir.comprehensive.domain.model.HadisModel;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.HadisRecord;
-import org.springframework.stereotype.Service;
 
 import static org.jooq.generated.tables.Hadis.HADIS;
 
-@Service
 public class HadisDaoImpl extends AbstractDescribableDomainDao<HadisModel, HadisRecord, Long> implements HadisDao {
 
     public HadisDaoImpl(DSLContext context, HadisMapper mapper) {

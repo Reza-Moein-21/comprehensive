@@ -1,6 +1,6 @@
 package ir.comprehensive.database.exception;
 
-import ir.comprehensive.domain.exception.BaseRuntimeException;
+import ir.comprehensive.common.exception.BaseRuntimeException;
 
 public class SearchingException extends BaseRuntimeException {
 
