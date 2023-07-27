@@ -1,7 +1,7 @@
 package ir.comprehensive.database.test.utils;
 
 import ir.comprehensive.database.factory.JooqFactory;
-import ir.comprehensive.database.provider.mapper.BaseMapper;
+import ir.comprehensive.database.internal.mapper.BaseMapper;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.extension.*;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class DBExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
-    private final DSLContext dslContext = new JooqFactory().getBean();
+    private final DSLContext dslContext = new JooqFactory().getInstance();
 
     private Optional<String> readString(String resource) {
         try {

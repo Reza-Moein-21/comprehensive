@@ -1,6 +1,6 @@
 package ir.comprehensive.database.test.mapper;
 
-import ir.comprehensive.database.provider.mapper.PersonMapper;
+import ir.comprehensive.database.internal.mapper.PersonMapper;
 import org.jooq.generated.tables.records.PersonRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

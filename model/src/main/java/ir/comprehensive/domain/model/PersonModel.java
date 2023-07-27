@@ -14,7 +14,7 @@ public record PersonModel(
         String email,
         String phoneNumber,
         String fullName,
-        Set<CategoryModel> categories
+        Set<CompanyModel> categories
 
 ) implements DescribableDomainModel<Long> {
     // TODO Consider to remove this and use title filed instead

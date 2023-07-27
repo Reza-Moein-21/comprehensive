@@ -1,9 +1,9 @@
 package ir.comprehensive.service.test.provider.hr;
 
-import ir.comprehensive.database.service.CategoryDao;
-import ir.comprehensive.database.service.PersonDao;
+import ir.comprehensive.database.dao.CompanyDao;
+import ir.comprehensive.database.dao.PersonDao;
 import ir.comprehensive.service.hr.HumanResourceService;
-import ir.comprehensive.service.provider.hr.HumanResourceServiceImpl;
+import ir.comprehensive.service.internal.hr.HumanResourceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,11 +20,11 @@ class HumanResourceServiceImplTest {
     @Mock
     PersonDao personDao;
     @Mock
-    CategoryDao categoryDao;
+    CompanyDao categoryDao;
 
     @BeforeEach
     void setUp() {
-        humanResourceService = new HumanResourceServiceImpl(personDao,categoryDao);
+        humanResourceService = new HumanResourceServiceImpl(personDao, categoryDao);
     }
 
     @Test
@@ -32,7 +32,7 @@ class HumanResourceServiceImplTest {
         var info = humanResourceService.getInfo();
         assertThat(info)
                 .isNotNull()
-                .matches(hr-> hr.personCount() == 0)
-                .matches(hr-> hr.categoryCount() == 0);
+                .matches(hr -> hr.personCount() == 0)
+                .matches(hr -> hr.categoryCount() == 0);
     }
 }

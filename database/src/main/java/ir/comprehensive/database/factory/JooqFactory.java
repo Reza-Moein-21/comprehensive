@@ -1,9 +1,8 @@
 package ir.comprehensive.database.factory;
 
 import com.zaxxer.hikari.HikariDataSource;
-import ir.comprehensive.common.factory.BeanType;
 import ir.comprehensive.common.factory.ObjectFactory;
-import ir.comprehensive.database.provider.config.DatabaseProperties;
+import ir.comprehensive.database.internal.config.DatabaseProperties;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -27,7 +26,7 @@ public class JooqFactory implements ObjectFactory<DSLContext> {
     }
 
     @Override
-    public DSLContext getBean(BeanType type) {
+    public DSLContext getInstance() {
         return dslContext(dataSource());
     }
 }
